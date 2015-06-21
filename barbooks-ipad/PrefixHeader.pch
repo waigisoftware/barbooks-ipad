@@ -1,0 +1,37 @@
+//
+//  PrefixHeader.pch
+//  barbooks-ipad
+//
+//  Created by Can on 1/06/2015.
+//  Copyright (c) 2015 Censea. All rights reserved.
+//
+
+#ifndef barbooks_ipad_PrefixHeader_pch
+#define barbooks_ipad_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+// Imports
+#define MR_SHORTHAND
+#import <MagicalRecord/MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord+ShorthandMethods.h>
+#import <MagicalRecord/MagicalRecordShorthandMethodAliases.h>
+
+// Formats
+#define SHORT_DATE_FORMAT @"dd MMM YYYY"
+#define SHORT_DATE_TIME_FORMAT @"dd MMM yyyy, h:mm"
+
+// Segues
+#define BBSegueShowHome @"showHomeSegue"
+
+// View Controllers
+#define BBNavigationControllerHome @"BBHomeSplitViewController"
+#define BBNavigationControllerLogin @"BBNavigationControllerLogin"
+
+// Storyboard IDs
+#define StoryboardIdBBMatterListViewController @"BBMatterListViewController"
+#define StoryboardIdBBMatterViewController @"BBMatterViewController"
+#define StoryboardIdBBCreateSolicitorViewController @"BBCreateSolicitorViewController"
+
+#endif
