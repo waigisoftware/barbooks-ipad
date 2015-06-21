@@ -40,4 +40,12 @@
     [self.delegate updateMatter:[self.solicitorList objectAtIndex:indexPath.row]];
 }
 
+// show no empty cells
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 1;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [UIView new];
+}
+
 @end

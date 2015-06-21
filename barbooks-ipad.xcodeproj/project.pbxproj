@@ -21,6 +21,7 @@
 		36788FAB1B20368B00B34D3E /* NSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */; };
 		36C781BD1B35014500321AE2 /* BBContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BC1B35014500321AE2 /* BBContactListViewController.m */; };
 		36C781C01B35985500321AE2 /* NSDecimalNumber+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */; };
+		36C781C31B36B41600321AE2 /* NSArray+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */; };
 		36C9E6531B1AC6840085D647 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6521B1AC6840085D647 /* main.m */; };
 		36C9E6561B1AC6840085D647 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6551B1AC6840085D647 /* AppDelegate.m */; };
 		36C9E6591B1AC6840085D647 /* barbooks_ipad.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6571B1AC6840085D647 /* barbooks_ipad.xcdatamodeld */; };
@@ -114,6 +115,8 @@
 		36C781BC1B35014500321AE2 /* BBContactListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBContactListViewController.m; path = UserInterface/Matter/BBContactListViewController.m; sourceTree = "<group>"; };
 		36C781BE1B35985500321AE2 /* NSDecimalNumber+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDecimalNumber+BBUtil.h"; path = "Categories/NSDecimalNumber+BBUtil.h"; sourceTree = "<group>"; };
 		36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDecimalNumber+BBUtil.m"; path = "Categories/NSDecimalNumber+BBUtil.m"; sourceTree = "<group>"; };
+		36C781C11B36B41600321AE2 /* NSArray+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+BBUtil.h"; path = "Categories/NSArray+BBUtil.h"; sourceTree = "<group>"; };
+		36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+BBUtil.m"; path = "Categories/NSArray+BBUtil.m"; sourceTree = "<group>"; };
 		36C9E64D1B1AC6840085D647 /* barbooks-ipad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "barbooks-ipad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36C9E6511B1AC6840085D647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36C9E6521B1AC6840085D647 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -329,6 +332,8 @@
 				3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */,
 				36C781BE1B35985500321AE2 /* NSDecimalNumber+BBUtil.h */,
 				36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */,
+				36C781C11B36B41600321AE2 /* NSArray+BBUtil.h */,
+				36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -660,6 +665,7 @@
 				36DEF9AC1B27052C0053CD8C /* DateTimeUtility.m in Sources */,
 				36C781BD1B35014500321AE2 /* BBContactListViewController.m in Sources */,
 				36788FA41B2034ED00B34D3E /* BBBaseViewController.m in Sources */,
+				36C781C31B36B41600321AE2 /* NSArray+BBUtil.m in Sources */,
 				36DEFA441B2710650053CD8C /* Matter.m in Sources */,
 				36DEFA471B2710650053CD8C /* TaxExpense.m in Sources */,
 				36DEFA141B2710640053CD8C /* Report.m in Sources */,

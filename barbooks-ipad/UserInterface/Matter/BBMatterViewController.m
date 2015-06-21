@@ -39,6 +39,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *addSolicitorButton;
 @property (weak, nonatomic) IBOutlet UIView *contactsView;
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
+@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *roundRateTextField;
+@property (weak, nonatomic) IBOutlet UIView *roundRatePickerContainerView;
 
 @property (strong) NSString *solicitorName;
 @property (strong) NSArray *rateSortDescriptors;
@@ -56,6 +58,7 @@
 - (IBAction)onDatePicked:(id)sender;
 - (IBAction)onTax:(id)sender;
 - (IBAction)onBackgroundButton:(id)sender;
+- (IBAction)onSelectRoundRate:(id)sender;
 
 @end
 
@@ -86,8 +89,9 @@ BBContactListViewController *_contactListViewController;
     _contactsTableView.delegate = _contactListViewController;
     _contactsView.hidden = YES;
     
-    self.rateSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"type" ascending:YES]];
-    self.roundingStrings = [GlobalAttributes timerRoundingTypeStrings];
+    // set roundingType picker
+    _roundingTypePicker.dataSource = self;
+    _roundingTypePicker.delegate = self;
     
     [self loadMatterIntoUI];
 }
@@ -112,11 +116,15 @@ BBContactListViewController *_contactListViewController;
     _registryTextField.text = _matter.registry;
     _endClientNameTextField.text = _matter.endClientName;
     _referenceTextField.text = _matter.reference;
-//    _solicitorTextField.text = _matter.solicitor.firstname;
     _openDateLabel.text = [_matter.date toShortDateFormat];
     _dueDateTextField.text = [_matter.dueDate stringValue];
     _taxedSwitch.on = [_matter.taxed boolValue];
     _taxTextField.text = _matter.tax ? [[_matter.tax decimalNumberByMultiplyingBy:[NSDecimalNumber oneHundred]] stringValue] : @"";
+    if (self.matter.roundingType) {
+        NSUInteger index = [[GlobalAttributes timerRoundingTypes] indexOfSameValueNumericObject:[NSDecimalNumber decimalNumberWithDecimal:[self.matter.roundingType decimalValue]]];
+        [_roundingTypePicker selectRow:index inComponent:0 animated:YES];
+        _roundRateTextField.text = [[GlobalAttributes timerRoundingTypeStrings] objectAtIndex:index];
+    }
     
     [self updateSolicitor];
     
@@ -140,22 +148,16 @@ BBContactListViewController *_contactListViewController;
     } else {
         _matter.tax = nil;
     }
+    
     // refresh matter list accordingly
     [self.matterListViewController fetchMatters];
 }
 
 #pragma mark - preset data
-- (void)setMatter:(Matter *)matter
-{
+
+- (void)setMatter:(Matter *)matter {
     _matter = matter;
     [self loadMatterIntoUI];
-    
-//    [self updateSolicitorName];
-//    [self updateAutocomplete];
-    
-//    if (self.editing && [matter.name isEqualToString:@"New Matter"]) {
-//        [self performSelector:@selector(selectMatterTextField) withObject:nil afterDelay:0.01];
-//    }
 }
 
 #pragma mark - Solicitor
@@ -168,12 +170,13 @@ BBContactListViewController *_contactListViewController;
     _contactsView.hidden = YES;
 }
 
-- (void)popoverSolicitorView {
+- (void)popoverSolicitorViewWithSolicitor:(Solicitor *)solicitor {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     BBCreateSolicitorViewController *createSolicitorViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBCreateSolicitorViewController];
     createSolicitorViewController.delegate = self;
-//    createSolicitorViewController.solicitor = self.matter.solicitor;
+    createSolicitorViewController.solicitor = solicitor;
     
+    // pop it over
     UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:createSolicitorViewController];
     popoverController.delegate = self;
     popoverController.popoverContentSize = CGSizeMake(300, 500);
@@ -184,11 +187,11 @@ BBContactListViewController *_contactListViewController;
 #pragma mark IBActions
 
 - (IBAction)onAddContact:(id)sender {
-    [self popoverSolicitorView];
+    [self popoverSolicitorViewWithSolicitor:nil];
 }
 
 - (IBAction)onEditContact:(id)sender {
-    [self popoverSolicitorView];
+    [self popoverSolicitorViewWithSolicitor:self.matter.solicitor];
 }
 
 - (IBAction)onInput:(id)sender {
@@ -196,17 +199,23 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (IBAction)onDatePicked:(id)sender {
-    _openDateLabel.text = [_datePicker.date toShortDateFormat];
     [self updateAndSaveMatterWithUIChange];
 }
 
 - (IBAction)onBackgroundButton:(id)sender {
-    [[UIResponder currentFirstResponder] resignFirstResponder];
-    _datePickerContainerView.hidden = YES;
+    [self stopEditing];
+}
+
+- (IBAction)onSelectRoundRate:(id)sender {
+    BOOL hidden = _roundRatePickerContainerView.hidden;
+    [self stopEditing];
+    _roundRatePickerContainerView.hidden = !hidden;
 }
 
 - (IBAction)onSelectContact:(id)sender {
-    _contactsView.hidden = !_contactsView.hidden;
+    BOOL hidden = _contactsView.hidden;
+    [self stopEditing];
+    _contactsView.hidden = !hidden;
 }
 
 // Date picker
@@ -233,6 +242,25 @@ BBContactListViewController *_contactListViewController;
     return YES;
 }
 
+#pragma mark - Rounding Type UIPickerViewDataSource and UIPickerViewDelegate
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [GlobalAttributes timerRoundingTypes].count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [[GlobalAttributes timerRoundingTypeStrings] objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    self.matter.roundingType = [[GlobalAttributes timerRoundingTypes] objectAtIndex:row];
+    [self loadMatterIntoUI];
+}
+
 #pragma mark - Core Data
 
 - (void)updateAndSaveMatterWithUIChange {
@@ -251,6 +279,15 @@ BBContactListViewController *_contactListViewController;
     if (dataClass == [Solicitor class]) {
         self.matter.solicitor = data;
     }
+    [self loadMatterIntoUI];
+}
+
+#pragma mark - 
+
+- (void)stopEditing {
+    [[UIResponder currentFirstResponder] resignFirstResponder];
+    _datePickerContainerView.hidden = YES;
+    _roundRatePickerContainerView.hidden = YES;
     [self loadMatterIntoUI];
 }
 

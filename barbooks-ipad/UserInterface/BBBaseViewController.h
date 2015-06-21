@@ -13,6 +13,7 @@
 #import "NSString+BBUtil.h"
 #import "UIColor+BBUtil.h"
 #import "NSDecimalNumber+BBUtil.h"
+#import "NSArray+BBUtil.h"
 
 @interface BBBaseViewController : UIViewController <UIAlertViewDelegate>
 

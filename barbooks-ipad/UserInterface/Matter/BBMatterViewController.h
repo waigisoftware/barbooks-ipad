@@ -12,7 +12,7 @@
 
 @class BBMatterListViewController;
 
-@interface BBMatterViewController : BBBaseViewController <UITextFieldDelegate, BBMatterDelegate, UIPopoverControllerDelegate>
+@interface BBMatterViewController : BBBaseViewController <UITextFieldDelegate, BBMatterDelegate, UIPopoverControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (strong, nonatomic) Matter *matter;
 @property (weak, nonatomic) BBMatterListViewController *matterListViewController;

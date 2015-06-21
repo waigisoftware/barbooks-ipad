@@ -31,7 +31,6 @@
     [super viewDidLoad];
 
     // tableview
-//    _matterListTableView.backgroundColor = [UIColor bbPrimaryBlue];
     _matterListTableView.dataSource = self;
     _matterListTableView.delegate = self;
     [self registerRefreshControlFor:_matterListTableView withAction:@selector(fetchMatters)];
@@ -67,9 +66,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *reuseIdentifier = @"matterCell";
     BBMatterListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-//    cell.contentView.backgroundColor = [UIColor bbPrimaryBlue];
-//    cell.backgroundView.backgroundColor = [UIColor bbPrimaryBlue];
-//    cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
     Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
     cell.matterNameLabel.text = matter.name;
     cell.payorNameLabel.text = matter.payor;

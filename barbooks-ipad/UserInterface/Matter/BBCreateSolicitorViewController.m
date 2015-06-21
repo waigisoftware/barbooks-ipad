@@ -14,6 +14,8 @@
 #import "Firm.h"
 
 @interface BBCreateSolicitorViewController ()
+
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *firstnameTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *lastnameTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *dxaddressTextField;
@@ -37,7 +39,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self loadSolicitorIntoUI];
 }
 
@@ -47,19 +48,22 @@
 }
 
 - (void)loadSolicitorIntoUI {
-    _firstnameTextField.text = self.solicitor.firstname;
-    _lastnameTextField.text = self.solicitor.lastname;
-    _dxaddressTextField.text = self.solicitor.dxaddress;
-    _firmNameTextField.text = self.solicitor.firm.name;
-    _emailTextField.text = self.solicitor.email;
-    _phoneNumberTextField.text = self.solicitor.phonenumber;
-    _faxTextField.text = self.solicitor.fax;
-    _address1TextField.text = self.solicitor.address.streetLine1;
-    _address2TextField.text = self.solicitor.address.streetLine2;
-    _cityTextField.text = self.solicitor.address.city;
-    _postcodeTextField.text = self.solicitor.address.zip;
-    _stateTextField.text = self.solicitor.address.state;
-    _countryTextField.text = self.solicitor.address.country;
+    _titleLabel.text = self.solicitor ? @"Edit Solicitor" : @"New Solicitor";
+    if (self.solicitor) {
+        _firstnameTextField.text = self.solicitor.firstname;
+        _lastnameTextField.text = self.solicitor.lastname;
+        _dxaddressTextField.text = self.solicitor.dxaddress;
+        _firmNameTextField.text = self.solicitor.firm.name;
+        _emailTextField.text = self.solicitor.email;
+        _phoneNumberTextField.text = self.solicitor.phonenumber;
+        _faxTextField.text = self.solicitor.fax;
+        _address1TextField.text = self.solicitor.address.streetLine1;
+        _address2TextField.text = self.solicitor.address.streetLine2;
+        _cityTextField.text = self.solicitor.address.city;
+        _postcodeTextField.text = self.solicitor.address.zip;
+        _stateTextField.text = self.solicitor.address.state;
+        _countryTextField.text = self.solicitor.address.country;
+    }
 }
 
 - (void)updateSolicitorFromUI {
@@ -83,19 +87,6 @@
     self.solicitor.address.country = _countryTextField.text;
 }
 
-/*
- @property (nonatomic, retain) NSString * areacodeFax;
- @property (nonatomic, retain) NSString * areacodePhone;
- @property (nonatomic, retain) NSString * dxaddress;
- @property (nonatomic, retain) NSString * email;
- @property (nonatomic, retain) NSString * fax;
- @property (nonatomic, retain) NSString * firstname;
- @property (nonatomic, retain) NSString * lastname;
- @property (nonatomic, retain) NSString * phonenumber;
- @property (nonatomic, retain) Address *address;
-
-*/
-
 #pragma mark - Button actions
 
 - (IBAction)onCancel:(id)sender {
@@ -104,6 +95,10 @@
 
 - (IBAction)onDone:(id)sender {
     // validate
+    if (_firstnameTextField.text.length == 0 || _lastnameTextField.text.length == 0) {
+        [[[UIAlertView alloc]initWithTitle:@"Invalid Solicitor" message:@"Please input both Firstname and Lastname." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        return;
+    }
     // save
     [self updateSolicitorFromUI];
     [self.delegate updateMatter:self.solicitor];
