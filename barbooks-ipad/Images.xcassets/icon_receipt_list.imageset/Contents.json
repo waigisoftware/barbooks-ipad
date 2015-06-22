@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "payments_menu_icon.png"
+      "filename" : "receipts_icon.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "payments_menu_icon@2x.png"
+      "filename" : "receipts_icon@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "payments_menu_icon@3x.png"
+      "filename" : "receipts_icon@2x-1.png"
     }
   ],
   "info" : {
