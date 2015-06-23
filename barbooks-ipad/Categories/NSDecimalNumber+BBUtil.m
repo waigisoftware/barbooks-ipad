@@ -18,4 +18,12 @@
     return [NSDecimalNumber decimalNumberWithString:@"100"];
 }
 
+- (NSString*)currencyAmount {
+    NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
+    [nf setMinimumFractionDigits:2];
+    [nf setMaximumFractionDigits:2];
+    [nf setMinimumIntegerDigits: 1];
+    return [NSString stringWithFormat:@"$%@", [nf stringFromNumber: self]];
+}
+
 @end

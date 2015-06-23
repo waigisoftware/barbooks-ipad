@@ -38,4 +38,22 @@
 @dynamic matter;
 @dynamic rates;
 
++ (instancetype)newInstanceOfMatter:(Matter *)matter {
+    if (matter) {
+        Task *newTask = [Task MR_createEntity];
+        newTask.date = [NSDate date];
+        newTask.taxed = [NSNumber numberWithBool:YES];
+        newTask.matter = matter;
+        [matter addTasksObject:newTask];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            [localContext save:nil];
+        } completion:^(BOOL success, NSError *error) {
+            NSLog(@"%@", error);
+        }];
+        return newTask;
+    } else {
+        return nil;
+    }
+}
+
 @end

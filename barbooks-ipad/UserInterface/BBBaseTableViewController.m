@@ -27,6 +27,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return nil;
+}
+
+#pragma mark - UITableViewDelegate
+
+// show no empty cells
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 1;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [UIView new];
+}
+
 #pragma mark - pull to refresh table
 
 - (void)registerRefreshControlFor:(UITableView *)tableView withAction:(SEL)action

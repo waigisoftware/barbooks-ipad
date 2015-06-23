@@ -45,4 +45,6 @@
 - (void)addRates:(NSSet *)values;
 - (void)removeRates:(NSSet *)values;
 
++ (instancetype)newInstanceOfMatter:(Matter *)matter;
+
 @end

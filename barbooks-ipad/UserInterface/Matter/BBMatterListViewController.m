@@ -9,6 +9,8 @@
 #import "BBMatterListViewController.h"
 #import "BBCoreDataManager.h"
 #import "BBMatterListTableViewCell.h"
+#import "BBMatterCategoryListViewController.h"
+#import "BBTaskListViewController.h"
 
 @interface BBMatterListViewController ()
 
@@ -79,20 +81,17 @@
     _matterViewController.matter = matter;
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
+    [self showMatterCategory:matter];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 123;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 123;
-}
-
-// show no empty cells
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
-}
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    return [UIView new];
 }
 
 #pragma mark - Core data
@@ -125,6 +124,19 @@
 }
 
 - (IBAction)onArchive:(id)sender {
+}
+
+#pragma mark - Navigation
+
+- (void)showMatterCategory:(Matter *)matter {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BBMatterCategoryListViewController *matterCategoryListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryListViewController];
+    BBTaskListViewController *taskListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
+    [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:matterCategoryListViewController animated:YES];
+    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
+    matterCategoryListViewController.matter = matter;
+    matterCategoryListViewController.taskListViewController = taskListViewController;
+    taskListViewController.matter = matter;
 }
 
 @end

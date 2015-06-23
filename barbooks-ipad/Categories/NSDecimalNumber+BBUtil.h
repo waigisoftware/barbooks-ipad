@@ -11,7 +11,7 @@
 @interface NSDecimalNumber (BBUtil)
 
 + (instancetype)ten;
-
 + (instancetype)oneHundred;
+- (NSString*)currencyAmount;
 
 @end

@@ -33,5 +33,8 @@
 #define StoryboardIdBBMatterListViewController @"BBMatterListViewController"
 #define StoryboardIdBBMatterViewController @"BBMatterViewController"
 #define StoryboardIdBBCreateSolicitorViewController @"BBCreateSolicitorViewController"
+#define StoryboardIdBBMatterCategoryListViewController @"BBMatterCategoryListViewController"
+#define StoryboardIdBBTaskListViewController @"BBTaskListViewController"
+#define StoryboardIdBBTaskViewController @"BBTaskViewController"
 
 #endif

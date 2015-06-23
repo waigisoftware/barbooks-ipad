@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BBBaseTableViewController.h"
 
-@interface BBHomeViewController : BBBaseTableViewController <UITableViewDataSource, UITableViewDelegate>
+@interface BBHomeViewController : BBBaseTableViewController
 
 @end
