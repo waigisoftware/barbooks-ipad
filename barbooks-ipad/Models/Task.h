@@ -45,6 +45,10 @@
 - (void)addRates:(NSSet *)values;
 - (void)removeRates:(NSSet *)values;
 
+- (BOOL)hourlyRate;
+- (NSString *)durationToFormattedString;
+- (void)durationFromString:(NSString *)durationString;
+
 + (instancetype)newInstanceOfMatter:(Matter *)matter;
 
 @end

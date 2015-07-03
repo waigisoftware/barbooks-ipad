@@ -12,6 +12,7 @@
 		3651DFB91B2EEC18007B321A /* UIResponder+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFB81B2EEC18007B321A /* UIResponder+BBUtil.m */; };
 		3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */; };
 		3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */; };
+		36555FC91B43A8010006A2CA /* BBTaskTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 36555FC81B43A8010006A2CA /* BBTaskTimer.m */; };
 		366748791B3116BA00E23707 /* BBCreateSolicitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */; };
 		367563281B29B0B4002C5738 /* BBCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 367563271B29B0B4002C5738 /* BBCoreDataManager.m */; };
 		3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3675632E1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m */; };
@@ -31,6 +32,7 @@
 		36C9E6641B1AC6840085D647 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36C9E6631B1AC6840085D647 /* Images.xcassets */; };
 		36C9E6671B1AC6840085D647 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36C9E6651B1AC6840085D647 /* LaunchScreen.xib */; };
 		36C9E6731B1AC6840085D647 /* barbooks_ipadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6721B1AC6840085D647 /* barbooks_ipadTests.m */; };
+		36CED14B1B3A8E9900F421F5 /* BBDropDownListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */; };
 		36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF92B1B22FEE70053CD8C /* BBHomeViewController.m */; };
 		36DEF92F1B231A2C0053CD8C /* BBMatterListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF92E1B231A2C0053CD8C /* BBMatterListViewController.m */; };
 		36DEF9321B25600C0053CD8C /* UISplitViewController+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF9311B25600C0053CD8C /* UISplitViewController+BBUtil.m */; };
@@ -100,6 +102,8 @@
 		3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BBUtil.m"; path = "Categories/NSString+BBUtil.m"; sourceTree = "<group>"; };
 		3651DFBD1B3043F6007B321A /* BBMatterListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterListTableViewCell.h; path = UserInterface/Matter/BBMatterListTableViewCell.h; sourceTree = "<group>"; };
 		3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBMatterListTableViewCell.m; path = UserInterface/Matter/BBMatterListTableViewCell.m; sourceTree = "<group>"; };
+		36555FC71B43A8010006A2CA /* BBTaskTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTaskTimer.h; path = UserInterface/Task/BBTaskTimer.h; sourceTree = "<group>"; };
+		36555FC81B43A8010006A2CA /* BBTaskTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTaskTimer.m; path = UserInterface/Task/BBTaskTimer.m; sourceTree = "<group>"; };
 		366748771B3116BA00E23707 /* BBCreateSolicitorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBCreateSolicitorViewController.h; path = UserInterface/Matter/BBCreateSolicitorViewController.h; sourceTree = "<group>"; };
 		366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBCreateSolicitorViewController.m; path = UserInterface/Matter/BBCreateSolicitorViewController.m; sourceTree = "<group>"; };
 		3667487B1B313D4600E23707 /* BBMatterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterDelegate.h; path = Protocals/BBMatterDelegate.h; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 		36788FA61B20350F00B34D3E /* BBBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBBaseTableViewController.m; path = UserInterface/BBBaseTableViewController.m; sourceTree = "<group>"; };
 		36788FA91B20368B00B34D3E /* NSDate+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+BBUtil.h"; path = "Categories/NSDate+BBUtil.h"; sourceTree = "<group>"; };
 		36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+BBUtil.m"; path = "Categories/NSDate+BBUtil.m"; sourceTree = "<group>"; };
+		36B983911B3FD9E90030E915 /* BBDropDownListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDropDownListDelegate.h; path = Protocals/BBDropDownListDelegate.h; sourceTree = "<group>"; };
 		36C781BB1B35014500321AE2 /* BBContactListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBContactListViewController.h; path = UserInterface/Matter/BBContactListViewController.h; sourceTree = "<group>"; };
 		36C781BC1B35014500321AE2 /* BBContactListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBContactListViewController.m; path = UserInterface/Matter/BBContactListViewController.m; sourceTree = "<group>"; };
 		36C781BE1B35985500321AE2 /* NSDecimalNumber+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDecimalNumber+BBUtil.h"; path = "Categories/NSDecimalNumber+BBUtil.h"; sourceTree = "<group>"; };
@@ -137,6 +142,8 @@
 		36C9E66C1B1AC6840085D647 /* barbooks-ipadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "barbooks-ipadTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36C9E6711B1AC6840085D647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36C9E6721B1AC6840085D647 /* barbooks_ipadTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = barbooks_ipadTests.m; sourceTree = "<group>"; };
+		36CED1491B3A8E9900F421F5 /* BBDropDownListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDropDownListViewController.h; path = UserInterface/BBDropDownListViewController.h; sourceTree = "<group>"; };
+		36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBDropDownListViewController.m; path = UserInterface/BBDropDownListViewController.m; sourceTree = "<group>"; };
 		36DEF92A1B22FEE70053CD8C /* BBHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBHomeViewController.h; path = UserInterface/BBHomeViewController.h; sourceTree = "<group>"; };
 		36DEF92B1B22FEE70053CD8C /* BBHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBHomeViewController.m; path = UserInterface/BBHomeViewController.m; sourceTree = "<group>"; };
 		36DEF92D1B231A2C0053CD8C /* BBMatterListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterListViewController.h; path = UserInterface/Matter/BBMatterListViewController.h; sourceTree = "<group>"; };
@@ -282,6 +289,7 @@
 		363C3A371B1C785C00B92513 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				36B983901B3FD9B80030E915 /* Common */,
 				36EB0E481B38DF7F00AC7411 /* Task */,
 				36788FA11B2034A300B34D3E /* Matter */,
 				363C3A381B1C786B00B92513 /* SlideMenu */,
@@ -309,6 +317,7 @@
 			children = (
 				3667487B1B313D4600E23707 /* BBMatterDelegate.h */,
 				36EB0E521B39674A00AC7411 /* BBTaskDelegate.h */,
+				36B983911B3FD9E90030E915 /* BBDropDownListDelegate.h */,
 			);
 			name = Protocals;
 			sourceTree = "<group>";
@@ -353,6 +362,15 @@
 				36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		36B983901B3FD9B80030E915 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				36CED1491B3A8E9900F421F5 /* BBDropDownListViewController.h */,
+				36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 		36C9E6441B1AC6840085D647 = {
@@ -533,6 +551,8 @@
 				36EB0E4D1B38DFD700AC7411 /* BBTaskViewController.m */,
 				36EB0E4F1B38E0FA00AC7411 /* BBTaskListTableViewCell.h */,
 				36EB0E501B38E0FA00AC7411 /* BBTaskListTableViewCell.m */,
+				36555FC71B43A8010006A2CA /* BBTaskTimer.h */,
+				36555FC81B43A8010006A2CA /* BBTaskTimer.m */,
 			);
 			name = Task;
 			sourceTree = "<group>";
@@ -706,6 +726,7 @@
 				36DEFA4D1B2710660053CD8C /* YETReport.m in Sources */,
 				3651DFB91B2EEC18007B321A /* UIResponder+BBUtil.m in Sources */,
 				3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */,
+				36555FC91B43A8010006A2CA /* BBTaskTimer.m in Sources */,
 				36C9E65F1B1AC6840085D647 /* DetailViewController.m in Sources */,
 				36DEFA1A1B2710640053CD8C /* Invoice.m in Sources */,
 				36DEFA2C1B2710650053CD8C /* Contact.m in Sources */,
@@ -720,6 +741,7 @@
 				36EB0E471B38DF7700AC7411 /* BBMatterCategoryListViewController.m in Sources */,
 				36C9E6561B1AC6840085D647 /* AppDelegate.m in Sources */,
 				36DEFA261B2710650053CD8C /* ReceiptAllocation.m in Sources */,
+				36CED14B1B3A8E9900F421F5 /* BBDropDownListViewController.m in Sources */,
 				36DEFA591B2710660053CD8C /* CAReport.m in Sources */,
 				3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */,
 				36EB0E511B38E0FA00AC7411 /* BBTaskListTableViewCell.m in Sources */,

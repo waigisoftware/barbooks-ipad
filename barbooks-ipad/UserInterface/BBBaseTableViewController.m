@@ -91,4 +91,8 @@
     return self.tableViewController.refreshControl.isRefreshing;
 }
 
+- (UIRefreshControl *)refreshControl {
+    return self.tableViewController.refreshControl;
+}
+
 @end

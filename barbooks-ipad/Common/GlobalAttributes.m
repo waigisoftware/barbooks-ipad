@@ -111,14 +111,14 @@
              ];
 }
 
-- (NSArray *)rateTypes
++ (NSArray *)rateTypes
 {
-    return @[NSLocalizedString(@"RATE_TYPE_0", nil),
-             NSLocalizedString(@"RATE_TYPE_1", nil),
-             NSLocalizedString(@"RATE_TYPE_2", nil),
-             NSLocalizedString(@"RATE_TYPE_3", nil),
-             NSLocalizedString(@"RATE_TYPE_4", nil),
-             NSLocalizedString(@"RATE_TYPE_5", nil),
+    return @[NSLocalizedString(@"hourly", nil),
+             NSLocalizedString(@"daily", nil),
+             NSLocalizedString(@"half day", nil),
+             NSLocalizedString(@"motion", nil),
+             NSLocalizedString(@"directions / mention", nil),
+             NSLocalizedString(@"fixed", nil),
              ];
 }
 

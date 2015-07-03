@@ -19,4 +19,6 @@
 
 - (BOOL)isRefreshControlRefreshing;
 
+- (UIRefreshControl *)refreshControl;
+
 @end

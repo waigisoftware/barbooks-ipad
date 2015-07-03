@@ -128,7 +128,7 @@
     // pop it over
     UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:taskViewController];
     popoverController.delegate = self;
-    popoverController.popoverContentSize = CGSizeMake(300, 300);
+    popoverController.popoverContentSize = CGSizeMake(500, 500);
     [popoverController presentPopoverFromRect:self.navigationController.navigationBar.frame
                                        inView:self.view
                      permittedArrowDirections:UIPopoverArrowDirectionAny

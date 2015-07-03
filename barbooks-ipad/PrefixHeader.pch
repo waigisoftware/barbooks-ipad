@@ -36,5 +36,12 @@
 #define StoryboardIdBBMatterCategoryListViewController @"BBMatterCategoryListViewController"
 #define StoryboardIdBBTaskListViewController @"BBTaskListViewController"
 #define StoryboardIdBBTaskViewController @"BBTaskViewController"
+#define StoryboardIdBBDropDownListViewController @"BBDropDownListViewController"
+
+// Constans
+#define ONE_SECOND 1
+
+// Notifications
+#define BBNotificationTaskTimerUpdate @"BBNotificationTaskTimerUpdate"
 
 #endif

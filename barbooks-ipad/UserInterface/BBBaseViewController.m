@@ -8,7 +8,9 @@
 
 #import "BBBaseViewController.h"
 
-@interface BBBaseViewController ()
+@interface BBBaseViewController () {
+    UIStoryboard *_mainStoryboard;
+}
 
 @end
 
@@ -29,5 +31,12 @@
 //- (void)coreDataSave {
 //    [[[BBCoreDataManager sharedInstance] managedObjectContext] save:nil];
 //}
+
+- (UIStoryboard *)mainStoryboard {
+    if (!_mainStoryboard) {
+        _mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    }
+    return _mainStoryboard;
+}
 
 @end

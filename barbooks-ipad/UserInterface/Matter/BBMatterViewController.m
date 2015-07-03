@@ -140,7 +140,7 @@ BBContactListViewController *_contactListViewController;
     _matter.endClientName = _endClientNameTextField.text;
     _matter.reference = _referenceTextField.text;
     _matter.solicitor.firstname = _solicitorTextField.text;
-    _matter.date = [_openDateLabel.text fromShortDateFormatToDate];
+    _matter.date = _datePicker.date;
     _matter.dueDate = [_dueDateTextField.text numberValue];
     _matter.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
     if (_matter.taxed && [_taxTextField.text isNumeric]) {
@@ -199,7 +199,9 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (IBAction)onDatePicked:(id)sender {
-    [self updateAndSaveMatterWithUIChange];
+    _openDateLabel.text = [_datePicker.date toShortDateFormat];
+//    [self updateAndSaveMatterWithUIChange];
+    [self updateMatterFromUI];
 }
 
 - (IBAction)onBackgroundButton:(id)sender {

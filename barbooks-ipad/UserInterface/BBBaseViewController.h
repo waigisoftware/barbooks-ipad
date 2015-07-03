@@ -14,9 +14,12 @@
 #import "UIColor+BBUtil.h"
 #import "NSDecimalNumber+BBUtil.h"
 #import "NSArray+BBUtil.h"
+#import "UIFloatLabelTextField+BBUtil.h"
+#import "GlobalAttributes.h"
 
 @interface BBBaseViewController : UIViewController <UIAlertViewDelegate>
 
 //- (void)coreDataSave;
+@property (strong, nonatomic, readonly) UIStoryboard *mainStoryboard;
 
 @end

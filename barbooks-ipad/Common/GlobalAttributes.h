@@ -44,6 +44,7 @@
 + (NSArray *)expenseCategories;
 + (NSArray *)timerRoundingTypes;
 + (NSArray *)timerRoundingTypeStrings;
++ (NSArray *)rateTypes;
 + (NSArray *)invoiceStatusTypes;
 + (NSArray *)taxExpenseTypes;
 + (NSArray *)periods;

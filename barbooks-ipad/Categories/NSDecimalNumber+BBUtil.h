@@ -12,6 +12,8 @@
 
 + (instancetype)ten;
 + (instancetype)oneHundred;
++ (instancetype)decimalNumberWithInt:(int)value;
+
 - (NSString*)currencyAmount;
 
 @end
