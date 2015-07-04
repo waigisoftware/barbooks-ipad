@@ -84,6 +84,8 @@ BBDropDownListViewController *_dropDownListViewController;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self.observer];
+    [self stopEditing];
+    [_delegate updateTask:_task];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -175,17 +177,53 @@ BBDropDownListViewController *_dropDownListViewController;
 }
 
 - (IBAction)onTimer:(id)sender {
+    [self onTimerStart:sender];
 }
 
 - (IBAction)onTimerStart:(id)sender {
     [BBTaskTimer sharedInstance].currentTask = self.task;
     [[BBTaskTimer sharedInstance] start];
+    [self startPulsingButton:_timerStartButton];
+    [self stopPulsingButton:_timerPauseButton];
 }
 
 - (IBAction)onTimerPause:(id)sender {
+    [[BBTaskTimer sharedInstance] pause];
+    [self startPulsingButton:_timerPauseButton];
+    [self stopPulsingButton:_timerStartButton];
 }
 
 - (IBAction)onTimerStop:(id)sender {
+    [[BBTaskTimer sharedInstance] stop];
+    [self stopPulsingButton:_timerStartButton];
+    [self stopPulsingButton:_timerPauseButton];
+    [self pulsingButtonOnce:_timerStopButton];
+}
+
+- (void)startPulsingButton:(UIButton *)button {
+    CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scaleAnimation.duration = 2;
+    scaleAnimation.repeatCount = HUGE_VAL;
+    scaleAnimation.autoreverses = YES;
+    scaleAnimation.fromValue = [NSNumber numberWithFloat:1];
+    scaleAnimation.toValue = [NSNumber numberWithFloat:2];
+    
+    [button.imageView.layer addAnimation:scaleAnimation forKey:@"scale"];
+}
+
+- (void)stopPulsingButton:(UIButton *)button {
+    [button.imageView.layer removeAnimationForKey:@"scale"];
+}
+
+- (void)pulsingButtonOnce:(UIButton *)button {
+    CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    scaleAnimation.duration = 1;
+    scaleAnimation.repeatCount = 0;
+    scaleAnimation.autoreverses = YES;
+    scaleAnimation.fromValue = [NSNumber numberWithFloat:2];
+    scaleAnimation.toValue = [NSNumber numberWithFloat:1];
+    
+    [button.imageView.layer addAnimation:scaleAnimation forKey:@"scale"];
 }
 
 #pragma mark - Core Data

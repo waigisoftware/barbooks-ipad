@@ -13,6 +13,9 @@
 
 @property UITableViewController *tableViewController;
 
+@property (strong, nonatomic) NSArray *originalItemList;
+@property (strong, nonatomic) NSArray *filteredItemList;
+
 @end
 
 @implementation BBBaseTableViewController
@@ -45,6 +48,12 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return [UIView new];
+}
+
+#pragma mark - TableView helper methods
+
+- (NSIndexPath *)indexPathOfItem:(NSObject *)item {
+    return [NSIndexPath indexPathForRow:[_originalItemList indexOfObject:item] inSection:0];
 }
 
 #pragma mark - pull to refresh table

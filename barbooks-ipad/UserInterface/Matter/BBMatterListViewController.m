@@ -94,6 +94,12 @@
     return 123;
 }
 
+#pragma mark - TableView helper methods
+
+- (NSIndexPath *)indexPathOfMatter:(Matter *)matter {
+    return [NSIndexPath indexPathForRow:[_originalItemList indexOfObject:matter] inSection:0];
+}
+
 #pragma mark - Core data
 
 - (void)fetchMatters {
@@ -121,6 +127,8 @@
     Matter *newMatter = [Matter newInstanceWithDefaultValue];
     [self.matterViewController setMatter:newMatter];
     [self fetchMatters];
+    [_matterListTableView selectRowAtIndexPath:[self indexPathOfMatter:newMatter] animated:YES scrollPosition:UITableViewScrollPositionTop];
+    _matterViewController.matter = newMatter;
 }
 
 - (IBAction)onArchive:(id)sender {

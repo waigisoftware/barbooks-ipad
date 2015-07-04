@@ -37,6 +37,7 @@
 #define StoryboardIdBBTaskListViewController @"BBTaskListViewController"
 #define StoryboardIdBBTaskViewController @"BBTaskViewController"
 #define StoryboardIdBBDropDownListViewController @"BBDropDownListViewController"
+#define StoryboardIdBBRateViewController @"BBRateViewController"
 
 // Constans
 #define ONE_SECOND 1

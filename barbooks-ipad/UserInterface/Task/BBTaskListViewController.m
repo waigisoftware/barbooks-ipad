@@ -54,6 +54,8 @@
 - (void)onAddTask {
     Task *newTask = [Task newInstanceOfMatter:self.matter];
     [self fetchTasks];
+    [_tasksTableView selectRowAtIndexPath:[self indexPathOfTask:newTask] animated:YES scrollPosition:UITableViewScrollPositionTop];
+    [self popoverTaskViewWithTask:newTask inCell:nil];
 }
 
 - (void)onDeleteTask {
@@ -99,6 +101,12 @@
     return 100;
 }
 
+#pragma mark - TableView helper methods
+
+- (NSIndexPath *)indexPathOfTask:(Task *)task {
+    return [NSIndexPath indexPathForRow:[_originalItemList indexOfObject:task] inSection:0];
+}
+
 #pragma mark - Core data
 
 - (void)fetchTasks {
@@ -135,7 +143,7 @@
                                      animated:YES];
 }
 
-#pragma mark - BBMatterDelegate
+#pragma mark - BBTaskDelegate
 
 - (void)updateTask:(id)data {
     [self fetchTasks];

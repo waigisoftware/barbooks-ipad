@@ -32,6 +32,7 @@
 		36C9E6641B1AC6840085D647 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36C9E6631B1AC6840085D647 /* Images.xcassets */; };
 		36C9E6671B1AC6840085D647 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36C9E6651B1AC6840085D647 /* LaunchScreen.xib */; };
 		36C9E6731B1AC6840085D647 /* barbooks_ipadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6721B1AC6840085D647 /* barbooks_ipadTests.m */; };
+		36CC97501B47B6CF00CB1C45 /* BBRateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CC974F1B47B6CF00CB1C45 /* BBRateViewController.m */; };
 		36CED14B1B3A8E9900F421F5 /* BBDropDownListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */; };
 		36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF92B1B22FEE70053CD8C /* BBHomeViewController.m */; };
 		36DEF92F1B231A2C0053CD8C /* BBMatterListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF92E1B231A2C0053CD8C /* BBMatterListViewController.m */; };
@@ -142,6 +143,8 @@
 		36C9E66C1B1AC6840085D647 /* barbooks-ipadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "barbooks-ipadTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36C9E6711B1AC6840085D647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36C9E6721B1AC6840085D647 /* barbooks_ipadTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = barbooks_ipadTests.m; sourceTree = "<group>"; };
+		36CC974E1B47B6CF00CB1C45 /* BBRateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBRateViewController.h; path = UserInterface/Common/BBRateViewController.h; sourceTree = "<group>"; };
+		36CC974F1B47B6CF00CB1C45 /* BBRateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBRateViewController.m; path = UserInterface/Common/BBRateViewController.m; sourceTree = "<group>"; };
 		36CED1491B3A8E9900F421F5 /* BBDropDownListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDropDownListViewController.h; path = UserInterface/BBDropDownListViewController.h; sourceTree = "<group>"; };
 		36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBDropDownListViewController.m; path = UserInterface/BBDropDownListViewController.m; sourceTree = "<group>"; };
 		36DEF92A1B22FEE70053CD8C /* BBHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBHomeViewController.h; path = UserInterface/BBHomeViewController.h; sourceTree = "<group>"; };
@@ -369,6 +372,8 @@
 			children = (
 				36CED1491B3A8E9900F421F5 /* BBDropDownListViewController.h */,
 				36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */,
+				36CC974E1B47B6CF00CB1C45 /* BBRateViewController.h */,
+				36CC974F1B47B6CF00CB1C45 /* BBRateViewController.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -751,6 +756,7 @@
 				36DEFA3B1B2710650053CD8C /* BBManagedObject.m in Sources */,
 				36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */,
 				36DEFA3E1B2710650053CD8C /* Receipt.m in Sources */,
+				36CC97501B47B6CF00CB1C45 /* BBRateViewController.m in Sources */,
 				36DEFA561B2710660053CD8C /* Solicitor.m in Sources */,
 				36DEFA321B2710650053CD8C /* Address.m in Sources */,
 				36DEFA171B2710640053CD8C /* WriteOff.m in Sources */,

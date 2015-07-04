@@ -21,4 +21,6 @@
 
 - (UIRefreshControl *)refreshControl;
 
+- (NSIndexPath *)indexPathOfItem:(NSObject *)item;
+
 @end

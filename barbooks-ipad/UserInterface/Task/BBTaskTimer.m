@@ -34,15 +34,19 @@
 }
 
 - (void)pause {
-    
+    [self stop];
 }
 
 - (void)resume {
-    
+    [self stop];
+    [self start];
 }
 
 - (void)stop {
-    
+    if (_timer) {
+        [_timer invalidate];
+    }
+    _timer = nil;
 }
 
 - (void)addOneSecondToCurrentTask {
