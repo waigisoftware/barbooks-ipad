@@ -16,9 +16,13 @@
 #import "Solicitor.h"
 #import "Invoice.h"
 #import "Firm.h"
+#import "Rate.h"
 #import "BBContactListViewController.h"
+#import "BBRateViewController.h"
 
-@interface BBMatterViewController ()
+@interface BBMatterViewController () {
+    NSMutableArray *_rates;
+}
 
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *natureOfBriefTextField;
@@ -59,6 +63,8 @@
 - (IBAction)onTax:(id)sender;
 - (IBAction)onBackgroundButton:(id)sender;
 - (IBAction)onSelectRoundRate:(id)sender;
+- (IBAction)onAddRate:(id)sender;
+- (IBAction)onDeleteRate:(id)sender;
 
 @end
 
@@ -81,6 +87,8 @@ BBContactListViewController *_contactListViewController;
     _solicitorTextField.delegate = self;
     _dueDateTextField.delegate = self;
     _taxTextField.delegate = self;
+    _ratesTableView.dataSource = self;
+    _ratesTableView.delegate = self;
     
     // set contact selection view
     _contactListViewController = [BBContactListViewController new];
@@ -127,6 +135,7 @@ BBContactListViewController *_contactListViewController;
     }
     
     [self updateSolicitor];
+    [self updateRates];
     
     // refresh matter list accordingly
     [self.matterListViewController fetchMatters];
@@ -233,6 +242,13 @@ BBContactListViewController *_contactListViewController;
     [self updateAndSaveMatterWithUIChange];
 }
 
+- (IBAction)onAddRate:(id)sender {
+    [self popoverRateViewWithRate:nil];
+}
+
+- (IBAction)onDeleteRate:(id)sender {
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -279,18 +295,75 @@ BBContactListViewController *_contactListViewController;
 - (void)updateMatter:(id)data {
     Class dataClass = [data class];
     if (dataClass == [Solicitor class]) {
-        self.matter.solicitor = data;
+        _matter.solicitor = data;
+    }
+    if (dataClass == [Rate class]) {
+        // add new Rate
+        NSMutableSet *set = [NSMutableSet setWithSet:_matter.rates];
+        [set addObject:data];
+        _matter.rates = set;
     }
     [self loadMatterIntoUI];
 }
 
-#pragma mark - 
+#pragma mark - resignFirstResponders and hide all popup views
 
 - (void)stopEditing {
     [[UIResponder currentFirstResponder] resignFirstResponder];
     _datePickerContainerView.hidden = YES;
     _roundRatePickerContainerView.hidden = YES;
     [self loadMatterIntoUI];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _matter.rates.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *reuseIdentifier = @"rateCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    Rate *rate = [_rates objectAtIndex:indexPath.row];
+    cell.textLabel.text = rate.description;
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self popoverRateViewWithRate:[_rates objectAtIndex:indexPath.row]];
+}
+
+// show no empty cells
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 1;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [UIView new];
+}
+
+#pragma mark - Rates
+
+- (void)popoverRateViewWithRate:(Rate *)rate {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BBRateViewController *rateViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBRateViewController];
+    rateViewController.delegate = self;
+    rateViewController.rate = rate;
+    
+    // pop it over
+    UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:rateViewController];
+    popoverController.delegate = self;
+    popoverController.popoverContentSize = CGSizeMake(300, 300);
+    [popoverController presentPopoverFromRect:self.navigationController.navigationBar.frame
+                                       inView:_ratesTableView
+                     permittedArrowDirections:UIPopoverArrowDirectionAny
+                                     animated:YES];
+}
+
+- (void)updateRates {
+    _rates = [NSMutableArray arrayWithArray:[_matter.rates allObjects]];
+    [_ratesTableView reloadData];
 }
 
 @end

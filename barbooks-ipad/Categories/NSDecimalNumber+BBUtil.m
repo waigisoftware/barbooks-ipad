@@ -10,8 +10,16 @@
 
 @implementation NSDecimalNumber (BBUtil)
 
++ (instancetype)onePointOne {
+    return [NSDecimalNumber decimalNumberWithString:@"1.1"];
+}
+
 + (instancetype)ten {
     return [NSDecimalNumber decimalNumberWithString:@"10"];
+}
+
++ (instancetype)eleven {
+    return [NSDecimalNumber decimalNumberWithString:@"11"];
 }
 
 + (instancetype)oneHundred {
@@ -22,12 +30,28 @@
     return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%d", value]];
 }
 
-- (NSString*)currencyAmount {
+- (NSString *)currencyAmount {
     NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
     [nf setMinimumFractionDigits:2];
     [nf setMaximumFractionDigits:2];
     [nf setMinimumIntegerDigits: 1];
     return [NSString stringWithFormat:@"$%@", [nf stringFromNumber: self]];
+}
+
+- (NSString *)roundedAmount {
+    NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
+    [nf setMinimumFractionDigits:2];
+    [nf setMaximumFractionDigits:2];
+    [nf setMinimumIntegerDigits: 1];
+    return [NSString stringWithFormat:@"%@", [nf stringFromNumber: self]];
+}
+
+- (instancetype)decimalNumberAddGST {
+    return [self decimalNumberByMultiplyingBy:[NSDecimalNumber onePointOne]];
+}
+
+- (instancetype)decimalNumberSubtractGST {
+    return [[self decimalNumberByMultiplyingBy:[NSDecimalNumber ten]] decimalNumberByDividingBy:[NSDecimalNumber eleven]];
 }
 
 @end

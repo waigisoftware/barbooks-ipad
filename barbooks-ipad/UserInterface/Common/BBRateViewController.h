@@ -7,7 +7,12 @@
 //
 
 #import "BBBaseViewController.h"
+#import "Rate.h"
+#import "BBMatterDelegate.h"
 
-@interface BBRateViewController : BBBaseViewController <UITextFieldDelegate>
+@interface BBRateViewController : BBBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+
+@property (strong, nonatomic) Rate *rate;
+@property (weak, nonatomic) id<BBMatterDelegate> delegate;
 
 @end

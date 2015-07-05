@@ -11,9 +11,13 @@
 @interface NSDecimalNumber (BBUtil)
 
 + (instancetype)ten;
++ (instancetype)eleven;
 + (instancetype)oneHundred;
 + (instancetype)decimalNumberWithInt:(int)value;
 
 - (NSString*)currencyAmount;
+- (NSString *)roundedAmount;
+- (instancetype)decimalNumberAddGST;
+- (instancetype)decimalNumberSubtractGST;
 
 @end
