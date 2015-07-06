@@ -15,5 +15,9 @@
 -(NSString*) toIso8601WithTimeZone: (NSTimeZone*) timeZone;
 -(NSString*) toShortDateFormat;
 -(NSString*) toShortDateTimeFormat;
+- (NSString *)weekday;
+- (NSString *)day;
+- (NSString *)month;
+- (NSString *)year;
 
 @end

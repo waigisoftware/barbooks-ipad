@@ -9,10 +9,11 @@
 #import "BBBaseViewController.h"
 #import "Matter.h"
 #import "BBMatterDelegate.h"
+#import <JTCalendar.h>
 
 @class BBMatterListViewController;
 
-@interface BBMatterViewController : BBBaseViewController <UITextFieldDelegate, BBMatterDelegate, UIPopoverControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDataSource, UITableViewDelegate>
+@interface BBMatterViewController : BBBaseViewController <UITextFieldDelegate, BBMatterDelegate, UIPopoverControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDataSource, UITableViewDelegate, JTCalendarDataSource>
 
 @property (strong, nonatomic) Matter *matter;
 @property (weak, nonatomic) BBMatterListViewController *matterListViewController;

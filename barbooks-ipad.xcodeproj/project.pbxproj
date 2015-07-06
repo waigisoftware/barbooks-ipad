@@ -23,6 +23,7 @@
 		36C781BD1B35014500321AE2 /* BBContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BC1B35014500321AE2 /* BBContactListViewController.m */; };
 		36C781C01B35985500321AE2 /* NSDecimalNumber+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */; };
 		36C781C31B36B41600321AE2 /* NSArray+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */; };
+		36C936051B4A65AF002B4946 /* UIButton+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C936041B4A65AF002B4946 /* UIButton+BBUtil.m */; };
 		36C9E6531B1AC6840085D647 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6521B1AC6840085D647 /* main.m */; };
 		36C9E6561B1AC6840085D647 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6551B1AC6840085D647 /* AppDelegate.m */; };
 		36C9E6591B1AC6840085D647 /* barbooks_ipad.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6571B1AC6840085D647 /* barbooks_ipad.xcdatamodeld */; };
@@ -127,6 +128,8 @@
 		36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDecimalNumber+BBUtil.m"; path = "Categories/NSDecimalNumber+BBUtil.m"; sourceTree = "<group>"; };
 		36C781C11B36B41600321AE2 /* NSArray+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+BBUtil.h"; path = "Categories/NSArray+BBUtil.h"; sourceTree = "<group>"; };
 		36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+BBUtil.m"; path = "Categories/NSArray+BBUtil.m"; sourceTree = "<group>"; };
+		36C936031B4A65AF002B4946 /* UIButton+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+BBUtil.h"; path = "Categories/UIButton+BBUtil.h"; sourceTree = "<group>"; };
+		36C936041B4A65AF002B4946 /* UIButton+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+BBUtil.m"; path = "Categories/UIButton+BBUtil.m"; sourceTree = "<group>"; };
 		36C9E64D1B1AC6840085D647 /* barbooks-ipad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "barbooks-ipad.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36C9E6511B1AC6840085D647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36C9E6521B1AC6840085D647 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -363,6 +366,8 @@
 				36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */,
 				36C781C11B36B41600321AE2 /* NSArray+BBUtil.h */,
 				36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */,
+				36C936031B4A65AF002B4946 /* UIButton+BBUtil.h */,
+				36C936041B4A65AF002B4946 /* UIButton+BBUtil.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -752,6 +757,7 @@
 				36EB0E511B38E0FA00AC7411 /* BBTaskListTableViewCell.m in Sources */,
 				36788FA71B20350F00B34D3E /* BBBaseTableViewController.m in Sources */,
 				367563321B2C2CCB002C5738 /* UIColor+BBUtil.m in Sources */,
+				36C936051B4A65AF002B4946 /* UIButton+BBUtil.m in Sources */,
 				36DEFA531B2710660053CD8C /* Discount.m in Sources */,
 				36DEFA3B1B2710650053CD8C /* BBManagedObject.m in Sources */,
 				36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */,

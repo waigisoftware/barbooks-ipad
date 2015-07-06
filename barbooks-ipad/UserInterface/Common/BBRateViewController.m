@@ -7,6 +7,7 @@
 //
 
 #import "BBRateViewController.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface BBRateViewController ()
 
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateAmountExcludeGSTTextField;
 @property (weak, nonatomic) IBOutlet UIView *rateTypeContainerView;
 @property (weak, nonatomic) IBOutlet UITableView *rateTypeTableView;
+@property (weak, nonatomic) IBOutlet UIButton *doneButton;
 
 - (IBAction)onSelectRateType:(id)sender;
 - (IBAction)onCancel:(id)sender;
@@ -28,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self configureRACOnButton];
 
     _rateAmountIncludeGSTTextField.delegate = self;
     _rateAmountExcludeGSTTextField.delegate = self;
@@ -40,6 +43,7 @@
         _rateAmountIncludeGSTTextField.text = [_rate.amountGst stringValue];
         _rateAmountExcludeGSTTextField.text = [_rate.amount stringValue];
         [_rateTypeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[_rate.type integerValue] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        [_doneButton updateBackgroundColourAndSetEnabledTo:YES];
     } else {
         _titleLabel.text = @"New Rate";
     }
@@ -59,9 +63,9 @@
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    if (_rateAmountIncludeGSTTextField == textField) {
+    if (_rateAmountIncludeGSTTextField == textField && [textField.text isNumeric]) {
         _rateAmountExcludeGSTTextField.text = [[[NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text] decimalNumberSubtractGST] roundedAmount];
-    } else if (_rateAmountExcludeGSTTextField == textField) {
+    } else if (_rateAmountExcludeGSTTextField == textField && [textField.text isNumeric]) {
         _rateAmountIncludeGSTTextField.text = [[[NSDecimalNumber decimalNumberWithString:_rateAmountExcludeGSTTextField.text] decimalNumberAddGST] roundedAmount];
     }
 }
@@ -128,6 +132,22 @@
 - (void)stopEditing {
     [[UIResponder currentFirstResponder] resignFirstResponder];
     _rateTypeContainerView.hidden = YES;
+}
+
+#pragma mark - Setup/Config
+
+- (void) configureRACOnButton{
+    RACSignal* signal =
+    [RACSignal combineLatest:@[self.rateAmountIncludeGSTTextField.rac_textSignal, self.rateAmountExcludeGSTTextField.rac_textSignal]
+                      reduce:^(NSString *amountGst, NSString *amount) {
+                          return @(
+                          [amountGst isNumeric] || [amount isNumeric]
+                          );
+                      }];
+    
+    [signal subscribeNext:^(NSNumber* isEnabled) {
+        [self.doneButton updateBackgroundColourAndSetEnabledTo:[isEnabled boolValue]];
+    }];
 }
 
 @end

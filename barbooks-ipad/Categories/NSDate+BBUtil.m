@@ -55,4 +55,53 @@
     return [dateFormatter stringFromDate:self];
 }
 
+NSString *DAY_OF_WEEK_FORMAT = @"EEEE";
+NSString *DAY_OF_MONTH_FORMAT = @"dd";
+NSString *MONTH_FORMAT = @"MMM";
+NSString *YEAR_FORMAT = @"yyyy";
+
+- (NSString *)weekday {
+    // create formatter singlton
+    static NSDateFormatter *dateFormatter = nil;
+    static dispatch_once_t oncetoken;
+    dispatch_once(&oncetoken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:DAY_OF_WEEK_FORMAT];
+    });
+    return [dateFormatter stringFromDate:self];
+}
+
+- (NSString *)day {
+    // create formatter singlton
+    static NSDateFormatter *dateFormatter = nil;
+    static dispatch_once_t oncetoken;
+    dispatch_once(&oncetoken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:DAY_OF_MONTH_FORMAT];
+    });
+    return [dateFormatter stringFromDate:self];
+}
+
+- (NSString *)month {
+    // create formatter singlton
+    static NSDateFormatter *dateFormatter = nil;
+    static dispatch_once_t oncetoken;
+    dispatch_once(&oncetoken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:MONTH_FORMAT];
+    });
+    return [dateFormatter stringFromDate:self];
+}
+
+- (NSString *)year {
+    // create formatter singlton
+    static NSDateFormatter *dateFormatter = nil;
+    static dispatch_once_t oncetoken;
+    dispatch_once(&oncetoken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:YEAR_FORMAT];
+    });
+    return [dateFormatter stringFromDate:self];
+}
+
 @end

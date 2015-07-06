@@ -3,8 +3,8 @@ platform :ios, '8.0'
 target 'barbooks-ipad' do
 
 pod "AFNetworking", "2.5.1"
-pod "PromiseKit", "1.3.0"
-pod "PromiseKit-AFNetworking", "0.1.5"
+#pod "PromiseKit", "1.3.0"
+#pod "PromiseKit-AFNetworking", "0.1.5"
 #pod "MyEnvironmentConfig", :git => 'https://github.com/premosystems/MyEnvironmentConfig', :tag => '1.0.0'
 pod "Mixpanel", "2.7.2"
 pod "ReactiveCocoa", "2.4.7"
@@ -17,6 +17,7 @@ pod "UIFloatLabelTextField", "1.2.1"
 pod 'ParcelKit'
 pod "MagicalRecord"
 pod 'IQKeyboardManager'
+pod 'JTCalendar', '~> 1.1'
 
 end
 

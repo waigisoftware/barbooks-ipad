@@ -21,4 +21,8 @@
 @dynamic matter;
 @dynamic task;
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ - %@ (include GST) - %@ (exclude GST)", [[GlobalAttributes rateTypes] objectAtIndex: [self.type intValue]], [self.amountGst currencyAmount], [self.amount currencyAmount]];
+}
+
 @end

@@ -19,6 +19,7 @@
 #import "Rate.h"
 #import "BBContactListViewController.h"
 #import "BBRateViewController.h"
+#import "NSDate+BBUtil.h"
 
 @interface BBMatterViewController () {
     NSMutableArray *_rates;
@@ -32,8 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *referenceTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *solicitorTextField;
 @property (weak, nonatomic) IBOutlet UILabel *openDateLabel;
-@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UIView *datePickerContainerView;
+//@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+//@property (weak, nonatomic) IBOutlet UIView *datePickerContainerView;
 @property (weak, nonatomic) IBOutlet UITextField *dueDateTextField;
 @property (weak, nonatomic) IBOutlet UISwitch *taxedSwitch;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *taxTextField;
@@ -45,6 +46,16 @@
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *roundRateTextField;
 @property (weak, nonatomic) IBOutlet UIView *roundRatePickerContainerView;
+
+// date picker
+@property (weak, nonatomic) IBOutlet UIView *calendarContainerView;
+@property (weak, nonatomic) IBOutlet UILabel *pickedDateDayLabel;
+@property (weak, nonatomic) IBOutlet UILabel *pickedDateMonthLabel;
+@property (weak, nonatomic) IBOutlet UILabel *pickedDateDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *pickedDateYearLabel;
+@property (weak, nonatomic) IBOutlet JTCalendarMenuView *calendarMenuView;
+@property (weak, nonatomic) IBOutlet JTCalendarContentView *calendarContentView;
+@property (strong, nonatomic) JTCalendar *calendar;
 
 @property (strong) NSString *solicitorName;
 @property (strong) NSArray *rateSortDescriptors;
@@ -59,12 +70,14 @@
 - (IBAction)onEditContact:(id)sender;
 - (IBAction)onAddContact:(id)sender;
 - (IBAction)onCalendar:(id)sender;
-- (IBAction)onDatePicked:(id)sender;
+//- (IBAction)onDatePicked:(id)sender;
 - (IBAction)onTax:(id)sender;
 - (IBAction)onBackgroundButton:(id)sender;
 - (IBAction)onSelectRoundRate:(id)sender;
 - (IBAction)onAddRate:(id)sender;
 - (IBAction)onDeleteRate:(id)sender;
+- (IBAction)onCancelPickDate:(id)sender;
+- (IBAction)onConfirmPickDate:(id)sender;
 
 @end
 
@@ -101,12 +114,23 @@ BBContactListViewController *_contactListViewController;
     _roundingTypePicker.dataSource = self;
     _roundingTypePicker.delegate = self;
     
+    // set calendar picker
+    self.calendar = [JTCalendar new];
+    self.calendar.calendarAppearance.dayCircleColorSelected = [UIColor bbPrimaryBlue];
+    [self.calendar setMenuMonthsView:self.calendarMenuView];
+    [self.calendar setContentView:self.calendarContentView];
+    [self.calendar setDataSource:self];
+    
     [self loadMatterIntoUI];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidLayoutSubviews {
+    [self.calendar repositionViews];
 }
 
 
@@ -125,6 +149,11 @@ BBContactListViewController *_contactListViewController;
     _endClientNameTextField.text = _matter.endClientName;
     _referenceTextField.text = _matter.reference;
     _openDateLabel.text = [_matter.date toShortDateFormat];
+    // calendar
+    _calendar.currentDate = _matter.date;
+    _calendar.currentDateSelected = _matter.date;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kJTCalendarDaySelected" object:_matter.date];
+    
     _dueDateTextField.text = [_matter.dueDate stringValue];
     _taxedSwitch.on = [_matter.taxed boolValue];
     _taxTextField.text = _matter.tax ? [[_matter.tax decimalNumberByMultiplyingBy:[NSDecimalNumber oneHundred]] stringValue] : @"";
@@ -149,7 +178,7 @@ BBContactListViewController *_contactListViewController;
     _matter.endClientName = _endClientNameTextField.text;
     _matter.reference = _referenceTextField.text;
     _matter.solicitor.firstname = _solicitorTextField.text;
-    _matter.date = _datePicker.date;
+    _matter.date = [_openDateLabel.text fromShortDateFormatToDate];
     _matter.dueDate = [_dueDateTextField.text numberValue];
     _matter.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
     if (_matter.taxed && [_taxTextField.text isNumeric]) {
@@ -207,11 +236,10 @@ BBContactListViewController *_contactListViewController;
     [self updateMatterFromUI];
 }
 
-- (IBAction)onDatePicked:(id)sender {
-    _openDateLabel.text = [_datePicker.date toShortDateFormat];
-//    [self updateAndSaveMatterWithUIChange];
-    [self updateMatterFromUI];
-}
+//- (IBAction)onDatePicked:(id)sender {
+//    _openDateLabel.text = [_datePicker.date toShortDateFormat];
+//    [self updateMatterFromUI];
+//}
 
 - (IBAction)onBackgroundButton:(id)sender {
     [self stopEditing];
@@ -231,9 +259,10 @@ BBContactListViewController *_contactListViewController;
 
 // Date picker
 - (IBAction)onCalendar:(id)sender {
-    _datePickerContainerView.hidden = !_datePickerContainerView.hidden;
-    if (!_datePickerContainerView.hidden && !_openDateLabel.text) {
-        _datePicker.date = [_openDateLabel.text fromShortDateFormatToDate];
+    _calendarContainerView.hidden = !_calendarContainerView.hidden;
+    if (!_calendarContainerView.hidden && !_openDateLabel.text) {
+        [self.calendar setCurrentDate:_matter.date];
+//        _datePicker.date = [_openDateLabel.text fromShortDateFormatToDate];
     }
 }
 
@@ -247,6 +276,16 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (IBAction)onDeleteRate:(id)sender {
+}
+
+- (IBAction)onCancelPickDate:(id)sender {
+    _calendarContainerView.hidden = YES;
+}
+
+- (IBAction)onConfirmPickDate:(id)sender {
+    _calendarContainerView.hidden = YES;
+    _matter.date = _calendar.currentDateSelected;
+    [self loadMatterIntoUI];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -310,12 +349,32 @@ BBContactListViewController *_contactListViewController;
 
 - (void)stopEditing {
     [[UIResponder currentFirstResponder] resignFirstResponder];
-    _datePickerContainerView.hidden = YES;
+    [self onCancelPickDate:nil];
     _roundRatePickerContainerView.hidden = YES;
     [self loadMatterIntoUI];
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - OpenDate JTCalendarDataSource
+
+- (BOOL)calendarHaveEvent:(JTCalendar *)calendar date:(NSDate *)date {
+    return NO;
+}
+
+- (void)calendarDidDateSelected:(JTCalendar *)calendar date:(NSDate *)date {
+    NSLog(@"%@", date);
+    [self updateCalendarContainerViewWithDate:date];
+}
+
+#pragma mark - Date methods
+
+- (void)updateCalendarContainerViewWithDate:(NSDate *)date {
+    _pickedDateDayLabel.text = [date weekday];
+    _pickedDateMonthLabel.text = [date month];
+    _pickedDateDateLabel.text = [date day];
+    _pickedDateYearLabel.text = [date year];
+}
+
+#pragma mark - Rate UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _matter.rates.count;
@@ -329,7 +388,7 @@ BBContactListViewController *_contactListViewController;
     return cell;
 }
 
-#pragma mark - UITableViewDelegate
+#pragma mark - Rate UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self popoverRateViewWithRate:[_rates objectAtIndex:indexPath.row]];

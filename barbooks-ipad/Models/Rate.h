@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "BBManagedObject.h"
+#import "GlobalAttributes.h"
+#import "NSDecimalNumber+BBUtil.h"
 
 @class Account, Matter, Task;
 

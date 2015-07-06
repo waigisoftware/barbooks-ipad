@@ -15,6 +15,7 @@
 #import "NSDecimalNumber+BBUtil.h"
 #import "NSArray+BBUtil.h"
 #import "UIFloatLabelTextField+BBUtil.h"
+#import "UIButton+BBUtil.h"
 #import "GlobalAttributes.h"
 
 @interface BBBaseViewController : UIViewController <UIAlertViewDelegate>
