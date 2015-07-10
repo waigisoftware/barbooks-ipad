@@ -2305,7 +2305,7 @@
                                         <rect key="frame" x="8" y="0.0" width="168" height="192"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="taskRateCell" id="SWH-ax-PmG">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="dropDownItemCell" id="SWH-ax-PmG">
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SWH-ax-PmG" id="sS9-jT-GQB">
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -2395,6 +2395,7 @@
                         <outlet property="timerPauseButton" destination="9Qh-b8-uxz" id="ZiS-z8-mOS"/>
                         <outlet property="timerStartButton" destination="Kez-n3-VbC" id="pX1-fa-Z8u"/>
                         <outlet property="timerStopButton" destination="aMi-Uk-r63" id="ESH-39-TdU"/>
+                        <outlet property="timerView" destination="bJC-Y5-l2d" id="i5G-mH-G4a"/>
                         <outlet property="titleLabel" destination="Gjj-g2-L3R" id="MtT-1C-ADe"/>
                         <outlet property="unitsLabel" destination="LMh-zA-Wvd" id="ADb-dh-SjE"/>
                     </connections>

@@ -71,4 +71,6 @@
 + (instancetype)newInstanceInDefaultManagedObjectContext;
 + (instancetype)newInstanceWithDefaultValue;
 
+- (NSDecimalNumber *)hoursFromDuration:(NSDecimalNumber *)duration;
+
 @end

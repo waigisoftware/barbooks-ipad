@@ -48,21 +48,60 @@
         newTask.hours = [NSDecimalNumber zero];
         newTask.minutes = [NSDecimalNumber zero];
         newTask.taxed = [NSNumber numberWithBool:YES];
+        if (matter.rates.count > 0) {
+            newTask.selectedRate = [[matter.rates allObjects] objectAtIndex:0];
+        }
         newTask.matter = matter;
         [matter addTasksObject:newTask];
-//        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-//            [localContext save:nil];
-//        } completion:^(BOOL success, NSError *error) {
-//            NSLog(@"%@", error);
-//        }];
         return newTask;
     } else {
         return nil;
     }
 }
 
+#pragma mark - calculations
+
+- (void)recalculate {
+    [self recalculateFees];
+    [self recalculateTotals];
+    // save after recaculation
+//    [self saveTask];
+}
+
+- (void)recalculateFees {
+    self.feesExGst = self.selectedRate.amount;
+    self.feesIncGst = self.selectedRate.amountGst;
+    self.feesGst = [self.feesIncGst decimalNumberBySubtracting:self.feesExGst];
+}
+
+- (void)recalculateTotals {
+    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler
+                                       decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                       scale:0
+                                       raiseOnExactness:NO
+                                       raiseOnOverflow:NO
+                                       raiseOnUnderflow:NO
+                                       raiseOnDivideByZero:YES];
+    if ([self hourlyRate]) {
+        NSDecimalNumber *hours = [self.matter hoursFromDuration:self.duration];
+        self.totalFeesExGst = [self.feesExGst decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
+        self.totalFeesIncGst = [self.feesIncGst decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
+        self.totalFeesGst = [self.feesGst decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
+    } else {
+        self.totalFeesExGst = [self.feesExGst decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
+        self.totalFeesIncGst = [self.feesIncGst decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
+        self.totalFeesGst = [self.feesGst decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
+    }
+}
+
+#pragma mark - convenient methods
+
 - (BOOL)hourlyRate {
     return [self.selectedRate.type intValue] == 0 ? YES : NO;
+}
+
+- (BOOL)isTaxed {
+    return [self.taxed boolValue];
 }
 
 // generate duration displaying string
@@ -96,6 +135,16 @@
     self.duration = [NSDecimalNumber decimalNumberWithInt:totalSeconds];
     self.hours = [NSDecimalNumber decimalNumberWithInt:hours];
     self.minutes = [NSDecimalNumber decimalNumberWithInt:minutes];
+}
+
+#pragma mark - Core Data
+
+- (void)saveTask {
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [localContext save:nil];
+    } completion:^(BOOL success, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 @end

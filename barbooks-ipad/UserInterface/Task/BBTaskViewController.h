@@ -13,6 +13,7 @@
 #import "BBDropDownListViewController.h"
 #import "Task.h"
 #import "Rate.h"
+#import "Matter.h"
 
 @interface BBTaskViewController : BBBaseViewController <UITextFieldDelegate, BBDropDownListDelegate>
 

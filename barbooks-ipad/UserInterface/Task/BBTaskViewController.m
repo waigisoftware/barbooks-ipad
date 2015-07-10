@@ -8,6 +8,7 @@
 
 #import "BBTaskViewController.h"
 #import "BBTaskTimer.h"
+#import "NSString+BBUtil.h"
 
 @interface BBTaskViewController ()
 
@@ -21,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateAmountTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateUnitTextField;
 @property (weak, nonatomic) IBOutlet UILabel *unitsLabel;
+@property (weak, nonatomic) IBOutlet UIView *timerView;
 @property (weak, nonatomic) IBOutlet UIButton *timerButton;
 @property (weak, nonatomic) IBOutlet UIButton *timerStartButton;
 @property (weak, nonatomic) IBOutlet UIButton *timerPauseButton;
@@ -49,7 +51,7 @@ BBDropDownListViewController *_dropDownListViewController;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _titleLabel.text = _task ? @"Edit Solicitor" : @"New Solicitor";
+    _titleLabel.text = _task ? @"Edit Task" : @"New Task";
     
     // setting delegates
     _taskNameTextField.delegate = self;
@@ -58,12 +60,11 @@ BBDropDownListViewController *_dropDownListViewController;
     _rateUnitTextField.delegate = self;
     
     // set Rate selection view
-//    _dropDownListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBDropDownListViewController];
     _dropDownListViewController = [BBDropDownListViewController new];
     _dropDownListViewController.delegate = self;
-    NSMutableArray *displayItemList = [NSMutableArray arrayWithCapacity:self.task.rates.count];
-    NSMutableArray *dataItemList = [NSMutableArray arrayWithCapacity:self.task.rates.count];
-    for (Rate *rate in self.task.rates) {
+    NSMutableArray *displayItemList = [NSMutableArray arrayWithCapacity:self.task.matter.rates.count];
+    NSMutableArray *dataItemList = [NSMutableArray arrayWithCapacity:self.task.matter.rates.count];
+    for (Rate *rate in self.task.matter.rates) {
         [displayItemList addObject:[[GlobalAttributes rateTypes] objectAtIndex:[rate.type intValue]]];
         [dataItemList addObject:rate];
     }
@@ -71,6 +72,7 @@ BBDropDownListViewController *_dropDownListViewController;
     _dropDownListViewController.dataItemList = dataItemList;
     _rateTableView.dataSource = _dropDownListViewController;
     _rateTableView.delegate = _dropDownListViewController;
+    [_rateTableView reloadData];
     _rateTableViewContainerView.hidden = YES;
     
     [self loadTaskIntoUI];
@@ -98,22 +100,43 @@ BBDropDownListViewController *_dropDownListViewController;
 - (void)loadTaskIntoUI {
     _taskNameTextField.text = _task.name;
     _taskDateLabel.text = [_task.date toShortDateFormat];
-    _taxedSwitch.on = [_task.taxed boolValue];
+    _taxedSwitch.on = _task.isTaxed;
     _rateTypeTextField.text = [[GlobalAttributes rateTypes] objectAtIndex:[_task.selectedRate.type intValue]];
-    _rateAmountTextField.text = _task.taxed ? [_task.selectedRate.amountGst currencyAmount] : [_task.selectedRate.amount currencyAmount];
-    _rateUnitTextField.text = [_task.units stringValue];
+    _rateAmountTextField.text = _task.isTaxed ? [_task.selectedRate.amountGst roundedAmount] : [_task.selectedRate.amount roundedAmount];
     _unitsLabel.hidden = [_task hourlyRate];
+    if ([_task hourlyRate]) {
+        _rateUnitTextField.text = [_task durationToFormattedString];
+        _timerView.hidden = NO;
+    } else {
+        _rateUnitTextField.text = [_task.units stringValue];
+        [self onTimerStop:nil];
+        _timerView.hidden = YES;
+    }
 }
 
 - (void)updateTaskFromUI {
     _task.name = _taskNameTextField.text;
     _task.date = _datePicker.date;
     _task.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
-    _task.selectedRate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
+    [self resetRateAmountWithTax];
     if ([_task hourlyRate]) {
         // get time from timer
     } else {
-        _task.units = [NSDecimalNumber decimalNumberWithString:_rateUnitTextField.text];
+        if ([_rateUnitTextField.text isNumeric]) {
+            _task.units = [NSDecimalNumber decimalNumberWithString:_rateUnitTextField.text];
+        }
+    }
+}
+
+- (void)resetRateAmountWithTax {
+    if ([_rateAmountTextField.text isNumeric]) {
+        if (_task.isTaxed) {
+            _task.selectedRate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
+            _task.selectedRate.amount = [_task.selectedRate.amountGst decimalNumberSubtractGST];
+        } else {
+            _task.selectedRate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
+            _task.selectedRate.amountGst = [_task.selectedRate.amount decimalNumberAddGST];
+        }
     }
 }
 
@@ -126,6 +149,7 @@ BBDropDownListViewController *_dropDownListViewController;
         _task.selectedRate = data;
     }
     [self loadTaskIntoUI];
+    _rateTableViewContainerView.hidden = YES;
 }
 
 #pragma mark - UITextFieldDelegate
@@ -145,6 +169,11 @@ BBDropDownListViewController *_dropDownListViewController;
     [[UIResponder currentFirstResponder] resignFirstResponder];
     _datePickerContainerView.hidden = YES;
     _rateTableViewContainerView.hidden = YES;
+    // update Task object
+    [self updateTaskFromUI];
+    // recalculate
+    [_task recalculate];
+    // refresh UI
     [self loadTaskIntoUI];
 }
 
@@ -164,7 +193,9 @@ BBDropDownListViewController *_dropDownListViewController;
 }
 
 - (IBAction)onTax:(id)sender {
-    self.task.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
+    _task.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
+    [self resetRateAmountWithTax];
+    [_task recalculate];
     [self.delegate updateTask:self.task];
 }
 
@@ -225,18 +256,6 @@ BBDropDownListViewController *_dropDownListViewController;
     
     [button.imageView.layer addAnimation:scaleAnimation forKey:@"scale"];
 }
-
-#pragma mark - Core Data
-/*
-- (void)updateAndSaveTaskWithUIChange {
-    [self updateTaskFromUI];
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        [localContext save:nil];
-    } completion:^(BOOL success, NSError *error) {
-        NSLog(@"%@", error);
-    }];
-}
- */
 
 #pragma mark - Observers
 -(void) addTaskTimerObserver {

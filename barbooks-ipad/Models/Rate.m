@@ -25,4 +25,8 @@
     return [NSString stringWithFormat:@"%@ - %@ (include GST) - %@ (exclude GST)", [[GlobalAttributes rateTypes] objectAtIndex: [self.type intValue]], [self.amountGst currencyAmount], [self.amount currencyAmount]];
 }
 
+- (NSString *)typeDescription {
+    return [[GlobalAttributes rateTypes] objectAtIndex:[self.type intValue]];
+}
+
 @end

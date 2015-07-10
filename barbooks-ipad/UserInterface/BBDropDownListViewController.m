@@ -41,7 +41,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.delegate updateWithSelection:[self.dataItemList objectAtIndex:indexPath.row]];
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{}];
 }
 
 // show no empty cells

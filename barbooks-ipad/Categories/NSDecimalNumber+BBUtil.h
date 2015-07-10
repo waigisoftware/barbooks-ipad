@@ -14,6 +14,7 @@
 + (instancetype)eleven;
 + (instancetype)oneHundred;
 + (instancetype)decimalNumberWithInt:(int)value;
++ (instancetype)anHourSeconds;
 
 - (NSString*)currencyAmount;
 - (NSString *)roundedAmount;

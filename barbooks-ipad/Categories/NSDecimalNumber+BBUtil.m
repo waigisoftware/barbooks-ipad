@@ -26,6 +26,10 @@
     return [NSDecimalNumber decimalNumberWithString:@"100"];
 }
 
++ (instancetype)anHourSeconds {
+    return [NSDecimalNumber decimalNumberWithString:@"3600"];
+}
+
 + (instancetype)decimalNumberWithInt:(int)value {
     return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%d", value]];
 }
@@ -47,11 +51,25 @@
 }
 
 - (instancetype)decimalNumberAddGST {
-    return [self decimalNumberByMultiplyingBy:[NSDecimalNumber onePointOne]];
+    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler
+                                          decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                          scale:2
+                                          raiseOnExactness:NO
+                                          raiseOnOverflow:NO
+                                          raiseOnUnderflow:NO
+                                          raiseOnDivideByZero:YES];
+    return [self decimalNumberByMultiplyingBy:[NSDecimalNumber onePointOne] withBehavior:roundPlain];
 }
 
 - (instancetype)decimalNumberSubtractGST {
-    return [[self decimalNumberByMultiplyingBy:[NSDecimalNumber ten]] decimalNumberByDividingBy:[NSDecimalNumber eleven]];
+    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler
+                                          decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                          scale:2
+                                          raiseOnExactness:NO
+                                          raiseOnOverflow:NO
+                                          raiseOnUnderflow:NO
+                                          raiseOnDivideByZero:YES];
+    return [[self decimalNumberByMultiplyingBy:[NSDecimalNumber ten]] decimalNumberByDividingBy:[NSDecimalNumber eleven] withBehavior:roundPlain];
 }
 
 @end

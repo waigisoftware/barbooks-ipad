@@ -23,4 +23,6 @@
 @property (nonatomic, retain) Matter *matter;
 @property (nonatomic, retain) Task *task;
 
+- (NSString *)typeDescription;
+
 @end

@@ -73,4 +73,41 @@
     return NSStringFromClass(self);
 }
 
+#pragma mark - calculation
+
+// calculate how many hours to be charged after rounding, e.g. 3000s -> 0.83h
+- (NSDecimalNumber *)hoursFromDuration:(NSDecimalNumber *)duration {
+    NSDecimalNumber *hours;
+    NSDecimalNumber *unit;
+    NSDecimalNumber *numberOfUnit;
+    NSDecimalNumberHandler *roundUp = [NSDecimalNumberHandler
+                                       decimalNumberHandlerWithRoundingMode:NSRoundUp
+                                       scale:0
+                                       raiseOnExactness:NO
+                                       raiseOnOverflow:NO
+                                       raiseOnUnderflow:NO
+                                       raiseOnDivideByZero:YES];
+
+    switch ([self.roundingType intValue]) {
+        case 0:
+            unit = [NSDecimalNumber decimalNumberWithString:@"360"];
+            numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:roundUp];
+            hours = [numberOfUnit decimalNumberByMultiplyingBy:[unit decimalNumberByDividingBy:[NSDecimalNumber anHourSeconds]]];
+            break;
+        case 1:
+            unit = [NSDecimalNumber decimalNumberWithString:@"600"];
+            break;
+        case 2:
+            unit = [NSDecimalNumber decimalNumberWithString:@"900"];
+            break;
+        case 3:
+            unit = [NSDecimalNumber decimalNumberWithString:@"1200"];
+            break;
+    }
+    numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:roundUp];
+    hours = [numberOfUnit decimalNumberByMultiplyingBy:[unit decimalNumberByDividingBy:[NSDecimalNumber anHourSeconds]]];
+
+    return hours;
+}
+
 @end

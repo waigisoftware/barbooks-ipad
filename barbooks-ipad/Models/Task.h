@@ -45,10 +45,16 @@
 - (void)addRates:(NSSet *)values;
 - (void)removeRates:(NSSet *)values;
 
++ (instancetype)newInstanceOfMatter:(Matter *)matter;
+
 - (BOOL)hourlyRate;
+- (BOOL)isTaxed;
 - (NSString *)durationToFormattedString;
 - (void)durationFromString:(NSString *)durationString;
 
-+ (instancetype)newInstanceOfMatter:(Matter *)matter;
+// recalculate all amounts
+- (void)recalculate;
+
+//- (void)saveTask;
 
 @end

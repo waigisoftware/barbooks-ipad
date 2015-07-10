@@ -75,13 +75,16 @@
     cell.taskNameLabel.text = task.name;
     cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
     cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
-    BOOL taxed = [task.taxed boolValue];
-    cell.slashLabel.hidden = taxed;
-    cell.includeGSTLabel.hidden = taxed;
-    cell.totalFeesIncludeGSTLabel.hidden = taxed;
+    cell.slashLabel.hidden = !task.isTaxed;
+    cell.includeGSTLabel.hidden = !task.isTaxed;
+    cell.totalFeesIncludeGSTLabel.hidden = !task.isTaxed;
     cell.matterDescriptionLabel.text = task.matter.name;
     cell.taskDateLabel.text = [task.date toShortDateFormat];
-//    cell.taskTimeLabel.text = task.
+    if ([task hourlyRate]) {
+        cell.taskTimeLabel.text = [task durationToFormattedString];
+    } else {
+        cell.taskTimeLabel.text = [NSString stringWithFormat:@"%@ %@", [task.units stringValue], [task.selectedRate typeDescription]];
+    }
     
     return cell;
 }
