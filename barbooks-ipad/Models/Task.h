@@ -51,6 +51,7 @@
 - (BOOL)isTaxed;
 - (NSString *)durationToFormattedString;
 - (void)durationFromString:(NSString *)durationString;
+- (NSDecimalNumber *)unbilledAmount;
 
 // recalculate all amounts
 - (void)recalculate;

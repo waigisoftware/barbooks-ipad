@@ -137,6 +137,11 @@
     self.minutes = [NSDecimalNumber decimalNumberWithInt:minutes];
 }
 
+- (NSDecimalNumber *)unbilledAmount {
+    //TODO:calculate. return amount for now
+    return [self isTaxed] ? self.totalFeesIncGst : self.totalFeesExGst;
+}
+
 #pragma mark - Core Data
 
 - (void)saveTask {

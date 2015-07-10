@@ -42,7 +42,10 @@
     UIImage *imageArchive = [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     _addBarButtonItem.image = imageAdd;
     _archiveBarButtonItem.image = imageArchive;
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self fetchMatters];
 }
 
@@ -71,6 +74,8 @@
     Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
     cell.matterNameLabel.text = matter.name;
     cell.payorNameLabel.text = matter.payor;
+    cell.tasksUnbilledAmountLabel.text = [[matter totalTasksUnbilled] currencyAmount];
+    cell.invoicesOutstandingAmountLabel.text = [[matter totalInvoicesOutstanding] currencyAmount];
     return cell;
 }
 

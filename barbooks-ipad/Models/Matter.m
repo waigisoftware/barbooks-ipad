@@ -110,4 +110,20 @@
     return hours;
 }
 
+#pragma mark - convenient methods
+
+- (NSDecimalNumber *)totalTasksUnbilled {
+    NSDecimalNumber *totalAmount = [NSDecimalNumber zero];
+    for (Task *task in self.tasks) {
+        totalAmount = [totalAmount decimalNumberByAdding:[task unbilledAmount]];
+    }
+    return totalAmount;
+}
+
+- (NSDecimalNumber *)totalInvoicesOutstanding {
+    NSDecimalNumber *totalAmount = [NSDecimalNumber zero];
+    //TODO: calculate
+    return totalAmount;
+}
+
 @end

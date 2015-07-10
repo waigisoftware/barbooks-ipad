@@ -72,5 +72,7 @@
 + (instancetype)newInstanceWithDefaultValue;
 
 - (NSDecimalNumber *)hoursFromDuration:(NSDecimalNumber *)duration;
+- (NSDecimalNumber *)totalTasksUnbilled;
+- (NSDecimalNumber *)totalInvoicesOutstanding;
 
 @end
