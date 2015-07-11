@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
+		362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543061B512BB8004C8116 /* BBExpenseListViewController.m */; };
+		3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543091B512C08004C8116 /* BBExpenseTableViewCell.m */; };
 		363C3A3E1B1C7A6B00B92513 /* BBMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363C3A3D1B1C7A6B00B92513 /* BBMenuViewController.m */; };
+		363E451C1B4FED420080CE38 /* BBExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E451B1B4FED420080CE38 /* BBExpenseViewController.m */; };
 		3651DFB91B2EEC18007B321A /* UIResponder+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFB81B2EEC18007B321A /* UIResponder+BBUtil.m */; };
 		3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */; };
 		3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */; };
@@ -95,9 +98,15 @@
 
 /* Begin PBXFileReference section */
 		16ED6A71BF367FA077B7B0E6 /* Pods-barbooks-ipad.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipad.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad.release.xcconfig"; sourceTree = "<group>"; };
+		362543051B512BB8004C8116 /* BBExpenseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseListViewController.h; path = UserInterface/Expense/BBExpenseListViewController.h; sourceTree = "<group>"; };
+		362543061B512BB8004C8116 /* BBExpenseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBExpenseListViewController.m; path = UserInterface/Expense/BBExpenseListViewController.m; sourceTree = "<group>"; };
+		362543081B512C08004C8116 /* BBExpenseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseTableViewCell.h; path = UserInterface/Expense/BBExpenseTableViewCell.h; sourceTree = "<group>"; };
+		362543091B512C08004C8116 /* BBExpenseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBExpenseTableViewCell.m; path = UserInterface/Expense/BBExpenseTableViewCell.m; sourceTree = "<group>"; };
 		363C3A3C1B1C7A6B00B92513 /* BBMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMenuViewController.h; path = UserInterface/SlideMenu/BBMenuViewController.h; sourceTree = "<group>"; };
 		363C3A3D1B1C7A6B00B92513 /* BBMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBMenuViewController.m; path = UserInterface/SlideMenu/BBMenuViewController.m; sourceTree = "<group>"; };
 		363C3A3F1B1C7BF200B92513 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		363E451A1B4FED420080CE38 /* BBExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseViewController.h; path = UserInterface/Expense/BBExpenseViewController.h; sourceTree = "<group>"; };
+		363E451B1B4FED420080CE38 /* BBExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBExpenseViewController.m; path = UserInterface/Expense/BBExpenseViewController.m; sourceTree = "<group>"; };
 		3651DFB71B2EEC18007B321A /* UIResponder+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIResponder+BBUtil.h"; path = "Categories/UIResponder+BBUtil.h"; sourceTree = "<group>"; };
 		3651DFB81B2EEC18007B321A /* UIResponder+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIResponder+BBUtil.m"; path = "Categories/UIResponder+BBUtil.m"; sourceTree = "<group>"; };
 		3651DFBA1B2EF2BC007B321A /* NSString+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BBUtil.h"; path = "Categories/NSString+BBUtil.h"; sourceTree = "<group>"; };
@@ -295,6 +304,7 @@
 		363C3A371B1C785C00B92513 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				363E45191B4FED1D0080CE38 /* Expense */,
 				36B983901B3FD9B80030E915 /* Common */,
 				36EB0E481B38DF7F00AC7411 /* Task */,
 				36788FA11B2034A300B34D3E /* Matter */,
@@ -316,6 +326,19 @@
 				363C3A3D1B1C7A6B00B92513 /* BBMenuViewController.m */,
 			);
 			name = SlideMenu;
+			sourceTree = "<group>";
+		};
+		363E45191B4FED1D0080CE38 /* Expense */ = {
+			isa = PBXGroup;
+			children = (
+				363E451A1B4FED420080CE38 /* BBExpenseViewController.h */,
+				363E451B1B4FED420080CE38 /* BBExpenseViewController.m */,
+				362543051B512BB8004C8116 /* BBExpenseListViewController.h */,
+				362543061B512BB8004C8116 /* BBExpenseListViewController.m */,
+				362543081B512C08004C8116 /* BBExpenseTableViewCell.h */,
+				362543091B512C08004C8116 /* BBExpenseTableViewCell.m */,
+			);
+			name = Expense;
 			sourceTree = "<group>";
 		};
 		3667487A1B313D0200E23707 /* Protocals */ = {
@@ -738,6 +761,7 @@
 				3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */,
 				36555FC91B43A8010006A2CA /* BBTaskTimer.m in Sources */,
 				36C9E65F1B1AC6840085D647 /* DetailViewController.m in Sources */,
+				363E451C1B4FED420080CE38 /* BBExpenseViewController.m in Sources */,
 				36DEFA1A1B2710640053CD8C /* Invoice.m in Sources */,
 				36DEFA2C1B2710650053CD8C /* Contact.m in Sources */,
 				36DEFA501B2710660053CD8C /* Payment.m in Sources */,
@@ -770,6 +794,7 @@
 				367563281B29B0B4002C5738 /* BBCoreDataManager.m in Sources */,
 				36DEFA411B2710650053CD8C /* Attachment.m in Sources */,
 				36EB0E4B1B38DFA200AC7411 /* BBTaskListViewController.m in Sources */,
+				3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */,
 				36DEFA051B2710640053CD8C /* InterestInvoice.m in Sources */,
 				36C9E6591B1AC6840085D647 /* barbooks_ipad.xcdatamodeld in Sources */,
 				36DEF9351B259FCB0053CD8C /* BBMatterViewController.m in Sources */,
@@ -788,6 +813,7 @@
 				36DEF9AD1B27052C0053CD8C /* GlobalAttributes.m in Sources */,
 				36DEFA291B2710650053CD8C /* Expense.m in Sources */,
 				36DEFA0E1B2710640053CD8C /* BASReport.m in Sources */,
+				362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */,
 				36DEFA021B2710640053CD8C /* Rate.m in Sources */,
 				36DEFA201B2710640053CD8C /* Disbursement.m in Sources */,
 			);

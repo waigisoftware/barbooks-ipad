@@ -24,4 +24,20 @@
 @dynamic taxed;
 @dynamic userSpecifiedGst;
 
++ (instancetype)newInstanceWithDefaultValue {
+    Expense *newExpense = [Expense MR_createEntity];
+    newExpense.amountExGst = [NSDecimalNumber zero];
+    newExpense.amountGst = [NSDecimalNumber zero];
+    newExpense.amountIncGst = [NSDecimalNumber zero];
+    newExpense.date = [NSDate date];
+    newExpense.taxed = [NSNumber numberWithBool:YES];
+    newExpense.tax = [NSDecimalNumber decimalNumberWithString:@"0.1"];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [localContext save:nil];
+    } completion:^(BOOL success, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    return newExpense;
+}
+
 @end

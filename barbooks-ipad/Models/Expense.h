@@ -26,4 +26,6 @@
 @property (nonatomic, retain) NSNumber * taxed;
 @property (nonatomic, retain) NSNumber * userSpecifiedGst;
 
++ (instancetype)newInstanceWithDefaultValue;
+
 @end

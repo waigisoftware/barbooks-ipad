@@ -18,6 +18,9 @@ pod 'ParcelKit'
 pod "MagicalRecord"
 pod 'IQKeyboardManager'
 pod 'JTCalendar', '~> 1.1'
+pod "CHDropDownTextField"
+pod 'DropdownMenu'
+pod 'MessageBarManager'
 
 end
 

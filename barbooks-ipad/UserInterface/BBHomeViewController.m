@@ -9,6 +9,8 @@
 #import "BBHomeViewController.h"
 #import "BBMatterListViewController.h"
 #import "BBMatterViewController.h"
+#import "BBExpenseListViewController.h"
+#import "BBExpenseViewController.h"
 
 
 @interface BBHomeViewController ()
@@ -131,6 +133,7 @@
                     break;
                 case 2:
                     NSLog(@"Expenses");
+                    [self showExpenses:nil];
                     break;
             }
     }
@@ -148,6 +151,18 @@
     matterListViewController.matterViewController = matterViewController;
     matterViewController.matter = matter;
     matterViewController.matterListViewController = matterListViewController;
+}
+
+- (void)showExpenses:(Expense *)expense {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BBExpenseListViewController *expenseListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBExpenseListViewController];
+    BBExpenseViewController *expenseViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBExpenseViewController];
+    [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:expenseListViewController animated:YES];
+    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:expenseViewController animated:YES];
+    expenseListViewController.expense = expense;
+    expenseListViewController.expenseViewController = expenseViewController;
+    expenseViewController.expense = expense;
+    expenseViewController.expenseListViewController = expenseListViewController;
 }
 
 @end

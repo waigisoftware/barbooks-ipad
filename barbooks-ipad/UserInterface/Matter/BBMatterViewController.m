@@ -121,7 +121,9 @@ BBContactListViewController *_contactListViewController;
     [self.calendar setContentView:self.calendarContentView];
     [self.calendar setDataSource:self];
     
-    [self loadMatterIntoUI];
+    if (_matter) {
+        [self loadMatterIntoUI];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
