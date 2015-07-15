@@ -7,8 +7,18 @@
 //
 
 #import "NSDecimalNumber+BBUtil.h"
+#import "NSString+BBUtil.h"
 
 @implementation NSDecimalNumber (BBUtil)
+
+// return zero if input string is not a number
++ (NSDecimalNumber *)decimalNumberWithStringAndValidation:(NSString *)numberValue {
+    if ([numberValue isNumeric]) {
+        return [NSDecimalNumber decimalNumberWithString:numberValue];
+    } else {
+        return [NSDecimalNumber zero];
+    }
+}
 
 + (instancetype)onePointOne {
     return [NSDecimalNumber decimalNumberWithString:@"1.1"];

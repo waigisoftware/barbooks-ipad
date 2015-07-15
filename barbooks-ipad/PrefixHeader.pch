@@ -19,7 +19,7 @@
 #import <MagicalRecord/MagicalRecordShorthandMethodAliases.h>
 
 // Formats
-#define SHORT_DATE_FORMAT @"dd MMM YYYY"
+#define SHORT_DATE_FORMAT @"dd MMM yyyy"
 #define SHORT_DATE_TIME_FORMAT @"dd MMM yyyy, h:mm"
 
 // Segues

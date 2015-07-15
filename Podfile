@@ -21,6 +21,7 @@ pod 'JTCalendar', '~> 1.1'
 pod "CHDropDownTextField"
 pod 'DropdownMenu'
 pod 'MessageBarManager'
+pod "IGLDropDownMenu"
 
 end
 

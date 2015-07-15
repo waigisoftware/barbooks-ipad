@@ -9,10 +9,11 @@
 #import "BBBaseViewController.h"
 #import "Expense.h"
 #import <JTCalendar.h>
+#import <IGLDropDownMenu/IGLDropDownMenu.h>
 
 @class BBExpenseListViewController;
 
-@interface BBExpenseViewController : BBBaseViewController <CHDropDownTextFieldDelegate>
+@interface BBExpenseViewController : BBBaseViewController <CHDropDownTextFieldDelegate, JTCalendarDataSource, IGLDropDownMenuDelegate>
 
 @property (strong, nonatomic) Expense *expense;
 @property (weak, nonatomic) BBExpenseListViewController *expenseListViewController;

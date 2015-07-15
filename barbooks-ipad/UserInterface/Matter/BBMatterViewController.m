@@ -115,11 +115,7 @@ BBContactListViewController *_contactListViewController;
     _roundingTypePicker.delegate = self;
     
     // set calendar picker
-    self.calendar = [JTCalendar new];
-    self.calendar.calendarAppearance.dayCircleColorSelected = [UIColor bbPrimaryBlue];
-    [self.calendar setMenuMonthsView:self.calendarMenuView];
-    [self.calendar setContentView:self.calendarContentView];
-    [self.calendar setDataSource:self];
+    [self setupCalendarPickingView];
     
     if (_matter) {
         [self loadMatterIntoUI];
@@ -135,6 +131,16 @@ BBContactListViewController *_contactListViewController;
     [self.calendar repositionViews];
 }
 
+#pragma mark - UI Setup
+
+- (void)setupCalendarPickingView {
+    // set calendar picker
+    self.calendar = [JTCalendar new];
+    self.calendar.calendarAppearance.dayCircleColorSelected = [UIColor bbPrimaryBlue];
+    [self.calendar setMenuMonthsView:self.calendarMenuView];
+    [self.calendar setContentView:self.calendarContentView];
+    [self.calendar setDataSource:self];
+}
 
 #pragma mark - UIFloatLabelTextField setup
 - (void)setupTextFields {

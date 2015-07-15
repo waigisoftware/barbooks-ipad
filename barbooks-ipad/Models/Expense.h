@@ -1,6 +1,6 @@
 //
 //  Expense.h
-//  barbooks-ipad
+//  ;
 //
 //  Created by Can on 9/06/2015.
 //  Copyright (c) 2015 Censea. All rights reserved.
@@ -10,6 +10,15 @@
 #import <CoreData/CoreData.h>
 #import "BBManagedObject.h"
 
+typedef NS_ENUM(NSUInteger, BBExpenseTaxType) {
+    BBExpenseTaxTypePercentage = 0,
+    BBExpenseTaxTypeUserSpecified
+};
+
+typedef NS_ENUM(NSUInteger, BBExpenseType) {
+    BBExpenseTypeExpense = 0,
+    BBExpenseTypeCapital
+};
 
 @interface Expense : BBManagedObject
 
@@ -27,5 +36,11 @@
 @property (nonatomic, retain) NSNumber * userSpecifiedGst;
 
 + (instancetype)newInstanceWithDefaultValue;
+// all distinct existing payees
++ (NSArray *)payeeList;
+
+- (void)recalculate;
+- (BBExpenseTaxType)taxType;
+- (BOOL)isTaxed;
 
 @end

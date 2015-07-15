@@ -7,6 +7,7 @@
 //
 
 #import "Expense.h"
+#import "NSDecimalNumber+BBUtil.h"
 
 
 @implementation Expense
@@ -31,13 +32,50 @@
     newExpense.amountIncGst = [NSDecimalNumber zero];
     newExpense.date = [NSDate date];
     newExpense.taxed = [NSNumber numberWithBool:YES];
-    newExpense.tax = [NSDecimalNumber decimalNumberWithString:@"0.1"];
+    newExpense.tax = [NSDecimalNumber zero];
+    newExpense.userSpecifiedGst = [NSNumber numberWithBool:NO];
+    newExpense.expenseType = BBExpenseTypeExpense;
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         [localContext save:nil];
     } completion:^(BOOL success, NSError *error) {
         NSLog(@"%@", error);
     }];
     return newExpense;
+}
+
+#pragma mark - calculations
+
+- (void)recalculate {
+    [self recalculateFees];
+}
+
+- (void)recalculateFees {
+    if (self.isTaxed) {
+        if (self.taxType == BBExpenseTaxTypePercentage) {
+            self.amountExGst = [self.amountIncGst decimalNumberSubtractGST];
+            self.amountGst = [self.amountIncGst decimalNumberBySubtracting:self.amountExGst];
+        } else {
+            self.amountGst = self.tax;
+            self.amountExGst = [self.amountIncGst decimalNumberBySubtracting:self.amountGst];
+        }
+    } else {
+        self.amountExGst = self.amountIncGst;
+        self.amountGst = [NSDecimalNumber zero];
+    }
+}
+
+#pragma mark - convenient methods
+
+- (BBExpenseTaxType)taxType {
+    return [self.userSpecifiedGst boolValue] ? BBExpenseTaxTypeUserSpecified : BBExpenseTaxTypePercentage;
+}
+
+- (BOOL)isTaxed {
+    return [self.taxed boolValue];
+}
+
++ (NSArray *)payeeList {
+    return [[NSSet setWithArray:[[Expense MR_findAll] valueForKey:@"payee"]] allObjects];
 }
 
 @end

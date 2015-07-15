@@ -10,6 +10,7 @@
 
 @interface NSDecimalNumber (BBUtil)
 
++ (NSDecimalNumber *)decimalNumberWithStringAndValidation:(NSString *)numberValue ;
 + (instancetype)ten;
 + (instancetype)eleven;
 + (instancetype)oneHundred;
