@@ -94,7 +94,7 @@
 
 - (void)fetchExpenses {
     // fetch from core data
-    _originalItemList = [Expense MR_findAll];
+    _originalItemList = [Expense MR_findAllSortedBy:@"date" ascending:NO];
     [self filterContentForSearchText:_searchBar.text scope:nil];
     [_expenseListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];

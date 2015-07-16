@@ -43,6 +43,7 @@
 
 // Constans
 #define ONE_SECOND 1
+#define MAX_COUNT_IN_DROPDOWN 4
 
 // Notifications
 #define BBNotificationTaskTimerUpdate @"BBNotificationTaskTimerUpdate"

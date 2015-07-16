@@ -126,6 +126,8 @@ BBDropDownListViewController *_dropDownListViewController;
             _task.units = [NSDecimalNumber decimalNumberWithString:_rateUnitTextField.text];
         }
     }
+    // recalculate
+    [_task recalculate];
 }
 
 - (void)resetRateAmountWithTax {
@@ -171,8 +173,6 @@ BBDropDownListViewController *_dropDownListViewController;
     _rateTableViewContainerView.hidden = YES;
     // update Task object
     [self updateTaskFromUI];
-    // recalculate
-    [_task recalculate];
     // refresh UI
     [self loadTaskIntoUI];
 }

@@ -12,6 +12,8 @@
 @interface BBExpenseListViewController : BBBaseTableViewController
 
 @property (strong, nonatomic) Expense *expense;
-@property (weak, nonatomic) BBExpenseViewController *expenseViewController;
+@property (strong, nonatomic) BBExpenseViewController *expenseViewController;
+
+- (void)fetchExpenses;
 
 @end

@@ -13,7 +13,7 @@
 
 @class BBExpenseListViewController;
 
-@interface BBExpenseViewController : BBBaseViewController <CHDropDownTextFieldDelegate, JTCalendarDataSource, IGLDropDownMenuDelegate>
+@interface BBExpenseViewController : BBBaseViewController <CHDropDownTextFieldDelegate, JTCalendarDataSource, IGLDropDownMenuDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) Expense *expense;
 @property (weak, nonatomic) BBExpenseListViewController *expenseListViewController;

@@ -36,8 +36,9 @@ typedef NS_ENUM(NSUInteger, BBExpenseType) {
 @property (nonatomic, retain) NSNumber * userSpecifiedGst;
 
 + (instancetype)newInstanceWithDefaultValue;
-// all distinct existing payees
+// all distinct existing payees & categories
 + (NSArray *)payeeList;
++ (NSArray *)categoryList;
 
 - (void)recalculate;
 - (BBExpenseTaxType)taxType;

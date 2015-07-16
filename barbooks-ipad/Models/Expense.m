@@ -75,7 +75,17 @@
 }
 
 + (NSArray *)payeeList {
-    return [[NSSet setWithArray:[[Expense MR_findAll] valueForKey:@"payee"]] allObjects];
+    NSMutableSet *set = [NSMutableSet setWithArray:[[Expense MR_findAll] valueForKey:@"payee"]];
+    [set removeObject:[NSNull null]];
+    [set removeObject:@""];
+    return [set allObjects];
+}
+
++ (NSArray *)categoryList {
+    NSMutableSet *set = [NSMutableSet setWithArray:[[Expense MR_findAll] valueForKey:@"category"]];
+    [set removeObject:[NSNull null]];
+    [set removeObject:@""];
+    return [set allObjects];
 }
 
 @end

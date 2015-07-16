@@ -8,6 +8,7 @@
 
 #import "BBExpenseViewController.h"
 #import "Contact.h"
+#import "BBExpenseListViewController.h"
 
 @interface BBExpenseViewController ()
 
@@ -34,7 +35,8 @@
 
 @property (strong, nonatomic) IGLDropDownMenu *gstTypeDrowdown;
 @property (strong, nonatomic) IGLDropDownMenu *expenseTypeDrowdown;
-@property (strong, nonatomic) NSArray *payeeList;
+@property (strong, nonatomic) NSArray *payees;
+@property (strong, nonatomic) NSArray *categories;
 
 - (IBAction)onSelectDate:(id)sender;
 - (IBAction)onTax:(id)sender;
@@ -52,7 +54,18 @@
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.title = @"Expense";
 
+    // text field delegate
+    _descriptionTextField.delegate = self;
+    _dateTextField.delegate = self;
+    _amountTextField.delegate = self;
+    _payeeTextField.delegate = self;
+    _taxTypeTextField.delegate = self;
+    _gstTextField.delegate = self;
+    _typeTextField.delegate = self;
+    _categoryTextField.delegate = self;
+    
     [self setupPayeeDropDown];
+    [self setupCategoryDropDown];
     [self setupCalendarPickingView];
 }
 
@@ -72,10 +85,17 @@
 #pragma mark - UI Setup
 
 - (void)setupPayeeDropDown {
-    NSArray *payeeNames = [Expense payeeList];
-    _payeeTextField.dropDownTableVisibleRowCount = 4;
-    _payeeTextField.dropDownTableTitlesArray = payeeNames;
+    _payees = [Expense payeeList];
+    _payeeTextField.dropDownTableVisibleRowCount = MIN(MAX_COUNT_IN_DROPDOWN, _payees.count);
+    _payeeTextField.dropDownTableTitlesArray = _payees;
     _payeeTextField.dropDownDelegate = self;
+}
+
+- (void)setupCategoryDropDown {
+    _categories = [Expense categoryList];
+    _categoryTextField.dropDownTableVisibleRowCount = MIN(MAX_COUNT_IN_DROPDOWN, _categories.count);
+    _categoryTextField.dropDownTableTitlesArray = _categories;
+    _categoryTextField.dropDownDelegate = self;
 }
 
 - (void)setupCalendarPickingView {
@@ -101,7 +121,7 @@
     _gstTypeDrowdown = [[IGLDropDownMenu alloc] init];
     [_gstTypeDrowdown setFrame:_taxTypeTextField.frame];
     _gstTypeDrowdown.menuText = @"Choose Tax Type";
-    _gstTypeDrowdown.menuIconImage = [UIImage imageNamed:@"button-add.png"];
+    _gstTypeDrowdown.menuIconImage = [UIImage imageNamed:@"button-add"];
     _gstTypeDrowdown.paddingLeft = 15;
     _gstTypeDrowdown.dropDownItems = dropdownItems;
     _gstTypeDrowdown.delegate = self;
@@ -109,7 +129,6 @@
     _gstTypeDrowdown.gutterY = 0;
     [_gstTypeDrowdown reloadView];
     [self.view addSubview:_gstTypeDrowdown];
-//    [self.view bringSubviewToFront:_gstTypeDrowdown];
     
     if (_expense) {
         [_gstTypeDrowdown selectItemAtIndex:_expense.taxType];
@@ -133,7 +152,7 @@
     _expenseTypeDrowdown = [[IGLDropDownMenu alloc] init];
     [_expenseTypeDrowdown setFrame:_typeTextField.frame];
     _expenseTypeDrowdown.menuText = @"Choose Expense Type";
-    _expenseTypeDrowdown.menuIconImage = [UIImage imageNamed:@"button-add.png"];
+    _expenseTypeDrowdown.menuIconImage = [UIImage imageNamed:@"button-add"];
     _expenseTypeDrowdown.paddingLeft = 15;
     _expenseTypeDrowdown.dropDownItems = dropdownItems;
     _expenseTypeDrowdown.delegate = self;
@@ -141,7 +160,6 @@
     _expenseTypeDrowdown.gutterY = 0;
     [_expenseTypeDrowdown reloadView];
     [self.view addSubview:_expenseTypeDrowdown];
-//    [self.view bringSubviewToFront:_expenseTypeDrowdown];
     
     if (_expense) {
         [_expenseTypeDrowdown selectItemAtIndex:[_expense.expenseType integerValue]];
@@ -157,16 +175,12 @@
     [self.dateTextField applyBottomBorderStyle];
 }
 
-- (void)dropDownTextField:(CHDropDownTextField *)dropDownTextField didChooseDropDownOptionAtIndex:(NSUInteger)index {
-    NSLog(@"%@, %ul", dropDownTextField.text, (unsigned int)index);
-}
-
 #pragma mark - Expense value
 
 - (void)loadExpenseIntoUI {
     _descriptionTextField.text = _expense.info;
     _dateTextField.text = [_expense.date toShortDateFormat];
-    _amountTextField.text = [_expense.amountIncGst currencyAmount];
+    _amountTextField.text = [_expense.amountIncGst roundedAmount];
     _payeeTextField.text = _expense.payee;
     _categoryTextField.text = _expense.category;
     _taxedSwitch.on = _expense.isTaxed;
@@ -179,7 +193,7 @@
         _gstTextField.hidden = YES;
         _taxAmountLabel.hidden = YES;
     }
-    _taxAmountLabel.text = [_expense.amountGst currencyAmount];
+    _taxAmountLabel.text = [_expense.amountGst roundedAmount];
     _gstTextField.text = [_expense.tax currencyAmount];
     if (_expense.taxType == BBExpenseTaxTypePercentage) {
         _taxAmountLabel.hidden = NO;
@@ -195,6 +209,9 @@
         [_expenseTypeDrowdown selectItemAtIndex:[_expense.expenseType integerValue]];
     }
     _categoryTextField.text = _expense.category;
+    // refresh dropdown text field
+    [self setupPayeeDropDown];
+    [self setupCategoryDropDown];
 }
 
 - (void)updateExpenseFromUI {
@@ -211,9 +228,10 @@
         _expense.userSpecifiedGst = [NSNumber numberWithBool:YES];
     }
     _expense.expenseType = [NSNumber numberWithInteger:_expenseTypeDrowdown.selectedIndex];
+    
     [_expense recalculate];
     // refresh matter list accordingly
-//    [self.expenseListViewController fetchExpenses];
+    [self.expenseListViewController fetchExpenses];
 }
 
 #pragma mark - preset data
@@ -268,8 +286,8 @@
 
 - (IBAction)onConfirmPickDate:(id)sender {
     _calendarContainerView.hidden = YES;
-    _expense.date = _calendar.currentDateSelected;
-    [self loadExpenseIntoUI];
+    _dateTextField.text = [_calendar.currentDateSelected toShortDateFormat];
+    [self stopEditing];
 }
 
 #pragma mark - Date
@@ -290,6 +308,16 @@
     _pickedDateYearLabel.text = [date year];
 }
 
+#pragma mark - CHDropDownTextFieldDelegate
+- (void)dropDownTextField:(CHDropDownTextField *)dropDownTextField didChooseDropDownOptionAtIndex:(NSUInteger)index {
+    if (dropDownTextField == _payeeTextField) {
+        _payeeTextField.text = [_payees objectAtIndex:index];
+    } else {
+        _categoryTextField.text = [_categories objectAtIndex:index];
+    }
+    [self stopEditing];
+}
+
 #pragma mark - IGLDropDownMenuDelegate
 
 - (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
@@ -299,6 +327,17 @@
         _expense.expenseType = [NSNumber numberWithInteger:index];
     }
     [self stopEditing];
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self stopEditing];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    [self updateExpenseFromUI];
+    return YES;
 }
 
 #pragma mark - Core data
