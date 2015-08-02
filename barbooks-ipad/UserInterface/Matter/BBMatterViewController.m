@@ -421,7 +421,7 @@ BBContactListViewController *_contactListViewController;
     // pop it over
     UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:rateViewController];
     popoverController.delegate = self;
-    popoverController.popoverContentSize = CGSizeMake(300, 300);
+    popoverController.popoverContentSize = CGSizeMake(300, 360);
     [popoverController presentPopoverFromRect:self.navigationController.navigationBar.frame
                                        inView:_ratesTableView
                      permittedArrowDirections:UIPopoverArrowDirectionAny

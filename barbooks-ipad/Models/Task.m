@@ -21,13 +21,9 @@
 @dynamic feesExGst;
 @dynamic feesGst;
 @dynamic feesIncGst;
-@dynamic hasTime;
-@dynamic hasUnits;
 @dynamic hours;
-@dynamic isFixed;
 @dynamic minutes;
 @dynamic name;
-@dynamic selectedRate;
 @dynamic selectedRateIndex;
 @dynamic taxed;
 @dynamic totalFeesExGst;
@@ -37,7 +33,7 @@
 @dynamic discount;
 @dynamic invoice;
 @dynamic matter;
-@dynamic rates;
+@dynamic rate;
 
 + (instancetype)newInstanceOfMatter:(Matter *)matter {
     if (matter) {
@@ -49,8 +45,9 @@
         newTask.minutes = [NSDecimalNumber zero];
         newTask.taxed = [NSNumber numberWithBool:YES];
         if (matter.rates.count > 0) {
-            newTask.selectedRate = [[matter.rates allObjects] objectAtIndex:0];
+            newTask.selectedRateIndex = 0;
         }
+        newTask.rate = [Rate MR_createEntity];
         newTask.matter = matter;
         [matter addTasksObject:newTask];
         return newTask;
@@ -62,16 +59,8 @@
 #pragma mark - calculations
 
 - (void)recalculate {
-    [self recalculateFees];
+//    [self recalculateFees];
     [self recalculateTotals];
-    // save after recaculation
-//    [self saveTask];
-}
-
-- (void)recalculateFees {
-    self.feesExGst = self.selectedRate.amount;
-    self.feesIncGst = self.selectedRate.amountGst;
-    self.feesGst = [self.feesIncGst decimalNumberBySubtracting:self.feesExGst];
 }
 
 - (void)recalculateTotals {
@@ -82,22 +71,34 @@
                                        raiseOnOverflow:NO
                                        raiseOnUnderflow:NO
                                        raiseOnDivideByZero:YES];
-    if ([self hourlyRate]) {
-        NSDecimalNumber *hours = [self.matter hoursFromDuration:self.duration];
-        self.totalFeesExGst = [self.feesExGst decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
-        self.totalFeesIncGst = [self.feesIncGst decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
-        self.totalFeesGst = [self.feesGst decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
-    } else {
-        self.totalFeesExGst = [self.feesExGst decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
-        self.totalFeesIncGst = [self.feesIncGst decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
-        self.totalFeesGst = [self.feesGst decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
+    switch (self.rate.rateChargingType) {
+        case BBRateChargingTypeHourly:
+        {
+            NSDecimalNumber *hours = [self.matter hoursFromDuration:self.duration];
+            self.totalFeesExGst = [self.rate.amount decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
+            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
+            self.totalFeesGst = [self.totalFeesIncGst decimalNumberBySubtracting:self.totalFeesExGst];
+            break;
+        }
+        case BBRateChargingTypeUnit:
+        {
+            self.totalFeesExGst = [self.rate.amount decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
+            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
+            self.totalFeesGst = [self.totalFeesIncGst decimalNumberBySubtracting:self.totalFeesExGst];
+        }
+        case BBRateChargingTypeFixed:
+        {
+            self.totalFeesExGst = self.rate.amount;
+            self.totalFeesIncGst = self.rate.amountGst;
+            self.totalFeesGst = [self.totalFeesIncGst decimalNumberBySubtracting:self.totalFeesExGst];
+        }
     }
 }
 
 #pragma mark - convenient methods
 
 - (BOOL)hourlyRate {
-    return [self.selectedRate.type intValue] == 0 ? YES : NO;
+    return self.rate.rateChargingType == BBRateChargingTypeHourly ? YES : NO;
 }
 
 - (BOOL)isTaxed {

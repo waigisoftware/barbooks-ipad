@@ -4,23 +4,15 @@
         <attribute name="accountingType" optional="YES" attributeType="Integer 16" defaultValueString="1" syncable="YES"/>
         <attribute name="businessnumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="chambername" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="costsAgreementInformation" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="costsDisclosureInformation" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
         <attribute name="defaultDueDate" optional="YES" attributeType="Integer 16" defaultValueString="30" syncable="YES"/>
-        <attribute name="headerInformation" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="invoiceAdditionalInformation" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="invoiceAdditionalInformationFootnote" optional="YES" attributeType="String" defaultValueString="* See the attached Schedule of interest calculations of this amount." storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="invoiceInformation" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="outstandingFeesInformation" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="receiptInformation" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="signatureImage" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="signatureImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="tax" optional="YES" attributeType="Decimal" defaultValueString="10" syncable="YES"/>
-        <attribute name="variationOfFeesInformation" optional="YES" attributeType="Transformable" valueTransformerName="" storedInTruthFile="YES" syncable="YES"/>
-        <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GeneralExpense" inverseName="account" inverseEntity="GeneralExpense" syncable="YES"/>
+        <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GeneralExpense" inverseName="account" inverseEntity="GeneralExpense" syncable="YES"/>
         <relationship name="matters" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Matter" inverseName="account" inverseEntity="Matter" syncable="YES"/>
         <relationship name="rates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Rate" inverseName="account" inverseEntity="Rate" syncable="YES"/>
-        <relationship name="receipts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Payment" inverseName="account" inverseEntity="Payment" syncable="YES"/>
+        <relationship name="receipts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Payment" inverseName="account" inverseEntity="Payment" syncable="YES"/>
         <relationship name="reports" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Report" inverseName="account" inverseEntity="Report" syncable="YES"/>
+        <relationship name="templates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Template" inverseName="account" inverseEntity="Template" syncable="YES"/>
     </entity>
     <entity name="Address" representedClassName="Address" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
@@ -90,12 +82,6 @@
         <attribute name="phonenumber" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="address" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Address" inverseName="contact" inverseEntity="Address" syncable="YES"/>
     </entity>
-    <entity name="CostsAgreement" representedClassName="CostsAgreement" parentEntity="BBManagedObject" syncable="YES">
-        <attribute name="agreementInformation" optional="YES" attributeType="Transformable" valueTransformerName="" storedInTruthFile="YES" syncable="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="disclosureInformation" optional="YES" attributeType="Transformable" valueTransformerName="" storedInTruthFile="YES" syncable="YES"/>
-        <relationship name="matter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Matter" inverseName="costsAgreement" inverseEntity="Matter" syncable="YES"/>
-    </entity>
     <entity name="Disbursement" representedClassName="Disbursement" parentEntity="Expense" syncable="YES">
         <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="RegularInvoice" inverseName="disbursements" inverseEntity="RegularInvoice" syncable="YES"/>
         <relationship name="matter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Matter" inverseName="disbursements" inverseEntity="Matter" syncable="YES"/>
@@ -103,8 +89,8 @@
     <entity name="Discount" representedClassName="Discount" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Invoice" inverseName="discount" inverseEntity="Invoice" syncable="YES"/>
-        <relationship name="task" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Task" inverseName="discount" inverseEntity="Task" syncable="YES"/>
+        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Invoice" inverseName="discount" inverseEntity="Invoice" syncable="YES"/>
+        <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="discount" inverseEntity="Task" syncable="YES"/>
     </entity>
     <entity name="Expense" representedClassName="Expense" isAbstract="YES" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="amountExGst" optional="YES" attributeType="Decimal" defaultValueString="1" syncable="YES"/>
@@ -175,6 +161,7 @@
         <relationship name="writeOffs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WriteOff" inverseName="invoice" inverseEntity="WriteOff" syncable="YES"/>
     </entity>
     <entity name="Matter" representedClassName="Matter" parentEntity="BBManagedObject" syncable="YES">
+        <attribute name="costsAgreementDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="courtName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dueDate" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -189,14 +176,12 @@
         <attribute name="tax" optional="YES" attributeType="Decimal" minValueString="0" defaultValueString="0.0" syncable="YES"/>
         <attribute name="taxed" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="matters" inverseEntity="Account" syncable="YES"/>
-        <relationship name="costsAgreement" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CostsAgreement" inverseName="matter" inverseEntity="CostsAgreement" syncable="YES"/>
         <relationship name="disbursements" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Disbursement" inverseName="matter" inverseEntity="Disbursement" syncable="YES"/>
         <relationship name="invoices" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Invoice" inverseName="matter" inverseEntity="Invoice" syncable="YES"/>
         <relationship name="outstandingFees" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="OutstandingFees" inverseName="matter" inverseEntity="OutstandingFees" syncable="YES"/>
         <relationship name="rates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Rate" inverseName="matter" inverseEntity="Rate" syncable="YES"/>
         <relationship name="solicitor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Solicitor" inverseName="matters" inverseEntity="Solicitor" syncable="YES"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="matter" inverseEntity="Task" syncable="YES"/>
-        <relationship name="variationOfFees" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="VariationOfFees" inverseName="matter" inverseEntity="VariationOfFees" syncable="YES"/>
     </entity>
     <entity name="OutstandingAmount" representedClassName="OutstandingAmount" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="amountOutstanding" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -208,7 +193,6 @@
     </entity>
     <entity name="OutstandingFees" representedClassName="OutstandingFees" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="information" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="totalOutstanding" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <relationship name="matter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Matter" inverseName="outstandingFees" inverseEntity="Matter" syncable="YES"/>
         <relationship name="outstandingAmounts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="OutstandingAmount" inverseName="outstandingFee" inverseEntity="OutstandingAmount" syncable="YES"/>
@@ -229,14 +213,13 @@
     <entity name="Rate" representedClassName="Rate" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="50" syncable="YES"/>
         <attribute name="amountGst" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="rates" inverseEntity="Account" syncable="YES"/>
         <relationship name="matter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Matter" inverseName="rates" inverseEntity="Matter" syncable="YES"/>
-        <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="rates" inverseEntity="Task" syncable="YES"/>
+        <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="rate" inverseEntity="Task" syncable="YES"/>
     </entity>
     <entity name="Receipt" representedClassName="Receipt" parentEntity="Payment" syncable="YES">
-        <attribute name="matters" optional="YES" transient="YES" syncable="YES"/>
-        <attribute name="printInformation" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="printIssuedDate" optional="YES" attributeType="Date" defaultDateTimeInterval="0" defaultValueString="nil" syncable="YES"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReceiptAllocation" inverseName="receipt" inverseEntity="ReceiptAllocation" syncable="YES"/>
     </entity>
@@ -299,13 +282,9 @@
         <attribute name="feesExGst" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="feesGst" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="feesIncGst" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="hasTime" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="hasUnits" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="hours" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
-        <attribute name="isFixed" optional="YES" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="minutes" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="selectedRate" optional="YES" transient="YES" syncable="YES"/>
         <attribute name="selectedRateIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="taxed" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="totalFeesExGst" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -315,14 +294,15 @@
         <relationship name="discount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Discount" inverseName="task" inverseEntity="Discount" syncable="YES"/>
         <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="RegularInvoice" inverseName="tasks" inverseEntity="RegularInvoice" syncable="YES"/>
         <relationship name="matter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Matter" inverseName="tasks" inverseEntity="Matter" syncable="YES"/>
-        <relationship name="rates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Rate" inverseName="task" inverseEntity="Rate" syncable="YES"/>
+        <relationship name="rate" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Rate" inverseName="task" inverseEntity="Rate" syncable="YES"/>
     </entity>
     <entity name="TaxExpense" representedClassName="TaxExpense" parentEntity="GeneralExpense" syncable="YES"/>
     <entity name="TaxRefund" representedClassName="TaxRefund" parentEntity="Payment" syncable="YES"/>
-    <entity name="VariationOfFees" representedClassName="VariationOfFees" parentEntity="BBManagedObject" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="information" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
-        <relationship name="matter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Matter" inverseName="variationOfFees" inverseEntity="Matter" syncable="YES"/>
+    <entity name="Template" representedClassName="Template" parentEntity="BBManagedObject" syncable="YES">
+        <attribute name="filepath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="templates" inverseEntity="Account" syncable="YES"/>
     </entity>
     <entity name="WriteOff" representedClassName="WriteOff" parentEntity="Payment" syncable="YES">
         <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Invoice" inverseName="writeOffs" inverseEntity="Invoice" syncable="YES"/>
@@ -362,38 +342,37 @@
         <relationship name="report" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YETReport" inverseName="entries" inverseEntity="YETReport" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Account" positionX="207" positionY="128" width="128" height="345"/>
+        <element name="Account" positionX="207" positionY="128" width="128" height="225"/>
         <element name="Address" positionX="36" positionY="171" width="128" height="43"/>
         <element name="Attachment" positionX="1573" positionY="198" width="128" height="43"/>
         <element name="BASReport" positionX="1546" positionY="27" width="128" height="43"/>
         <element name="BBManagedObject" positionX="36" positionY="-16" width="128" height="43"/>
         <element name="CAReport" positionX="1681" positionY="29" width="128" height="43"/>
         <element name="Contact" positionX="61" positionY="74" width="128" height="43"/>
-        <element name="CostsAgreement" positionX="304" positionY="261" width="128" height="43"/>
         <element name="Disbursement" positionX="612" positionY="479" width="128" height="43"/>
-        <element name="Discount" positionX="313" positionY="504" width="128" height="43"/>
+        <element name="Discount" positionX="313" positionY="504" width="128" height="105"/>
         <element name="Expense" positionX="36" positionY="263" width="128" height="43"/>
         <element name="Firm" positionX="664" positionY="-18" width="128" height="43"/>
         <element name="GeneralExpense" positionX="36" positionY="324" width="128" height="43"/>
         <element name="GeneralReceipt" positionX="1213" positionY="506" width="128" height="43"/>
         <element name="InterestInvoice" positionX="783" positionY="414" width="128" height="43"/>
         <element name="Invoice" positionX="603" positionY="540" width="128" height="43"/>
-        <element name="Matter" positionX="286" positionY="371" width="128" height="375"/>
+        <element name="Matter" positionX="286" positionY="371" width="128" height="360"/>
         <element name="OutstandingAmount" positionX="738" positionY="218" width="128" height="43"/>
-        <element name="OutstandingFees" positionX="547" positionY="216" width="128" height="43"/>
+        <element name="OutstandingFees" positionX="547" positionY="216" width="128" height="105"/>
         <element name="Payment" positionX="999" positionY="272" width="128" height="43"/>
-        <element name="Rate" positionX="36" positionY="504" width="128" height="43"/>
-        <element name="Receipt" positionX="1222" positionY="270" width="128" height="43"/>
+        <element name="Rate" positionX="36" positionY="504" width="128" height="150"/>
+        <element name="Receipt" positionX="1222" positionY="270" width="128" height="75"/>
         <element name="ReceiptAllocation" positionX="1240" positionY="198" width="128" height="43"/>
         <element name="RegularInvoice" positionX="783" positionY="351" width="128" height="43"/>
         <element name="Report" positionX="1557" positionY="110" width="128" height="43"/>
         <element name="ReportDetail" positionX="1645" positionY="290" width="128" height="43"/>
         <element name="ReportDetailItem" positionX="1609" positionY="380" width="128" height="43"/>
         <element name="Solicitor" positionX="511" positionY="-18" width="128" height="43"/>
-        <element name="Task" positionX="610" positionY="405" width="128" height="43"/>
+        <element name="Task" positionX="610" positionY="405" width="128" height="315"/>
         <element name="TaxExpense" positionX="36" positionY="414" width="128" height="45"/>
         <element name="TaxRefund" positionX="1222" positionY="414" width="128" height="45"/>
-        <element name="VariationOfFees" positionX="567" positionY="72" width="128" height="43"/>
+        <element name="Template" positionX="243" positionY="135" width="128" height="105"/>
         <element name="WriteOff" positionX="1251" positionY="342" width="128" height="43"/>
         <element name="YETReport" positionX="1402" positionY="27" width="128" height="43"/>
         <element name="YETReportItem" positionX="1420" positionY="387" width="128" height="43"/>

@@ -1422,8 +1422,19 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rate type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dGf-xN-Y46" customClass="UIFloatLabelTextField">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rate name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LQ9-fX-rML" userLabel="Rate name" customClass="UIFloatLabelTextField">
                                 <rect key="frame" x="16" y="65" width="568" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="aai-S1-sFy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="onInput:" destination="0d0-UH-CrC" eventType="valueChanged" id="xfa-pz-SlK"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rate type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dGf-xN-Y46" customClass="UIFloatLabelTextField">
+                                <rect key="frame" x="16" y="123" width="568" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="CXP-zd-iDN"/>
                                 </constraints>
@@ -1434,7 +1445,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SUJ-5g-7T7" userLabel="Select Rate Type Button">
-                                <rect key="frame" x="16" y="65" width="568" height="50"/>
+                                <rect key="frame" x="16" y="123" width="568" height="50"/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1443,7 +1454,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rate amount (include GST)" minimumFontSize="10" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5iQ-tR-9iI" customClass="UIFloatLabelTextField">
-                                <rect key="frame" x="16" y="123" width="568" height="50"/>
+                                <rect key="frame" x="16" y="181" width="568" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="N5f-kH-tbf"/>
                                 </constraints>
@@ -1451,7 +1462,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rate amount (exclude GST)" minimumFontSize="10" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zLC-6A-Fyt" customClass="UIFloatLabelTextField">
-                                <rect key="frame" x="16" y="181" width="568" height="50"/>
+                                <rect key="frame" x="16" y="239" width="568" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="2m3-Nm-57b"/>
                                 </constraints>
@@ -1459,7 +1470,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hw7-Nb-Ixo">
-                                <rect key="frame" x="16" y="247" width="100" height="30"/>
+                                <rect key="frame" x="16" y="305" width="100" height="30"/>
                                 <color key="backgroundColor" red="0.13725490200000001" green="0.43137254899999999" blue="0.68235294120000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="2xx-w9-5bW"/>
@@ -1474,7 +1485,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gjg-wg-DXJ">
-                                <rect key="frame" x="484" y="247" width="100" height="30"/>
+                                <rect key="frame" x="484" y="305" width="100" height="30"/>
                                 <color key="backgroundColor" red="0.13725490200000001" green="0.43137254899999999" blue="0.68235294120000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="G0Q-YF-Usa"/>
@@ -1489,7 +1500,7 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BME-iV-wsF" userLabel="Select Rate View">
-                                <rect key="frame" x="16" y="115" width="568" height="160"/>
+                                <rect key="frame" x="16" y="173" width="568" height="160"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eHc-E9-pkM">
                                         <rect key="frame" x="8" y="0.0" width="552" height="152"/>
@@ -1517,7 +1528,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dGf-xN-Y46" firstAttribute="leading" secondItem="BME-iV-wsF" secondAttribute="leading" id="541-qz-fSC"/>
-                            <constraint firstItem="dGf-xN-Y46" firstAttribute="top" secondItem="SsC-10-xn8" secondAttribute="bottom" constant="8" id="8is-zf-G0s"/>
                             <constraint firstItem="zLC-6A-Fyt" firstAttribute="leading" secondItem="iEa-qB-iLo" secondAttribute="leadingMargin" id="Byw-ey-vh2"/>
                             <constraint firstItem="Lkb-3O-7E2" firstAttribute="top" secondItem="6hg-ur-Uth" secondAttribute="bottom" id="DmA-x8-W8h"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5iQ-tR-9iI" secondAttribute="trailing" id="Gzs-na-dJQ"/>
@@ -1525,8 +1535,11 @@
                             <constraint firstItem="SsC-10-xn8" firstAttribute="top" secondItem="LHt-Pe-vCh" secondAttribute="bottom" constant="16" id="OrP-Vc-8s1"/>
                             <constraint firstItem="zLC-6A-Fyt" firstAttribute="top" secondItem="5iQ-tR-9iI" secondAttribute="bottom" constant="8" id="Smx-AZ-H2A"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zLC-6A-Fyt" secondAttribute="trailing" id="SnH-mo-pHD"/>
+                            <constraint firstItem="LQ9-fX-rML" firstAttribute="trailing" secondItem="iEa-qB-iLo" secondAttribute="trailingMargin" id="TrX-ay-Yix"/>
                             <constraint firstItem="hw7-Nb-Ixo" firstAttribute="top" secondItem="zLC-6A-Fyt" secondAttribute="bottom" constant="16" id="UAq-bm-luO"/>
                             <constraint firstItem="dGf-xN-Y46" firstAttribute="width" secondItem="BME-iV-wsF" secondAttribute="width" id="Uhx-6Y-eXG"/>
+                            <constraint firstItem="LQ9-fX-rML" firstAttribute="leading" secondItem="iEa-qB-iLo" secondAttribute="leadingMargin" id="WgS-oR-QIT"/>
+                            <constraint firstItem="dGf-xN-Y46" firstAttribute="top" secondItem="LQ9-fX-rML" secondAttribute="bottom" constant="8" id="YlA-w6-epl"/>
                             <constraint firstItem="hw7-Nb-Ixo" firstAttribute="leading" secondItem="iEa-qB-iLo" secondAttribute="leadingMargin" id="bvO-ok-wXi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dGf-xN-Y46" secondAttribute="trailing" id="eYI-GZ-OAT"/>
                             <constraint firstItem="SUJ-5g-7T7" firstAttribute="top" secondItem="dGf-xN-Y46" secondAttribute="top" id="fFy-Hj-tnp"/>
@@ -1534,26 +1547,22 @@
                             <constraint firstItem="dGf-xN-Y46" firstAttribute="leading" secondItem="SUJ-5g-7T7" secondAttribute="leading" id="hsE-4J-Ick"/>
                             <constraint firstItem="dGf-xN-Y46" firstAttribute="bottom" secondItem="BME-iV-wsF" secondAttribute="top" id="k0h-10-KMg"/>
                             <constraint firstItem="5iQ-tR-9iI" firstAttribute="leading" secondItem="iEa-qB-iLo" secondAttribute="leadingMargin" id="kXk-tc-5Bl"/>
-                            <constraint firstItem="6hg-ur-Uth" firstAttribute="top" secondItem="BME-iV-wsF" secondAttribute="top" id="lRS-Ow-qgx"/>
                             <constraint firstItem="6hg-ur-Uth" firstAttribute="top" secondItem="LHt-Pe-vCh" secondAttribute="bottom" id="laV-a4-cMu"/>
                             <constraint firstAttribute="centerX" secondItem="SsC-10-xn8" secondAttribute="centerX" id="mBD-yM-wwZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gjg-wg-DXJ" secondAttribute="trailing" id="q7I-2J-jsW"/>
+                            <constraint firstItem="LQ9-fX-rML" firstAttribute="top" secondItem="SsC-10-xn8" secondAttribute="bottom" constant="8" id="qFc-vC-lVG"/>
                             <constraint firstItem="dGf-xN-Y46" firstAttribute="trailing" secondItem="SUJ-5g-7T7" secondAttribute="trailing" id="qjf-6c-miI"/>
                             <constraint firstAttribute="trailing" secondItem="6hg-ur-Uth" secondAttribute="trailing" id="uD2-MY-c6Z"/>
                             <constraint firstItem="5iQ-tR-9iI" firstAttribute="top" secondItem="dGf-xN-Y46" secondAttribute="bottom" constant="8" id="vpR-sQ-EsO"/>
                             <constraint firstItem="SUJ-5g-7T7" firstAttribute="bottom" secondItem="dGf-xN-Y46" secondAttribute="bottom" id="xNJ-3L-cgB"/>
                             <constraint firstItem="gjg-wg-DXJ" firstAttribute="top" secondItem="zLC-6A-Fyt" secondAttribute="bottom" constant="16" id="zUi-5H-H0i"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="lRS-Ow-qgx"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="doneButton" destination="gjg-wg-DXJ" id="EDg-Y4-M9d"/>
                         <outlet property="rateAmountExcludeGSTTextField" destination="zLC-6A-Fyt" id="fWL-3Z-7Vq"/>
                         <outlet property="rateAmountIncludeGSTTextField" destination="5iQ-tR-9iI" id="DCu-7L-0LI"/>
+                        <outlet property="rateNameTextField" destination="LQ9-fX-rML" id="f6I-51-Lww"/>
                         <outlet property="rateTypeContainerView" destination="BME-iV-wsF" id="JQW-pA-1is"/>
                         <outlet property="rateTypeTableView" destination="eHc-E9-pkM" id="qPQ-Gp-qf4"/>
                         <outlet property="rateTypeTextField" destination="dGf-xN-Y46" id="pQh-a3-sBg"/>
@@ -2676,7 +2685,7 @@
                                     <constraint firstAttribute="centerY" secondItem="6UB-cn-rZO" secondAttribute="centerY" id="eYP-bZ-k5Y"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rate type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gD1-jx-YbU" customClass="UIFloatLabelTextField">
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Rate" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gD1-jx-YbU" customClass="UIFloatLabelTextField">
                                 <rect key="frame" x="16" y="205" width="184" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="hVa-T4-MI8"/>

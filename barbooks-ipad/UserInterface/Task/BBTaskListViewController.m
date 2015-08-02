@@ -83,7 +83,7 @@
     if ([task hourlyRate]) {
         cell.taskTimeLabel.text = [task durationToFormattedString];
     } else {
-        cell.taskTimeLabel.text = [NSString stringWithFormat:@"%@ %@", [task.units stringValue], [task.selectedRate typeDescription]];
+        cell.taskTimeLabel.text = [NSString stringWithFormat:@"%@ %@", [task.units stringValue], [task.rate typeDescription]];
     }
     
     return cell;

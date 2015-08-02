@@ -12,6 +12,7 @@
 #import "ECSlidingViewController.h"
 #import "BBCoreDataManager.h"
 #import "UIColor+BBUtil.h"
+#import "BBTimers.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -24,6 +25,7 @@
     [self setupNavigationBarAppearance];
     [self determineWhichViewControllerToShowFirst];
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"BarBooks"];
+    [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
     return YES;
 }
 

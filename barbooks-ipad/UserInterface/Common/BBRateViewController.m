@@ -12,6 +12,7 @@
 @interface BBRateViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateNameTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateTypeTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateAmountIncludeGSTTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateAmountExcludeGSTTextField;
@@ -32,6 +33,7 @@
     [super viewDidLoad];
     [self configureRACOnButton];
 
+    _rateNameTextField.delegate = self;
     _rateAmountIncludeGSTTextField.delegate = self;
     _rateAmountExcludeGSTTextField.delegate = self;
     _rateTypeTableView.dataSource = self;
@@ -39,7 +41,8 @@
     
     if (_rate) {
         _titleLabel.text = @"Edit Rate";
-        _rateTypeTextField.text = [[GlobalAttributes rateTypes] objectAtIndex:[_rate.type intValue]];
+        _rateNameTextField.text = _rate.name;
+        _rateTypeTextField.text = [[Rate rateTypes] objectAtIndex:[_rate.type intValue]];
         _rateAmountIncludeGSTTextField.text = [_rate.amountGst stringValue];
         _rateAmountExcludeGSTTextField.text = [_rate.amount stringValue];
         [_rateTypeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[_rate.type integerValue] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
@@ -73,20 +76,20 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [GlobalAttributes rateTypes].count;
+    return [Rate rateTypes].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *reuseIdentifier = @"selectRateTableViewCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    cell.textLabel.text = [[GlobalAttributes rateTypes] objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[Rate rateTypes] objectAtIndex:indexPath.row];
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    _rateTypeTextField.text = [[GlobalAttributes rateTypes] objectAtIndex:indexPath.row];
+    _rateTypeTextField.text = [[Rate rateTypes] objectAtIndex:indexPath.row];
     [self stopEditing];
 }
 
@@ -117,9 +120,10 @@
     if (!_rate) {
         _rate = [Rate MR_createEntity];
     }
+    _rate.name = _rateNameTextField.text;
     _rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text];
     _rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountExcludeGSTTextField.text];
-    _rate.type = [NSNumber numberWithUnsignedInteger:[[GlobalAttributes rateTypes] indexOfObject:_rateTypeTextField.text]];
+    _rate.type = [NSNumber numberWithUnsignedInteger:[[Rate rateTypes] indexOfObject:_rateTypeTextField.text]];
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
 

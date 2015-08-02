@@ -16,16 +16,12 @@
 
 @property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSDecimalNumber * duration;
-@property (nonatomic, retain) NSDecimalNumber * feesExGst;
+@property (nonatomic, retain) NSDecimalNumber * feesExGst;//fees are used for importing data from SILQ, can be ignored in iPad version
 @property (nonatomic, retain) NSDecimalNumber * feesGst;
 @property (nonatomic, retain) NSDecimalNumber * feesIncGst;
-@property (nonatomic, retain) NSNumber * hasTime;
-@property (nonatomic, retain) NSNumber * hasUnits;
 @property (nonatomic, retain) NSDecimalNumber * hours;
-@property (nonatomic, retain) NSNumber * isFixed;
 @property (nonatomic, retain) NSDecimalNumber * minutes;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) Rate * selectedRate;
 @property (nonatomic, retain) NSNumber * selectedRateIndex;
 @property (nonatomic, retain) NSNumber * taxed;
 @property (nonatomic, retain) NSDecimalNumber * totalFeesExGst;
@@ -35,7 +31,7 @@
 @property (nonatomic, retain) Discount *discount;
 @property (nonatomic, retain) RegularInvoice *invoice;
 @property (nonatomic, retain) Matter *matter;
-@property (nonatomic, retain) NSSet *rates;
+@property (nonatomic, retain) Rate * rate;
 @end
 
 @interface Task (CoreDataGeneratedAccessors)

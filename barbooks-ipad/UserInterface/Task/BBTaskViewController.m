@@ -65,7 +65,8 @@ BBDropDownListViewController *_dropDownListViewController;
     NSMutableArray *displayItemList = [NSMutableArray arrayWithCapacity:self.task.matter.rates.count];
     NSMutableArray *dataItemList = [NSMutableArray arrayWithCapacity:self.task.matter.rates.count];
     for (Rate *rate in self.task.matter.rates) {
-        [displayItemList addObject:[[GlobalAttributes rateTypes] objectAtIndex:[rate.type intValue]]];
+//        [displayItemList addObject:[[Rate rateTypes] objectAtIndex:[rate.type intValue]]];
+        [displayItemList addObject:rate.name];
         [dataItemList addObject:rate];
     }
     _dropDownListViewController.displayItemList = displayItemList;
@@ -101,8 +102,8 @@ BBDropDownListViewController *_dropDownListViewController;
     _taskNameTextField.text = _task.name;
     _taskDateLabel.text = [_task.date toShortDateFormat];
     _taxedSwitch.on = _task.isTaxed;
-    _rateTypeTextField.text = [[GlobalAttributes rateTypes] objectAtIndex:[_task.selectedRate.type intValue]];
-    _rateAmountTextField.text = _task.isTaxed ? [_task.selectedRate.amountGst roundedAmount] : [_task.selectedRate.amount roundedAmount];
+    _rateTypeTextField.text = [[Rate rateTypes] objectAtIndex:[_task.rate.type intValue]];
+    _rateAmountTextField.text = _task.isTaxed ? [_task.rate.amountGst roundedAmount] : [_task.rate.amount roundedAmount];
     _unitsLabel.hidden = [_task hourlyRate];
     if ([_task hourlyRate]) {
         _rateUnitTextField.text = [_task durationToFormattedString];
@@ -133,11 +134,11 @@ BBDropDownListViewController *_dropDownListViewController;
 - (void)resetRateAmountWithTax {
     if ([_rateAmountTextField.text isNumeric]) {
         if (_task.isTaxed) {
-            _task.selectedRate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
-            _task.selectedRate.amount = [_task.selectedRate.amountGst decimalNumberSubtractGST];
+            _task.rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
+            _task.rate.amount = [_task.rate.amountGst decimalNumberSubtractGST];
         } else {
-            _task.selectedRate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
-            _task.selectedRate.amountGst = [_task.selectedRate.amount decimalNumberAddGST];
+            _task.rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
+            _task.rate.amountGst = [_task.rate.amount decimalNumberAddGST];
         }
     }
 }
@@ -148,7 +149,8 @@ BBDropDownListViewController *_dropDownListViewController;
     Class dataClass = [data class];
     if (dataClass == [Rate class]) {
         // Rate picker
-        _task.selectedRate = data;
+        Rate *selectedRate = data;
+        [selectedRate copyValueToRate:_task.rate];
     }
     [self loadTaskIntoUI];
     _rateTableViewContainerView.hidden = YES;

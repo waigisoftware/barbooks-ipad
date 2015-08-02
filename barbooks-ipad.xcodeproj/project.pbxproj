@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
+		36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */ = {isa = PBXBuildFile; fileRef = 36062BC81B6CF6D80088DB29 /* BBTimers.m */; };
 		362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543061B512BB8004C8116 /* BBExpenseListViewController.m */; };
 		3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543091B512C08004C8116 /* BBExpenseTableViewCell.m */; };
 		363C3A3E1B1C7A6B00B92513 /* BBMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363C3A3D1B1C7A6B00B92513 /* BBMenuViewController.m */; };
 		363E451C1B4FED420080CE38 /* BBExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E451B1B4FED420080CE38 /* BBExpenseViewController.m */; };
+		363ED8351B60A9B000000A7A /* BarBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 363ED8161B60A9AF00000A7A /* BarBooks.xcdatamodeld */; };
 		3651DFB91B2EEC18007B321A /* UIResponder+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFB81B2EEC18007B321A /* UIResponder+BBUtil.m */; };
 		3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */; };
 		3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */; };
@@ -29,7 +31,6 @@
 		36C936051B4A65AF002B4946 /* UIButton+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C936041B4A65AF002B4946 /* UIButton+BBUtil.m */; };
 		36C9E6531B1AC6840085D647 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6521B1AC6840085D647 /* main.m */; };
 		36C9E6561B1AC6840085D647 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6551B1AC6840085D647 /* AppDelegate.m */; };
-		36C9E6591B1AC6840085D647 /* barbooks_ipad.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6571B1AC6840085D647 /* barbooks_ipad.xcdatamodeld */; };
 		36C9E65C1B1AC6840085D647 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E65B1B1AC6840085D647 /* MasterViewController.m */; };
 		36C9E65F1B1AC6840085D647 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E65E1B1AC6840085D647 /* DetailViewController.m */; };
 		36C9E6621B1AC6840085D647 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36C9E6601B1AC6840085D647 /* Main.storyboard */; };
@@ -44,7 +45,6 @@
 		36DEF9351B259FCB0053CD8C /* BBMatterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF9341B259FCB0053CD8C /* BBMatterViewController.m */; };
 		36DEF9AC1B27052C0053CD8C /* DateTimeUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF9A91B27052C0053CD8C /* DateTimeUtility.m */; };
 		36DEF9AD1B27052C0053CD8C /* GlobalAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF9AB1B27052C0053CD8C /* GlobalAttributes.m */; };
-		36DEF9F91B270A5E0053CD8C /* BarBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF9DC1B270A5E0053CD8C /* BarBooks.xcdatamodeld */; };
 		36DEF9FC1B2710600053CD8C /* RegularInvoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF9FB1B2710600053CD8C /* RegularInvoice.m */; };
 		36DEF9FF1B2710620053CD8C /* ReportDetailItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF9FE1B2710620053CD8C /* ReportDetailItem.m */; };
 		36DEFA021B2710640053CD8C /* Rate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEFA011B2710640053CD8C /* Rate.m */; };
@@ -98,6 +98,8 @@
 
 /* Begin PBXFileReference section */
 		16ED6A71BF367FA077B7B0E6 /* Pods-barbooks-ipad.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipad.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad.release.xcconfig"; sourceTree = "<group>"; };
+		36062BC71B6CF6D80088DB29 /* BBTimers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTimers.h; path = Common/BBTimers.h; sourceTree = "<group>"; };
+		36062BC81B6CF6D80088DB29 /* BBTimers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTimers.m; path = Common/BBTimers.m; sourceTree = "<group>"; };
 		362543051B512BB8004C8116 /* BBExpenseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseListViewController.h; path = UserInterface/Expense/BBExpenseListViewController.h; sourceTree = "<group>"; };
 		362543061B512BB8004C8116 /* BBExpenseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBExpenseListViewController.m; path = UserInterface/Expense/BBExpenseListViewController.m; sourceTree = "<group>"; };
 		362543081B512C08004C8116 /* BBExpenseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseTableViewCell.h; path = UserInterface/Expense/BBExpenseTableViewCell.h; sourceTree = "<group>"; };
@@ -107,6 +109,36 @@
 		363C3A3F1B1C7BF200B92513 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		363E451A1B4FED420080CE38 /* BBExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseViewController.h; path = UserInterface/Expense/BBExpenseViewController.h; sourceTree = "<group>"; };
 		363E451B1B4FED420080CE38 /* BBExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBExpenseViewController.m; path = UserInterface/Expense/BBExpenseViewController.m; sourceTree = "<group>"; };
+		363ED8171B60A9B000000A7A /* BarBooks 0.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.1.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8181B60A9B000000A7A /* BarBooks 0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.2.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8191B60A9B000000A7A /* BarBooks 0.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.3.xcdatamodel"; sourceTree = "<group>"; };
+		363ED81A1B60A9B000000A7A /* BarBooks 0.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.4.xcdatamodel"; sourceTree = "<group>"; };
+		363ED81B1B60A9B000000A7A /* BarBooks 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.5.xcdatamodel"; sourceTree = "<group>"; };
+		363ED81C1B60A9B000000A7A /* BarBooks 0.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.6.xcdatamodel"; sourceTree = "<group>"; };
+		363ED81D1B60A9B000000A7A /* BarBooks 0.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.7.xcdatamodel"; sourceTree = "<group>"; };
+		363ED81E1B60A9B000000A7A /* BarBooks 0.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.8.xcdatamodel"; sourceTree = "<group>"; };
+		363ED81F1B60A9B000000A7A /* BarBooks 0.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.9.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8201B60A9B000000A7A /* BarBooks 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.0.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8211B60A9B000000A7A /* BarBooks 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.1.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8221B60A9B000000A7A /* BarBooks 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.2.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8231B60A9B000000A7A /* BarBooks 1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.3.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8241B60A9B000000A7A /* BarBooks 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.4.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8251B60A9B000000A7A /* BarBooks 1.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.5.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8261B60A9B000000A7A /* BarBooks 1.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.6.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8271B60A9B000000A7A /* BarBooks 1.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.7.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8281B60A9B000000A7A /* BarBooks 1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.8.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8291B60A9B000000A7A /* BarBooks 1.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.9.xcdatamodel"; sourceTree = "<group>"; };
+		363ED82A1B60A9B000000A7A /* BarBooks 2.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.1.xcdatamodel"; sourceTree = "<group>"; };
+		363ED82B1B60A9B000000A7A /* BarBooks 2.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.2.xcdatamodel"; sourceTree = "<group>"; };
+		363ED82C1B60A9B000000A7A /* BarBooks 2.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.3.xcdatamodel"; sourceTree = "<group>"; };
+		363ED82D1B60A9B000000A7A /* BarBooks 2.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.4.xcdatamodel"; sourceTree = "<group>"; };
+		363ED82E1B60A9B000000A7A /* BarBooks 2.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.5.xcdatamodel"; sourceTree = "<group>"; };
+		363ED82F1B60A9B000000A7A /* BarBooks 2.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.6.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8301B60A9B000000A7A /* BarBooks 2.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.7.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8311B60A9B000000A7A /* BarBooks 2.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.8.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8321B60A9B000000A7A /* BarBooks 2.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.9.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8331B60A9B000000A7A /* BarBooks 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.xcdatamodel"; sourceTree = "<group>"; };
+		363ED8341B60A9B000000A7A /* BarBooks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BarBooks.xcdatamodel; sourceTree = "<group>"; };
 		3651DFB71B2EEC18007B321A /* UIResponder+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIResponder+BBUtil.h"; path = "Categories/UIResponder+BBUtil.h"; sourceTree = "<group>"; };
 		3651DFB81B2EEC18007B321A /* UIResponder+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIResponder+BBUtil.m"; path = "Categories/UIResponder+BBUtil.m"; sourceTree = "<group>"; };
 		3651DFBA1B2EF2BC007B321A /* NSString+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BBUtil.h"; path = "Categories/NSString+BBUtil.h"; sourceTree = "<group>"; };
@@ -144,7 +176,6 @@
 		36C9E6521B1AC6840085D647 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36C9E6541B1AC6840085D647 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		36C9E6551B1AC6840085D647 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		36C9E6581B1AC6840085D647 /* barbooks_ipad.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = barbooks_ipad.xcdatamodel; sourceTree = "<group>"; };
 		36C9E65A1B1AC6840085D647 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		36C9E65B1B1AC6840085D647 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		36C9E65D1B1AC6840085D647 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
@@ -171,34 +202,6 @@
 		36DEF9A91B27052C0053CD8C /* DateTimeUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateTimeUtility.m; path = Common/DateTimeUtility.m; sourceTree = "<group>"; };
 		36DEF9AA1B27052C0053CD8C /* GlobalAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlobalAttributes.h; path = Common/GlobalAttributes.h; sourceTree = "<group>"; };
 		36DEF9AB1B27052C0053CD8C /* GlobalAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GlobalAttributes.m; path = Common/GlobalAttributes.m; sourceTree = "<group>"; };
-		36DEF9DD1B270A5E0053CD8C /* BarBooks 0.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.1.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9DE1B270A5E0053CD8C /* BarBooks 0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.2.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9DF1B270A5E0053CD8C /* BarBooks 0.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.3.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E01B270A5E0053CD8C /* BarBooks 0.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.4.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E11B270A5E0053CD8C /* BarBooks 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.5.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E21B270A5E0053CD8C /* BarBooks 0.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.6.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E31B270A5E0053CD8C /* BarBooks 0.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.7.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E41B270A5E0053CD8C /* BarBooks 0.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.8.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E51B270A5E0053CD8C /* BarBooks 0.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.9.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E61B270A5E0053CD8C /* BarBooks 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.0.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E71B270A5E0053CD8C /* BarBooks 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.1.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E81B270A5E0053CD8C /* BarBooks 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.2.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9E91B270A5E0053CD8C /* BarBooks 1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.3.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9EA1B270A5E0053CD8C /* BarBooks 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.4.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9EB1B270A5E0053CD8C /* BarBooks 1.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.5.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9EC1B270A5E0053CD8C /* BarBooks 1.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.6.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9ED1B270A5E0053CD8C /* BarBooks 1.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.7.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9EE1B270A5E0053CD8C /* BarBooks 1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.8.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9EF1B270A5E0053CD8C /* BarBooks 1.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.9.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F01B270A5E0053CD8C /* BarBooks 2.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.1.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F11B270A5E0053CD8C /* BarBooks 2.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.2.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F21B270A5E0053CD8C /* BarBooks 2.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.3.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F31B270A5E0053CD8C /* BarBooks 2.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.4.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F41B270A5E0053CD8C /* BarBooks 2.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.5.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F51B270A5E0053CD8C /* BarBooks 2.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.6.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F61B270A5E0053CD8C /* BarBooks 2.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.7.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F71B270A5E0053CD8C /* BarBooks 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.xcdatamodel"; sourceTree = "<group>"; };
-		36DEF9F81B270A5E0053CD8C /* BarBooks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BarBooks.xcdatamodel; sourceTree = "<group>"; };
 		36DEF9FA1B2710600053CD8C /* RegularInvoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularInvoice.h; sourceTree = "<group>"; };
 		36DEF9FB1B2710600053CD8C /* RegularInvoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularInvoice.m; sourceTree = "<group>"; };
 		36DEF9FD1B2710620053CD8C /* ReportDetailItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportDetailItem.h; sourceTree = "<group>"; };
@@ -429,6 +432,7 @@
 		36C9E64F1B1AC6840085D647 /* barbooks-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				363ED8161B60A9AF00000A7A /* BarBooks.xcdatamodeld */,
 				3667487A1B313D0200E23707 /* Protocals */,
 				36DEF9AE1B2706890053CD8C /* Managers */,
 				36DEF9A11B2704480053CD8C /* Common */,
@@ -444,8 +448,6 @@
 				36C9E6601B1AC6840085D647 /* Main.storyboard */,
 				36C9E6631B1AC6840085D647 /* Images.xcassets */,
 				36C9E6651B1AC6840085D647 /* LaunchScreen.xib */,
-				36DEF9DC1B270A5E0053CD8C /* BarBooks.xcdatamodeld */,
-				36C9E6571B1AC6840085D647 /* barbooks_ipad.xcdatamodeld */,
 				36C9E6501B1AC6840085D647 /* Supporting Files */,
 			);
 			path = "barbooks-ipad";
@@ -562,6 +564,8 @@
 				36DEF9A91B27052C0053CD8C /* DateTimeUtility.m */,
 				36DEF9AA1B27052C0053CD8C /* GlobalAttributes.h */,
 				36DEF9AB1B27052C0053CD8C /* GlobalAttributes.m */,
+				36062BC71B6CF6D80088DB29 /* BBTimers.h */,
+				36062BC81B6CF6D80088DB29 /* BBTimers.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -753,7 +757,6 @@
 				36DEFA471B2710650053CD8C /* TaxExpense.m in Sources */,
 				36EB0E4E1B38DFD700AC7411 /* BBTaskViewController.m in Sources */,
 				36DEFA141B2710640053CD8C /* Report.m in Sources */,
-				36DEF9F91B270A5E0053CD8C /* BarBooks.xcdatamodeld in Sources */,
 				36DEFA5F1B2710660053CD8C /* YETReportItem.m in Sources */,
 				36DEFA2F1B2710650053CD8C /* Account.m in Sources */,
 				36DEFA4D1B2710660053CD8C /* YETReport.m in Sources */,
@@ -766,6 +769,7 @@
 				36DEFA2C1B2710650053CD8C /* Contact.m in Sources */,
 				36DEFA501B2710660053CD8C /* Payment.m in Sources */,
 				36DEF9FC1B2710600053CD8C /* RegularInvoice.m in Sources */,
+				36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */,
 				36DEF9FF1B2710620053CD8C /* ReportDetailItem.m in Sources */,
 				36DEFA1D1B2710640053CD8C /* GeneralReceipt.m in Sources */,
 				3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */,
@@ -793,10 +797,10 @@
 				36DEF92F1B231A2C0053CD8C /* BBMatterListViewController.m in Sources */,
 				367563281B29B0B4002C5738 /* BBCoreDataManager.m in Sources */,
 				36DEFA411B2710650053CD8C /* Attachment.m in Sources */,
+				363ED8351B60A9B000000A7A /* BarBooks.xcdatamodeld in Sources */,
 				36EB0E4B1B38DFA200AC7411 /* BBTaskListViewController.m in Sources */,
 				3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */,
 				36DEFA051B2710640053CD8C /* InterestInvoice.m in Sources */,
-				36C9E6591B1AC6840085D647 /* barbooks_ipad.xcdatamodeld in Sources */,
 				36DEF9351B259FCB0053CD8C /* BBMatterViewController.m in Sources */,
 				36DEFA5C1B2710660053CD8C /* ReportDetail.m in Sources */,
 				366748791B3116BA00E23707 /* BBCreateSolicitorViewController.m in Sources */,
@@ -1048,49 +1052,41 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		36C9E6571B1AC6840085D647 /* barbooks_ipad.xcdatamodeld */ = {
+		363ED8161B60A9AF00000A7A /* BarBooks.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				36C9E6581B1AC6840085D647 /* barbooks_ipad.xcdatamodel */,
+				363ED8171B60A9B000000A7A /* BarBooks 0.1.xcdatamodel */,
+				363ED8181B60A9B000000A7A /* BarBooks 0.2.xcdatamodel */,
+				363ED8191B60A9B000000A7A /* BarBooks 0.3.xcdatamodel */,
+				363ED81A1B60A9B000000A7A /* BarBooks 0.4.xcdatamodel */,
+				363ED81B1B60A9B000000A7A /* BarBooks 0.5.xcdatamodel */,
+				363ED81C1B60A9B000000A7A /* BarBooks 0.6.xcdatamodel */,
+				363ED81D1B60A9B000000A7A /* BarBooks 0.7.xcdatamodel */,
+				363ED81E1B60A9B000000A7A /* BarBooks 0.8.xcdatamodel */,
+				363ED81F1B60A9B000000A7A /* BarBooks 0.9.xcdatamodel */,
+				363ED8201B60A9B000000A7A /* BarBooks 1.0.xcdatamodel */,
+				363ED8211B60A9B000000A7A /* BarBooks 1.1.xcdatamodel */,
+				363ED8221B60A9B000000A7A /* BarBooks 1.2.xcdatamodel */,
+				363ED8231B60A9B000000A7A /* BarBooks 1.3.xcdatamodel */,
+				363ED8241B60A9B000000A7A /* BarBooks 1.4.xcdatamodel */,
+				363ED8251B60A9B000000A7A /* BarBooks 1.5.xcdatamodel */,
+				363ED8261B60A9B000000A7A /* BarBooks 1.6.xcdatamodel */,
+				363ED8271B60A9B000000A7A /* BarBooks 1.7.xcdatamodel */,
+				363ED8281B60A9B000000A7A /* BarBooks 1.8.xcdatamodel */,
+				363ED8291B60A9B000000A7A /* BarBooks 1.9.xcdatamodel */,
+				363ED82A1B60A9B000000A7A /* BarBooks 2.1.xcdatamodel */,
+				363ED82B1B60A9B000000A7A /* BarBooks 2.2.xcdatamodel */,
+				363ED82C1B60A9B000000A7A /* BarBooks 2.3.xcdatamodel */,
+				363ED82D1B60A9B000000A7A /* BarBooks 2.4.xcdatamodel */,
+				363ED82E1B60A9B000000A7A /* BarBooks 2.5.xcdatamodel */,
+				363ED82F1B60A9B000000A7A /* BarBooks 2.6.xcdatamodel */,
+				363ED8301B60A9B000000A7A /* BarBooks 2.7.xcdatamodel */,
+				363ED8311B60A9B000000A7A /* BarBooks 2.8.xcdatamodel */,
+				363ED8321B60A9B000000A7A /* BarBooks 2.9.xcdatamodel */,
+				363ED8331B60A9B000000A7A /* BarBooks 2.xcdatamodel */,
+				363ED8341B60A9B000000A7A /* BarBooks.xcdatamodel */,
 			);
-			currentVersion = 36C9E6581B1AC6840085D647 /* barbooks_ipad.xcdatamodel */;
-			path = barbooks_ipad.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		36DEF9DC1B270A5E0053CD8C /* BarBooks.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				36DEF9DD1B270A5E0053CD8C /* BarBooks 0.1.xcdatamodel */,
-				36DEF9DE1B270A5E0053CD8C /* BarBooks 0.2.xcdatamodel */,
-				36DEF9DF1B270A5E0053CD8C /* BarBooks 0.3.xcdatamodel */,
-				36DEF9E01B270A5E0053CD8C /* BarBooks 0.4.xcdatamodel */,
-				36DEF9E11B270A5E0053CD8C /* BarBooks 0.5.xcdatamodel */,
-				36DEF9E21B270A5E0053CD8C /* BarBooks 0.6.xcdatamodel */,
-				36DEF9E31B270A5E0053CD8C /* BarBooks 0.7.xcdatamodel */,
-				36DEF9E41B270A5E0053CD8C /* BarBooks 0.8.xcdatamodel */,
-				36DEF9E51B270A5E0053CD8C /* BarBooks 0.9.xcdatamodel */,
-				36DEF9E61B270A5E0053CD8C /* BarBooks 1.0.xcdatamodel */,
-				36DEF9E71B270A5E0053CD8C /* BarBooks 1.1.xcdatamodel */,
-				36DEF9E81B270A5E0053CD8C /* BarBooks 1.2.xcdatamodel */,
-				36DEF9E91B270A5E0053CD8C /* BarBooks 1.3.xcdatamodel */,
-				36DEF9EA1B270A5E0053CD8C /* BarBooks 1.4.xcdatamodel */,
-				36DEF9EB1B270A5E0053CD8C /* BarBooks 1.5.xcdatamodel */,
-				36DEF9EC1B270A5E0053CD8C /* BarBooks 1.6.xcdatamodel */,
-				36DEF9ED1B270A5E0053CD8C /* BarBooks 1.7.xcdatamodel */,
-				36DEF9EE1B270A5E0053CD8C /* BarBooks 1.8.xcdatamodel */,
-				36DEF9EF1B270A5E0053CD8C /* BarBooks 1.9.xcdatamodel */,
-				36DEF9F01B270A5E0053CD8C /* BarBooks 2.1.xcdatamodel */,
-				36DEF9F11B270A5E0053CD8C /* BarBooks 2.2.xcdatamodel */,
-				36DEF9F21B270A5E0053CD8C /* BarBooks 2.3.xcdatamodel */,
-				36DEF9F31B270A5E0053CD8C /* BarBooks 2.4.xcdatamodel */,
-				36DEF9F41B270A5E0053CD8C /* BarBooks 2.5.xcdatamodel */,
-				36DEF9F51B270A5E0053CD8C /* BarBooks 2.6.xcdatamodel */,
-				36DEF9F61B270A5E0053CD8C /* BarBooks 2.7.xcdatamodel */,
-				36DEF9F71B270A5E0053CD8C /* BarBooks 2.xcdatamodel */,
-				36DEF9F81B270A5E0053CD8C /* BarBooks.xcdatamodel */,
-			);
-			currentVersion = 36DEF9F61B270A5E0053CD8C /* BarBooks 2.7.xcdatamodel */;
+			currentVersion = 363ED8321B60A9B000000A7A /* BarBooks 2.9.xcdatamodel */;
 			path = BarBooks.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
