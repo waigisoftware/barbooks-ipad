@@ -126,4 +126,18 @@
     return totalAmount;
 }
 
+#pragma mark - Core Data
+
++ (NSArray *)allMatters {
+    return [Matter MR_findAll];
+}
+
++ (NSArray *)unarchivedMatters {
+    return [Matter MR_findAll];
+}
+
++ (NSArray *)archivedMatters {
+    return [Matter MR_findAll];
+}
+
 @end

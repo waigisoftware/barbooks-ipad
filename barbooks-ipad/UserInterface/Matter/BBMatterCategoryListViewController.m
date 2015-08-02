@@ -8,6 +8,7 @@
 
 #import "BBMatterCategoryListViewController.h"
 #import "BBTaskListViewController.h"
+#import "BBExpenseListViewController.h"
 
 @interface BBMatterCategoryListViewController ()
 
@@ -79,6 +80,7 @@
             }
             case 1:
                 NSLog(@"Disbursements");
+                [self showExpenses];
                 break;
             case 2:
                 NSLog(@"Invoices");
@@ -91,10 +93,21 @@
 
 - (void)showTasks {
     if (![[(UINavigationController *)[self.splitViewController detailViewController] topViewController] isKindOfClass:[BBTaskListViewController class]]) {
+        [((UINavigationController *)[self.splitViewController detailViewController]) popToRootViewControllerAnimated:NO];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         BBTaskListViewController *taskListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
-        [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
+        [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:NO];
         taskListViewController.matter = self.matter;
+    }
+}
+
+- (void)showExpenses {
+    if (![[(UINavigationController *)[self.splitViewController detailViewController] topViewController] isKindOfClass:[BBExpenseListViewController class]]) {
+        [((UINavigationController *)[self.splitViewController detailViewController]) popToRootViewControllerAnimated:NO];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        BBExpenseListViewController *expenseListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBExpenseListViewController];
+        [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:expenseListViewController animated:NO];
+        expenseListViewController.matter = self.matter;
     }
 }
 

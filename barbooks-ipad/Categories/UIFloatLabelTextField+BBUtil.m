@@ -14,8 +14,8 @@
 static NSInteger const DefaultBorderWidth = 1;
 -(void) applyBottomBorderStyle
 {
-    
-    CALayer *border = [self bottomBorder];
+    self.borderStyle = UITextBorderStyleNone;
+    CALayer *border = [self bottomBorderWithColor:[UIColor lightGrayColor]];
     border.frame = [self frameWithBottomBorder];
     [self.layer addSublayer:border];
     self.layer.masksToBounds = YES;
@@ -32,10 +32,10 @@ static NSInteger const DefaultBorderWidth = 1;
     
 }
 
--(CALayer *) bottomBorder
+-(CALayer *) bottomBorderWithColor:(UIColor *)borderColor
 {
     CALayer *border = [CALayer layer];
-    border.borderColor = [UIColor lightGrayColor].CGColor;
+    border.borderColor = borderColor.CGColor;
     border.borderWidth = DefaultBorderWidth;
     return border;
 }
@@ -53,6 +53,55 @@ static NSInteger const DefaultBorderWidth = 1;
     if ([self.layer.sublayers objectAtIndex:1])
     {
         ((CALayer *)[self.layer.sublayers objectAtIndex:1]).borderColor = [UIColor lightGrayColor].CGColor;
+    }
+}
+
+-(void) applyBottomBorderStyleFloatLabelFont:(UIFont *)floatLabelFont
+                       floatLabelActiveColor:(UIColor *)floatLabelActiveColor
+                      floatLabelPassiveColor:(UIColor *)floatLabelPassiveColor
+                               textFieldFont:(UIFont *)textFieldFont
+                                 borderColor:(UIColor *)borderColor
+{
+    [self applyBottomBorderStyleFloatLabelFont:floatLabelFont
+                         floatLabelActiveColor:floatLabelActiveColor
+                        floatLabelPassiveColor:floatLabelPassiveColor
+                                 textFieldFont:textFieldFont
+                                    showBorder:YES
+                                   borderColor:borderColor];
+}
+
+-(void) applyBottomBorderStyleFloatLabelFont:(UIFont *)floatLabelFont
+                       floatLabelActiveColor:(UIColor *)floatLabelActiveColor
+                      floatLabelPassiveColor:(UIColor *)floatLabelPassiveColor
+                               textFieldFont:(UIFont *)textFieldFont
+                                  showBorder:(BOOL)showBorder
+                                 borderColor:(UIColor *)borderColor
+{
+    if (showBorder) {
+        CALayer *border = [self bottomBorderWithColor:borderColor];
+        border.frame = [self frameWithBottomBorder];
+        [self.layer addSublayer:border];
+        self.layer.masksToBounds = YES;
+    }
+    
+    self.floatLabelActiveColor = floatLabelActiveColor;
+    self.floatLabelPassiveColor = floatLabelPassiveColor;
+    self.floatLabelFont = floatLabelFont;
+    self.font = textFieldFont;
+}
+
++ (void)applyStyleToAllUIFloatLabelTextFieldInView:(UIView *)view {
+    NSArray *subviews = [view subviews];
+    if (subviews && (subviews.count > 0)) {
+        for (UIView *subview in subviews) {
+            if (![subview isKindOfClass:[UIFloatLabelTextField class]] && [subview subviews].count > 0) {
+                [UIFloatLabelTextField applyStyleToAllUIFloatLabelTextFieldInView:subview];
+            } else {
+                if ([subview isKindOfClass:[UIFloatLabelTextField class]]) {
+                    [((UIFloatLabelTextField *)subview) applyBottomBorderStyle];
+                }
+            }
+        }
     }
 }
 

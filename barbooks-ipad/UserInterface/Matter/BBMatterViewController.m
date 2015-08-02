@@ -25,6 +25,7 @@
     NSMutableArray *_rates;
 }
 
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *natureOfBriefTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *courtNameTextField;
@@ -117,9 +118,11 @@ BBContactListViewController *_contactListViewController;
     // set calendar picker
     [self setupCalendarPickingView];
     
-    if (_matter) {
-        [self loadMatterIntoUI];
-    }
+    [self loadMatterIntoUI];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -142,14 +145,19 @@ BBContactListViewController *_contactListViewController;
     [self.calendar setDataSource:self];
 }
 
-#pragma mark - UIFloatLabelTextField setup
-- (void)setupTextFields {
-    [_nameTextField applyBottomBorderStyle];
+- (void)coverViewIfNeeded {
+    [self.view bringSubviewToFront:_coverView];
+    _coverView.hidden = self.matter ? YES : NO;
 }
 
 #pragma mark - Matter value
 
 - (void)loadMatterIntoUI {
+    [self coverViewIfNeeded];
+    if (!_matter) {
+        return;
+    }
+    
     _nameTextField.text = _matter.name;
     _natureOfBriefTextField.text = _matter.natureOfBrief;
     _courtNameTextField.text = _matter.courtName;
@@ -185,7 +193,7 @@ BBContactListViewController *_contactListViewController;
     _matter.registry = _registryTextField.text;
     _matter.endClientName = _endClientNameTextField.text;
     _matter.reference = _referenceTextField.text;
-    _matter.solicitor.firstname = _solicitorTextField.text;
+//    _matter.solicitor.firstname = _solicitorTextField.text;
     _matter.date = [_openDateLabel.text fromShortDateFormatToDate];
     _matter.dueDate = [_dueDateTextField.text numberValue];
     _matter.taxed = [NSNumber numberWithBool:_taxedSwitch.on];

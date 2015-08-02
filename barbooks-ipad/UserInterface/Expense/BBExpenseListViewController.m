@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *expenseListTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *archiveBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
 @property (strong, nonatomic) NSArray *originalItemList;
 @property (strong, nonatomic) NSArray *filteredItemList;
@@ -34,11 +35,8 @@
     _expenseListTableView.delegate = self;
     [self registerRefreshControlFor:_expenseListTableView withAction:@selector(fetchExpenses)];
     
-    // toolbar buttons
-    UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIImage *imageArchive = [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    _addBarButtonItem.image = imageAdd;
-    _archiveBarButtonItem.image = imageArchive;
+    // setup navigation bar and toolbar
+    [self setupUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,7 +92,11 @@
 
 - (void)fetchExpenses {
     // fetch from core data
-    _originalItemList = [Expense MR_findAllSortedBy:@"date" ascending:NO];
+    if ([self isMatterExpenses]) {
+        _originalItemList = [self.matter.disbursements allObjects];
+    } else {
+        _originalItemList = [Expense MR_findAllSortedBy:@"date" ascending:NO];
+    }
     [self filterContentForSearchText:_searchBar.text scope:nil];
     [_expenseListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
@@ -122,6 +124,43 @@
 }
 
 - (IBAction)onArchive:(id)sender {
+}
+
+- (void)onDelete {
+    
+}
+
+#pragma mark - UI method
+
+// if the expense list is showing all expenses or a Matter's expenses
+- (BOOL)isMatterExpenses {
+    return self.matter ? YES : NO;
+}
+
+- (void)setupUI {
+    if ([self isMatterExpenses]) {
+        // hide back button
+        self.navigationItem.hidesBackButton = YES;
+        self.navigationItem.title = @"Disbursements";
+        // add 'Add' & 'Delete' button
+        UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *imageDelete = [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:imageAdd style:UIBarButtonItemStylePlain target:self action:@selector(onAdd:)];
+        UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDelete)];
+        self.navigationItem.rightBarButtonItems = @[deleteButton, addButton];
+        // toolbar buttons
+        self.toolbar.hidden = YES;
+    } else {
+        // show back button
+        self.navigationItem.hidesBackButton = NO;
+        self.navigationItem.title = nil;
+        // toolbar buttons
+        self.toolbar.hidden = NO;
+        UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *imageArchive = [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        _addBarButtonItem.image = imageAdd;
+        _archiveBarButtonItem.image = imageArchive;
+    }
 }
 
 @end

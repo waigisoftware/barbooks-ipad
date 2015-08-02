@@ -36,9 +36,28 @@
     _tableView.delegate = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self refreshUI];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UI
+
+- (void)refreshUI {
+    NSDecimalNumber *outstandingTasks = [NSDecimalNumber zero];
+    NSDecimalNumber *outstandingInvoices = [NSDecimalNumber zero];
+    NSArray *matters = [Matter unarchivedMatters];
+    for (Matter *matter in matters) {
+        outstandingTasks = [outstandingTasks decimalNumberByAdding:[matter totalTasksUnbilled]];
+        outstandingInvoices = [outstandingInvoices decimalNumberByAdding:[matter totalInvoicesOutstanding]];
+    }
+    _tasksOutstandingAmountLabel.text = [outstandingTasks currencyAmount];
+    _invoicesOutstandingAmountLabel.text = [outstandingInvoices currencyAmount];
 }
 
 #pragma mark - Navigation
@@ -66,6 +85,8 @@
 }
 
 - (IBAction)onCreateExpense:(id)sender {
+    Expense *newExpense = [Expense newInstanceWithDefaultValue];
+    [self showExpenses:newExpense];
 }
 
 #pragma mark - UITableViewDataSource

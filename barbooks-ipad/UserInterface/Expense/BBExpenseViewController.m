@@ -12,6 +12,7 @@
 
 @interface BBExpenseViewController ()
 
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *descriptionTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *dateTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *amountTextField;
@@ -70,11 +71,13 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self setupExpenseTypeDropDown];
     [self setupTaxTypeDropDown];
     [self loadExpenseIntoUI];
     [self.view bringSubviewToFront:_payeeTextField];
     [self.view bringSubviewToFront:_calendarContainerView];
+    [self coverViewIfNeeded];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,6 +86,11 @@
 }
 
 #pragma mark - UI Setup
+
+- (void)coverViewIfNeeded {
+    [self.view bringSubviewToFront:_coverView];
+    _coverView.hidden = self.expense ? YES : NO;
+}
 
 - (void)setupPayeeDropDown {
     _payees = [Expense payeeList];
@@ -169,15 +177,14 @@
     
 }
 
-- (void)setupTextFields {
-    // UIFloatLabelTextField setup
-    [self.descriptionTextField applyBottomBorderStyle];
-    [self.dateTextField applyBottomBorderStyle];
-}
-
 #pragma mark - Expense value
 
 - (void)loadExpenseIntoUI {
+    [self coverViewIfNeeded];
+    if (!_expense) {
+        return;
+    }
+    
     _descriptionTextField.text = _expense.info;
     _dateTextField.text = [_expense.date toShortDateFormat];
     _amountTextField.text = [_expense.amountIncGst roundedAmount];
@@ -188,22 +195,23 @@
         _gstTypeDrowdown.hidden = NO;
         _gstTextField.hidden = NO;
         _taxAmountLabel.hidden = NO;
+        // tax related fields
+        _taxAmountLabel.text = [_expense.amountGst roundedAmount];
+        _gstTextField.text = [_expense.tax roundedAmount];
+        if (_expense.taxType == BBExpenseTaxTypePercentage) {
+            _taxAmountLabel.hidden = NO;
+            _gstTextField.hidden = !_taxAmountLabel.hidden;
+        } else {
+            _taxAmountLabel.hidden = YES;
+            _gstTextField.hidden = !_taxAmountLabel.hidden;
+        }
+        if (_gstTypeDrowdown.selectedIndex != _expense.taxType) {
+            [_gstTypeDrowdown selectItemAtIndex:_expense.taxType];
+        }
     } else {
         _gstTypeDrowdown.hidden = YES;
         _gstTextField.hidden = YES;
         _taxAmountLabel.hidden = YES;
-    }
-    _taxAmountLabel.text = [_expense.amountGst roundedAmount];
-    _gstTextField.text = [_expense.tax currencyAmount];
-    if (_expense.taxType == BBExpenseTaxTypePercentage) {
-        _taxAmountLabel.hidden = NO;
-        _gstTextField.hidden = !_taxAmountLabel.hidden;
-    } else {
-        _taxAmountLabel.hidden = YES;
-        _gstTextField.hidden = !_taxAmountLabel.hidden;
-    }
-    if (_gstTypeDrowdown.selectedIndex != _expense.taxType) {
-        [_gstTypeDrowdown selectItemAtIndex:_expense.taxType];
     }
     if (_expenseTypeDrowdown.selectedIndex != [_expense.expenseType integerValue]) {
         [_expenseTypeDrowdown selectItemAtIndex:[_expense.expenseType integerValue]];

@@ -13,5 +13,18 @@
 -(void) applyBottomBorderStyle;
 -(void) applyEditSytle;
 -(void) revertEditStyle;
+-(void) applyBottomBorderStyleFloatLabelFont:(UIFont *)floatLabelFont
+                       floatLabelActiveColor:(UIColor *)floatLabelActiveColor
+                      floatLabelPassiveColor:(UIColor *)floatLabelPassiveColor
+                               textFieldFont:(UIFont *)textFieldFont
+                                 borderColor:(UIColor *)borderColor;
+-(void) applyBottomBorderStyleFloatLabelFont:(UIFont *)floatLabelFont
+                       floatLabelActiveColor:(UIColor *)floatLabelActiveColor
+                      floatLabelPassiveColor:(UIColor *)floatLabelPassiveColor
+                               textFieldFont:(UIFont *)textFieldFont
+                                  showBorder:(BOOL)showBorder
+                                 borderColor:(UIColor *)borderColor;
+
++ (void)applyStyleToAllUIFloatLabelTextFieldInView:(UIView *)view;
 
 @end

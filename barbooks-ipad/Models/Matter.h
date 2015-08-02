@@ -75,4 +75,8 @@
 - (NSDecimalNumber *)totalTasksUnbilled;
 - (NSDecimalNumber *)totalInvoicesOutstanding;
 
++ (NSArray *)allMatters;
++ (NSArray *)unarchivedMatters;
++ (NSArray *)archivedMatters;
+
 @end
