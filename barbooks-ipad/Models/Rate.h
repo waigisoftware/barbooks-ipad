@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, BBRateChargingType) {
 @interface Rate : BBManagedObject
 
 @property (nonatomic, retain) NSDecimalNumber * amount; // amount exclude GST
+// transient
 @property (nonatomic, retain) NSDecimalNumber * amountGst;  // amount include GST
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * type;

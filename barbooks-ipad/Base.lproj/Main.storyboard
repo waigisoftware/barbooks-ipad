@@ -1580,7 +1580,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZqE-ir-2fO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2921" y="70"/>
+            <point key="canvasLocation" x="2897" y="578"/>
         </scene>
         <!--Expense View Controller-->
         <scene sceneID="PdB-s7-ffZ">
@@ -2004,11 +2004,11 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="MFF-qD-Zxl"/>
                                 <exclude reference="92U-NP-227"/>
                                 <exclude reference="yl9-fz-fzp"/>
                                 <exclude reference="5R8-el-XSp"/>
                                 <exclude reference="Vx1-le-2Xf"/>
-                                <exclude reference="MFF-qD-Zxl"/>
                             </mask>
                         </variation>
                     </view>
@@ -2035,7 +2035,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ydw-0r-br8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2251" y="82"/>
+            <point key="canvasLocation" x="2231" y="578"/>
         </scene>
         <!--Create Solicitor View Controller-->
         <scene sceneID="TOh-gd-tTx">
@@ -2272,7 +2272,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BYm-IK-ymN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2921" y="-610"/>
+            <point key="canvasLocation" x="3253" y="-610"/>
         </scene>
         <!--Tasks-->
         <scene sceneID="p7Y-dI-JVW">
