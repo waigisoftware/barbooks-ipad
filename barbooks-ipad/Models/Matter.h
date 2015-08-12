@@ -74,6 +74,8 @@
 - (NSDecimalNumber *)hoursFromDuration:(NSDecimalNumber *)duration;
 - (NSDecimalNumber *)totalTasksUnbilled;
 - (NSDecimalNumber *)totalInvoicesOutstanding;
+- (NSArray *)tasksArray;
+- (NSArray *)ratesArray;
 
 + (NSArray *)allMatters;
 + (NSArray *)unarchivedMatters;

@@ -10,6 +10,10 @@
 #import "BBBaseTableViewController.h"
 #import "BBTaskDelegate.h"
 
+@class BBMatterListViewController;
+
 @interface BBTaskListViewController : BBBaseTableViewController <BBTaskDelegate, UIPopoverControllerDelegate>
+
+@property (weak, nonatomic) BBMatterListViewController *matterListViewController;
 
 @end

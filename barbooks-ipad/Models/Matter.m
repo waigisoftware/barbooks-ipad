@@ -58,6 +58,8 @@
 
 + (instancetype)newInstanceWithDefaultValue {
     Matter *newMatter = [Matter MR_createEntity];
+    newMatter.archived = [NSNumber numberWithBool:NO];
+    newMatter.createdAt = [NSDate date];
     newMatter.date = [NSDate date];
     newMatter.taxed = [NSNumber numberWithBool:YES];
     newMatter.tax = [NSDecimalNumber decimalNumberWithString:@"0.1"];
@@ -126,18 +128,28 @@
     return totalAmount;
 }
 
+- (NSArray *)tasksArray {
+    return [self.tasks allObjects];
+}
+
+- (NSArray *)ratesArray {
+    return [self.rates allObjects];
+}
+
 #pragma mark - Core Data
 
 + (NSArray *)allMatters {
-    return [Matter MR_findAll];
+    return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO];
 }
 
 + (NSArray *)unarchivedMatters {
-    return [Matter MR_findAll];
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:NO]];
+    return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
 }
 
 + (NSArray *)archivedMatters {
-    return [Matter MR_findAll];
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:YES]];
+    return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
 }
 
 @end

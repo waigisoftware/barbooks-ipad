@@ -24,6 +24,9 @@
 
 // Segues
 #define BBSegueShowHome @"showHomeSegue"
+#define BBSegueShowMatterDetail @"showMatterDetailSegue"
+#define BBSegueMatterToContactList @"matterToContactListSegue"
+#define BBSegueMatterToRateList @"matterToRateListSegue"
 
 // View Controllers
 #define BBNavigationControllerHome @"BBHomeSplitViewController"

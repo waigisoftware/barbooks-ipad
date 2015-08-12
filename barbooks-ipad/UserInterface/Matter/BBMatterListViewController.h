@@ -7,11 +7,12 @@
 //
 
 #import "BBBaseTableViewController.h"
+#import "BBTaskListViewController.h"
 #import "BBMatterViewController.h"
 
 @interface BBMatterListViewController : BBBaseTableViewController
 
-@property (strong, nonatomic) BBMatterViewController *matterViewController;
+@property (strong, nonatomic) BBTaskListViewController *taskListViewController;
 
 - (void)fetchMatters;
 

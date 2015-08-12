@@ -55,7 +55,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self stopEditing];
-    [_delegate updateMatter:_rate];
+    [_delegate updateRate:_rate];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -111,7 +111,7 @@
 
 - (IBAction)onCancel:(id)sender {
     [self stopEditing];
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onDone:(id)sender {
@@ -124,7 +124,7 @@
     _rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text];
     _rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountExcludeGSTTextField.text];
     _rate.type = [NSNumber numberWithUnsignedInteger:[[Rate rateTypes] indexOfObject:_rateTypeTextField.text]];
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onBackgroundButton:(id)sender {

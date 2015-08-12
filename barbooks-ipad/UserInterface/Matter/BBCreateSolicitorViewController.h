@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BBBaseViewController.h"
-#import "BBMatterDelegate.h"
+#import "BBContactDelegate.h"
 #import "Solicitor.h"
 
 @interface BBCreateSolicitorViewController : BBBaseViewController
 
 @property (strong, nonatomic) Solicitor *solicitor;
-@property (weak, nonatomic) id<BBMatterDelegate> delegate;
+@property (weak, nonatomic) id<BBContactDelegate> delegate;
 
 @end

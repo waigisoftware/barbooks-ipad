@@ -12,7 +12,9 @@
 #import "BBMatterCategoryListViewController.h"
 #import "BBTaskListViewController.h"
 
-@interface BBMatterListViewController ()
+@interface BBMatterListViewController () {
+    BOOL _showUnarchived;
+}
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *matterListTableView;
@@ -21,6 +23,8 @@
 
 @property (strong, nonatomic) NSArray *originalItemList;
 @property (strong, nonatomic) NSArray *filteredItemList;
+
+@property (strong, nonatomic) Matter *selectedMatter;
 
 - (IBAction)onAdd:(id)sender;
 - (IBAction)onArchive:(id)sender;
@@ -31,6 +35,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _showUnarchived = YES;
 
     // tableview
     _matterListTableView.dataSource = self;
@@ -53,7 +59,7 @@
     [super viewWillDisappear:animated];
     // user pressed back button in Navigation Bar
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-        [self.matterViewController.navigationController popViewControllerAnimated:YES];
+        [self.taskListViewController.navigationController popToRootViewControllerAnimated:NO];
     }
 }
 
@@ -83,12 +89,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
-    _matterViewController.matter = matter;
+    [self showTaskList:matter];
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
-    [self showMatterCategory:matter];
+    [self showMatterDetail:matter];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -109,7 +115,7 @@
 
 - (void)fetchMatters {
     // fetch from core data
-    _originalItemList = [Matter MR_findAll];
+    _originalItemList = _showUnarchived ? [Matter unarchivedMatters] : [Matter archivedMatters];
     [self filterContentForSearchText:_searchBar.text scope:nil];
     [_matterListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
@@ -130,26 +136,48 @@
 
 - (IBAction)onAdd:(id)sender {
     Matter *newMatter = [Matter newInstanceWithDefaultValue];
-    [self.matterViewController setMatter:newMatter];
+    [self.taskListViewController setMatter:newMatter];
     [self fetchMatters];
     [_matterListTableView selectRowAtIndexPath:[self indexPathOfMatter:newMatter] animated:YES scrollPosition:UITableViewScrollPositionTop];
-    _matterViewController.matter = newMatter;
+    self.taskListViewController.matter = newMatter;
 }
 
 - (IBAction)onArchive:(id)sender {
+    _showUnarchived = !_showUnarchived;
+    [self fetchMatters];
 }
 
 #pragma mark - Navigation
-
+/*
 - (void)showMatterCategory:(Matter *)matter {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    BBMatterCategoryListViewController *matterCategoryListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryListViewController];
-    BBTaskListViewController *taskListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
+    BBMatterCategoryListViewController *matterCategoryListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryListViewController];
+    BBTaskListViewController *taskListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
     [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:matterCategoryListViewController animated:YES];
     [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
     matterCategoryListViewController.matter = matter;
     matterCategoryListViewController.taskListViewController = taskListViewController;
     taskListViewController.matter = matter;
+}
+ */
+
+- (void)showTaskList:(Matter *)matter {
+    BBTaskListViewController *taskListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
+    [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];
+    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:NO];
+    taskListViewController.matter = matter;
+}
+
+- (void)showMatterDetail:(Matter *)matter {
+    self.selectedMatter = matter;
+    [self performSegueWithIdentifier:BBSegueShowMatterDetail sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:BBSegueShowMatterDetail]) {
+        BBMatterViewController *matterViewController = [((UINavigationController *)[segue destinationViewController]).viewControllers objectAtIndex:0];
+        matterViewController.matter = self.selectedMatter;
+        matterViewController.matterListViewController = self;
+    }
 }
 
 @end

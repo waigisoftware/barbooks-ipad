@@ -8,7 +8,7 @@
 
 #import "BBHomeViewController.h"
 #import "BBMatterListViewController.h"
-#import "BBMatterViewController.h"
+#import "BBTaskListViewController.h"
 #import "BBExpenseListViewController.h"
 #import "BBExpenseViewController.h"
 
@@ -165,13 +165,13 @@
 - (void)showMatters:(Matter *)matter {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     BBMatterListViewController *matterListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterListViewController];
-    BBMatterViewController *matterViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterViewController];
+    BBTaskListViewController *taskListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
     [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:matterListViewController animated:YES];
-    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:matterViewController animated:YES];
+    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
     matterListViewController.matter = matter;
-    matterListViewController.matterViewController = matterViewController;
-    matterViewController.matter = matter;
-    matterViewController.matterListViewController = matterListViewController;
+    matterListViewController.taskListViewController = taskListViewController;
+    taskListViewController.matter = matter;
+    taskListViewController.matterListViewController = matterListViewController;
 }
 
 - (void)showExpenses:(Expense *)expense {

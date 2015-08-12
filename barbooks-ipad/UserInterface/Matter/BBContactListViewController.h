@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BBMatterDelegate.h"
+#import "BBContactDelegate.h"
 #import "Solicitor.h"
 #import "Contact.h"
+#import "BBBaseTableViewController.h"
 
-@interface BBContactListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface BBContactListViewController : BBBaseTableViewController <UIPopoverControllerDelegate, BBContactDelegate>
 
 @property (strong, nonatomic) NSArray *solicitorList;
 @property (weak, nonatomic) id<BBMatterDelegate> delegate;

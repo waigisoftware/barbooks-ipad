@@ -9,6 +9,7 @@
 #import "BBTaskListViewController.h"
 #import "BBTaskListTableViewCell.h"
 #import "BBTaskViewController.h"
+#import "BBMatterListViewController.h"
 #import "Task.h"
 
 @interface BBTaskListViewController ()
@@ -113,7 +114,8 @@
 #pragma mark - Core data
 
 - (void)fetchTasks {
-    _originalItemList = [Task MR_findAll];
+//    _originalItemList = [Task MR_findAll];
+    _originalItemList = self.matter.tasksArray;
     [self filterContentForSearchText:_searchBar.text scope:nil];
     [_tasksTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
@@ -150,6 +152,9 @@
 
 - (void)updateTask:(id)data {
     [self fetchTasks];
+    
+    // refresh matter list accordingly
+    [self.matterListViewController fetchMatters];
 }
 
 @end

@@ -90,10 +90,12 @@
 #pragma mark - Button actions
 
 - (IBAction)onCancel:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onDone:(id)sender {
+    // stop editing
+    [self stopEditing];
     // validate
     if (_firstnameTextField.text.length == 0 || _lastnameTextField.text.length == 0) {
         [[[UIAlertView alloc]initWithTitle:@"Invalid Solicitor" message:@"Please input both Firstname and Lastname." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
@@ -101,11 +103,16 @@
     }
     // save
     [self updateSolicitorFromUI];
-    [self.delegate updateMatter:self.solicitor];
+    [self.delegate updateContact:self.solicitor];
     // dismiss
-    [self dismissViewControllerAnimated:YES completion:^{
-        // update parent UI
-    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - resignFirstResponders and hide all popup views
+
+- (void)stopEditing {
+    [[UIResponder currentFirstResponder] resignFirstResponder];
+    [self loadSolicitorIntoUI];
 }
 
 @end

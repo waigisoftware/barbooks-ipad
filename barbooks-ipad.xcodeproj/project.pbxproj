@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
 		36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */ = {isa = PBXBuildFile; fileRef = 36062BC81B6CF6D80088DB29 /* BBTimers.m */; };
+		360BD8EF1B770CF10012C4F0 /* BBRateListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 360BD8EE1B770CF10012C4F0 /* BBRateListViewController.m */; };
 		362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543061B512BB8004C8116 /* BBExpenseListViewController.m */; };
 		3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543091B512C08004C8116 /* BBExpenseTableViewCell.m */; };
 		363C3A3E1B1C7A6B00B92513 /* BBMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363C3A3D1B1C7A6B00B92513 /* BBMenuViewController.m */; };
@@ -100,6 +101,10 @@
 		16ED6A71BF367FA077B7B0E6 /* Pods-barbooks-ipad.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipad.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad.release.xcconfig"; sourceTree = "<group>"; };
 		36062BC71B6CF6D80088DB29 /* BBTimers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTimers.h; path = Common/BBTimers.h; sourceTree = "<group>"; };
 		36062BC81B6CF6D80088DB29 /* BBTimers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTimers.m; path = Common/BBTimers.m; sourceTree = "<group>"; };
+		360BD8ED1B770CF10012C4F0 /* BBRateListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBRateListViewController.h; path = Rate/BBRateListViewController.h; sourceTree = "<group>"; };
+		360BD8EE1B770CF10012C4F0 /* BBRateListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBRateListViewController.m; path = Rate/BBRateListViewController.m; sourceTree = "<group>"; };
+		360BD8F01B772D980012C4F0 /* BBRateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBRateDelegate.h; path = Protocals/BBRateDelegate.h; sourceTree = "<group>"; };
+		360BD8F11B772DC60012C4F0 /* BBContactDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBContactDelegate.h; path = Protocals/BBContactDelegate.h; sourceTree = "<group>"; };
 		362543051B512BB8004C8116 /* BBExpenseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseListViewController.h; path = UserInterface/Expense/BBExpenseListViewController.h; sourceTree = "<group>"; };
 		362543061B512BB8004C8116 /* BBExpenseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBExpenseListViewController.m; path = UserInterface/Expense/BBExpenseListViewController.m; sourceTree = "<group>"; };
 		362543081B512C08004C8116 /* BBExpenseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseTableViewCell.h; path = UserInterface/Expense/BBExpenseTableViewCell.h; sourceTree = "<group>"; };
@@ -304,9 +309,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		360BD8EC1B770CC90012C4F0 /* Rate */ = {
+			isa = PBXGroup;
+			children = (
+				360BD8ED1B770CF10012C4F0 /* BBRateListViewController.h */,
+				360BD8EE1B770CF10012C4F0 /* BBRateListViewController.m */,
+				36CC974E1B47B6CF00CB1C45 /* BBRateViewController.h */,
+				36CC974F1B47B6CF00CB1C45 /* BBRateViewController.m */,
+			);
+			name = Rate;
+			sourceTree = "<group>";
+		};
 		363C3A371B1C785C00B92513 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				360BD8EC1B770CC90012C4F0 /* Rate */,
 				363E45191B4FED1D0080CE38 /* Expense */,
 				36B983901B3FD9B80030E915 /* Common */,
 				36EB0E481B38DF7F00AC7411 /* Task */,
@@ -350,6 +367,8 @@
 				3667487B1B313D4600E23707 /* BBMatterDelegate.h */,
 				36EB0E521B39674A00AC7411 /* BBTaskDelegate.h */,
 				36B983911B3FD9E90030E915 /* BBDropDownListDelegate.h */,
+				360BD8F01B772D980012C4F0 /* BBRateDelegate.h */,
+				360BD8F11B772DC60012C4F0 /* BBContactDelegate.h */,
 			);
 			name = Protocals;
 			sourceTree = "<group>";
@@ -403,8 +422,6 @@
 			children = (
 				36CED1491B3A8E9900F421F5 /* BBDropDownListViewController.h */,
 				36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */,
-				36CC974E1B47B6CF00CB1C45 /* BBRateViewController.h */,
-				36CC974F1B47B6CF00CB1C45 /* BBRateViewController.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -817,6 +834,7 @@
 				36DEF9AD1B27052C0053CD8C /* GlobalAttributes.m in Sources */,
 				36DEFA291B2710650053CD8C /* Expense.m in Sources */,
 				36DEFA0E1B2710640053CD8C /* BASReport.m in Sources */,
+				360BD8EF1B770CF10012C4F0 /* BBRateListViewController.m in Sources */,
 				362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */,
 				36DEFA021B2710640053CD8C /* Rate.m in Sources */,
 				36DEFA201B2710640053CD8C /* Disbursement.m in Sources */,

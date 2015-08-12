@@ -18,14 +18,14 @@
 #import "Firm.h"
 #import "Rate.h"
 #import "BBContactListViewController.h"
-#import "BBRateViewController.h"
+#import "BBRateListViewController.h"
 #import "NSDate+BBUtil.h"
 
 @interface BBMatterViewController () {
-    NSMutableArray *_rates;
+//    NSMutableArray *_rates;
 }
 
-@property (weak, nonatomic) IBOutlet UIView *coverView;
+//@property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *natureOfBriefTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *courtNameTextField;
@@ -40,11 +40,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *taxedSwitch;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *taxTextField;
 @property (weak, nonatomic) IBOutlet UIPickerView *roundingTypePicker;
-@property (weak, nonatomic) IBOutlet UITableView *ratesTableView;
-@property (weak, nonatomic) IBOutlet UIButton *editSolicitorButton;
-@property (weak, nonatomic) IBOutlet UIButton *addSolicitorButton;
-@property (weak, nonatomic) IBOutlet UIView *contactsView;
-@property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
+//@property (weak, nonatomic) IBOutlet UITableView *ratesTableView;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *roundRateTextField;
 @property (weak, nonatomic) IBOutlet UIView *roundRatePickerContainerView;
 
@@ -68,17 +64,22 @@
 
 - (IBAction)onInput:(id)sender;
 - (IBAction)onSelectContact:(id)sender;
-- (IBAction)onEditContact:(id)sender;
-- (IBAction)onAddContact:(id)sender;
+//- (IBAction)onEditContact:(id)sender;
+//- (IBAction)onAddContact:(id)sender;
 - (IBAction)onCalendar:(id)sender;
 //- (IBAction)onDatePicked:(id)sender;
 - (IBAction)onTax:(id)sender;
 - (IBAction)onBackgroundButton:(id)sender;
 - (IBAction)onSelectRoundRate:(id)sender;
-- (IBAction)onAddRate:(id)sender;
-- (IBAction)onDeleteRate:(id)sender;
+//- (IBAction)onAddRate:(id)sender;
+//- (IBAction)onDeleteRate:(id)sender;
 - (IBAction)onCancelPickDate:(id)sender;
 - (IBAction)onConfirmPickDate:(id)sender;
+- (IBAction)onViewRates:(id)sender;
+- (IBAction)onCancel:(id)sender;
+- (IBAction)onSave:(id)sender;
+- (IBAction)onArchive:(id)sender;
+- (IBAction)onDelete:(id)sender;
 
 @end
 
@@ -88,7 +89,7 @@ BBContactListViewController *_contactListViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.hidesBackButton = YES;
+//    self.navigationItem.hidesBackButton = YES;
     self.navigationItem.title = @"Matter";
     
     // setting delegates
@@ -101,15 +102,15 @@ BBContactListViewController *_contactListViewController;
     _solicitorTextField.delegate = self;
     _dueDateTextField.delegate = self;
     _taxTextField.delegate = self;
-    _ratesTableView.dataSource = self;
-    _ratesTableView.delegate = self;
+//    _ratesTableView.dataSource = self;
+//    _ratesTableView.delegate = self;
     
     // set contact selection view
-    _contactListViewController = [BBContactListViewController new];
-    _contactListViewController.delegate = self;
-    _contactsTableView.dataSource = _contactListViewController;
-    _contactsTableView.delegate = _contactListViewController;
-    _contactsView.hidden = YES;
+//    _contactListViewController = [BBContactListViewController new];
+//    _contactListViewController.delegate = self;
+//    _contactsTableView.dataSource = _contactListViewController;
+//    _contactsTableView.delegate = _contactListViewController;
+//    _contactsView.hidden = YES;
     
     // set roundingType picker
     _roundingTypePicker.dataSource = self;
@@ -145,15 +146,15 @@ BBContactListViewController *_contactListViewController;
     [self.calendar setDataSource:self];
 }
 
-- (void)coverViewIfNeeded {
-    [self.view bringSubviewToFront:_coverView];
-    _coverView.hidden = self.matter ? YES : NO;
-}
+//- (void)coverViewIfNeeded {
+//    [self.view bringSubviewToFront:_coverView];
+//    _coverView.hidden = self.matter ? YES : NO;
+//}
 
 #pragma mark - Matter value
 
 - (void)loadMatterIntoUI {
-    [self coverViewIfNeeded];
+//    [self coverViewIfNeeded];
     if (!_matter) {
         return;
     }
@@ -180,10 +181,10 @@ BBContactListViewController *_contactListViewController;
     }
     
     [self updateSolicitor];
-    [self updateRates];
+//    [self updateRates];
     
     // refresh matter list accordingly
-    [self.matterListViewController fetchMatters];
+//    [self.matterListViewController fetchMatters];
 }
 
 - (void)updateMatterFromUI {
@@ -204,7 +205,15 @@ BBContactListViewController *_contactListViewController;
     }
     
     // refresh matter list accordingly
-    [self.matterListViewController fetchMatters];
+//    [self.matterListViewController fetchMatters];
+}
+
+- (void)updateSolicitor {
+    _solicitorTextField.text = _matter.solicitor ? [_matter.solicitor displayName] : @"";
+//    _editSolicitorButton.hidden = !self.matter.solicitor;
+//    self.solicitorList = [Solicitor MR_findAll];
+//    [_contactsTableView reloadData];
+//    _contactsView.hidden = YES;
 }
 
 #pragma mark - preset data
@@ -214,39 +223,8 @@ BBContactListViewController *_contactListViewController;
     [self loadMatterIntoUI];
 }
 
-#pragma mark - Solicitor
-
-- (void)updateSolicitor {
-    _solicitorTextField.text = _matter.solicitor ? [_matter.solicitor displayName] : @"";
-    _editSolicitorButton.hidden = !self.matter.solicitor;
-    _contactListViewController.solicitorList = [Solicitor MR_findAll];
-    [_contactsTableView reloadData];
-    _contactsView.hidden = YES;
-}
-
-- (void)popoverSolicitorViewWithSolicitor:(Solicitor *)solicitor {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    BBCreateSolicitorViewController *createSolicitorViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBCreateSolicitorViewController];
-    createSolicitorViewController.delegate = self;
-    createSolicitorViewController.solicitor = solicitor;
-    
-    // pop it over
-    UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:createSolicitorViewController];
-    popoverController.delegate = self;
-    popoverController.popoverContentSize = CGSizeMake(300, 500);
-    [popoverController presentPopoverFromRect:_addSolicitorButton.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-}
-
 
 #pragma mark IBActions
-
-- (IBAction)onAddContact:(id)sender {
-    [self popoverSolicitorViewWithSolicitor:nil];
-}
-
-- (IBAction)onEditContact:(id)sender {
-    [self popoverSolicitorViewWithSolicitor:self.matter.solicitor];
-}
 
 - (IBAction)onInput:(id)sender {
     [self updateMatterFromUI];
@@ -268,9 +246,8 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (IBAction)onSelectContact:(id)sender {
-    BOOL hidden = _contactsView.hidden;
     [self stopEditing];
-    _contactsView.hidden = !hidden;
+    [self performSegueWithIdentifier:BBSegueMatterToContactList sender:self];
 }
 
 // Date picker
@@ -287,13 +264,6 @@ BBContactListViewController *_contactListViewController;
     [self updateAndSaveMatterWithUIChange];
 }
 
-- (IBAction)onAddRate:(id)sender {
-    [self popoverRateViewWithRate:nil];
-}
-
-- (IBAction)onDeleteRate:(id)sender {
-}
-
 - (IBAction)onCancelPickDate:(id)sender {
     _calendarContainerView.hidden = YES;
 }
@@ -302,6 +272,34 @@ BBContactListViewController *_contactListViewController;
     _calendarContainerView.hidden = YES;
     _matter.date = _calendar.currentDateSelected;
     [self loadMatterIntoUI];
+}
+
+- (IBAction)onViewRates:(id)sender {
+    [self stopEditing];
+    [self performSegueWithIdentifier:BBSegueMatterToRateList sender:self];
+}
+
+- (IBAction)onCancel:(id)sender {
+}
+
+- (IBAction)onSave:(id)sender {
+    [self refreshMatterList];
+}
+
+- (IBAction)onArchive:(id)sender {
+    _matter.archived = [NSNumber numberWithBool:YES];
+    [self refreshMatterList];
+}
+
+- (IBAction)onDelete:(id)sender {
+    [_matter MR_deleteEntity];
+    [self refreshMatterList];
+}
+
+- (void)refreshMatterList {
+    [self stopEditing];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.matterListViewController fetchMatters];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -352,12 +350,12 @@ BBContactListViewController *_contactListViewController;
     if (dataClass == [Solicitor class]) {
         _matter.solicitor = data;
     }
-    if (dataClass == [Rate class]) {
-        // add new Rate
-        NSMutableSet *set = [NSMutableSet setWithSet:_matter.rates];
-        [set addObject:data];
-        _matter.rates = set;
-    }
+//    if (dataClass == [Rate class]) {
+//        // add new Rate
+//        NSMutableSet *set = [NSMutableSet setWithSet:_matter.rates];
+//        [set addObject:data];
+//        _matter.rates = set;
+//    }
     [self loadMatterIntoUI];
 }
 
@@ -390,55 +388,18 @@ BBContactListViewController *_contactListViewController;
     _pickedDateYearLabel.text = [date year];
 }
 
-#pragma mark - Rate UITableViewDataSource
+#pragma mark - Navigation
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _matter.rates.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *reuseIdentifier = @"rateCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    Rate *rate = [_rates objectAtIndex:indexPath.row];
-    cell.textLabel.text = rate.description;
-    return cell;
-}
-
-#pragma mark - Rate UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self popoverRateViewWithRate:[_rates objectAtIndex:indexPath.row]];
-}
-
-// show no empty cells
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
-}
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    return [UIView new];
-}
-
-#pragma mark - Rates
-
-- (void)popoverRateViewWithRate:(Rate *)rate {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    BBRateViewController *rateViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBRateViewController];
-    rateViewController.delegate = self;
-    rateViewController.rate = rate;
-    
-    // pop it over
-    UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:rateViewController];
-    popoverController.delegate = self;
-    popoverController.popoverContentSize = CGSizeMake(300, 360);
-    [popoverController presentPopoverFromRect:self.navigationController.navigationBar.frame
-                                       inView:_ratesTableView
-                     permittedArrowDirections:UIPopoverArrowDirectionAny
-                                     animated:YES];
-}
-
-- (void)updateRates {
-    _rates = [NSMutableArray arrayWithArray:[_matter.rates allObjects]];
-    [_ratesTableView reloadData];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:BBSegueMatterToContactList]) {
+        BBContactListViewController *contactListViewController = [segue destinationViewController];
+        contactListViewController.matter = self.matter;
+        contactListViewController.delegate = self;
+    }
+    if ([[segue identifier] isEqualToString:BBSegueMatterToRateList]) {
+        BBRateListViewController *rateListViewController = [segue destinationViewController];
+        rateListViewController.matter = self.matter;
+    }
 }
 
 @end
