@@ -34,13 +34,16 @@
     _expenseListTableView.dataSource = self;
     _expenseListTableView.delegate = self;
     [self registerRefreshControlFor:_expenseListTableView withAction:@selector(fetchExpenses)];
-    
-    // setup navigation bar and toolbar
-    [self setupUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    // setup navigation bar and toolbar
+    [self setupUI];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self fetchExpenses];
 }
 
@@ -140,16 +143,17 @@
 - (void)setupUI {
     if ([self isMatterExpenses]) {
         // hide back button
-        self.navigationItem.hidesBackButton = YES;
-        self.navigationItem.title = @"Disbursements";
+        self.tabBarController.navigationItem.hidesBackButton = YES;
+        self.tabBarController.navigationItem.title = @"Disbursements";
         // add 'Add' & 'Delete' button
         UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         UIImage *imageDelete = [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:imageAdd style:UIBarButtonItemStylePlain target:self action:@selector(onAdd:)];
         UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDelete)];
-        self.navigationItem.rightBarButtonItems = @[deleteButton, addButton];
+        self.tabBarController.navigationItem.rightBarButtonItems = @[deleteButton, addButton];
         // toolbar buttons
         self.toolbar.hidden = YES;
+        [self.toolbar removeFromSuperview];
     } else {
         // show back button
         self.navigationItem.hidesBackButton = NO;

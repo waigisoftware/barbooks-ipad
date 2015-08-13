@@ -11,6 +11,7 @@
 #import "BBMatterListTableViewCell.h"
 #import "BBMatterCategoryListViewController.h"
 #import "BBTaskListViewController.h"
+#import "BBExpenseListViewController.h"
 
 @interface BBMatterListViewController () {
     BOOL _showUnarchived;
@@ -48,11 +49,21 @@
     UIImage *imageArchive = [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     _addBarButtonItem.image = imageAdd;
     _archiveBarButtonItem.image = imageArchive;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self fetchMatters];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // pre-select matter
+    NSUInteger index = [_originalItemList indexOfObject:self.matter];
+    if (index != NSNotFound) {
+        [_matterListTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -136,10 +147,11 @@
 
 - (IBAction)onAdd:(id)sender {
     Matter *newMatter = [Matter newInstanceWithDefaultValue];
-    [self.taskListViewController setMatter:newMatter];
+//    [self.taskListViewController setMatter:newMatter];
     [self fetchMatters];
     [_matterListTableView selectRowAtIndexPath:[self indexPathOfMatter:newMatter] animated:YES scrollPosition:UITableViewScrollPositionTop];
-    self.taskListViewController.matter = newMatter;
+//    self.taskListViewController.matter = newMatter;
+    [self showTaskList:newMatter];
 }
 
 - (IBAction)onArchive:(id)sender {
@@ -161,10 +173,22 @@
  */
 
 - (void)showTaskList:(Matter *)matter {
-    BBTaskListViewController *taskListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
+//    BBTaskListViewController *taskListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
+//    [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];
+//    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:NO];
+//    taskListViewController.matter = matter;
+    UITabBarController *tabBarController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryTabBarController];
+    tabBarController.selectedIndex = 0;
+    for (UIViewController *vc in [tabBarController viewControllers]) {
+        if ([vc isKindOfClass:[BBTaskListViewController class]]) {
+            ((BBTaskListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
+            ((BBExpenseListViewController *)vc).matter = matter;
+        }
+    }
     [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];
-    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:NO];
-    taskListViewController.matter = matter;
+    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:tabBarController animated:NO];
 }
 
 - (void)showMatterDetail:(Matter *)matter {

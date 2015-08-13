@@ -27,27 +27,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // hide back button
-    self.navigationItem.hidesBackButton = YES;
-    
-    // add 'Add' & 'Delete' button
-    UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIImage *imageDelete = [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:imageAdd style:UIBarButtonItemStylePlain target:self action:@selector(onAddTask)];
-    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDeleteTask)];
-    self.navigationItem.rightBarButtonItems = @[deleteButton, addButton];
-    
     // tableview
     _tasksTableView.dataSource = self;
     _tasksTableView.delegate = self;
     [self registerRefreshControlFor:_tasksTableView withAction:@selector(fetchTasks)];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // setup navigation bar and toolbar
+    [self setupNavigationBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self fetchTasks];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupNavigationBar {
+    // title
+    self.tabBarController.navigationItem.title = @"Tasks";
+    
+    // hide back button
+    self.tabBarController.navigationItem.hidesBackButton = YES;
+    
+    // add 'Add' & 'Delete' button
+    UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *imageDelete = [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:imageAdd style:UIBarButtonItemStylePlain target:self action:@selector(onAddTask)];
+    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDeleteTask)];
+    self.tabBarController.navigationItem.rightBarButtonItems = @[deleteButton, addButton];
 }
 
 #pragma mark - Button actions

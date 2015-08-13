@@ -165,13 +165,25 @@
 - (void)showMatters:(Matter *)matter {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     BBMatterListViewController *matterListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterListViewController];
-    BBTaskListViewController *taskListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
+//    BBTaskListViewController *taskListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
     [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:matterListViewController animated:YES];
-    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
+//    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
     matterListViewController.matter = matter;
-    matterListViewController.taskListViewController = taskListViewController;
-    taskListViewController.matter = matter;
-    taskListViewController.matterListViewController = matterListViewController;
+//    matterListViewController.taskListViewController = taskListViewController;
+//    taskListViewController.matter = matter;
+//    taskListViewController.matterListViewController = matterListViewController;
+    
+    UITabBarController *tabBarController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryTabBarController];
+    tabBarController.selectedIndex = 0;
+    for (UIViewController *vc in [tabBarController viewControllers]) {
+        if ([vc isKindOfClass:[BBTaskListViewController class]]) {
+            BBTaskListViewController *taskListViewController = (BBTaskListViewController *)vc;
+            taskListViewController.matter = matter;
+            taskListViewController.matterListViewController = matterListViewController;
+            matterListViewController.taskListViewController = taskListViewController;
+        }
+    }
+    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:tabBarController animated:YES];
 }
 
 - (void)showExpenses:(Expense *)expense {
