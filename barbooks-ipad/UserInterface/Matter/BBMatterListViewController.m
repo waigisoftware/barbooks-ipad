@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *matterListTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *archiveBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *filterButtonItem;
 
 @property (strong, nonatomic) NSArray *originalItemList;
@@ -30,6 +31,7 @@
 
 - (IBAction)onAdd:(id)sender;
 - (IBAction)onArchive:(id)sender;
+- (IBAction)onDelete:(id)sender;
 - (IBAction)onFilterMatters:(id)sender;
 
 @end
@@ -161,6 +163,12 @@
     [self fetchMatters];
 }
 
+- (IBAction)onDelete:(id)sender {
+    Matter *selectedMatter = [_filteredItemList objectAtIndex:_matterListTableView.indexPathForSelectedRow.row];
+    [selectedMatter MR_deleteEntity];
+    [self fetchMatters];
+}
+
 - (IBAction)onFilterMatters:(id)sender {
     _showUnarchived = !_showUnarchived;
     _filterButtonItem.title = _showUnarchived ? @"Archived" : @"Unarchived";
@@ -169,6 +177,9 @@
     [_archiveBarButtonItem setTintColor:_showUnarchived ? [UIColor blackColor] : [UIColor clearColor]];
     [_archiveBarButtonItem setEnabled:_showUnarchived];
     [_archiveBarButtonItem setImage:_showUnarchived ? [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] : nil];
+    [_deleteBarButtonItem setTintColor:!_showUnarchived ? [UIColor blackColor] : [UIColor clearColor]];
+    [_deleteBarButtonItem setEnabled:!_showUnarchived];
+    [_deleteBarButtonItem setImage:!_showUnarchived ? [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] : nil];
     
     [self fetchMatters];
 }
