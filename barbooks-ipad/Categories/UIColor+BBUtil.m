@@ -103,4 +103,12 @@
                            alpha:1];
 }
 
++ (UIColor *)bbButtonBackgroundColor
+{
+    return [UIColor colorWithRed:14.0/255.0
+                           green:35.0/255.0
+                            blue:70.0/255.0
+                           alpha:1];
+}
+
 @end

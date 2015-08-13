@@ -64,6 +64,7 @@
     if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0) {
         [[UINavigationBar appearance] setTranslucent:NO];
     }
+//    [[BBGenericButton appearance] setBackgroundColor:[UIColor bbButtonBackgroundColor]];
 }
 
 #pragma mark - Navigation

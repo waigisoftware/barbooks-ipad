@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *matterListTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *archiveBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *filterButtonItem;
 
 @property (strong, nonatomic) NSArray *originalItemList;
 @property (strong, nonatomic) NSArray *filteredItemList;
@@ -29,6 +30,7 @@
 
 - (IBAction)onAdd:(id)sender;
 - (IBAction)onArchive:(id)sender;
+- (IBAction)onFilterMatters:(id)sender;
 
 @end
 
@@ -141,42 +143,39 @@
     } else {
         _filteredItemList = _originalItemList;
     }
+    [_matterListTableView reloadData];
 }
 
 #pragma mark - IBActions
 
 - (IBAction)onAdd:(id)sender {
     Matter *newMatter = [Matter newInstanceWithDefaultValue];
-//    [self.taskListViewController setMatter:newMatter];
     [self fetchMatters];
     [_matterListTableView selectRowAtIndexPath:[self indexPathOfMatter:newMatter] animated:YES scrollPosition:UITableViewScrollPositionTop];
-//    self.taskListViewController.matter = newMatter;
     [self showTaskList:newMatter];
 }
 
 - (IBAction)onArchive:(id)sender {
+    Matter *selectedMatter = [_filteredItemList objectAtIndex:_matterListTableView.indexPathForSelectedRow.row];
+    selectedMatter.archived = [NSNumber numberWithBool:YES];
+    [self fetchMatters];
+}
+
+- (IBAction)onFilterMatters:(id)sender {
     _showUnarchived = !_showUnarchived;
+    _filterButtonItem.title = _showUnarchived ? @"Archived" : @"Unarchived";
+    
+    // toggle other bar buttons
+    [_archiveBarButtonItem setTintColor:_showUnarchived ? [UIColor blackColor] : [UIColor clearColor]];
+    [_archiveBarButtonItem setEnabled:_showUnarchived];
+    [_archiveBarButtonItem setImage:_showUnarchived ? [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] : nil];
+    
     [self fetchMatters];
 }
 
 #pragma mark - Navigation
-/*
-- (void)showMatterCategory:(Matter *)matter {
-    BBMatterCategoryListViewController *matterCategoryListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryListViewController];
-    BBTaskListViewController *taskListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
-    [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:matterCategoryListViewController animated:YES];
-    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
-    matterCategoryListViewController.matter = matter;
-    matterCategoryListViewController.taskListViewController = taskListViewController;
-    taskListViewController.matter = matter;
-}
- */
 
 - (void)showTaskList:(Matter *)matter {
-//    BBTaskListViewController *taskListViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
-//    [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];
-//    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:NO];
-//    taskListViewController.matter = matter;
     UITabBarController *tabBarController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryTabBarController];
     tabBarController.selectedIndex = 0;
     for (UIViewController *vc in [tabBarController viewControllers]) {

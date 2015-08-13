@@ -34,4 +34,6 @@
 
 +(UIColor *) bbDisabledButtonBackgroundColor;
 
++ (UIColor *)bbButtonBackgroundColor;
+
 @end

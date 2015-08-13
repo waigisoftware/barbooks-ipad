@@ -3049,6 +3049,12 @@
                                             <action selector="onArchive:" destination="BVt-5g-RIt" id="hHc-5i-pWk"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Bhn-pK-eG7"/>
+                                    <barButtonItem title="Archived" id="oGR-DB-7ll" userLabel="Filter Bar Button Item">
+                                        <connections>
+                                            <action selector="onFilterMatters:" destination="BVt-5g-RIt" id="2bj-21-tc9"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jNS-Ew-oJz">
@@ -3173,6 +3179,7 @@
                     <connections>
                         <outlet property="addBarButtonItem" destination="P4f-Id-BBQ" id="EKN-sC-tv5"/>
                         <outlet property="archiveBarButtonItem" destination="kmC-B4-HwG" id="Mwd-jI-bWO"/>
+                        <outlet property="filterButtonItem" destination="oGR-DB-7ll" id="bFQ-Vn-GZW"/>
                         <outlet property="matterListTableView" destination="jNS-Ew-oJz" id="1Ed-oQ-rxr"/>
                         <outlet property="searchBar" destination="YkM-C9-gvf" id="JdO-qV-yNL"/>
                         <segue destination="EHc-i0-uPy" kind="presentation" identifier="showMatterDetailSegue" modalPresentationStyle="pageSheet" id="xWs-b3-PRx"/>
