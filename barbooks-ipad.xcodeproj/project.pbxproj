@@ -19,6 +19,7 @@
 		3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */; };
 		3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */; };
 		36555FC91B43A8010006A2CA /* BBTaskTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 36555FC81B43A8010006A2CA /* BBTaskTimer.m */; };
+		365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */; };
 		366748791B3116BA00E23707 /* BBCreateSolicitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */; };
 		367563281B29B0B4002C5738 /* BBCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 367563271B29B0B4002C5738 /* BBCoreDataManager.m */; };
 		3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3675632E1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m */; };
@@ -27,6 +28,8 @@
 		36788FA71B20350F00B34D3E /* BBBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FA61B20350F00B34D3E /* BBBaseTableViewController.m */; };
 		36788FAB1B20368B00B34D3E /* NSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */; };
 		36C39B8E1B7EC14400985DCB /* BBSubscriptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */; };
+		36C39B921B7F0F8D00985DCB /* BBLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C39B911B7F0F8D00985DCB /* BBLoginViewController.m */; };
+		36C39B951B7F0FC500985DCB /* BBSynchronizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C39B941B7F0FC500985DCB /* BBSynchronizationViewController.m */; };
 		36C781BD1B35014500321AE2 /* BBContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BC1B35014500321AE2 /* BBContactListViewController.m */; };
 		36C781C01B35985500321AE2 /* NSDecimalNumber+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */; };
 		36C781C31B36B41600321AE2 /* NSArray+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */; };
@@ -153,6 +156,8 @@
 		3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBMatterListTableViewCell.m; path = UserInterface/Matter/BBMatterListTableViewCell.m; sourceTree = "<group>"; };
 		36555FC71B43A8010006A2CA /* BBTaskTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTaskTimer.h; path = UserInterface/Task/BBTaskTimer.h; sourceTree = "<group>"; };
 		36555FC81B43A8010006A2CA /* BBTaskTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTaskTimer.m; path = UserInterface/Task/BBTaskTimer.m; sourceTree = "<group>"; };
+		365F3CF81B7F5A7A0051D2C2 /* BBValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBValidator.h; path = Common/BBValidator.h; sourceTree = "<group>"; };
+		365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBValidator.m; path = Common/BBValidator.m; sourceTree = "<group>"; };
 		366748771B3116BA00E23707 /* BBCreateSolicitorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBCreateSolicitorViewController.h; path = UserInterface/Matter/BBCreateSolicitorViewController.h; sourceTree = "<group>"; };
 		366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBCreateSolicitorViewController.m; path = UserInterface/Matter/BBCreateSolicitorViewController.m; sourceTree = "<group>"; };
 		3667487B1B313D4600E23707 /* BBMatterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterDelegate.h; path = Protocals/BBMatterDelegate.h; sourceTree = "<group>"; };
@@ -171,6 +176,10 @@
 		36B983911B3FD9E90030E915 /* BBDropDownListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDropDownListDelegate.h; path = Protocals/BBDropDownListDelegate.h; sourceTree = "<group>"; };
 		36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSubscriptionManager.h; sourceTree = "<group>"; };
 		36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSubscriptionManager.m; sourceTree = "<group>"; };
+		36C39B901B7F0F8D00985DCB /* BBLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBLoginViewController.h; path = UserInterface/Account/BBLoginViewController.h; sourceTree = "<group>"; };
+		36C39B911B7F0F8D00985DCB /* BBLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBLoginViewController.m; path = UserInterface/Account/BBLoginViewController.m; sourceTree = "<group>"; };
+		36C39B931B7F0FC500985DCB /* BBSynchronizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSynchronizationViewController.h; path = UserInterface/Account/BBSynchronizationViewController.h; sourceTree = "<group>"; };
+		36C39B941B7F0FC500985DCB /* BBSynchronizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSynchronizationViewController.m; path = UserInterface/Account/BBSynchronizationViewController.m; sourceTree = "<group>"; };
 		36C781BB1B35014500321AE2 /* BBContactListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBContactListViewController.h; path = UserInterface/Matter/BBContactListViewController.h; sourceTree = "<group>"; };
 		36C781BC1B35014500321AE2 /* BBContactListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBContactListViewController.m; path = UserInterface/Matter/BBContactListViewController.m; sourceTree = "<group>"; };
 		36C781BE1B35985500321AE2 /* NSDecimalNumber+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDecimalNumber+BBUtil.h"; path = "Categories/NSDecimalNumber+BBUtil.h"; sourceTree = "<group>"; };
@@ -326,6 +335,7 @@
 		363C3A371B1C785C00B92513 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				36C39B8F1B7F0F4F00985DCB /* Account */,
 				360BD8EC1B770CC90012C4F0 /* Rate */,
 				363E45191B4FED1D0080CE38 /* Expense */,
 				36B983901B3FD9B80030E915 /* Common */,
@@ -427,6 +437,17 @@
 				36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */,
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		36C39B8F1B7F0F4F00985DCB /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				36C39B901B7F0F8D00985DCB /* BBLoginViewController.h */,
+				36C39B911B7F0F8D00985DCB /* BBLoginViewController.m */,
+				36C39B931B7F0FC500985DCB /* BBSynchronizationViewController.h */,
+				36C39B941B7F0FC500985DCB /* BBSynchronizationViewController.m */,
+			);
+			name = Account;
 			sourceTree = "<group>";
 		};
 		36C9E6441B1AC6840085D647 = {
@@ -586,6 +607,8 @@
 				36DEF9AB1B27052C0053CD8C /* GlobalAttributes.m */,
 				36062BC71B6CF6D80088DB29 /* BBTimers.h */,
 				36062BC81B6CF6D80088DB29 /* BBTimers.m */,
+				365F3CF81B7F5A7A0051D2C2 /* BBValidator.h */,
+				365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -803,6 +826,7 @@
 				36C9E6561B1AC6840085D647 /* AppDelegate.m in Sources */,
 				36DEFA261B2710650053CD8C /* ReceiptAllocation.m in Sources */,
 				36CED14B1B3A8E9900F421F5 /* BBDropDownListViewController.m in Sources */,
+				36C39B921B7F0F8D00985DCB /* BBLoginViewController.m in Sources */,
 				36DEFA591B2710660053CD8C /* CAReport.m in Sources */,
 				3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */,
 				36EB0E511B38E0FA00AC7411 /* BBTaskListTableViewCell.m in Sources */,
@@ -812,6 +836,7 @@
 				36DEFA531B2710660053CD8C /* Discount.m in Sources */,
 				36DEFA3B1B2710650053CD8C /* BBManagedObject.m in Sources */,
 				36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */,
+				365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */,
 				36DEFA3E1B2710650053CD8C /* Receipt.m in Sources */,
 				36CC97501B47B6CF00CB1C45 /* BBRateViewController.m in Sources */,
 				36DEFA561B2710660053CD8C /* Solicitor.m in Sources */,
@@ -836,6 +861,7 @@
 				36C9E6531B1AC6840085D647 /* main.m in Sources */,
 				36DEFA111B2710640053CD8C /* OutstandingAmount.m in Sources */,
 				363C3A3E1B1C7A6B00B92513 /* BBMenuViewController.m in Sources */,
+				36C39B951B7F0FC500985DCB /* BBSynchronizationViewController.m in Sources */,
 				36DEF9321B25600C0053CD8C /* UISplitViewController+BBUtil.m in Sources */,
 				36DEF9AD1B27052C0053CD8C /* GlobalAttributes.m in Sources */,
 				36DEFA291B2710650053CD8C /* Expense.m in Sources */,

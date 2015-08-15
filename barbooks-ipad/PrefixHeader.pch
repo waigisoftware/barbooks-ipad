@@ -51,6 +51,10 @@
 
 // Notifications
 #define BBNotificationTaskTimerUpdate @"BBNotificationTaskTimerUpdate"
+#define kLoginSuccessfulNotification @"kLoginSuccessfulNotification"
+#define kLoginFailedNotification @"kLoginFailedNotification"
+#define kSubscriptionUpdateSucceededNotification @"kSubscriptionUpdateSucceededNotification"
+#define kSubscriptionUpdateFailedNotification @"kSubscriptionUpdateFailedNotification"
 
 // Subscription Keys
 #define kWordpressService @"barbooks-wordpress"

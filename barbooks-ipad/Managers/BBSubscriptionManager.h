@@ -8,12 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    BBSubscriptionStatusExpired,
+    BBSubscriptionStatusActive,
+    BBSubscriptionStatusPending
+} BBSubscriptionStatus;
+
 @interface BBSubscriptionManager : NSObject
 
 @property (assign) BOOL isLoggedIn;
 
 + (instancetype)sharedInstance;
 
-- (void) signinWithUsername:(NSString*)username password:(NSString*)password;
+- (void)signinWithUsername:(NSString*)username password:(NSString*)password;
+- (void)logout;
+- (BOOL)subscriptionValid;
 
 @end
