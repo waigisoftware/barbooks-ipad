@@ -3374,7 +3374,7 @@
                         <outlet property="loginButton" destination="HBD-qK-YTe" id="nO6-IN-CLz"/>
                         <outlet property="passwordTextField" destination="zsB-3R-Uth" id="6B7-CN-O3Y"/>
                         <outlet property="usernameTextField" destination="kfH-cw-mhj" id="9i3-TH-Z06"/>
-                        <segue destination="V9X-Zg-IoP" kind="show" id="HYO-WB-cON"/>
+                        <segue destination="V9X-Zg-IoP" kind="show" identifier="showSynchronizationSegue" id="HYO-WB-cON"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="00i-RS-d4t" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3392,6 +3392,14 @@
                     <view key="view" contentMode="scaleToFill" id="VMh-OZ-7fJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdA-bc-zIB">
+                                <rect key="frame" x="240" y="285" width="121" height="30"/>
+                                <state key="normal" title="Synchronize Data">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>

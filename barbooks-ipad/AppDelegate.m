@@ -124,6 +124,15 @@
     [viewController resetTopViewAnimated:YES];
 }
 
+-(void) showSynchronization
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
+    viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
+    [viewController resetTopViewAnimated:NO];
+    [viewController.topViewController.navigationController performSegueWithIdentifier:BBSegueShowSynchronization sender:viewController.topViewController];
+}
+
 -(void) logout {
     [[BBSubscriptionManager sharedInstance] logout];
     [self showLogin];
