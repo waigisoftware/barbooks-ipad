@@ -26,6 +26,7 @@
 		36788FA41B2034ED00B34D3E /* BBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FA31B2034ED00B34D3E /* BBBaseViewController.m */; };
 		36788FA71B20350F00B34D3E /* BBBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FA61B20350F00B34D3E /* BBBaseTableViewController.m */; };
 		36788FAB1B20368B00B34D3E /* NSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */; };
+		36C39B8E1B7EC14400985DCB /* BBSubscriptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */; };
 		36C781BD1B35014500321AE2 /* BBContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BC1B35014500321AE2 /* BBContactListViewController.m */; };
 		36C781C01B35985500321AE2 /* NSDecimalNumber+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */; };
 		36C781C31B36B41600321AE2 /* NSArray+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */; };
@@ -168,6 +169,8 @@
 		36788FA91B20368B00B34D3E /* NSDate+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+BBUtil.h"; path = "Categories/NSDate+BBUtil.h"; sourceTree = "<group>"; };
 		36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+BBUtil.m"; path = "Categories/NSDate+BBUtil.m"; sourceTree = "<group>"; };
 		36B983911B3FD9E90030E915 /* BBDropDownListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDropDownListDelegate.h; path = Protocals/BBDropDownListDelegate.h; sourceTree = "<group>"; };
+		36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSubscriptionManager.h; sourceTree = "<group>"; };
+		36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSubscriptionManager.m; sourceTree = "<group>"; };
 		36C781BB1B35014500321AE2 /* BBContactListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBContactListViewController.h; path = UserInterface/Matter/BBContactListViewController.h; sourceTree = "<group>"; };
 		36C781BC1B35014500321AE2 /* BBContactListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBContactListViewController.m; path = UserInterface/Matter/BBContactListViewController.m; sourceTree = "<group>"; };
 		36C781BE1B35985500321AE2 /* NSDecimalNumber+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDecimalNumber+BBUtil.h"; path = "Categories/NSDecimalNumber+BBUtil.h"; sourceTree = "<group>"; };
@@ -592,6 +595,8 @@
 			children = (
 				367563261B29B0B4002C5738 /* BBCoreDataManager.h */,
 				367563271B29B0B4002C5738 /* BBCoreDataManager.m */,
+				36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */,
+				36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -791,6 +796,7 @@
 				36DEFA1D1B2710640053CD8C /* GeneralReceipt.m in Sources */,
 				3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */,
 				36DEFA381B2710650053CD8C /* Firm.m in Sources */,
+				36C39B8E1B7EC14400985DCB /* BBSubscriptionManager.m in Sources */,
 				36DEFA0B1B2710640053CD8C /* GeneralExpense.m in Sources */,
 				36C9E65C1B1AC6840085D647 /* MasterViewController.m in Sources */,
 				36EB0E471B38DF7700AC7411 /* BBMatterCategoryListViewController.m in Sources */,

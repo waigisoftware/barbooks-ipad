@@ -52,4 +52,28 @@
 // Notifications
 #define BBNotificationTaskTimerUpdate @"BBNotificationTaskTimerUpdate"
 
+// Subscription Keys
+#define kWordpressService @"barbooks-wordpress"
+#define kSubscriptionEndDate @"subscriptionEndDate"
+#define kSubscriptionActive @"subscriptionActive"
+#define kSubscriptionLastChecked @"subscriptionLastChecked"
+
+#define kBarBooksSubscriptionUserID @"barbooks-sub-userid"
+#define kBarBooksSubscriptionUserToken @"barbooks-sub-token"
+#define kBarBooksSubscriptionUsername @"barbooks-user"
+#define kBarBooksSubscriptionUserPassword @"barbooks-secret"
+
+#define kAPIURL @"https://www.barbooksaustralia.com/api/userplus/"
+#define kWooCommerceAPI @"https://www.barbooksaustralia.com/wc-api/v2/"
+#define kNONCEURL @"nonce/get_nonce/?controller=user&method=generate_auth_cookie"
+#define kGenerateCookieURL @"generate_auth_cookie/?"
+#define kAuthWithCookieURL @"validate_auth_cookie/?cookie="
+#define kGetCustomerURL @"customers/"
+
+#define kWoocommerceKey @"ck_ef918f20c8bacc4700a4befc5a6ef365"
+#define kWoocommerceSecret @"cs_f080069717f4ee0b8cd5f809889820ea"
+#define kWordpressApiKey @"76CCD5E8334BE2DDCD9E55FAF1959"
+#define kWordpressApiParameter @"&key=76CCD5E8334BE2DDCD9E55FAF1959"
+
+
 #endif

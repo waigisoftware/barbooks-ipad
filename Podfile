@@ -22,6 +22,7 @@ pod "CHDropDownTextField"
 pod 'DropdownMenu'
 pod 'MessageBarManager'
 pod "IGLDropDownMenu"
+pod "Lockbox", "2.1.0"
 
 end
 
