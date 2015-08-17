@@ -26,13 +26,13 @@
 }
 
 //@property (weak, nonatomic) IBOutlet UIView *coverView;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *natureOfBriefTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *courtNameTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *registryTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *endClientNameTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *referenceTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *solicitorTextField;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *natureOfBriefTextField;
+@property (weak, nonatomic) IBOutlet UITextField *courtNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *registryTextField;
+@property (weak, nonatomic) IBOutlet UITextField *endClientNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *referenceTextField;
+@property (weak, nonatomic) IBOutlet UITextField *solicitorTextField;
 @property (weak, nonatomic) IBOutlet UILabel *openDateLabel;
 //@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 //@property (weak, nonatomic) IBOutlet UIView *datePickerContainerView;
@@ -102,6 +102,7 @@ BBContactListViewController *_contactListViewController;
     _solicitorTextField.delegate = self;
     _dueDateTextField.delegate = self;
     _taxTextField.delegate = self;
+    [self.tableView setContentInset:UIEdgeInsetsMake(-35, 0, 0, 0)];
 //    _ratesTableView.dataSource = self;
 //    _ratesTableView.delegate = self;
     
@@ -155,25 +156,25 @@ BBContactListViewController *_contactListViewController;
 
 - (void)loadMatterIntoUI {
 //    [self coverViewIfNeeded];
-    if (!_matter) {
+    if (!self.matter) {
         return;
     }
     
-    _nameTextField.text = _matter.name;
-    _natureOfBriefTextField.text = _matter.natureOfBrief;
-    _courtNameTextField.text = _matter.courtName;
-    _registryTextField.text = _matter.registry;
-    _endClientNameTextField.text = _matter.endClientName;
-    _referenceTextField.text = _matter.reference;
-    _openDateLabel.text = [_matter.date toShortDateFormat];
+    _nameTextField.text = self.matter.name;
+    _natureOfBriefTextField.text = self.matter.natureOfBrief;
+    _courtNameTextField.text = self.matter.courtName;
+    _registryTextField.text = self.matter.registry;
+    _endClientNameTextField.text = self.matter.endClientName;
+    _referenceTextField.text = self.matter.reference;
+    _openDateLabel.text = [self.matter.date toShortDateFormat];
     // calendar
-    _calendar.currentDate = _matter.date;
-    _calendar.currentDateSelected = _matter.date;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kJTCalendarDaySelected" object:_matter.date];
+    //_calendar.currentDate = self.matter.date;
+    //_calendar.currentDateSelected = self.matter.date;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kJTCalendarDaySelected" object:self.matter.date];
     
-    _dueDateTextField.text = [_matter.dueDate stringValue];
-    _taxedSwitch.on = [_matter.taxed boolValue];
-    _taxTextField.text = _matter.tax ? [[_matter.tax decimalNumberByMultiplyingBy:[NSDecimalNumber oneHundred]] stringValue] : @"";
+    _dueDateTextField.text = [self.matter.dueDate stringValue];
+    _taxedSwitch.on = [self.matter.taxed boolValue];
+    _taxTextField.text = self.matter.tax ? [[self.matter.tax decimalNumberByMultiplyingBy:[NSDecimalNumber oneHundred]] stringValue] : @"";
     if (self.matter.roundingType) {
         NSUInteger index = [[GlobalAttributes timerRoundingTypes] indexOfSameValueNumericObject:[NSDecimalNumber decimalNumberWithDecimal:[self.matter.roundingType decimalValue]]];
         [_roundingTypePicker selectRow:index inComponent:0 animated:YES];
@@ -188,20 +189,20 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (void)updateMatterFromUI {
-    _matter.name = _nameTextField.text;
-    _matter.natureOfBrief = _natureOfBriefTextField.text;
-    _matter.courtName = _courtNameTextField.text;
-    _matter.registry = _registryTextField.text;
-    _matter.endClientName = _endClientNameTextField.text;
-    _matter.reference = _referenceTextField.text;
-//    _matter.solicitor.firstname = _solicitorTextField.text;
-    _matter.date = [_openDateLabel.text fromShortDateFormatToDate];
-    _matter.dueDate = [_dueDateTextField.text numberValue];
-    _matter.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
-    if (_matter.taxed && [_taxTextField.text isNumeric]) {
-        _matter.tax = [[NSDecimalNumber decimalNumberWithString:_taxTextField.text] decimalNumberByDividingBy:[NSDecimalNumber oneHundred]];
+    self.matter.name = _nameTextField.text;
+    self.matter.natureOfBrief = _natureOfBriefTextField.text;
+    self.matter.courtName = _courtNameTextField.text;
+    self.matter.registry = _registryTextField.text;
+    self.matter.endClientName = _endClientNameTextField.text;
+    self.matter.reference = _referenceTextField.text;
+//    self.matter.solicitor.firstname = _solicitorTextField.text;
+    self.matter.date = [_openDateLabel.text fromShortDateFormatToDate];
+    self.matter.dueDate = [_dueDateTextField.text numberValue];
+    self.matter.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
+    if (self.matter.taxed && [_taxTextField.text isNumeric]) {
+        self.matter.tax = [[NSDecimalNumber decimalNumberWithString:_taxTextField.text] decimalNumberByDividingBy:[NSDecimalNumber oneHundred]];
     } else {
-        _matter.tax = nil;
+        self.matter.tax = nil;
     }
     
     // refresh matter list accordingly
@@ -209,7 +210,7 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (void)updateSolicitor {
-    _solicitorTextField.text = _matter.solicitor ? [_matter.solicitor displayName] : @"";
+    _solicitorTextField.text = self.matter.solicitor ? [self.matter.solicitor displayName] : @"";
 //    _editSolicitorButton.hidden = !self.matter.solicitor;
 //    self.solicitorList = [Solicitor MR_findAll];
 //    [_contactsTableView reloadData];
@@ -219,7 +220,7 @@ BBContactListViewController *_contactListViewController;
 #pragma mark - preset data
 
 - (void)setMatter:(Matter *)matter {
-    _matter = matter;
+    [super setMatter:matter];
     [self loadMatterIntoUI];
 }
 
@@ -254,7 +255,7 @@ BBContactListViewController *_contactListViewController;
 - (IBAction)onCalendar:(id)sender {
     _calendarContainerView.hidden = !_calendarContainerView.hidden;
     if (!_calendarContainerView.hidden && !_openDateLabel.text) {
-        [self.calendar setCurrentDate:_matter.date];
+        [self.calendar setCurrentDate:self.matter.date];
 //        _datePicker.date = [_openDateLabel.text fromShortDateFormatToDate];
     }
 }
@@ -270,7 +271,7 @@ BBContactListViewController *_contactListViewController;
 
 - (IBAction)onConfirmPickDate:(id)sender {
     _calendarContainerView.hidden = YES;
-    _matter.date = _calendar.currentDateSelected;
+    self.matter.date = _calendar.currentDateSelected;
     [self loadMatterIntoUI];
 }
 
@@ -280,6 +281,7 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (IBAction)onCancel:(id)sender {
+    
 }
 
 - (IBAction)onSave:(id)sender {
@@ -287,12 +289,12 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (IBAction)onArchive:(id)sender {
-    _matter.archived = [NSNumber numberWithBool:YES];
+    self.matter.archived = [NSNumber numberWithBool:YES];
     [self refreshMatterList];
 }
 
 - (IBAction)onDelete:(id)sender {
-    [_matter MR_deleteEntity];
+    [self.matter MR_deleteEntity];
     [self refreshMatterList];
 }
 
@@ -348,13 +350,13 @@ BBContactListViewController *_contactListViewController;
 - (void)updateMatter:(id)data {
     Class dataClass = [data class];
     if (dataClass == [Solicitor class]) {
-        _matter.solicitor = data;
+        self.matter.solicitor = data;
     }
 //    if (dataClass == [Rate class]) {
 //        // add new Rate
-//        NSMutableSet *set = [NSMutableSet setWithSet:_matter.rates];
+//        NSMutableSet *set = [NSMutableSet setWithSet:self.matter.rates];
 //        [set addObject:data];
-//        _matter.rates = set;
+//        self.matter.rates = set;
 //    }
     [self loadMatterIntoUI];
 }
@@ -399,6 +401,7 @@ BBContactListViewController *_contactListViewController;
     if ([[segue identifier] isEqualToString:BBSegueMatterToRateList]) {
         BBRateListViewController *rateListViewController = [segue destinationViewController];
         rateListViewController.matter = self.matter;
+        rateListViewController.allowsEditing = YES;
     }
 }
 

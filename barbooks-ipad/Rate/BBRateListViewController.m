@@ -14,6 +14,8 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *ratesTableView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addButton;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -23,6 +25,21 @@
     [super viewDidLoad];
     
     [self setupNavigationBarButtons];
+}
+
+- (void)setAllowsEditing:(BOOL)allowsEditing
+{
+    _allowsEditing = allowsEditing;
+    
+    if (allowsEditing) {
+        self.addButton.enabled = YES;
+        self.addButton.style = UIBarButtonSystemItemAdd;
+    } else {
+        self.addButton.enabled = NO;
+        self.addButton.title = @"";
+    }
+
+    self.tableView.editing = allowsEditing;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,6 +59,7 @@
 #pragma mark - IBAction
 
 - (void)onAddRate {
+    
     [self popoverRateViewWithRate:nil];
 }
 
@@ -83,6 +101,7 @@
     BBRateViewController *rateViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBRateViewController];
     rateViewController.delegate = self;
     rateViewController.rate = rate;
+    rateViewController.matter = self.matter;
     
     // pop it over
     UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:rateViewController];

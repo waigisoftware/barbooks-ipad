@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0793E02A1B7D62C9001E2A5B /* BBColoredTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */; };
+		0793E02D1B7D7206001E2A5B /* BBTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E02C1B7D7206001E2A5B /* BBTableViewController.m */; };
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
 		36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */ = {isa = PBXBuildFile; fileRef = 36062BC81B6CF6D80088DB29 /* BBTimers.m */; };
 		360BD8EF1B770CF10012C4F0 /* BBRateListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 360BD8EE1B770CF10012C4F0 /* BBRateListViewController.m */; };
@@ -98,6 +100,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0793E0281B7D62C9001E2A5B /* BBColoredTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBColoredTableViewCell.h; path = UserInterface/Views/BBColoredTableViewCell.h; sourceTree = "<group>"; };
+		0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBColoredTableViewCell.m; path = UserInterface/Views/BBColoredTableViewCell.m; sourceTree = "<group>"; };
+		0793E02B1B7D7206001E2A5B /* BBTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTableViewController.h; path = UserInterface/BBTableViewController.h; sourceTree = "<group>"; };
+		0793E02C1B7D7206001E2A5B /* BBTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTableViewController.m; path = UserInterface/BBTableViewController.m; sourceTree = "<group>"; };
 		16ED6A71BF367FA077B7B0E6 /* Pods-barbooks-ipad.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipad.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad.release.xcconfig"; sourceTree = "<group>"; };
 		36062BC71B6CF6D80088DB29 /* BBTimers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTimers.h; path = Common/BBTimers.h; sourceTree = "<group>"; };
 		36062BC81B6CF6D80088DB29 /* BBTimers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTimers.m; path = Common/BBTimers.m; sourceTree = "<group>"; };
@@ -309,6 +315,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0793E0271B7D6295001E2A5B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0793E0281B7D62C9001E2A5B /* BBColoredTableViewCell.h */,
+				0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		360BD8EC1B770CC90012C4F0 /* Rate */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,10 +346,13 @@
 				363C3A381B1C786B00B92513 /* SlideMenu */,
 				36788FA21B2034ED00B34D3E /* BBBaseViewController.h */,
 				36788FA31B2034ED00B34D3E /* BBBaseViewController.m */,
+				0793E0271B7D6295001E2A5B /* Views */,
 				36788FA51B20350F00B34D3E /* BBBaseTableViewController.h */,
 				36788FA61B20350F00B34D3E /* BBBaseTableViewController.m */,
 				36DEF92A1B22FEE70053CD8C /* BBHomeViewController.h */,
 				36DEF92B1B22FEE70053CD8C /* BBHomeViewController.m */,
+				0793E02B1B7D7206001E2A5B /* BBTableViewController.h */,
+				0793E02C1B7D7206001E2A5B /* BBTableViewController.m */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -789,6 +807,7 @@
 				36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */,
 				36DEF9FF1B2710620053CD8C /* ReportDetailItem.m in Sources */,
 				36DEFA1D1B2710640053CD8C /* GeneralReceipt.m in Sources */,
+				0793E02A1B7D62C9001E2A5B /* BBColoredTableViewCell.m in Sources */,
 				3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */,
 				36DEFA381B2710650053CD8C /* Firm.m in Sources */,
 				36DEFA0B1B2710640053CD8C /* GeneralExpense.m in Sources */,
@@ -838,6 +857,7 @@
 				362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */,
 				36DEFA021B2710640053CD8C /* Rate.m in Sources */,
 				36DEFA201B2710640053CD8C /* Disbursement.m in Sources */,
+				0793E02D1B7D7206001E2A5B /* BBTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

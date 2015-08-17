@@ -19,8 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _tableView.dataSource = self;
-    _tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -63,7 +63,6 @@
             cell.imageView.image = [UIImage imageNamed:@"icon_statement_list"];
             cell.textLabel.text = @"Statements of Outstanding Fees";
             break;
-
     }
     
     return cell;

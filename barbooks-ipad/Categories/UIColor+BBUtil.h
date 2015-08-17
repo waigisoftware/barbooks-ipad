@@ -36,4 +36,6 @@
 
 + (UIColor *)bbButtonBackgroundColor;
 
++ (UIColor*) bbTableBackground;
+
 @end

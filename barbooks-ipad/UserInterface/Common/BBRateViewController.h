@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Censea. All rights reserved.
 //
 
-#import "BBBaseViewController.h"
+#import "BBTableViewController.h"
 #import "Rate.h"
 #import "BBRateDelegate.h"
 
-@interface BBRateViewController : BBBaseViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface BBRateViewController : BBTableViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) Rate *rate;
 @property (weak, nonatomic) id<BBRateDelegate> delegate;

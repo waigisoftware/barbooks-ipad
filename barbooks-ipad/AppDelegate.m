@@ -23,6 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setupNavigationBarAppearance];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self determineWhichViewControllerToShowFirst];
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"BarBooks"];
     [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
@@ -55,6 +56,15 @@
     }];
     [MagicalRecord cleanUp];
 }
+
+
+
+-(void) setupTableViewAppearance
+{
+    [[UITableView appearance] setTintColor:[UIColor whiteColor]];
+    [[UITableView appearance] setBackgroundColor:[UIColor bbTableBackground]];
+}
+
 
 -(void) setupNavigationBarAppearance
 {

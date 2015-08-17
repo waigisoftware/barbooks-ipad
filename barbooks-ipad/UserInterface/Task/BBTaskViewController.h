@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BBBaseViewController.h"
+#import "BBTableViewController.h"
 #import "BBTaskDelegate.h"
 #import "BBDropDownListDelegate.h"
 #import "BBDropDownListViewController.h"
@@ -15,7 +15,7 @@
 #import "Rate.h"
 #import "Matter.h"
 
-@interface BBTaskViewController : BBBaseViewController <UITextFieldDelegate, BBDropDownListDelegate>
+@interface BBTaskViewController : BBTableViewController <UITextFieldDelegate, BBDropDownListDelegate>
 
 @property (strong, nonatomic) Task *task;
 @property (weak, nonatomic) id<BBTaskDelegate> delegate;

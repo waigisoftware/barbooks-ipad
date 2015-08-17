@@ -30,7 +30,7 @@
     // tableview
     _tasksTableView.dataSource = self;
     _tasksTableView.delegate = self;
-    [self registerRefreshControlFor:_tasksTableView withAction:@selector(fetchTasks)];
+    //[self registerRefreshControlFor:_tasksTableView withAction:@selector(fetchTasks)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,7 +70,8 @@
     Task *newTask = [Task newInstanceOfMatter:self.matter];
     [self fetchTasks];
     [_tasksTableView selectRowAtIndexPath:[self indexPathOfTask:newTask] animated:YES scrollPosition:UITableViewScrollPositionTop];
-    [self popoverTaskViewWithTask:newTask inCell:nil];
+    CGRect rect = [_tasksTableView rectForRowAtIndexPath:[self indexPathOfTask:newTask]];
+    [self popoverTaskViewWithTask:newTask inRect:rect];
 }
 
 - (void)onDeleteTask {
@@ -108,7 +109,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Task *task = [_filteredItemList objectAtIndex:indexPath.row];
-    [self popoverTaskViewWithTask:task inCell:nil];
+    CGRect rect = [tableView rectForRowAtIndexPath:indexPath];
+
+    [self popoverTaskViewWithTask:task inRect:rect];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -146,20 +149,32 @@
     }
 }
 
-- (void)popoverTaskViewWithTask:(Task *)task inCell:(UITableViewCell *)cell {
+- (void)popoverTaskViewWithTask:(Task *)task inRect:(CGRect)rect {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     BBTaskViewController *taskViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskViewController];
     taskViewController.delegate = self;
     taskViewController.task = task;
     
+    UINavigationController *navigationController =  [[UINavigationController alloc]
+                                                     initWithRootViewController:taskViewController];
+//    [navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+    [navigationController.navigationBar setTintColor:[UIColor bbPrimaryBlue]];
+    [navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+    [navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor bbPrimaryBlue]}];
+    [navigationController.navigationBar setTranslucent:YES];
+    
+    //CGRect rect = [self.tasksTableView rectForRowAtIndexPath:indexPath];
+
     // pop it over
-    UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:taskViewController];
+    UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
     popoverController.delegate = self;
-    popoverController.popoverContentSize = CGSizeMake(500, 500);
-    [popoverController presentPopoverFromRect:self.navigationController.navigationBar.frame
+    popoverController.popoverContentSize = CGSizeMake(350, 540);
+    [popoverController presentPopoverFromRect:rect
                                        inView:self.view
                      permittedArrowDirections:UIPopoverArrowDirectionAny
                                      animated:YES];
+    
+
 }
 
 #pragma mark - BBTaskDelegate

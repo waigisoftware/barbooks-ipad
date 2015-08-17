@@ -12,4 +12,6 @@
 
 @interface BBRateListViewController : BBBaseTableViewController <UIPopoverControllerDelegate, BBRateDelegate>
 
+@property (assign,nonatomic) BOOL allowsEditing;
+
 @end

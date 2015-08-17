@@ -46,7 +46,7 @@
     // tableview
     _matterListTableView.dataSource = self;
     _matterListTableView.delegate = self;
-    [self registerRefreshControlFor:_matterListTableView withAction:@selector(fetchMatters)];
+    //[self registerRefreshControlFor:_matterListTableView withAction:@selector(fetchMatters)];
     
     // toolbar buttons
     UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

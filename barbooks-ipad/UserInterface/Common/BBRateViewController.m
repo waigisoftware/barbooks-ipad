@@ -12,10 +12,10 @@
 @interface BBRateViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateNameTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateTypeTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateAmountIncludeGSTTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *rateAmountExcludeGSTTextField;
+@property (weak, nonatomic) IBOutlet UITextField *rateNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *rateTypeTextField;
+@property (weak, nonatomic) IBOutlet UITextField *rateAmountIncludeGSTTextField;
+@property (weak, nonatomic) IBOutlet UITextField *rateAmountExcludeGSTTextField;
 @property (weak, nonatomic) IBOutlet UIView *rateTypeContainerView;
 @property (weak, nonatomic) IBOutlet UITableView *rateTypeTableView;
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
@@ -119,6 +119,7 @@
     // create Rate if applicable
     if (!_rate) {
         _rate = [Rate MR_createEntity];
+        _rate.matter = self.matter;
     }
     _rate.name = _rateNameTextField.text;
     _rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text];

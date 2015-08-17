@@ -50,6 +50,13 @@
                            alpha:1];
 }
 
++ (UIColor*) bbTableBackground {
+    return [UIColor colorWithRed:38.0/255.0
+                           green:58.0/255.0
+                            blue:87.0/255.0
+                           alpha:1];
+}
+
 
 +(UIColor*) bbPrimaryDisabledBlue {
     return [UIColor colorWithRed:0.639
