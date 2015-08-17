@@ -13,6 +13,7 @@
 #import "BBCoreDataManager.h"
 #import "UIColor+BBUtil.h"
 #import "BBTimers.h"
+#import "BBSubscriptionManager.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -27,6 +28,7 @@
     [self determineWhichViewControllerToShowFirst];
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"BarBooks"];
     [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
+    [self setupObservers];
     return YES;
 }
 
@@ -84,7 +86,7 @@
     ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
     viewController.panGesture.delegate = self;
     
-    BOOL isAuthorized = YES;
+    BOOL isAuthorized = [[BBSubscriptionManager sharedInstance] subscriptionValid];
     if (isAuthorized)
     {
         [self showMatters];
@@ -132,6 +134,20 @@
     [viewController resetTopViewAnimated:YES];
 }
 
+-(void) showSynchronization
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
+    viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
+    [viewController resetTopViewAnimated:NO];
+    [viewController.topViewController.navigationController performSegueWithIdentifier:BBSegueShowSynchronization sender:viewController.topViewController];
+}
+
+-(void) logout {
+    [[BBSubscriptionManager sharedInstance] logout];
+    [self showLogin];
+}
+
 #pragma mark - Split view
 
 - (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
@@ -143,5 +159,44 @@
     }
 }
 
+#pragma mark - Notifications/Ovservers
+
+- (void)setupObservers {
+    __weak AppDelegate* bself = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kSubscriptionUpdateSucceededNotification
+                                                      object:nil
+                                                       queue:nil
+                                                  usingBlock:^(NSNotification *notification) {
+                                                      [bself showMatters];
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kLoginFailedNotification
+                                                      object:nil
+                                                       queue:nil
+                                                  usingBlock:^(NSNotification *notification) {
+                                                      [self showAlertWithTitle:@"Authentication Error"
+                                                                       message:[notification.object objectForKey:@"message"]];
+                                                      [bself logout];
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kSubscriptionUpdateFailedNotification
+                                                      object:nil
+                                                       queue:nil
+                                                  usingBlock:^(NSNotification *notification) {
+                                                      [self showAlertWithTitle:@"Invalid Subscription"
+                                                                       message:[notification.object objectForKey:@"message"]];
+                                                      [bself logout];
+                                                  }];
+    
+}
+
+- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
+    [[[UIAlertView alloc] initWithTitle:title
+                                message:message
+                               delegate:((ECSlidingViewController *)self.window.rootViewController).topViewController.view
+                      cancelButtonTitle:@"OK"
+                      otherButtonTitles:nil] show];
+}
 
 @end
