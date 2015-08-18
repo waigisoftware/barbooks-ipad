@@ -18,3 +18,5 @@ DerivedData
 *.ipa
 *.xcuserstate
 Podfile.lock
+
+.DS_Store
