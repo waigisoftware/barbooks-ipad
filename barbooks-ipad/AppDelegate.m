@@ -87,6 +87,7 @@
     viewController.panGesture.delegate = self;
     
     BOOL isAuthorized = [[BBSubscriptionManager sharedInstance] subscriptionValid];
+    isAuthorized = YES;
     if (isAuthorized)
     {
         [self showMatters];

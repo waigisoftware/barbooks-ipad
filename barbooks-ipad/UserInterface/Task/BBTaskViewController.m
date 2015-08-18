@@ -7,7 +7,6 @@
 //
 
 #import "BBTaskViewController.h"
-#import "BBTaskTimer.h"
 #import "BBRateListViewController.h"
 #import "NSString+BBUtil.h"
 
@@ -31,7 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIView *rateTableViewContainerView;
 @property (weak, nonatomic) IBOutlet UITableView *rateTableView;
 @property (weak, nonatomic) IBOutlet UIPickerView *hoursPickerView;
-
 @property (strong, nonatomic) NSObject *observer;
 
 - (IBAction)onBackgroundButton:(id)sender;
@@ -78,12 +76,17 @@ BBDropDownListViewController *_dropDownListViewController;
     [_rateTableView reloadData];
     _rateTableViewContainerView.hidden = YES;
     
+    self.hoursPickerView.hidden = self.task.rate.type.integerValue != BBRateChargingTypeHourly;
+    
     [self loadTaskIntoUI];
 }
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self addTaskTimerObserver];
+    [self updateContentSize];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -96,6 +99,12 @@ BBDropDownListViewController *_dropDownListViewController;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)updateContentSize
+{
+    
+    [self setPreferredContentSize:self.tableView.contentSize];
 }
 
 #pragma mark - Task value
@@ -301,17 +310,27 @@ BBDropDownListViewController *_dropDownListViewController;
             }
         }
     } else {
+        Rate *selectedRate = [self.task.matter.ratesArray objectAtIndex:indexPath.row];
+        _task.rate.name = [selectedRate.name copy];
+        _task.rate.type = [selectedRate.name copy];
+        _task.rate.amount = [selectedRate.name copy];
+        
+        self.hoursPickerView.hidden = selectedRate.type.integerValue != BBRateChargingTypeHourly;
+        [self.tableView reloadData];
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
-        return [super tableView:tableView numberOfRowsInSection:section];
+        NSInteger rows = [super tableView:tableView numberOfRowsInSection:section];
+        if (_task.rate.type.integerValue != BBRateChargingTypeUnit && section == 1) {
+            rows--;
+        }
+        return rows;
     }
-    return self.matter.rates.count;
+    return self.task.matter.rates.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -332,8 +351,8 @@ BBDropDownListViewController *_dropDownListViewController;
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     }
-    Rate *rate = [self.matter.ratesArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = [self.matter.ratesArray objectAtIndex:indexPath.row];
+    Rate *rate = [self.task.matter.ratesArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = [rate name];
     if ([rate.name isEqualToString:_task.rate.name]) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     }
@@ -341,6 +360,19 @@ BBDropDownListViewController *_dropDownListViewController;
     return cell;
 }
 
+
+#pragma mark - Navigation
+- (void)showRateSelectorTable {
+    
+    UITableViewController *tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    tableViewController.tableView.dataSource = self;
+    tableViewController.tableView.delegate = self;
+    tableViewController.title = @"Rates";
+    tableViewController.view.backgroundColor = self.view.backgroundColor;
+    tableViewController.tableView.backgroundColor = self.tableView.backgroundColor;
+    tableViewController.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
+    [self.navigationController showViewController:tableViewController sender:nil];
+}
 
 #pragma mark - Observers
 -(void) addTaskTimerObserver {
@@ -354,17 +386,6 @@ BBDropDownListViewController *_dropDownListViewController;
 }
 
 
-#pragma mark - Navigation
-- (void)showRateSelectorTable {
-    
-    UITableViewController *tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    tableViewController.tableView.dataSource = self;
-    tableViewController.tableView.delegate = self;
-    tableViewController.view.backgroundColor = self.view.backgroundColor;
-    tableViewController.tableView.backgroundColor = self.tableView.backgroundColor;
-    
-    [self.navigationController showViewController:tableViewController sender:nil];
-}
 
 
 @end

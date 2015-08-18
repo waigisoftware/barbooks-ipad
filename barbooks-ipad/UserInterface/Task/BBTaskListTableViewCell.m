@@ -8,10 +8,17 @@
 
 #import "BBTaskListTableViewCell.h"
 
+@interface BBTaskListTableViewCell ()
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *timerButtonWidthConstraint;
+
+@end
+
 @implementation BBTaskListTableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -19,5 +26,6 @@
 
     // Configure the view for the selected state
 }
+
 
 @end

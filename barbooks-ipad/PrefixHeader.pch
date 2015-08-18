@@ -18,6 +18,8 @@
 #import <MagicalRecord/MagicalRecord+ShorthandMethods.h>
 #import <MagicalRecord/MagicalRecordShorthandMethodAliases.h>
 
+#import "BBTaskTimer.h"
+
 // Formats
 #define SHORT_DATE_FORMAT @"dd MMM yyyy"
 #define SHORT_DATE_TIME_FORMAT @"dd MMM yyyy, h:mm"
@@ -27,6 +29,7 @@
 #define BBSegueShowMatterDetail @"showMatterDetailSegue"
 #define BBSegueMatterToContactList @"matterToContactListSegue"
 #define BBSegueMatterToRateList @"matterToRateListSegue"
+#define BBSegueRateListToRateDetail @"showRateDetailSegue"
 #define BBSegueShowSynchronization @"showSynchronizationSegue"
 
 // View Controllers

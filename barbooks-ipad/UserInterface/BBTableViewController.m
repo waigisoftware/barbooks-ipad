@@ -9,6 +9,9 @@
 #import "BBTableViewController.h"
 
 @interface BBTableViewController ()
+{
+    UIStoryboard *_mainStoryboard;
+}
 
 @end
 
@@ -17,11 +20,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [UIFloatLabelTextField applyStyleToAllUIFloatLabelTextFieldInView:self.tableView];
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+
+- (UIStoryboard *)mainStoryboard {
+    if (!_mainStoryboard) {
+        _mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    }
+    return _mainStoryboard;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,15 +56,17 @@
 //    return 0;
 //}
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    
+    [UIFloatLabelTextField applyStyleToAllUIFloatLabelTextFieldInView:cell];
     
     // Configure the cell...
     
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

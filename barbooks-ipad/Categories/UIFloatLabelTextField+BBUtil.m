@@ -15,12 +15,12 @@ static NSInteger const DefaultBorderWidth = 1;
 -(void) applyBottomBorderStyle
 {
     self.borderStyle = UITextBorderStyleNone;
-    CALayer *border = [self bottomBorderWithColor:[UIColor lightGrayColor]];
-    border.frame = [self frameWithBottomBorder];
-    [self.layer addSublayer:border];
+    //CALayer *border = [self bottomBorderWithColor:[UIColor lightGrayColor]];
+    //border.frame = [self frameWithBottomBorder];
+    //[self.layer addSublayer:border];
     self.layer.masksToBounds = YES;
     self.floatLabelActiveColor = [UIColor bbPrimaryBlue];
-    self.floatLabelFont = [UIFont systemFontOfSize:7];
+    self.floatLabelFont = [UIFont systemFontOfSize:9];
 }
 
 -(CGRect) frameWithBottomBorder

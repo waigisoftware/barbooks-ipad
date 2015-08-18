@@ -26,9 +26,13 @@
 
 +(UIColor*) bbDarkGreen;
 
++(UIColor *) bbGreen;
+
 +(UIColor *) bbDarkText;
 
 +(UIColor*) bbErrorRed;
+
++(UIColor*) bbRed;
 
 +(UIColor *) bbEnabledButtonBackgroundColor;
 

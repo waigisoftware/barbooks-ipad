@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0703B20D1B82CFAB009984E2 /* BBTimerCellAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0703B20C1B82CFAB009984E2 /* BBTimerCellAccessory.xib */; };
+		0703B2101B82CFD5009984E2 /* BBTimerAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */; };
 		0793E02A1B7D62C9001E2A5B /* BBColoredTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */; };
 		0793E02D1B7D7206001E2A5B /* BBTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E02C1B7D7206001E2A5B /* BBTableViewController.m */; };
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
@@ -104,6 +106,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0703B20C1B82CFAB009984E2 /* BBTimerCellAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BBTimerCellAccessory.xib; sourceTree = "<group>"; };
+		0703B20E1B82CFD5009984E2 /* BBTimerAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTimerAccessoryView.h; path = UserInterface/Views/BBTimerAccessoryView.h; sourceTree = "<group>"; };
+		0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTimerAccessoryView.m; path = UserInterface/Views/BBTimerAccessoryView.m; sourceTree = "<group>"; };
 		0793E0281B7D62C9001E2A5B /* BBColoredTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBColoredTableViewCell.h; path = UserInterface/Views/BBColoredTableViewCell.h; sourceTree = "<group>"; };
 		0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBColoredTableViewCell.m; path = UserInterface/Views/BBColoredTableViewCell.m; sourceTree = "<group>"; };
 		0793E02B1B7D7206001E2A5B /* BBTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTableViewController.h; path = UserInterface/BBTableViewController.h; sourceTree = "<group>"; };
@@ -332,6 +337,9 @@
 			children = (
 				0793E0281B7D62C9001E2A5B /* BBColoredTableViewCell.h */,
 				0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */,
+				0703B20C1B82CFAB009984E2 /* BBTimerCellAccessory.xib */,
+				0703B20E1B82CFD5009984E2 /* BBTimerAccessoryView.h */,
+				0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -760,6 +768,7 @@
 			files = (
 				36C9E6621B1AC6840085D647 /* Main.storyboard in Resources */,
 				36C9E6671B1AC6840085D647 /* LaunchScreen.xib in Resources */,
+				0703B20D1B82CFAB009984E2 /* BBTimerCellAccessory.xib in Resources */,
 				36C9E6641B1AC6840085D647 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -888,6 +897,7 @@
 				360BD8EF1B770CF10012C4F0 /* BBRateListViewController.m in Sources */,
 				362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */,
 				36DEFA021B2710640053CD8C /* Rate.m in Sources */,
+				0703B2101B82CFD5009984E2 /* BBTimerAccessoryView.m in Sources */,
 				36DEFA201B2710640053CD8C /* Disbursement.m in Sources */,
 				0793E02D1B7D7206001E2A5B /* BBTableViewController.m in Sources */,
 			);
@@ -1020,6 +1030,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "barbooks-ipad/PrefixHeader.pch";
 				INFOPLIST_FILE = "barbooks-ipad/Info.plist";
@@ -1038,6 +1049,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "barbooks-ipad/PrefixHeader.pch";
 				INFOPLIST_FILE = "barbooks-ipad/Info.plist";

@@ -10,6 +10,13 @@
 #import <Foundation/Foundation.h>
 #import "Task.h"
 
+#define kTimerActivatedNotification @"kTimerActivatedNotification"
+#define kTimerDeactivatedNotification @"kTimerDeactivatedNotification"
+#define kTimerUpdatedNotification @"kTimerUpdatedNotification"
+#define kTimerPausedNotification @"kTimerPausedNotification"
+#define kTimerResumedNotification @"kTimerResumedNotification"
+
+
 @interface BBTaskTimer : NSObject {
     NSTimer *_timer;
 }
@@ -17,9 +24,13 @@
 @property (strong, nonatomic) Task *currentTask;
 
 + (instancetype)sharedInstance;
-- (void)start;
-- (void)pause;
-- (void)resume;
+
+
+- (void)startWithTask:(Task *)task sender:(id)sender;
 - (void)stop;
+- (void)resume;
+- (void)pause;
+
+- (BOOL)active;
 
 @end

@@ -34,6 +34,7 @@
     // Do any additional setup after loading the view.
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.contentInset = UIEdgeInsetsMake(-26, 0, 0, 0);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -98,9 +99,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
         case 0:
-            return 1; break;
-        case 1:
             return 3; break;
+        case 1:
+            return 2; break;
     }
     return 0;
 }
@@ -111,10 +112,6 @@
     
     switch (indexPath.section) {
         case 0:
-            cell.imageView.image = [UIImage imageNamed:@"icon_overview"];
-            cell.textLabel.text = @"Overview";
-            break;
-        case 1:
             switch (indexPath.row) {
                 case 0:
                     cell.imageView.image = [UIImage imageNamed:@"icon_matter_list"];
@@ -129,6 +126,18 @@
                     cell.textLabel.text = @"Expenses";
                     break;
             }
+            break;
+        case 1:
+            switch (indexPath.row) {
+                case 0:
+                    cell.imageView.image = [UIImage imageNamed:@"icon_matter_list"];
+                    cell.textLabel.text = @"Profile";
+                    break;
+                case 1:
+                    cell.imageView.image = [UIImage imageNamed:@"icon_matter_list"];
+                    cell.textLabel.text = @"Settings";
+                    break;
+            }
     }
     
     return cell;
@@ -137,12 +146,10 @@
 #pragma mark - UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     switch (indexPath.section) {
         case 0:
-            NSLog(@"Overview");
-            break;
-        case 1:
             switch (indexPath.row) {
                 case 0: {
                     NSLog(@"Matters");
@@ -155,6 +162,19 @@
                 case 2:
                     NSLog(@"Expenses");
                     [self showExpenses:nil];
+                    break;
+            }
+            break;
+        case 1:
+            switch (indexPath.row) {
+                case 0: {
+                    NSLog(@"Profile");
+                    break;
+                }
+                case 1:
+                    NSLog(@"Settings");
+                    break;
+                case 2:
                     break;
             }
     }

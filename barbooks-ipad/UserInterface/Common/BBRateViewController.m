@@ -13,7 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *rateNameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *rateTypeTextField;
+@property (weak, nonatomic) IBOutlet UILabel *rateTypeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *rateAmountIncludeGSTTextField;
 @property (weak, nonatomic) IBOutlet UITextField *rateAmountExcludeGSTTextField;
 @property (weak, nonatomic) IBOutlet UIView *rateTypeContainerView;
@@ -38,18 +38,24 @@
     _rateAmountExcludeGSTTextField.delegate = self;
     _rateTypeTableView.dataSource = self;
     _rateTypeTableView.delegate = self;
-    
+    [self.tableView setContentInset:UIEdgeInsetsMake(-35, 0, 0, 0)];
+
     if (_rate) {
-        _titleLabel.text = @"Edit Rate";
-        _rateNameTextField.text = _rate.name;
-        _rateTypeTextField.text = [[Rate rateTypes] objectAtIndex:[_rate.type intValue]];
-        _rateAmountIncludeGSTTextField.text = [_rate.amountGst stringValue];
-        _rateAmountExcludeGSTTextField.text = [_rate.amount stringValue];
+        self.title = @"Edit Rate";
         [_rateTypeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[_rate.type integerValue] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
         [_doneButton updateBackgroundColourAndSetEnabledTo:YES];
     } else {
-        _titleLabel.text = @"New Rate";
+        _rate = [Rate MR_createEntity];
+        _rate.matter = self.matter;
+        self.title = @"New Rate";
     }
+    
+    _rateNameTextField.text = _rate.name;
+    _rateTypeLabel.text = [[Rate rateTypes] objectAtIndex:[_rate.type intValue]];
+    _rateAmountIncludeGSTTextField.text = [_rate.amountGst stringValue];
+    _rateAmountExcludeGSTTextField.text = [_rate.amount stringValue];
+    
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -73,33 +79,80 @@
     }
 }
 
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [Rate rateTypes].count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *reuseIdentifier = @"selectRateTableViewCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    cell.textLabel.text = [[Rate rateTypes] objectAtIndex:indexPath.row];
-    return cell;
-}
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    _rateTypeTextField.text = [[Rate rateTypes] objectAtIndex:indexPath.row];
-    [self stopEditing];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.tableView) {
+        if (indexPath.section == 0) {
+            if (indexPath.row == 1) {
+                [self showRateSelectorTable];
+            } else if (indexPath.row == 4) {
+                [self onDone:self];
+            }
+        }
+    } else {
+        
+        _rate.type = @(indexPath.row);
+        _rateTypeLabel.text = [[Rate rateTypes] objectAtIndex:indexPath.row];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
-// show no empty cells
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.tableView) {
+        return [super tableView:tableView numberOfRowsInSection:section];
+    }
+    return [Rate rateTypes].count;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if (tableView == self.tableView) {
+        return [super numberOfSectionsInTableView:tableView];
+    }
     return 1;
 }
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    return [UIView new];
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == self.tableView) {
+        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    }
+    
+    NSArray *types = [Rate rateTypes];
+    
+    static NSString *reuseIdentifier = @"rateCell";
+    UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    }
+
+    cell.textLabel.text = [types objectAtIndex:indexPath.row];
+    if (indexPath.row == _rate.type.integerValue) {
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }
+    
+    return cell;
 }
+
+
+#pragma mark - Navigation
+- (void)showRateSelectorTable {
+    
+    UITableViewController *tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    tableViewController.tableView.dataSource = self;
+    tableViewController.tableView.delegate = self;
+    tableViewController.title = @"Rate Types";
+    tableViewController.view.backgroundColor = self.view.backgroundColor;
+    tableViewController.tableView.backgroundColor = self.tableView.backgroundColor;
+    
+    [self.navigationController showViewController:tableViewController sender:nil];
+    [tableViewController.tableView reloadData];
+}
+
 
 #pragma mark IBActions
 
@@ -117,15 +170,11 @@
 - (IBAction)onDone:(id)sender {
     [self stopEditing];
     // create Rate if applicable
-    if (!_rate) {
-        _rate = [Rate MR_createEntity];
-        _rate.matter = self.matter;
-    }
     _rate.name = _rateNameTextField.text;
     _rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text];
     _rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountExcludeGSTTextField.text];
-    _rate.type = [NSNumber numberWithUnsignedInteger:[[Rate rateTypes] indexOfObject:_rateTypeTextField.text]];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    _rate.type = [NSNumber numberWithUnsignedInteger:[[Rate rateTypes] indexOfObject:_rateTypeLabel.text]];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)onBackgroundButton:(id)sender {

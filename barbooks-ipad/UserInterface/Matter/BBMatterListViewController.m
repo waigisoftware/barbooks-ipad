@@ -113,11 +113,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 123;
+    return tableView.rowHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 123;
+    return tableView.rowHeight;
 }
 
 #pragma mark - TableView helper methods
@@ -132,7 +132,7 @@
     // fetch from core data
     _originalItemList = _showUnarchived ? [Matter unarchivedMatters] : [Matter archivedMatters];
     [self filterContentForSearchText:_searchBar.text scope:nil];
-    [_matterListTableView reloadData];
+    //[_matterListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
 }
 
@@ -145,7 +145,7 @@
     } else {
         _filteredItemList = _originalItemList;
     }
-    [_matterListTableView reloadData];
+    //[_matterListTableView reloadData];
 }
 
 #pragma mark - IBActions
@@ -153,8 +153,10 @@
 - (IBAction)onAdd:(id)sender {
     Matter *newMatter = [Matter newInstanceWithDefaultValue];
     [self fetchMatters];
+    [_matterListTableView insertRowsAtIndexPaths:@[[self indexPathOfMatter:newMatter]] withRowAnimation:UITableViewRowAnimationTop];
     [_matterListTableView selectRowAtIndexPath:[self indexPathOfMatter:newMatter] animated:YES scrollPosition:UITableViewScrollPositionTop];
     [self showTaskList:newMatter];
+    [self showMatterDetail:newMatter];
 }
 
 - (IBAction)onArchive:(id)sender {
@@ -163,10 +165,17 @@
     [self fetchMatters];
 }
 
+- (void)animateDeleteForSelections
+{
+    NSArray *selections = [_matterListTableView indexPathsForSelectedRows];
+    [_matterListTableView deleteRowsAtIndexPaths:selections withRowAnimation:UITableViewRowAnimationTop];
+}
+
 - (IBAction)onDelete:(id)sender {
     Matter *selectedMatter = [_filteredItemList objectAtIndex:_matterListTableView.indexPathForSelectedRow.row];
     [selectedMatter MR_deleteEntity];
     [self fetchMatters];
+    [self animateDeleteForSelections];
 }
 
 - (IBAction)onFilterMatters:(id)sender {

@@ -23,8 +23,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self setupNavigationBarButtons];
+    [self.tableView setContentInset:UIEdgeInsetsMake(-35, 0, 0, 0)];
+    //[self setupNavigationBarButtons];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)setAllowsEditing:(BOOL)allowsEditing
@@ -38,7 +44,7 @@
         self.addButton.enabled = NO;
         self.addButton.title = @"";
     }
-
+    
     self.tableView.editing = allowsEditing;
 }
 
@@ -58,9 +64,10 @@
 
 #pragma mark - IBAction
 
-- (void)onAddRate {
+- (IBAction)onAddRate {
     
-    [self popoverRateViewWithRate:nil];
+    [self pushRateViewWithRate:nil];
+    [self.tableView reloadData];
 }
 
 - (void)onDeleteRate {
@@ -83,7 +90,8 @@
 #pragma mark - Rate UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self popoverRateViewWithRate:[self.matter.ratesArray objectAtIndex:indexPath.row]];
+    [self pushRateViewWithRate:[self.matter.ratesArray objectAtIndex:indexPath.row]];
+    //[self popoverRateViewWithRate:[self.matter.ratesArray objectAtIndex:indexPath.row]];
 }
 
 // show no empty cells
@@ -95,6 +103,10 @@
 }
 
 #pragma mark - Rates
+
+- (void)pushRateViewWithRate:(Rate *)rate {
+    [self performSegueWithIdentifier:BBSegueRateListToRateDetail sender:rate];
+}
 
 - (void)popoverRateViewWithRate:(Rate *)rate {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -122,6 +134,18 @@
         self.matter.rates = mutableset;
     }
     [_ratesTableView reloadData];
+}
+
+#pragma mark - BBRateDelegate
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([[segue identifier] isEqualToString:BBSegueRateListToRateDetail]) {
+        BBRateViewController *rateViewController = [segue destinationViewController];
+        rateViewController.matter = self.matter;
+        if (sender) {
+            rateViewController.rate = sender;
+        }
+    }
 }
 
 @end

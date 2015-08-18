@@ -44,10 +44,15 @@
         newTask.hours = [NSDecimalNumber zero];
         newTask.minutes = [NSDecimalNumber zero];
         newTask.taxed = [NSNumber numberWithBool:YES];
+        newTask.rate = [Rate MR_createEntity];
         if (matter.rates.count > 0) {
+            Rate *rate = [matter.ratesArray objectAtIndex:0];
+            newTask.rate.name = [rate.name copy];
+            newTask.rate.type = [rate.type copy];
+            newTask.rate.amount = [rate.amount copy];
+            
             newTask.selectedRateIndex = 0;
         }
-        newTask.rate = [Rate MR_createEntity];
         newTask.matter = matter;
         [matter addTasksObject:newTask];
         return newTask;

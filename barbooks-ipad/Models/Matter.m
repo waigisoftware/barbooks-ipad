@@ -129,7 +129,7 @@
 }
 
 - (NSArray *)tasksArray {
-    return [self.tasks allObjects];
+    return [[self.tasks allObjects] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]]];
 }
 
 - (NSArray *)ratesArray {

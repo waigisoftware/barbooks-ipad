@@ -80,6 +80,22 @@
                            alpha:1.0f];
 }
 
++(UIColor *) bbGreen {
+    return [UIColor colorWithRed:36.0f/255.0f
+                           green:212.0f/255.0f
+                            blue:68.0f/255.0f
+                           alpha:1.0f];
+}
+
+
++(UIColor*) bbRed {
+    return [UIColor colorWithRed:230.0/255.0
+                           green:40.0/255.0
+                            blue:33.0/255.0
+                           alpha:1];
+}
+
+
 +(UIColor*) bbBubbleBlue {
     return [UIColor colorWithRed:52.0/255.0
                            green:151.0/255.0
