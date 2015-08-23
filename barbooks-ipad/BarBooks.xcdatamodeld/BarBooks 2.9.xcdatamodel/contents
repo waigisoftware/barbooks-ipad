@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8175.2" systemVersion="14F27" minimumToolsVersion="Automatic">
     <entity name="Account" representedClassName="Account" parentEntity="Contact" syncable="YES">
         <attribute name="accountingType" optional="YES" attributeType="Integer 16" defaultValueString="1" syncable="YES"/>
         <attribute name="businessnumber" optional="YES" attributeType="String" syncable="YES"/>
@@ -173,7 +173,7 @@
         <attribute name="reference" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="registry" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="roundingType" optional="YES" attributeType="Integer 16" defaultValueString="2" syncable="YES"/>
-        <attribute name="tax" optional="YES" attributeType="Decimal" minValueString="0" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="tax" optional="YES" attributeType="Decimal" minValueString="0" defaultValueString="10" syncable="YES"/>
         <attribute name="taxed" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="matters" inverseEntity="Account" syncable="YES"/>
         <relationship name="disbursements" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Disbursement" inverseName="matter" inverseEntity="Disbursement" syncable="YES"/>
@@ -220,7 +220,7 @@
         <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="rate" inverseEntity="Task" syncable="YES"/>
     </entity>
     <entity name="Receipt" representedClassName="Receipt" parentEntity="Payment" syncable="YES">
-        <attribute name="printIssuedDate" optional="YES" attributeType="Date" defaultDateTimeInterval="0" defaultValueString="nil" syncable="YES"/>
+        <attribute name="printIssuedDate" optional="YES" attributeType="Date" defaultDateTimeInterval="0" syncable="YES"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReceiptAllocation" inverseName="receipt" inverseEntity="ReceiptAllocation" syncable="YES"/>
     </entity>
     <entity name="ReceiptAllocation" representedClassName="ReceiptAllocation" parentEntity="BBManagedObject" syncable="YES">

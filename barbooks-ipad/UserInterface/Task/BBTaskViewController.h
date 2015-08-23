@@ -15,7 +15,7 @@
 #import "Rate.h"
 #import "Matter.h"
 
-@interface BBTaskViewController : BBTableViewController <UITextFieldDelegate, BBDropDownListDelegate>
+@interface BBTaskViewController : BBTableViewController <UITextFieldDelegate, UITextViewDelegate, BBDropDownListDelegate>
 
 @property (strong, nonatomic) Task *task;
 @property (weak, nonatomic) id<BBTaskDelegate> delegate;

@@ -21,20 +21,47 @@
 }
 */
 
-+ (id)cellAccessoryView
++ (id)cellAccessoryViewWithOwner:(id)owner
 {
-    return [self accessoryViewFromNib:BBTimerAccessoryViewTableViewCell];
+    return [self accessoryViewFromNib:BBTimerAccessoryViewTableViewCell owner:owner];
 }
 
-+ (id)accessoryViewFromNib:(NSString*)nib
++ (id)accessoryViewFromNib:(NSString*)nib owner:(id)owner
 {
-    
     NSArray *views = [[NSBundle mainBundle] loadNibNamed:nib
-                                                   owner:self
+                                                   owner:owner
                                                  options:nil];
     return [views objectAtIndex:0];
 }
 
+- (void)showPauseTimer
+{
+    [self.timerButton setBackgroundColor:[UIColor bbYellorange]];
+    [self.timerButton setImage:[UIImage imageNamed:@"button_timer_start"] forState:UIControlStateNormal];
+
+    [self stopAnimatingTimer];
+}
+
+- (void)showDefaultTimer
+{
+    [self.timerButton setBackgroundColor:[UIColor colorWithWhite:221.0/255.0 alpha:1.0]];
+    [self.timerButton setImage:[UIImage imageNamed:@"button_timer"] forState:UIControlStateNormal];
+    
+    [self stopAnimatingTimer];
+}
+
+- (void)showRunningTimer
+{
+    [self.timerButton setBackgroundColor:[UIColor bbGreen]];
+    [self.timerButton setImage:[UIImage imageNamed:@"button_timer_pause"] forState:UIControlStateNormal];
+    
+    [self startAnimatingTimer];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+}
 
 - (void)startAnimatingTimer
 {
@@ -42,9 +69,7 @@
     
     // Check if the timer is already animating
     if (![self.timerButton.layer animationForKey:@"transform.scale"]) {
-        [self.timerButton setBackgroundColor:[UIColor bbGreen]];
-        [self.timerButton setImage:[UIImage imageNamed:@"button_timer_pause"] forState:UIControlStateNormal];
-        
+
         //        if (!CGPointEqualToPoint(self.accessoryView.layer.anchorPoint, CGPointMake(0.5, 0.5)) ) {
         //            [self.accessoryView.layer setAnchorPoint:CGPointMake(0.5, 0.5)];
         //        }
@@ -73,9 +98,6 @@
 
 - (void)stopAnimatingTimer
 {
-    [self.timerButton setBackgroundColor:[UIColor bbGreyLine]];
-    [self.timerButton setImage:[UIImage imageNamed:@"button_timer"] forState:UIControlStateNormal];
-
     [self.timerButton.layer removeAllAnimations];
 }
 

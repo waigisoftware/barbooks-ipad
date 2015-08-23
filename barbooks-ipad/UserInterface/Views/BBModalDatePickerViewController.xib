@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BBModalDatePickerViewController">
+            <connections>
+                <outlet property="backgroundView" destination="Hzx-0h-gY0" id="cBT-c6-KNa"/>
+                <outlet property="datePicker" destination="zn0-tl-ZWM" id="zRg-s2-njN"/>
+                <outlet property="datePickerBottomConstraint" destination="elx-w8-7gC" id="GxQ-AH-weh"/>
+                <outlet property="datePickerHeightConstraint" destination="8aw-eO-u0w" id="duI-eM-R0i"/>
+                <outlet property="view" destination="yb9-3n-8kk" id="ajU-JQ-k7s"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="yb9-3n-8kk">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hzx-0h-gY0">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9WL-qA-yPi">
+                    <rect key="frame" x="0.0" y="340" width="600" height="260"/>
+                    <subviews>
+                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Uy-Ee-ouD">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <items>
+                                <barButtonItem title="Cancel" id="4Oz-0E-BaB">
+                                    <connections>
+                                        <action selector="onCancel:" destination="-1" id="3jT-Eb-vbJ"/>
+                                    </connections>
+                                </barButtonItem>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="DgZ-1m-X8r"/>
+                                <barButtonItem title="Done" id="ZpE-qk-2lY">
+                                    <connections>
+                                        <action selector="onDone:" destination="-1" id="zZW-ut-pZG"/>
+                                    </connections>
+                                </barButtonItem>
+                            </items>
+                            <color key="tintColor" red="0.054901961239999998" green="0.13725490870000001" blue="0.27450981740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </toolbar>
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="zn0-tl-ZWM">
+                            <rect key="frame" x="0.0" y="44" width="600" height="216"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="216" id="Pcy-XG-OCX"/>
+                            </constraints>
+                            <date key="date" timeIntervalSinceReferenceDate="461724931.24598902">
+                                <!--2015-08-20 00:55:31 +0000-->
+                            </date>
+                        </datePicker>
+                    </subviews>
+                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="260" id="8aw-eO-u0w"/>
+                        <constraint firstAttribute="trailing" secondItem="zn0-tl-ZWM" secondAttribute="trailing" id="Fig-ae-d00"/>
+                        <constraint firstAttribute="trailing" secondItem="9Uy-Ee-ouD" secondAttribute="trailing" id="NAd-KS-rMr"/>
+                        <constraint firstItem="9Uy-Ee-ouD" firstAttribute="top" secondItem="9WL-qA-yPi" secondAttribute="top" id="eyx-FF-kjW"/>
+                        <constraint firstItem="zn0-tl-ZWM" firstAttribute="leading" secondItem="9WL-qA-yPi" secondAttribute="leading" id="pTu-9o-5xj"/>
+                        <constraint firstItem="9Uy-Ee-ouD" firstAttribute="leading" secondItem="9WL-qA-yPi" secondAttribute="leading" id="rY6-8c-TRs"/>
+                        <constraint firstItem="zn0-tl-ZWM" firstAttribute="top" secondItem="9WL-qA-yPi" secondAttribute="top" constant="44" id="skO-f4-eBO"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Hzx-0h-gY0" secondAttribute="trailing" id="CcQ-Q1-vHc"/>
+                <constraint firstAttribute="trailing" secondItem="9WL-qA-yPi" secondAttribute="trailing" id="KY7-v6-auM"/>
+                <constraint firstItem="Hzx-0h-gY0" firstAttribute="top" secondItem="yb9-3n-8kk" secondAttribute="top" id="Weg-9b-KPo"/>
+                <constraint firstItem="Hzx-0h-gY0" firstAttribute="leading" secondItem="yb9-3n-8kk" secondAttribute="leading" id="c26-aa-jOj"/>
+                <constraint firstAttribute="bottom" secondItem="Hzx-0h-gY0" secondAttribute="bottom" id="dQ7-c2-AdF"/>
+                <constraint firstAttribute="bottom" secondItem="9WL-qA-yPi" secondAttribute="bottom" id="elx-w8-7gC"/>
+                <constraint firstItem="9WL-qA-yPi" firstAttribute="leading" secondItem="yb9-3n-8kk" secondAttribute="leading" id="rYb-nc-ibQ"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

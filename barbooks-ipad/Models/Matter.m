@@ -37,7 +37,7 @@
 @dynamic tax;
 @dynamic taxed;
 @dynamic account;
-@dynamic costsAgreement;
+@dynamic costsAgreementDate;
 @dynamic disbursements;
 @dynamic invoices;
 @dynamic outstandingFees;
@@ -61,8 +61,8 @@
     newMatter.archived = [NSNumber numberWithBool:NO];
     newMatter.createdAt = [NSDate date];
     newMatter.date = [NSDate date];
+    newMatter.costsAgreementDate = [NSDate date];
     newMatter.taxed = [NSNumber numberWithBool:YES];
-    newMatter.tax = [NSDecimalNumber decimalNumberWithString:@"0.1"];
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         [localContext save:nil];
     } completion:^(BOOL success, NSError *error) {
@@ -129,7 +129,7 @@
 }
 
 - (NSArray *)tasksArray {
-    return [[self.tasks allObjects] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]]];
+    return [self.tasks allObjects];
 }
 
 - (NSArray *)ratesArray {

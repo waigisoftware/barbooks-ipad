@@ -22,4 +22,9 @@
 - (instancetype)decimalNumberAddGST;
 - (instancetype)decimalNumberSubtractGST;
 
++ (NSDecimalNumberHandler*)timeRoundingHandler;
++ (NSDecimalNumberHandler*)timeFractionRoundingHandler;
++ (NSDecimalNumberHandler*)accurateRoundingHandler;
++ (NSDecimalNumberHandler*)currencyRoundingHandler;
+
 @end

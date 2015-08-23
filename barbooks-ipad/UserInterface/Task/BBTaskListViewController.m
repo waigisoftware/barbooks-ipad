@@ -13,7 +13,7 @@
 #import "Task.h"
 #import "BBTimerAccessoryView.h"
 
-@interface BBTaskListViewController ()
+@interface BBTaskListViewController () <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tasksTableView;
@@ -28,10 +28,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerUpdated:) name:kTimerUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerStopped:) name:kTimerDeactivatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerPaused:) name:kTimerPausedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerResumed:) name:kTimerResumedNotification object:nil];
+
     // tableview
     _tasksTableView.dataSource = self;
     _tasksTableView.delegate = self;
-    _tasksTableView.contentInset = UIEdgeInsetsMake(-28, 0, 0, 0);
+    _tasksTableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+    _tasksTableView.estimatedRowHeight = _tasksTableView.rowHeight;
+    _tasksTableView.rowHeight = UITableViewAutomaticDimension;
     //[self registerRefreshControlFor:_tasksTableView withAction:@selector(fetchTasks)];
 }
 
@@ -44,6 +51,12 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self fetchTasks];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,12 +83,14 @@
 - (void)onAddTask {
     Task *newTask = [Task newInstanceOfMatter:self.matter];
     [self fetchTasks];
-    [self.tasksTableView beginUpdates];
     [_tasksTableView insertRowsAtIndexPaths:@[[self indexPathOfTask:newTask]] withRowAnimation:UITableViewRowAnimationTop];
-    //[_tasksTableView selectRowAtIndexPath:[self indexPathOfTask:newTask] animated:YES scrollPosition:UITableViewScrollPositionTop];
-    [self.tasksTableView endUpdates];
-    CGRect rect = [_tasksTableView rectForRowAtIndexPath:[self indexPathOfTask:newTask]];
-    [self popoverTaskViewWithTask:newTask inRect:rect];
+    
+    NSIndexPath *indexPath = [self indexPathOfTask:newTask];
+    CGRect rect = [_tasksTableView rectForRowAtIndexPath:indexPath];
+    rect.origin.y += _tasksTableView.contentInset.top;
+    
+    BBTaskListTableViewCell *cell = [_tasksTableView cellForRowAtIndexPath:indexPath];
+    [cell.taskNameLabel becomeFirstResponder];
 }
 
 - (void)onDeleteTask {
@@ -129,10 +144,9 @@
     cell.matterDescriptionLabel.text = task.matter.name;
     cell.taskDateLabel.text = [task.date toShortDateFormat];
     
-    
     if ([task hourlyRate]) {
         
-        BBTimerAccessoryView *accView = [BBTimerAccessoryView cellAccessoryView];
+        BBTimerAccessoryView *accView = [BBTimerAccessoryView cellAccessoryViewWithOwner:self];
         
         UIButton *button = accView.timerButton;
         [button setImage:[UIImage imageNamed:@"button_timer"] forState:UIControlStateNormal];
@@ -144,9 +158,21 @@
         
         cell.accessoryView = accView;
         
+        if ([[BBTaskTimer sharedInstance] currentTask] == task) {
+            [self expandTimerForCell:cell animated:NO];
+            if ([[BBTaskTimer sharedInstance] active]) {
+                [accView showRunningTimer];
+            } else {
+                [accView showPauseTimer];
+            }
+        }
+        
+        
         cell.taskTimeLabel.text = [task durationToFormattedString];
     } else {
+        
         cell.accessoryView = nil;
+        [cell setAccessoryType:UITableViewCellAccessoryDetailButton];
         cell.taskTimeLabel.text = [NSString stringWithFormat:@"%@ %@", [task.units stringValue], [task.rate typeDescription]];
     }
     
@@ -159,84 +185,110 @@
     CGPoint currentTouchPosition = [touch locationInView:self.tasksTableView];
     NSIndexPath *indexPath = [self.tasksTableView indexPathForRowAtPoint:currentTouchPosition];
     if (indexPath != nil){
-        [self tableView:self.tasksTableView accessoryButtonTappedForRowWithIndexPath: indexPath];
+        
+        BBTaskListTableViewCell *cell = [_tasksTableView cellForRowAtIndexPath:indexPath];
+        BBTimerAccessoryView *accView = (BBTimerAccessoryView *)cell.accessoryView;
+        
+        if ([[BBTaskTimer sharedInstance] active]) {
+            [accView showPauseTimer];
+            [self pauseTimer];
+        } else {
+            [self expandTimerForCell:cell animated:YES];
+            
+            [accView showRunningTimer];
+            [self startTimerWithTask:[self.filteredItemList objectAtIndex:indexPath.row]];
+        }
     }
 }
 
 - (void)stopButtonTapped:(id)sender event:(id)event{
+    [self stopTimer];
+}
+
+- (IBAction)infoButtonPressed:(UIButton*)sender event:(UIEvent*)event {
     NSSet *touches = [event allTouches];
     UITouch *touch = [touches anyObject];
     CGPoint currentTouchPosition = [touch locationInView:self.tasksTableView];
     NSIndexPath *indexPath = [self.tasksTableView indexPathForRowAtPoint:currentTouchPosition];
-    
-    BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
-    BBTimerAccessoryView *accView = (BBTimerAccessoryView *)cell.accessoryView;
-    
-    
-    CGRect accViewRect = accView.frame;
-    accViewRect.size.height = [[BBTimerAccessoryView cellAccessoryView] frame].size.height;
-    accViewRect.origin.y = cell.frame.size.height/2-accViewRect.size.height/2;
-    [accView stopAnimatingTimer];
-    
-    [UIView animateWithDuration:0.6
-                          delay:0
-                        options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationCurveEaseInOut
-                     animations:^{
-                         [accView setFrame:accViewRect];
-                         [accView.stopButton setAlpha:0.0];
-                     }
-                     completion:^(BOOL finished) {
-
-                     }];
+    if (indexPath != nil){
+        
+        [self popoverTaskViewWithTask:[self.filteredItemList objectAtIndex:indexPath.row] inRect:sender.frame inView:[self.tasksTableView cellForRowAtIndexPath:indexPath].accessoryView];
+    }
 }
-
-
 
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    BBTaskListTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    BBTimerAccessoryView *accView = (BBTimerAccessoryView *)cell.accessoryView;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+    CGRect popRect = CGRectMake(cell.frame.origin.x + cell.contentView.frame.size.width, cell.frame.size.height/2.0, 1, 1);
+
+    [self popoverTaskViewWithTask:[self.filteredItemList objectAtIndex:indexPath.row] inRect:popRect inView:cell];
+
     
-    if ([[BBTaskTimer sharedInstance] currentTask]) {
-        
-    }
-    CGRect accViewRect = accView.frame;
-    accViewRect.origin.y = 0;
-    accViewRect.size.height = cell.frame.size.height;
-    [accView startAnimatingTimer];
-
-    [UIView animateWithDuration:0.6
-                          delay:0
-                        options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationCurveEaseInOut
-                     animations:^{
-                            [accView setFrame:accViewRect];
-                            [accView.stopButton setAlpha:1.0];
-                        }
-                     completion:^(BOOL finished) {
-
-                     }];
 }
+
+- (void)expandTimerForCell:(UITableViewCell*)cell animated:(BOOL)animated
+{
+    BBTimerAccessoryView *accView = (BBTimerAccessoryView *)cell.accessoryView;
+    UIView *innerView = [accView.subviews objectAtIndex:0];
+    [innerView setTranslatesAutoresizingMaskIntoConstraints:YES];
+    CGRect accViewRect = accView.bounds;
+    
+    
+    if (animated) {
+        [UIView animateWithDuration:0.6
+                              delay:0
+                            options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationCurveEaseInOut
+                         animations:^{
+                             [innerView setFrame:accViewRect];
+                             [accView.stopButton setAlpha:1.0];
+                         }
+                         completion:^(BOOL finished) {
+                             
+                         }];
+    } else {
+        [innerView setFrame:accViewRect];
+        [accView.stopButton setAlpha:1.0];
+    }
+    
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (!self.tasksTableView.editing) {
-        [tableView deselectRowAtIndexPath:indexPath animated:NO];
-        Task *task = [_filteredItemList objectAtIndex:indexPath.row];
-        CGRect rect = [tableView rectForRowAtIndexPath:indexPath];
-        
-        [self popoverTaskViewWithTask:task inRect:rect];
-    }
+
+
+    //    if (!self.tasksTableView.editing) {
+//        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+//        Task *task = [_filteredItemList objectAtIndex:indexPath.row];
+//        CGRect rect = [tableView rectForRowAtIndexPath:indexPath];
+//        rect.origin.y += tableView.contentInset.top;
+//        
+//        [self popoverTaskViewWithTask:task inRect:rect];
+//    }
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.tasksTableView.rowHeight;
+    Task *task = [self.filteredItemList objectAtIndex:indexPath.row];
+    BBTaskListTableViewCell *cell = (id)[tableView cellForRowAtIndexPath:indexPath];
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15]};
+    // NSString class method: boundingRectWithSize:options:attributes:context is
+    // available only on ios7.0 sdk.
+    CGRect rect = [task.name boundingRectWithSize:CGSizeMake(cell.taskNameLabel.frame.size.width, CGFLOAT_MAX)
+                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                  attributes:attributes
+                                     context:nil];
+    
+    CGSize size = rect.size;
+    size.height += tableView.estimatedRowHeight;
+
+    return MAX(size.height, tableView.estimatedRowHeight);
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.tasksTableView.rowHeight;
-}
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -250,6 +302,25 @@
 
 - (NSIndexPath *)indexPathOfTask:(Task *)task {
     return [NSIndexPath indexPathForRow:[_originalItemList indexOfObject:task] inSection:0];
+}
+
+#pragma mark - UITextViewDelegate Methods
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    id cell = textView.superview.superview;
+    NSIndexPath *indexPath = [self.tasksTableView indexPathForCell:cell];
+
+    Task *task = [self.filteredItemList objectAtIndex:indexPath.row];
+    task.name = textView.text;
+    
+    [UIView setAnimationsEnabled:NO];
+    [self.tasksTableView beginUpdates];
+    [self.tasksTableView endUpdates];
+    [UIView setAnimationsEnabled:YES];
+
+    CGRect rect = [_tasksTableView rectForRowAtIndexPath:indexPath];
+    [self.tasksTableView scrollRectToVisible:rect animated:NO];
 }
 
 #pragma mark - Core data
@@ -273,7 +344,7 @@
     }
 }
 
-- (void)popoverTaskViewWithTask:(Task *)task inRect:(CGRect)rect {
+- (void)popoverTaskViewWithTask:(Task *)task inRect:(CGRect)rect inView:(UIView*)view {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     BBTaskViewController *taskViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskViewController];
     taskViewController.delegate = self;
@@ -292,10 +363,10 @@
     // pop it over
     UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
     popoverController.delegate = self;
-    popoverController.popoverContentSize = CGSizeMake(350, 540);
+    popoverController.popoverContentSize = CGSizeMake(350, 500);
     [popoverController presentPopoverFromRect:rect
-                                       inView:self.view
-                     permittedArrowDirections:UIPopoverArrowDirectionAny
+                                       inView:view
+                     permittedArrowDirections:UIPopoverArrowDirectionRight
                                      animated:YES];
 }
 
@@ -314,14 +385,16 @@
     [self.tasksTableView beginUpdates];
     [self.tasksTableView reloadRowsAtIndexPaths:@[[self indexPathOfTask:task]] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tasksTableView endUpdates];
-
 }
 
 #pragma mark - BBTaskTimer Control
 
 - (void)startTimerWithTask:(Task*)task {
-    [BBTaskTimer sharedInstance].currentTask = task;
-    [[BBTaskTimer sharedInstance] start];
+    if ([[BBTaskTimer sharedInstance] currentTask] && [[BBTaskTimer sharedInstance] currentTask] == task) {
+        [[BBTaskTimer sharedInstance] resume];
+    } else {
+        [[BBTaskTimer sharedInstance] startWithTask:task sender:self];
+    }
 }
 
 - (void)pauseTimer {
@@ -330,6 +403,78 @@
 
 - (void)stopTimer {
     [[BBTaskTimer sharedInstance] stop];
+}
+
+- (void)updateRowAtIndexPath:(NSIndexPath*)path
+{
+    [self fetchTasks];
+    // refresh matter list accordingly
+    [self.matterListViewController fetchMatters];
+    [self.tasksTableView beginUpdates];
+    [self.tasksTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tasksTableView endUpdates];
+}
+
+- (void)timerStopped:(NSNotification*)notification
+{
+    Task *task = notification.object;
+    NSIndexPath *indexPath = [self indexPathOfTask:task];
+    
+    if (indexPath) {
+
+        BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
+        
+        cell.taskTimeLabel.text = [task durationToFormattedString];
+        cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
+        cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
+
+        BBTimerAccessoryView *accView = (BBTimerAccessoryView *)cell.accessoryView;
+        [accView showDefaultTimer];
+
+        UIView *innerView = [[accView subviews] objectAtIndex:0];
+        [innerView setTranslatesAutoresizingMaskIntoConstraints:YES];
+        UIView *innerViewPrototype = [[[BBTimerAccessoryView cellAccessoryViewWithOwner:self] subviews] objectAtIndex:0];
+        CGRect accViewRect = innerViewPrototype.frame;
+        
+        [UIView animateWithDuration:0.6
+                              delay:0
+                            options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationCurveEaseInOut
+                         animations:^{
+                             [innerView setFrame:accViewRect];
+                             [accView.stopButton setAlpha:0.0];
+                         }
+                         completion:^(BOOL finished) {
+                         }];
+        
+
+    }
+}
+
+- (void)timerResumed:(NSNotification*)notification
+{
+    Task *task = notification.object;
+    NSIndexPath *indexPath = [self indexPathOfTask:task];
+    BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
+    [(BBTimerAccessoryView*)cell.accessoryView showRunningTimer];
+}
+
+- (void)timerPaused:(NSNotification*)notification
+{
+    Task *task = notification.object;
+    NSIndexPath *indexPath = [self indexPathOfTask:task];
+    BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
+    [(BBTimerAccessoryView*)cell.accessoryView showPauseTimer];
+}
+
+- (void)timerUpdated:(NSNotification*)notification
+{
+    Task *task = notification.object;
+    NSIndexPath *indexPath = [self indexPathOfTask:task];
+    BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
+
+    cell.taskTimeLabel.text = [task durationToFormattedString];
+    cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
+    cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
 }
 
 @end

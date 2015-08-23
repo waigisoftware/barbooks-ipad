@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "BBManagedObject.h"
 
-@class Account, CostsAgreement, Disbursement, Invoice, OutstandingFees, Rate, Solicitor, Task, VariationOfFees;
+@class Account, Disbursement, Invoice, OutstandingFees, Rate, Solicitor, Task, VariationOfFees;
 
 @interface Matter : BBManagedObject
 
@@ -30,7 +30,7 @@
 @property (nonatomic, retain) NSDecimalNumber * tax;
 @property (nonatomic, retain) NSNumber * taxed;
 @property (nonatomic, retain) Account *account;
-@property (nonatomic, retain) CostsAgreement *costsAgreement;
+@property (nonatomic, retain) NSDate *costsAgreementDate;
 @property (nonatomic, retain) NSSet *disbursements;
 @property (nonatomic, retain) NSSet *invoices;
 @property (nonatomic, retain) NSSet *outstandingFees;

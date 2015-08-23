@@ -9,75 +9,42 @@
 #import "BBTaskViewController.h"
 #import "BBRateListViewController.h"
 #import "NSString+BBUtil.h"
+#import "BBModalDatePickerViewController.h"
 
-@interface BBTaskViewController ()
+@interface BBTaskViewController () <BBModalDatePickerViewControllerDelegate, UIPickerViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UITextField *taskNameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *taskDateLabel;
-@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UIView *datePickerContainerView;
 @property (weak, nonatomic) IBOutlet UISwitch *taxedSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *rateNameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *rateAmountTextField;
+@property (weak, nonatomic) IBOutlet UITextField *rateAmountInclTextField;
 @property (weak, nonatomic) IBOutlet UITextField *rateUnitTextField;
-@property (weak, nonatomic) IBOutlet UILabel *unitsLabel;
-@property (weak, nonatomic) IBOutlet UIView *timerView;
-@property (weak, nonatomic) IBOutlet UIButton *timerButton;
-@property (weak, nonatomic) IBOutlet UIButton *timerStartButton;
-@property (weak, nonatomic) IBOutlet UIButton *timerPauseButton;
-@property (weak, nonatomic) IBOutlet UIButton *timerStopButton;
-@property (weak, nonatomic) IBOutlet UIView *rateTableViewContainerView;
-@property (weak, nonatomic) IBOutlet UITableView *rateTableView;
 @property (weak, nonatomic) IBOutlet UIPickerView *hoursPickerView;
+@property (strong, nonatomic) BBModalDatePickerViewController *datePickerController;
 @property (strong, nonatomic) NSObject *observer;
 
-- (IBAction)onBackgroundButton:(id)sender;
 - (IBAction)onCalendar:(id)sender;
 - (IBAction)onDatePicked:(id)sender;
 - (IBAction)onTax:(id)sender;
-- (IBAction)onSelectRateType:(id)sender;
-- (IBAction)onTimer:(id)sender;
-- (IBAction)onTimerStart:(id)sender;
-- (IBAction)onTimerPause:(id)sender;
-- (IBAction)onTimerStop:(id)sender;
 
 @end
 
 @implementation BBTaskViewController
 
-BBDropDownListViewController *_dropDownListViewController;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    _titleLabel.text = _task ? @"Edit Task" : @"New Task";
+    
+    if ([[BBTaskTimer sharedInstance] currentTask] == _task) {
+        [[BBTaskTimer sharedInstance] pause];
+    }
     
     // setting delegates
-    _taskNameTextField.delegate = self;
     _rateAmountTextField.delegate = self;
     _rateUnitTextField.delegate = self;
     
     
-    // set Rate selection view
-    _dropDownListViewController = [BBDropDownListViewController new];
-    _dropDownListViewController.delegate = self;
-    NSMutableArray *displayItemList = [NSMutableArray arrayWithCapacity:self.task.matter.rates.count];
-    NSMutableArray *dataItemList = [NSMutableArray arrayWithCapacity:self.task.matter.rates.count];
-    for (Rate *rate in self.task.matter.rates) {
-//        [displayItemList addObject:[[Rate rateTypes] objectAtIndex:[rate.type intValue]]];
-        [displayItemList addObject:rate.name];
-        [dataItemList addObject:rate];
-    }
-    _dropDownListViewController.displayItemList = displayItemList;
-    _dropDownListViewController.dataItemList = dataItemList;
-    _rateTableView.dataSource = _dropDownListViewController;
-    _rateTableView.delegate = _dropDownListViewController;
-    [_rateTableView reloadData];
-    _rateTableViewContainerView.hidden = YES;
-    
-    self.hoursPickerView.hidden = self.task.rate.type.integerValue != BBRateChargingTypeHourly;
-    
+    self.tableView.tableFooterView.hidden = self.task.rate.type.integerValue != BBRateChargingTypeHourly;
+
     [self loadTaskIntoUI];
 }
 
@@ -103,59 +70,58 @@ BBDropDownListViewController *_dropDownListViewController;
 
 - (void)updateContentSize
 {
-    
     [self setPreferredContentSize:self.tableView.contentSize];
 }
 
 #pragma mark - Task value
 
 - (void)loadTaskIntoUI {
-    _taskNameTextField.text = _task.name;
     _taskDateLabel.text = [_task.date toShortDateFormat];
     _taxedSwitch.on = _task.isTaxed;
     _rateNameLabel.text = _task.rate.name;
-    _rateAmountTextField.text = _task.isTaxed ? [_task.rate.amountGst roundedAmount] : [_task.rate.amount roundedAmount];
-    _unitsLabel.hidden = [_task hourlyRate];
+    _rateAmountTextField.text = [_task.rate.amount roundedAmount];
+    _rateAmountInclTextField.text = [_task.rate.amountGst roundedAmount];
     if ([_task hourlyRate]) {
-        _rateUnitTextField.text = [_task durationToFormattedString];
-        _timerView.hidden = NO;
+        [self.hoursPickerView selectRow:_task.hours.integerValue inComponent:0 animated:NO];
+        [self.hoursPickerView selectRow:_task.minutes.integerValue inComponent:1 animated:NO];
     } else {
         _rateUnitTextField.text = [_task.units stringValue];
-        [self onTimerStop:nil];
-        _timerView.hidden = YES;
     }
 }
 
 - (void)updateTaskFromUI {
-    _task.name = _taskNameTextField.text;
-    _task.date = _datePicker.date;
     _task.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
-    [self resetRateAmountWithTax];
+    _task.rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
+    //[self resetRateAmountWithTax];
     if ([_task hourlyRate]) {
         // get time from timer
+        NSInteger hours = [self.hoursPickerView selectedRowInComponent:0];
+        NSInteger minutes = [self.hoursPickerView selectedRowInComponent:1];
+        [_task setHours:[NSDecimalNumber decimalNumberWithInt:(int)hours]];
+        [_task setMinutes:[NSDecimalNumber decimalNumberWithInt:(int)minutes]];
     } else {
         if ([_rateUnitTextField.text isNumeric]) {
             _task.units = [NSDecimalNumber decimalNumberWithString:_rateUnitTextField.text];
         }
     }
+    
     // recalculate
-    [_task recalculate];
+    [self.delegate updateTask:_task];
 }
 
-- (void)resetRateAmountWithTax {
-    if ([_rateAmountTextField.text isNumeric]) {
-        if (_task.isTaxed) {
-            _task.rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
-            _task.rate.amount = [_task.rate.amountGst decimalNumberSubtractGST];
-        } else {
-            _task.rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
-            _task.rate.amountGst = [_task.rate.amount decimalNumberAddGST];
-        }
-    }
-}
+#pragma mark - BBModalDatePicker Delegate
 
+- (void)datePickerControllerDone:(UIDatePicker *)datePicker
+{
+    [self onDatePicked:datePicker];
+}
 
 #pragma mark - UIPickerView Delegate
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    [self updateTaskFromUI];
+}
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 2;
@@ -193,7 +159,6 @@ BBDropDownListViewController *_dropDownListViewController;
         [selectedRate copyValueToRate:_task.rate];
     }
     [self loadTaskIntoUI];
-    _rateTableViewContainerView.hidden = YES;
 }
 
 #pragma mark - UITextFieldDelegate
@@ -202,17 +167,24 @@ BBDropDownListViewController *_dropDownListViewController;
     [self updateTaskFromUI];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    [self updateTaskFromUI];
-    return YES;
+- (void)textViewDidChange:(UITextView *)textView {
+    CGSize size = [textView sizeThatFits:CGSizeMake(textView.frame.size.width, CGFLOAT_MAX)];
+    CGRect frame = textView.frame;
+    frame.size.height = size.height;
+    [textView setFrame:frame];
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
+
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+//    [self updateTaskFromUI];
+//    return YES;
+//}
 
 #pragma mark - keyboards
 
 - (void)stopEditing {
     [[UIResponder currentFirstResponder] resignFirstResponder];
-    _datePickerContainerView.hidden = YES;
-    _rateTableViewContainerView.hidden = YES;
     // update Task object
     [self updateTaskFromUI];
     // refresh UI
@@ -223,55 +195,34 @@ BBDropDownListViewController *_dropDownListViewController;
 
 // Date picker
 - (IBAction)onCalendar:(id)sender {
-    _datePickerContainerView.hidden = !_datePickerContainerView.hidden;
-    if (!_datePickerContainerView.hidden && !_taskDateLabel.text) {
-        _datePicker.date = [_taskDateLabel.text fromShortDateFormatToDate];
+    if (!self.datePickerController) {
+        self.datePickerController = [BBModalDatePickerViewController defaultPicker];
+        [self.datePickerController.view setFrame:self.view.bounds];
+        
+        [self.datePickerController.datePicker setDate:_task.date];
+        self.datePickerController.delegate = self;
     }
+    
+    [self.view addSubview:self.datePickerController.view];
+    [[UIApplication sharedApplication] resignFirstResponder];
+    [self.datePickerController run];
 }
 
-- (IBAction)onDatePicked:(id)sender {
-    _taskDateLabel.text = [_datePicker.date toShortDateFormat];
+- (IBAction)onDatePicked:(UIDatePicker*)datePicker {
+    _task.date = datePicker.date;
+    _taskDateLabel.text = [datePicker.date toShortDateFormat];
     [self updateTaskFromUI];
+    [self.delegate updateTask:self.task];
 }
 
 - (IBAction)onTax:(id)sender {
     _task.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
-    [self resetRateAmountWithTax];
+    
+    //[_rateAmountInclTextField.superview setHidden:!_taxedSwitch.on];
     [_task recalculate];
     [self.delegate updateTask:self.task];
 }
 
-- (IBAction)onSelectRateType:(id)sender {
-    _rateTableViewContainerView.hidden = !_rateTableViewContainerView.hidden;
-}
-
-- (IBAction)onBackgroundButton:(id)sender {
-    [self stopEditing];
-}
-
-- (IBAction)onTimer:(id)sender {
-    [self onTimerStart:sender];
-}
-
-- (IBAction)onTimerStart:(id)sender {
-    [BBTaskTimer sharedInstance].currentTask = self.task;
-    [[BBTaskTimer sharedInstance] start];
-    [self startPulsingButton:_timerStartButton];
-    [self stopPulsingButton:_timerPauseButton];
-}
-
-- (IBAction)onTimerPause:(id)sender {
-    [[BBTaskTimer sharedInstance] pause];
-    [self startPulsingButton:_timerPauseButton];
-    [self stopPulsingButton:_timerStartButton];
-}
-
-- (IBAction)onTimerStop:(id)sender {
-    [[BBTaskTimer sharedInstance] stop];
-    [self stopPulsingButton:_timerStartButton];
-    [self stopPulsingButton:_timerPauseButton];
-    [self pulsingButtonOnce:_timerStopButton];
-}
 
 - (void)startPulsingButton:(UIButton *)button {
     CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
@@ -303,21 +254,28 @@ BBDropDownListViewController *_dropDownListViewController;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView == self.tableView) {
-        if (indexPath.section == 1) {
-            if (indexPath.row == 0) {
-                [self showRateSelectorTable];
-            }
+        if (indexPath.row == 0) {
+            [self onCalendar:self];
+            
+        } else if (indexPath.row == 1){
+            [self showRateSelectorTable];
         }
+
     } else {
         Rate *selectedRate = [self.task.matter.ratesArray objectAtIndex:indexPath.row];
         _task.rate.name = [selectedRate.name copy];
-        _task.rate.type = [selectedRate.name copy];
-        _task.rate.amount = [selectedRate.name copy];
+        _task.rate.type = [selectedRate.type copy];
+        _task.rate.amount = [selectedRate.amount copy];
         
-        self.hoursPickerView.hidden = selectedRate.type.integerValue != BBRateChargingTypeHourly;
+        [self loadTaskIntoUI];
+        [self.delegate updateTask:_task];
+        
+        self.tableView.tableFooterView.hidden = selectedRate.type.integerValue != BBRateChargingTypeHourly;
         [self.tableView reloadData];
         [self.navigationController popViewControllerAnimated:YES];
+        
     }
 }
 
@@ -325,12 +283,13 @@ BBDropDownListViewController *_dropDownListViewController;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
         NSInteger rows = [super tableView:tableView numberOfRowsInSection:section];
-        if (_task.rate.type.integerValue != BBRateChargingTypeUnit && section == 1) {
+        if (_task.rate.type.integerValue != BBRateChargingTypeUnit) {
             rows--;
         }
         return rows;
     }
-    return self.task.matter.rates.count;
+    NSInteger count = self.task.matter.rates.count;
+    return count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -345,7 +304,7 @@ BBDropDownListViewController *_dropDownListViewController;
     if (tableView == self.tableView) {
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
-
+    
     static NSString *reuseIdentifier = @"rateCell";
     UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell) {
@@ -360,18 +319,32 @@ BBDropDownListViewController *_dropDownListViewController;
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return tableView.rowHeight;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.tableView) {
+        return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
+    }
+    
+    return 0;
+}
 
 #pragma mark - Navigation
 - (void)showRateSelectorTable {
+    UITableViewController *ratesTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    ratesTableViewController.tableView.dataSource = self;
+    ratesTableViewController.tableView.delegate = self;
+    ratesTableViewController.title = @"Rates";
+    ratesTableViewController.view.backgroundColor = self.view.backgroundColor;
+    ratesTableViewController.tableView.backgroundColor = self.tableView.backgroundColor;
+    ratesTableViewController.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
+    ratesTableViewController.tableView.rowHeight = self.tableView.rowHeight;
     
-    UITableViewController *tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    tableViewController.tableView.dataSource = self;
-    tableViewController.tableView.delegate = self;
-    tableViewController.title = @"Rates";
-    tableViewController.view.backgroundColor = self.view.backgroundColor;
-    tableViewController.tableView.backgroundColor = self.tableView.backgroundColor;
-    tableViewController.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
-    [self.navigationController showViewController:tableViewController sender:nil];
+    [self.navigationController showViewController:ratesTableViewController sender:nil];
 }
 
 #pragma mark - Observers

@@ -19,4 +19,6 @@
 @property (nonatomic, retain) Invoice *invoice;
 @property (nonatomic, retain) Task *task;
 
+- (NSDecimalNumber *)discountedAmountForTotal:(NSDecimalNumber*)total;
+
 @end

@@ -47,11 +47,7 @@
         newTask.rate = [Rate MR_createEntity];
         if (matter.rates.count > 0) {
             Rate *rate = [matter.ratesArray objectAtIndex:0];
-            newTask.rate.name = [rate.name copy];
-            newTask.rate.type = [rate.type copy];
-            newTask.rate.amount = [rate.amount copy];
-            
-            newTask.selectedRateIndex = 0;
+            [rate copyValueToRate:newTask.rate];
         }
         newTask.matter = matter;
         [matter addTasksObject:newTask];
@@ -100,6 +96,163 @@
     }
 }
 
+- (NSDecimalNumber *)totalFeesIncGst
+{
+    if (!self.discount || (self.discount && self.discount.value == nil)) {
+        return self.feesIncGst;
+    }
+    
+    return [self.feesIncGst decimalNumberBySubtracting:[self.discount discountedAmountForTotal:self.feesIncGst] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
++ (NSSet *)keyPathsForValuesAffectingTotalFeesIncGst
+{
+    return [NSSet setWithObjects:@"rate.name", @"duration", @"units", @"discount", @"discount.type", @"discount.value", nil];;
+}
+
++ (NSSet *)keyPathsForValuesAffectingTotalFeesExGst
+{
+    return [NSSet setWithObjects:@"rate.name", @"duration", @"units", @"discount", @"discount.type", @"discount.value", nil];;
+}
+
++ (NSSet *)keyPathsForValuesAffectingTotalFeesGst
+{
+    return [NSSet setWithObjects:@"rate.name", @"duration", @"units", @"discount", @"discount.type", @"discount.value", nil];;
+}
+
+- (NSDecimalNumber*)discountGstRate
+{
+    NSDecimalNumber *discountTotal = [self.discount discountedAmountForTotal:self.feesIncGst];
+    NSDecimalNumberHandler *currencyHandler = [NSDecimalNumber accurateRoundingHandler];
+    
+    NSDecimalNumber *discountGstAmount = [NSDecimalNumber zero];
+    if (![self.matter.tax isEqualToNumber:[NSDecimalNumber notANumber]] && [self.matter.tax compare:[NSDecimalNumber zero]] == NSOrderedDescending) {
+        
+        NSDecimalNumber *dec10 = [NSDecimalNumber decimalNumberWithString:@"10"];
+        NSDecimalNumber *taxFactor = [self.matter.tax decimalNumberByDividingBy:dec10 withBehavior:currencyHandler];
+        taxFactor = [taxFactor decimalNumberByAdding:dec10 withBehavior:currencyHandler];
+        
+        discountGstAmount = [discountTotal decimalNumberByDividingBy:taxFactor];
+    }
+    
+    return discountGstAmount;
+}
+
+- (NSDecimalNumber *)totalFeesExGst
+{
+    if (!self.discount || (self.discount && self.discount.value == nil)) {
+        return self.feesExGst;
+    }
+    
+    NSDecimalNumber *discountExGst = [[self.discount discountedAmountForTotal:self.feesIncGst] decimalNumberBySubtracting:[self discountGstRate] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+    
+    return [self.feesExGst decimalNumberBySubtracting:discountExGst withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+
+- (NSDecimalNumber *)totalFeesGst
+{
+    if (!self.discount || (self.discount && self.discount.value == nil)) {
+        return self.feesGst;
+    }
+    
+    return [self.feesGst decimalNumberBySubtracting:[self discountGstRate] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (NSDecimalNumber *)feesExGst
+{
+    [self willAccessValueForKey:@"feesExGst"];
+    NSDecimalNumber *amount = [self primitiveValueForKey:@"feesExGst"];
+    [self didAccessValueForKey:@"feesExGst"];
+    
+    if (self.importedObject.boolValue && self.invoice != nil && amount && amount.intValue != 0 && ![amount isEqualToNumber:[NSDecimalNumber notANumber]]) {
+        return amount;
+    }
+    
+    NSDecimalNumber * fees = nil;
+    
+    
+    Rate *rate = self.rate;
+    if (!rate) {
+        return [NSDecimalNumber zero];
+    }
+    
+    int selectedType = rate.type.intValue;
+    
+    if (selectedType == 0) {
+        NSDecimalNumber *hourUnits = [self.matter hoursFromDuration:self.duration];
+        
+        fees = [rate.amount decimalNumberByMultiplyingBy:hourUnits withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+
+    } else if(selectedType == 1) {
+        
+        fees = [rate.amount decimalNumberByMultiplyingBy:self.units withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+    } else {
+        fees = rate.amount;
+    }
+    
+    return fees;
+    
+}
+
+- (NSDecimalNumber *)feesIncGst
+{
+    if (!self.taxed.boolValue) {
+        return self.feesExGst;
+    }
+    
+    NSDecimalNumber *exGst = [self.feesExGst decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber currencyRoundingHandler]];
+    NSDecimalNumber *gst = [self.feesGst decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber currencyRoundingHandler]];
+    if (gst == nil || [gst isEqualToNumber:[NSDecimalNumber notANumber]]) gst = [NSDecimalNumber zero];
+    if (exGst == nil || [exGst isEqualToNumber:[NSDecimalNumber notANumber]]) exGst = [NSDecimalNumber zero];
+    
+    return [exGst decimalNumberByAdding:gst withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (NSDecimalNumber *)feesGst
+{
+    if (!self.taxed.boolValue) {
+        return [NSDecimalNumber zero];
+    }
+    
+    [self willAccessValueForKey:@"feesGst"];
+    NSDecimalNumber *amount = [self primitiveValueForKey:@"feesGst"];
+    [self didAccessValueForKey:@"feesGst"];
+    
+    if (self.importedObject.boolValue && self.invoice != nil && amount && amount.intValue != 0 && ![amount isEqualToNumber:[NSDecimalNumber notANumber]]) {
+        return amount;
+    }
+    
+    
+    NSDecimalNumber * fees = nil;
+    
+    Rate *rate = self.rate;
+    if (!rate) {
+        return [NSDecimalNumber zero];
+    }
+    
+    int selectedType = rate.type.intValue;
+    
+    if (selectedType == 0) {
+        
+        NSDecimalNumber *hourUnits = [self.matter hoursFromDuration:self.duration];
+        
+        fees = [rate.amountGst decimalNumberByMultiplyingBy:hourUnits withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+
+    } else if(selectedType == 1) {
+        fees = [rate.amountGst decimalNumberByMultiplyingBy:self.units withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        
+    } else {
+        fees = rate.amountGst;
+    }
+    
+    
+    return [fees decimalNumberBySubtracting:self.feesExGst withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+
+
+
 #pragma mark - convenient methods
 
 - (BOOL)hourlyRate {
@@ -109,6 +262,39 @@
 - (BOOL)isTaxed {
     return [self.taxed boolValue];
 }
+
+
+- (void)setHours:(NSDecimalNumber *)hours
+{
+    NSDecimalNumber *minutesToSeconds = [self.minutes decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"60"] withBehavior:[NSDecimalNumber timeRoundingHandler]];
+    NSDecimalNumber *hoursToSeconds = [hours decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"3600"] withBehavior:[NSDecimalNumber timeRoundingHandler]];
+    
+    self.duration = [minutesToSeconds decimalNumberByAdding:hoursToSeconds withBehavior:[NSDecimalNumber timeRoundingHandler]];
+}
+
+- (void)setMinutes:(NSDecimalNumber *)minutes
+{
+    NSDecimalNumber *minutesToSeconds = [minutes decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"60"] withBehavior:[NSDecimalNumber timeRoundingHandler]];
+    NSDecimalNumber *hoursToSeconds = [self.hours decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"3600"] withBehavior:[NSDecimalNumber timeRoundingHandler]];
+    
+    self.duration = [minutesToSeconds decimalNumberByAdding:hoursToSeconds withBehavior:[NSDecimalNumber timeRoundingHandler]];
+}
+
+- (NSDecimalNumber *)hours
+{
+    return [self.duration decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:@"3600"] withBehavior:[NSDecimalNumber timeRoundingHandler]];
+}
+
+- (NSDecimalNumber *)minutes
+{
+    int minutes = self.duration.integerValue / 60 % 60;
+    
+    NSString *string = [NSString stringWithFormat:@"%i",minutes];
+    
+    
+    return [[NSDecimalNumber decimalNumberWithString:string] decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber timeRoundingHandler]];
+}
+
 
 // generate duration displaying string
 - (NSString *)durationToFormattedString {
@@ -142,6 +328,7 @@
     self.hours = [NSDecimalNumber decimalNumberWithInt:hours];
     self.minutes = [NSDecimalNumber decimalNumberWithInt:minutes];
 }
+
 
 - (NSDecimalNumber *)unbilledAmount {
     //TODO:calculate. return amount for now

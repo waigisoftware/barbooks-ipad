@@ -9,6 +9,7 @@
 #import "BBTaskTimer.h"
 #import "GlobalAttributes.h"
 #import "Matter.h"
+#import "NSDecimalNumber+BBUtil.h"
 
 #define kTimerUpdateInterval 1.0
 
@@ -22,7 +23,7 @@
 @property (strong) NSTimer *remindTimer;
 @property (strong) NSDecimalNumberHandler *handler;
 @property (assign) CFAbsoluteTime startStamp;
-@property (assign) NSDecimalNumber *startDuration;
+@property (strong) NSDecimalNumber *startDuration;
 
 
 @end
@@ -95,13 +96,12 @@
         
         if (elapsedTime.integerValue % 60 == 0) {
             [[self.currentTask managedObjectContext] save:nil];
+            
         }
         
-        /*
-         [[NSNotificationCenter defaultCenter] postNotificationName:kTimerUpdatedNotification
-         object:nil
-         userInfo:@{@"task":self.currentTask, @"sender":self.sender}];
-         */
+        [[NSNotificationCenter defaultCenter] postNotificationName:kTimerUpdatedNotification
+                                                            object:self.currentTask
+                                                          userInfo:nil];
         
     } else {
         [timer invalidate];
@@ -155,8 +155,8 @@
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kTimerUpdateInterval target:self selector:@selector(incrementDuration:) userInfo:nil repeats:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kTimerActivatedNotification
-                                                        object:nil
-                                                      userInfo:@{@"task":self.currentTask, @"sender":self.sender}];
+                                                        object:self.currentTask
+                                                      userInfo:nil];
 }
 
 - (void)resume
@@ -169,8 +169,8 @@
     
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kTimerUpdateInterval target:self selector:@selector(incrementDuration:) userInfo:nil repeats:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:kTimerResumedNotification
-                                                        object:nil
-                                                      userInfo:@{@"task":self.currentTask,@"sender":self.sender}];
+                                                        object:self.currentTask
+                                                      userInfo:nil];
 }
 
 - (void)remindNotification
@@ -201,24 +201,25 @@
     self.timerActive = NO;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kTimerPausedNotification
-                                                        object:nil
-                                                      userInfo:@{@"task":self.currentTask,@"sender":self.sender}];
+                                                        object:self.currentTask
+                                                      userInfo:nil];
 }
 
 - (void)stop
 {
+    self.timerActive = NO;
+
     [self hideBadge];
     
     [self.remindTimer invalidate];
     [self.refreshTimer invalidate];
-    self.timerActive = NO;
     
     CFAbsoluteTime currentStamp = CFAbsoluteTimeGetCurrent();
     NSDecimalNumber *elapsedTime = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%2.8f",currentStamp-self.startStamp]];
     
     NSDecimalNumber *duration = self.startDuration;
     if (self.timerActive) {
-        //duration = [duration decimalNumberByAdding:elapsedTime withBehavior:[NSDecimalNumber timeRoundingHandler]];
+        duration = [duration decimalNumberByAdding:elapsedTime withBehavior:[NSDecimalNumber timeRoundingHandler]];
     } else {
         duration = self.currentTask.duration;
     }
@@ -231,13 +232,16 @@
     self.startStamp = 0;
     self.startDuration = nil;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kTimerDeactivatedNotification
-                                                        object:nil
-                                                      userInfo:@{@"task":self.currentTask,@"sender":self.sender}];
     [self.currentTask.managedObjectContext save:nil];
-    
+
+    Task *task = self.currentTask;
     self.currentTask = nil;
     self.sender = nil;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kTimerDeactivatedNotification
+                                                        object:task
+                                                      userInfo:nil];
+    
 }
 
 

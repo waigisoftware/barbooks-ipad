@@ -10,7 +10,7 @@
 
 @interface BBTaskListTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;
+@property (weak, nonatomic) IBOutlet UITextView *taskNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalFeesExcludeGSTLabel;
 @property (weak, nonatomic) IBOutlet UILabel *slashLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalFeesIncludeGSTLabel;

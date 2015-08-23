@@ -13,9 +13,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *timerButton;
 @property (strong, nonatomic) IBOutlet UIButton *stopButton;
 
-+ (id)cellAccessoryView;
++ (id)cellAccessoryViewWithOwner:(id)owner;
 
-- (void)startAnimatingTimer;
-- (void)stopAnimatingTimer;
+- (void)showPauseTimer;
+- (void)showDefaultTimer;
+- (void)showRunningTimer;
 
 @end

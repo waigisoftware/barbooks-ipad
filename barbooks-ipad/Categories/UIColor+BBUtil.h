@@ -34,6 +34,8 @@
 
 +(UIColor*) bbRed;
 
++(UIColor*) bbYellorange;
+
 +(UIColor *) bbEnabledButtonBackgroundColor;
 
 +(UIColor *) bbDisabledButtonBackgroundColor;

@@ -95,6 +95,12 @@
                            alpha:1];
 }
 
++(UIColor*) bbYellorange {
+    return [UIColor colorWithRed:255/255.0
+                           green:167/255.0
+                            blue:1/255.0
+                           alpha:1];
+}
 
 +(UIColor*) bbBubbleBlue {
     return [UIColor colorWithRed:52.0/255.0

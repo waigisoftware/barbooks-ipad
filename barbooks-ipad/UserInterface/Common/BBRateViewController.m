@@ -46,14 +46,15 @@
         [_doneButton updateBackgroundColourAndSetEnabledTo:YES];
     } else {
         _rate = [Rate MR_createEntity];
+        _rate.amount = [NSDecimalNumber oneHundred];
         _rate.matter = self.matter;
         self.title = @"New Rate";
     }
     
     _rateNameTextField.text = _rate.name;
     _rateTypeLabel.text = [[Rate rateTypes] objectAtIndex:[_rate.type intValue]];
-    _rateAmountIncludeGSTTextField.text = [_rate.amountGst stringValue];
     _rateAmountExcludeGSTTextField.text = [_rate.amount stringValue];
+    _rateAmountIncludeGSTTextField.text = [_rate.amountGst stringValue];
     
 
 }
@@ -88,9 +89,9 @@
         if (indexPath.section == 0) {
             if (indexPath.row == 1) {
                 [self showRateSelectorTable];
-            } else if (indexPath.row == 4) {
-                [self onDone:self];
             }
+        } else {
+            [self onDone:self];
         }
     } else {
         
@@ -171,7 +172,7 @@
     [self stopEditing];
     // create Rate if applicable
     _rate.name = _rateNameTextField.text;
-    _rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text];
+    //_rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text];
     _rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountExcludeGSTTextField.text];
     _rate.type = [NSNumber numberWithUnsignedInteger:[[Rate rateTypes] indexOfObject:_rateTypeLabel.text]];
     [self.navigationController popViewControllerAnimated:YES];
