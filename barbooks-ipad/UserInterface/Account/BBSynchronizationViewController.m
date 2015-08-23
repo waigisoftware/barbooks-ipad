@@ -7,8 +7,11 @@
 //
 
 #import "BBSynchronizationViewController.h"
+#import "DropboxConfiguration.h"
 
 @interface BBSynchronizationViewController ()
+
+- (IBAction)onSynchronize:(id)sender;
 
 @end
 
@@ -33,5 +36,9 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (IBAction)onSynchronize:(id)sender {
+    [[DropboxConfiguration new] linkInViewController:self];
+}
 
 @end

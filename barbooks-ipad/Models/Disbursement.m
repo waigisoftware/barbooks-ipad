@@ -16,4 +16,13 @@
 @dynamic invoice;
 @dynamic matter;
 
++ (NSArray *)allUnlinkedObjectsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    NSPredicate *fetchpredicate = [NSPredicate predicateWithFormat:@"matter == nil"];
+    
+    NSArray *tasks = [Disbursement MR_findAllWithPredicate:fetchpredicate inContext:managedObjectContext];
+    
+    return tasks;
+}
+
 @end

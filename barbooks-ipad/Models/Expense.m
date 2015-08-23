@@ -27,6 +27,8 @@
 
 + (instancetype)newInstanceWithDefaultValue {
     Expense *newExpense = [Expense MR_createEntity];
+    newExpense.createdAt = [NSDate date];
+    newExpense.archived = [NSNumber numberWithBool:NO];
     newExpense.amountExGst = [NSDecimalNumber zero];
     newExpense.amountGst = [NSDecimalNumber zero];
     newExpense.amountIncGst = [NSDecimalNumber zero];

@@ -14,6 +14,10 @@
 #import "UIColor+BBUtil.h"
 #import "BBTimers.h"
 #import "BBSubscriptionManager.h"
+#import "DBAccountManager.h"
+#import "DBDatastoreManager.h"
+#import "BBSynchronizationViewController.h"
+
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -58,6 +62,25 @@
     [MagicalRecord cleanUp];
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplicatio annotation:(id)annotation {
+    NSString *action = [url lastPathComponent];
+    
+    if ([action isEqualToString:@"connect"]) {
+        DBAccount *account = [[DBAccountManager sharedManager] handleOpenURL:url];
+        if (account) {
+            NSLog(@"App linked successfully!");
+            // Migrate any local datastores to the linked account
+            DBDatastoreManager *localManager = [DBDatastoreManager localManagerForAccountManager:
+                                                [DBAccountManager sharedManager]];
+            [localManager migrateToAccount:account error:nil];
+            // Now use Dropbox datastores
+            [DBDatastoreManager setSharedManager:[DBDatastoreManager managerForAccount:account]];
+            return YES;
+        }
+    }
+    return NO;
+}
+
 -(void) setupNavigationBarAppearance
 {
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
@@ -76,7 +99,10 @@
     ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
     viewController.panGesture.delegate = self;
     
+//    [self showSynchronization];
+//    return;
     BOOL isAuthorized = [[BBSubscriptionManager sharedInstance] subscriptionValid];
+    isAuthorized = YES;
     if (isAuthorized)
     {
         [self showMatters];
@@ -130,7 +156,11 @@
     ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
     viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
     [viewController resetTopViewAnimated:NO];
-    [viewController.topViewController.navigationController performSegueWithIdentifier:BBSegueShowSynchronization sender:viewController.topViewController];
+    
+    BBSynchronizationViewController *synchronizationViewController = ((BBSynchronizationViewController *)[viewController.topViewController.storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBSynchronizationViewController]);
+    [(UINavigationController *)viewController.topViewController pushViewController:synchronizationViewController animated:YES];
+
+//    [viewController.topViewController.navigationController performSegueWithIdentifier:BBSegueShowSynchronization sender:viewController.topViewController];
 }
 
 -(void) logout {

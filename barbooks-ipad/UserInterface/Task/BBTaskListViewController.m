@@ -37,6 +37,12 @@
     [super viewWillAppear:animated];
     // setup navigation bar and toolbar
     [self setupNavigationBar];
+    [self fetchTasks];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    _tasksTableView.editing = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -74,7 +80,7 @@
 }
 
 - (void)onDeleteTask {
-    
+    _tasksTableView.editing = !_tasksTableView.editing;
 }
 
 #pragma mark - UITableViewDataSource
@@ -102,6 +108,20 @@
     }
     
     return cell;
+}
+
+// handle delete
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Task *taskToDelete = [_originalItemList objectAtIndex:indexPath.row];
+        [self.matter removeTasksObject:taskToDelete];
+        [self fetchTasks];
+    }
 }
 
 #pragma mark - UITableViewDelegate

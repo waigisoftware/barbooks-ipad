@@ -19,5 +19,7 @@
 - (NSString *)day;
 - (NSString *)month;
 - (NSString *)year;
+- (NSDate *)dateAfterMonths:(NSInteger)numberOfMonths;
+- (NSInteger)financialYear;
 
 @end

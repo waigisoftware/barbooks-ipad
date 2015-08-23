@@ -39,6 +39,8 @@
     if (matter) {
         Task *newTask = [Task MR_createEntity];
         // set default values
+        newTask.createdAt = [NSDate date];
+        newTask.archived = [NSNumber numberWithBool:NO];
         newTask.date = [NSDate date];
         newTask.duration = [NSDecimalNumber zero];
         newTask.hours = [NSDecimalNumber zero];
@@ -64,26 +66,26 @@
 }
 
 - (void)recalculateTotals {
-    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler
-                                       decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                       scale:0
-                                       raiseOnExactness:NO
-                                       raiseOnOverflow:NO
-                                       raiseOnUnderflow:NO
-                                       raiseOnDivideByZero:YES];
+//    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler
+//                                       decimalNumberHandlerWithRoundingMode:NSRoundPlain
+//                                       scale:0
+//                                       raiseOnExactness:NO
+//                                       raiseOnOverflow:NO
+//                                       raiseOnUnderflow:NO
+//                                       raiseOnDivideByZero:YES];
     switch (self.rate.rateChargingType) {
         case BBRateChargingTypeHourly:
         {
             NSDecimalNumber *hours = [self.matter hoursFromDuration:self.duration];
-            self.totalFeesExGst = [self.rate.amount decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
-            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByMultiplyingBy:hours withBehavior:roundPlain];
+            self.totalFeesExGst = [self.rate.amount decimalNumberByMultiplyingBy:hours withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByMultiplyingBy:hours withBehavior:[NSDecimalNumber accurateRoundingHandler]];
             self.totalFeesGst = [self.totalFeesIncGst decimalNumberBySubtracting:self.totalFeesExGst];
             break;
         }
         case BBRateChargingTypeUnit:
         {
-            self.totalFeesExGst = [self.rate.amount decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
-            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByMultiplyingBy:self.units withBehavior:roundPlain];
+            self.totalFeesExGst = [self.rate.amount decimalNumberByMultiplyingBy:self.units withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByMultiplyingBy:self.units withBehavior:[NSDecimalNumber accurateRoundingHandler]];
             self.totalFeesGst = [self.totalFeesIncGst decimalNumberBySubtracting:self.totalFeesExGst];
         }
         case BBRateChargingTypeFixed:
@@ -151,6 +153,15 @@
     } completion:^(BOOL success, NSError *error) {
         NSLog(@"%@", error);
     }];
+}
+
++ (NSArray *)allUnlinkedObjectsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    NSPredicate *fetchpredicate = [NSPredicate predicateWithFormat:@"matter == nil"];
+    
+    NSArray *tasks = [Task MR_findAllWithPredicate:fetchpredicate inContext:managedObjectContext];
+    
+    return tasks;
 }
 
 @end

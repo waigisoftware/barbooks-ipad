@@ -10,6 +10,7 @@
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
 		36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */ = {isa = PBXBuildFile; fileRef = 36062BC81B6CF6D80088DB29 /* BBTimers.m */; };
 		360BD8EF1B770CF10012C4F0 /* BBRateListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 360BD8EE1B770CF10012C4F0 /* BBRateListViewController.m */; };
+		360D7D251B80449300D1259E /* BBInvoiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 360D7D241B80449300D1259E /* BBInvoiceTableViewCell.m */; };
 		362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543061B512BB8004C8116 /* BBExpenseListViewController.m */; };
 		3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543091B512C08004C8116 /* BBExpenseTableViewCell.m */; };
 		363C3A3E1B1C7A6B00B92513 /* BBMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363C3A3D1B1C7A6B00B92513 /* BBMenuViewController.m */; };
@@ -18,8 +19,18 @@
 		3651DFB91B2EEC18007B321A /* UIResponder+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFB81B2EEC18007B321A /* UIResponder+BBUtil.m */; };
 		3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */; };
 		3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */; };
+		36537B211B81C3BB00E6CF0F /* BBInvoiceTaskListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36537B201B81C3BB00E6CF0F /* BBInvoiceTaskListViewController.m */; };
+		36537B241B81C3EA00E6CF0F /* BBInvoiceDisbursementListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36537B231B81C3EA00E6CF0F /* BBInvoiceDisbursementListViewController.m */; };
+		36537B2A1B81C6EA00E6CF0F /* BBInvoiceDisbursementTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36537B291B81C6EA00E6CF0F /* BBInvoiceDisbursementTableViewCell.m */; };
+		36537B2D1B81C71000E6CF0F /* BBInvoiceTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36537B2C1B81C71000E6CF0F /* BBInvoiceTaskTableViewCell.m */; };
 		36555FC91B43A8010006A2CA /* BBTaskTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 36555FC81B43A8010006A2CA /* BBTaskTimer.m */; };
 		365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */; };
+		365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CFD1B8039930051D2C2 /* BBInvoiceListViewController.m */; };
+		365F3D011B8039C60051D2C2 /* BBInvoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3D001B8039C60051D2C2 /* BBInvoiceViewController.m */; };
+		3665A9C81B81DDBF0098657E /* BBSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3665A9C71B81DDBF0098657E /* BBSyncManager.m */; };
+		3665A9CB1B81DF9D0098657E /* DropboxConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3665A9CA1B81DF9D0098657E /* DropboxConfiguration.m */; };
+		3665A9CE1B81E0620098657E /* BackupConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 3665A9CD1B81E0620098657E /* BackupConfiguration.m */; };
+		3665A9D11B81E60D0098657E /* BBAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3665A9D01B81E60D0098657E /* BBAccountManager.m */; };
 		366748791B3116BA00E23707 /* BBCreateSolicitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */; };
 		367563281B29B0B4002C5738 /* BBCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 367563271B29B0B4002C5738 /* BBCoreDataManager.m */; };
 		3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3675632E1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m */; };
@@ -109,6 +120,8 @@
 		360BD8EE1B770CF10012C4F0 /* BBRateListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBRateListViewController.m; path = Rate/BBRateListViewController.m; sourceTree = "<group>"; };
 		360BD8F01B772D980012C4F0 /* BBRateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBRateDelegate.h; path = Protocals/BBRateDelegate.h; sourceTree = "<group>"; };
 		360BD8F11B772DC60012C4F0 /* BBContactDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBContactDelegate.h; path = Protocals/BBContactDelegate.h; sourceTree = "<group>"; };
+		360D7D231B80449300D1259E /* BBInvoiceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceTableViewCell.h; path = UserInterface/Invoice/BBInvoiceTableViewCell.h; sourceTree = "<group>"; };
+		360D7D241B80449300D1259E /* BBInvoiceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceTableViewCell.m; path = UserInterface/Invoice/BBInvoiceTableViewCell.m; sourceTree = "<group>"; };
 		362543051B512BB8004C8116 /* BBExpenseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseListViewController.h; path = UserInterface/Expense/BBExpenseListViewController.h; sourceTree = "<group>"; };
 		362543061B512BB8004C8116 /* BBExpenseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBExpenseListViewController.m; path = UserInterface/Expense/BBExpenseListViewController.m; sourceTree = "<group>"; };
 		362543081B512C08004C8116 /* BBExpenseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseTableViewCell.h; path = UserInterface/Expense/BBExpenseTableViewCell.h; sourceTree = "<group>"; };
@@ -154,10 +167,31 @@
 		3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BBUtil.m"; path = "Categories/NSString+BBUtil.m"; sourceTree = "<group>"; };
 		3651DFBD1B3043F6007B321A /* BBMatterListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterListTableViewCell.h; path = UserInterface/Matter/BBMatterListTableViewCell.h; sourceTree = "<group>"; };
 		3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBMatterListTableViewCell.m; path = UserInterface/Matter/BBMatterListTableViewCell.m; sourceTree = "<group>"; };
+		36537B1E1B8194E400E6CF0F /* BBInvoiceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceDelegate.h; path = Protocals/BBInvoiceDelegate.h; sourceTree = "<group>"; };
+		36537B1F1B81C3BB00E6CF0F /* BBInvoiceTaskListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceTaskListViewController.h; path = UserInterface/Invoice/BBInvoiceTaskListViewController.h; sourceTree = "<group>"; };
+		36537B201B81C3BB00E6CF0F /* BBInvoiceTaskListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceTaskListViewController.m; path = UserInterface/Invoice/BBInvoiceTaskListViewController.m; sourceTree = "<group>"; };
+		36537B221B81C3EA00E6CF0F /* BBInvoiceDisbursementListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceDisbursementListViewController.h; path = UserInterface/Invoice/BBInvoiceDisbursementListViewController.h; sourceTree = "<group>"; };
+		36537B231B81C3EA00E6CF0F /* BBInvoiceDisbursementListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceDisbursementListViewController.m; path = UserInterface/Invoice/BBInvoiceDisbursementListViewController.m; sourceTree = "<group>"; };
+		36537B281B81C6EA00E6CF0F /* BBInvoiceDisbursementTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceDisbursementTableViewCell.h; path = UserInterface/Invoice/BBInvoiceDisbursementTableViewCell.h; sourceTree = "<group>"; };
+		36537B291B81C6EA00E6CF0F /* BBInvoiceDisbursementTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceDisbursementTableViewCell.m; path = UserInterface/Invoice/BBInvoiceDisbursementTableViewCell.m; sourceTree = "<group>"; };
+		36537B2B1B81C71000E6CF0F /* BBInvoiceTaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceTaskTableViewCell.h; path = UserInterface/Invoice/BBInvoiceTaskTableViewCell.h; sourceTree = "<group>"; };
+		36537B2C1B81C71000E6CF0F /* BBInvoiceTaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceTaskTableViewCell.m; path = UserInterface/Invoice/BBInvoiceTaskTableViewCell.m; sourceTree = "<group>"; };
 		36555FC71B43A8010006A2CA /* BBTaskTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTaskTimer.h; path = UserInterface/Task/BBTaskTimer.h; sourceTree = "<group>"; };
 		36555FC81B43A8010006A2CA /* BBTaskTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTaskTimer.m; path = UserInterface/Task/BBTaskTimer.m; sourceTree = "<group>"; };
 		365F3CF81B7F5A7A0051D2C2 /* BBValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBValidator.h; path = Common/BBValidator.h; sourceTree = "<group>"; };
 		365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBValidator.m; path = Common/BBValidator.m; sourceTree = "<group>"; };
+		365F3CFC1B8039930051D2C2 /* BBInvoiceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceListViewController.h; path = UserInterface/Invoice/BBInvoiceListViewController.h; sourceTree = "<group>"; };
+		365F3CFD1B8039930051D2C2 /* BBInvoiceListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceListViewController.m; path = UserInterface/Invoice/BBInvoiceListViewController.m; sourceTree = "<group>"; };
+		365F3CFF1B8039C60051D2C2 /* BBInvoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceViewController.h; path = UserInterface/Invoice/BBInvoiceViewController.h; sourceTree = "<group>"; };
+		365F3D001B8039C60051D2C2 /* BBInvoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceViewController.m; path = UserInterface/Invoice/BBInvoiceViewController.m; sourceTree = "<group>"; };
+		3665A9C61B81DDBF0098657E /* BBSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSyncManager.h; sourceTree = "<group>"; };
+		3665A9C71B81DDBF0098657E /* BBSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSyncManager.m; sourceTree = "<group>"; };
+		3665A9C91B81DF9D0098657E /* DropboxConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxConfiguration.h; sourceTree = "<group>"; };
+		3665A9CA1B81DF9D0098657E /* DropboxConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxConfiguration.m; sourceTree = "<group>"; };
+		3665A9CC1B81E0620098657E /* BackupConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackupConfiguration.h; sourceTree = "<group>"; };
+		3665A9CD1B81E0620098657E /* BackupConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackupConfiguration.m; sourceTree = "<group>"; };
+		3665A9CF1B81E60D0098657E /* BBAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAccountManager.h; sourceTree = "<group>"; };
+		3665A9D01B81E60D0098657E /* BBAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAccountManager.m; sourceTree = "<group>"; };
 		366748771B3116BA00E23707 /* BBCreateSolicitorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBCreateSolicitorViewController.h; path = UserInterface/Matter/BBCreateSolicitorViewController.h; sourceTree = "<group>"; };
 		366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBCreateSolicitorViewController.m; path = UserInterface/Matter/BBCreateSolicitorViewController.m; sourceTree = "<group>"; };
 		3667487B1B313D4600E23707 /* BBMatterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterDelegate.h; path = Protocals/BBMatterDelegate.h; sourceTree = "<group>"; };
@@ -335,6 +369,7 @@
 		363C3A371B1C785C00B92513 /* UserInterface */ = {
 			isa = PBXGroup;
 			children = (
+				365F3CFB1B80395C0051D2C2 /* Invoice */,
 				36C39B8F1B7F0F4F00985DCB /* Account */,
 				360BD8EC1B770CC90012C4F0 /* Rate */,
 				363E45191B4FED1D0080CE38 /* Expense */,
@@ -374,6 +409,27 @@
 			name = Expense;
 			sourceTree = "<group>";
 		};
+		365F3CFB1B80395C0051D2C2 /* Invoice */ = {
+			isa = PBXGroup;
+			children = (
+				365F3CFC1B8039930051D2C2 /* BBInvoiceListViewController.h */,
+				365F3CFD1B8039930051D2C2 /* BBInvoiceListViewController.m */,
+				365F3CFF1B8039C60051D2C2 /* BBInvoiceViewController.h */,
+				365F3D001B8039C60051D2C2 /* BBInvoiceViewController.m */,
+				360D7D231B80449300D1259E /* BBInvoiceTableViewCell.h */,
+				360D7D241B80449300D1259E /* BBInvoiceTableViewCell.m */,
+				36537B1F1B81C3BB00E6CF0F /* BBInvoiceTaskListViewController.h */,
+				36537B201B81C3BB00E6CF0F /* BBInvoiceTaskListViewController.m */,
+				36537B221B81C3EA00E6CF0F /* BBInvoiceDisbursementListViewController.h */,
+				36537B231B81C3EA00E6CF0F /* BBInvoiceDisbursementListViewController.m */,
+				36537B281B81C6EA00E6CF0F /* BBInvoiceDisbursementTableViewCell.h */,
+				36537B291B81C6EA00E6CF0F /* BBInvoiceDisbursementTableViewCell.m */,
+				36537B2B1B81C71000E6CF0F /* BBInvoiceTaskTableViewCell.h */,
+				36537B2C1B81C71000E6CF0F /* BBInvoiceTaskTableViewCell.m */,
+			);
+			name = Invoice;
+			sourceTree = "<group>";
+		};
 		3667487A1B313D0200E23707 /* Protocals */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,6 +438,7 @@
 				36B983911B3FD9E90030E915 /* BBDropDownListDelegate.h */,
 				360BD8F01B772D980012C4F0 /* BBRateDelegate.h */,
 				360BD8F11B772DC60012C4F0 /* BBContactDelegate.h */,
+				36537B1E1B8194E400E6CF0F /* BBInvoiceDelegate.h */,
 			);
 			name = Protocals;
 			sourceTree = "<group>";
@@ -620,6 +677,14 @@
 				367563271B29B0B4002C5738 /* BBCoreDataManager.m */,
 				36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */,
 				36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */,
+				3665A9C61B81DDBF0098657E /* BBSyncManager.h */,
+				3665A9C71B81DDBF0098657E /* BBSyncManager.m */,
+				3665A9C91B81DF9D0098657E /* DropboxConfiguration.h */,
+				3665A9CA1B81DF9D0098657E /* DropboxConfiguration.m */,
+				3665A9CC1B81E0620098657E /* BackupConfiguration.h */,
+				3665A9CD1B81E0620098657E /* BackupConfiguration.m */,
+				3665A9CF1B81E60D0098657E /* BBAccountManager.h */,
+				3665A9D01B81E60D0098657E /* BBAccountManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -810,9 +875,12 @@
 				36555FC91B43A8010006A2CA /* BBTaskTimer.m in Sources */,
 				36C9E65F1B1AC6840085D647 /* DetailViewController.m in Sources */,
 				363E451C1B4FED420080CE38 /* BBExpenseViewController.m in Sources */,
+				36537B241B81C3EA00E6CF0F /* BBInvoiceDisbursementListViewController.m in Sources */,
+				36537B211B81C3BB00E6CF0F /* BBInvoiceTaskListViewController.m in Sources */,
 				36DEFA1A1B2710640053CD8C /* Invoice.m in Sources */,
 				36DEFA2C1B2710650053CD8C /* Contact.m in Sources */,
 				36DEFA501B2710660053CD8C /* Payment.m in Sources */,
+				36537B2D1B81C71000E6CF0F /* BBInvoiceTaskTableViewCell.m in Sources */,
 				36DEF9FC1B2710600053CD8C /* RegularInvoice.m in Sources */,
 				36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */,
 				36DEF9FF1B2710620053CD8C /* ReportDetailItem.m in Sources */,
@@ -821,9 +889,12 @@
 				36DEFA381B2710650053CD8C /* Firm.m in Sources */,
 				36C39B8E1B7EC14400985DCB /* BBSubscriptionManager.m in Sources */,
 				36DEFA0B1B2710640053CD8C /* GeneralExpense.m in Sources */,
+				3665A9CE1B81E0620098657E /* BackupConfiguration.m in Sources */,
 				36C9E65C1B1AC6840085D647 /* MasterViewController.m in Sources */,
 				36EB0E471B38DF7700AC7411 /* BBMatterCategoryListViewController.m in Sources */,
+				3665A9C81B81DDBF0098657E /* BBSyncManager.m in Sources */,
 				36C9E6561B1AC6840085D647 /* AppDelegate.m in Sources */,
+				365F3D011B8039C60051D2C2 /* BBInvoiceViewController.m in Sources */,
 				36DEFA261B2710650053CD8C /* ReceiptAllocation.m in Sources */,
 				36CED14B1B3A8E9900F421F5 /* BBDropDownListViewController.m in Sources */,
 				36C39B921B7F0F8D00985DCB /* BBLoginViewController.m in Sources */,
@@ -831,12 +902,15 @@
 				3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */,
 				36EB0E511B38E0FA00AC7411 /* BBTaskListTableViewCell.m in Sources */,
 				36788FA71B20350F00B34D3E /* BBBaseTableViewController.m in Sources */,
+				360D7D251B80449300D1259E /* BBInvoiceTableViewCell.m in Sources */,
 				367563321B2C2CCB002C5738 /* UIColor+BBUtil.m in Sources */,
 				36C936051B4A65AF002B4946 /* UIButton+BBUtil.m in Sources */,
 				36DEFA531B2710660053CD8C /* Discount.m in Sources */,
 				36DEFA3B1B2710650053CD8C /* BBManagedObject.m in Sources */,
+				3665A9D11B81E60D0098657E /* BBAccountManager.m in Sources */,
 				36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */,
 				365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */,
+				365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */,
 				36DEFA3E1B2710650053CD8C /* Receipt.m in Sources */,
 				36CC97501B47B6CF00CB1C45 /* BBRateViewController.m in Sources */,
 				36DEFA561B2710660053CD8C /* Solicitor.m in Sources */,
@@ -848,10 +922,12 @@
 				363ED8351B60A9B000000A7A /* BarBooks.xcdatamodeld in Sources */,
 				36EB0E4B1B38DFA200AC7411 /* BBTaskListViewController.m in Sources */,
 				3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */,
+				36537B2A1B81C6EA00E6CF0F /* BBInvoiceDisbursementTableViewCell.m in Sources */,
 				36DEFA051B2710640053CD8C /* InterestInvoice.m in Sources */,
 				36DEF9351B259FCB0053CD8C /* BBMatterViewController.m in Sources */,
 				36DEFA5C1B2710660053CD8C /* ReportDetail.m in Sources */,
 				366748791B3116BA00E23707 /* BBCreateSolicitorViewController.m in Sources */,
+				3665A9CB1B81DF9D0098657E /* DropboxConfiguration.m in Sources */,
 				36C781C01B35985500321AE2 /* NSDecimalNumber+BBUtil.m in Sources */,
 				36788FAB1B20368B00B34D3E /* NSDate+BBUtil.m in Sources */,
 				36DEFA351B2710650053CD8C /* VariationOfFees.m in Sources */,

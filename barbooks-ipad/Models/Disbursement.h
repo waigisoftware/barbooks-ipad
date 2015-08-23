@@ -17,4 +17,6 @@
 @property (nonatomic, retain) RegularInvoice *invoice;
 @property (nonatomic, retain) Matter *matter;
 
++ (NSArray *)allUnlinkedObjectsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+
 @end

@@ -11,6 +11,7 @@
 #import "BBTaskListViewController.h"
 #import "BBExpenseListViewController.h"
 #import "BBExpenseViewController.h"
+#import "BBInvoiceListViewController.h"
 
 
 @interface BBHomeViewController ()
@@ -165,13 +166,8 @@
 - (void)showMatters:(Matter *)matter {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     BBMatterListViewController *matterListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterListViewController];
-//    BBTaskListViewController *taskListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
     [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:matterListViewController animated:YES];
-//    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
     matterListViewController.matter = matter;
-//    matterListViewController.taskListViewController = taskListViewController;
-//    taskListViewController.matter = matter;
-//    taskListViewController.matterListViewController = matterListViewController;
     
     UITabBarController *tabBarController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryTabBarController];
     tabBarController.selectedIndex = 0;
@@ -181,6 +177,12 @@
             taskListViewController.matter = matter;
             taskListViewController.matterListViewController = matterListViewController;
             matterListViewController.taskListViewController = taskListViewController;
+        }
+        if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
+            ((BBExpenseListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
+            ((BBInvoiceListViewController *)vc).matter = matter;
         }
     }
     [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:tabBarController animated:YES];

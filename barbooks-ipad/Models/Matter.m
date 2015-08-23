@@ -58,6 +58,7 @@
 
 + (instancetype)newInstanceWithDefaultValue {
     Matter *newMatter = [Matter MR_createEntity];
+    newMatter.createdAt = [NSDate date];
     newMatter.archived = [NSNumber numberWithBool:NO];
     newMatter.createdAt = [NSDate date];
     newMatter.date = [NSDate date];
@@ -82,18 +83,11 @@
     NSDecimalNumber *hours;
     NSDecimalNumber *unit;
     NSDecimalNumber *numberOfUnit;
-    NSDecimalNumberHandler *roundUp = [NSDecimalNumberHandler
-                                       decimalNumberHandlerWithRoundingMode:NSRoundUp
-                                       scale:0
-                                       raiseOnExactness:NO
-                                       raiseOnOverflow:NO
-                                       raiseOnUnderflow:NO
-                                       raiseOnDivideByZero:YES];
 
     switch ([self.roundingType intValue]) {
         case 0:
             unit = [NSDecimalNumber decimalNumberWithString:@"360"];
-            numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:roundUp];
+            numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:[NSDecimalNumber timeFractionRoundingHandler]];
             hours = [numberOfUnit decimalNumberByMultiplyingBy:[unit decimalNumberByDividingBy:[NSDecimalNumber anHourSeconds]]];
             break;
         case 1:
@@ -106,7 +100,7 @@
             unit = [NSDecimalNumber decimalNumberWithString:@"1200"];
             break;
     }
-    numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:roundUp];
+    numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:[NSDecimalNumber timeFractionRoundingHandler]];
     hours = [numberOfUnit decimalNumberByMultiplyingBy:[unit decimalNumberByDividingBy:[NSDecimalNumber anHourSeconds]]];
 
     return hours;
@@ -136,6 +130,14 @@
     return [self.rates allObjects];
 }
 
+- (NSArray *)invoicesArray {
+    return [self.invoices allObjects];
+}
+
+- (NSArray *)disbursementsArray {
+    return [self.disbursements allObjects];
+}
+
 #pragma mark - Core Data
 
 + (NSArray *)allMatters {
@@ -150,6 +152,15 @@
 + (NSArray *)archivedMatters {
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:YES]];
     return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+}
+
++ (NSArray *)allUnlinkedInvoicesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    NSPredicate *fetchpredicate = [NSPredicate predicateWithFormat:@"solicitor == nil OR account == nil"];
+    
+    NSArray *matters = [Matter MR_findAllWithPredicate:fetchpredicate inContext:managedObjectContext];
+    
+    return matters;
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import "Receipt.h"
 #import "ReceiptAllocation.h"
-
+#import "Matter.h"
 
 @implementation Receipt
 
@@ -16,5 +16,16 @@
 @dynamic printInformation;
 @dynamic printIssuedDate;
 @dynamic allocations;
+
++ (instancetype)newInstanceOfMatter:(Matter *)matter {
+    if (matter) {
+        Receipt *newReceipt = [Receipt MR_createEntity];
+        newReceipt.createdAt = [NSDate date];
+        newReceipt.archived = [NSNumber numberWithBool:NO];
+        return newReceipt;
+    } else {
+        return nil;
+    }
+}
 
 @end

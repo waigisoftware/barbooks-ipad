@@ -12,6 +12,7 @@
 #import "BBMatterCategoryListViewController.h"
 #import "BBTaskListViewController.h"
 #import "BBExpenseListViewController.h"
+#import "BBInvoiceListViewController.h"
 
 @interface BBMatterListViewController () {
     BOOL _showUnarchived;
@@ -120,6 +121,20 @@
     return 123;
 }
 
+// handle delete
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Matter *matterToDelete = [_originalItemList objectAtIndex:indexPath.row];
+        [matterToDelete MR_deleteEntity];
+        [self fetchMatters];
+    }
+}
+
 #pragma mark - TableView helper methods
 
 - (NSIndexPath *)indexPathOfMatter:(Matter *)matter {
@@ -195,6 +210,9 @@
         }
         if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
             ((BBExpenseListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
+            ((BBInvoiceListViewController *)vc).matter = matter;
         }
     }
     [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];

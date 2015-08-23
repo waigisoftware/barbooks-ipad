@@ -19,4 +19,7 @@
 @property (nonatomic, retain) NSString * syncID;
 @property (nonatomic, retain) NSDate * updatedAt;
 
++ (BBManagedObject*) oldestEntryInManagedObjectContext:(NSManagedObjectContext*)context;
++ (BBManagedObject*) latestEntryInManagedObjectContext:(NSManagedObjectContext*)context;
+
 @end

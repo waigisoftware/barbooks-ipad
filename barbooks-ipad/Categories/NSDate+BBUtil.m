@@ -104,4 +104,24 @@ NSString *YEAR_FORMAT = @"yyyy";
     return [dateFormatter stringFromDate:self];
 }
 
+- (NSDate *)dateAfterMonths:(NSInteger)numberOfMonths {
+    NSDateComponents *dateComponents = [NSDateComponents new];
+    dateComponents.month = numberOfMonths;
+    
+    NSDate *currentDatePlusMonth = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
+    return currentDatePlusMonth;
+}
+
+- (NSInteger)financialYear
+{
+    NSDateComponents *components = [[NSCalendar currentCalendar]
+                                    components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
+                                    fromDate:self];
+    if (components.month > 6) {
+        components.year += 1;
+    }
+    
+    return components.year;
+}
+
 @end

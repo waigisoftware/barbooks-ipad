@@ -28,6 +28,7 @@
 #define BBSegueMatterToContactList @"matterToContactListSegue"
 #define BBSegueMatterToRateList @"matterToRateListSegue"
 #define BBSegueShowSynchronization @"showSynchronizationSegue"
+#define BBSegueShowInvoiceDetail @"showInvoiceDetailSegue"
 
 // View Controllers
 #define BBNavigationControllerHome @"BBHomeSplitViewController"
@@ -45,6 +46,9 @@
 #define StoryboardIdBBExpenseListViewController @"BBExpenseListViewController"
 #define StoryboardIdBBExpenseViewController @"BBExpenseViewController"
 #define StoryboardIdBBMatterCategoryTabBarController @"BBMatterCategoryTabBarController"
+#define StoryboardIdBBInvoiceListViewController @"BBInvoiceListViewController"
+#define StoryboardIdBBInvoiceViewController @"BBInvoiceViewController"
+#define StoryboardIdBBSynchronizationViewController @"BBSynchronizationViewController"
 
 // Constans
 #define ONE_SECOND 1
