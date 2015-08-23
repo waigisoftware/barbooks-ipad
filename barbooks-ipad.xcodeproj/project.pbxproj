@@ -207,6 +207,7 @@
 		36788FA61B20350F00B34D3E /* BBBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBBaseTableViewController.m; path = UserInterface/BBBaseTableViewController.m; sourceTree = "<group>"; };
 		36788FA91B20368B00B34D3E /* NSDate+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+BBUtil.h"; path = "Categories/NSDate+BBUtil.h"; sourceTree = "<group>"; };
 		36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+BBUtil.m"; path = "Categories/NSDate+BBUtil.m"; sourceTree = "<group>"; };
+		3678E45A1B89B3D000A603E1 /* BBExpenseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseDelegate.h; path = Protocals/BBExpenseDelegate.h; sourceTree = "<group>"; };
 		36B983911B3FD9E90030E915 /* BBDropDownListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDropDownListDelegate.h; path = Protocals/BBDropDownListDelegate.h; sourceTree = "<group>"; };
 		36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSubscriptionManager.h; sourceTree = "<group>"; };
 		36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSubscriptionManager.m; sourceTree = "<group>"; };
@@ -439,6 +440,7 @@
 				360BD8F01B772D980012C4F0 /* BBRateDelegate.h */,
 				360BD8F11B772DC60012C4F0 /* BBContactDelegate.h */,
 				36537B1E1B8194E400E6CF0F /* BBInvoiceDelegate.h */,
+				3678E45A1B89B3D000A603E1 /* BBExpenseDelegate.h */,
 			);
 			name = Protocals;
 			sourceTree = "<group>";

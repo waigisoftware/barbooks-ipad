@@ -7,8 +7,9 @@
 //
 
 #import "BBExpenseViewController.h"
-#import "Contact.h"
 #import "BBExpenseListViewController.h"
+#import "Contact.h"
+#import "Disbursement.h"
 
 @interface BBExpenseViewController ()
 
@@ -23,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *gstTextField;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *typeTextField;
 @property (weak, nonatomic) IBOutlet CHDropDownTextField *categoryTextField;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
+@property (weak, nonatomic) IBOutlet UIView *buttonsView;
 
 // date picker
 @property (weak, nonatomic) IBOutlet UIView *calendarContainerView;
@@ -33,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet JTCalendarMenuView *calendarMenuView;
 @property (weak, nonatomic) IBOutlet JTCalendarContentView *calendarContentView;
 @property (strong, nonatomic) JTCalendar *calendar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonsViewHeightConstraint;
 
 @property (strong, nonatomic) IGLDropDownMenu *gstTypeDrowdown;
 @property (strong, nonatomic) IGLDropDownMenu *expenseTypeDrowdown;
@@ -45,6 +49,7 @@
 - (IBAction)onConfirmPickDate:(id)sender;
 - (IBAction)onBackgroundButton:(id)sender;
 - (IBAction)onEditingPayee:(id)sender;
+- (IBAction)onClose:(id)sender;
 
 @end
 
@@ -68,6 +73,7 @@
     [self setupPayeeDropDown];
     [self setupCategoryDropDown];
     [self setupCalendarPickingView];
+    [self showCloseButtonIfNeeded];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -90,6 +96,17 @@
 - (void)coverViewIfNeeded {
     [self.view bringSubviewToFront:_coverView];
     _coverView.hidden = self.expense ? YES : NO;
+}
+
+- (void)showCloseButtonIfNeeded {
+    if (self.navigationController) {
+        _buttonsView.hidden = YES;
+        _buttonsViewHeightConstraint.constant = 0; // displaying in the detail view
+    } else {
+        _buttonsView.hidden = NO;
+        _buttonsViewHeightConstraint.constant = 44;// displaying in the modal view
+    }
+    [self.view updateConstraintsIfNeeded];
 }
 
 - (void)setupPayeeDropDown {
@@ -350,5 +367,13 @@
 
 #pragma mark - Core data
 
+
+
+#pragma mark - Actions
+
+- (IBAction)onClose:(id)sender {
+    [self.delegate updateExpense:self.expense];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

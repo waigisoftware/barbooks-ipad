@@ -91,8 +91,8 @@
     if (self) {
         
         if (![DBAccountManager sharedManager]) {
-            DBAccountManager *accountManager =
-            [[DBAccountManager alloc] initWithAppKey:kDropboxAppKey secret:kDropboxAppSecret];
+            DBAccountManager *accountManager = [[DBAccountManager alloc] initWithAppKey:kDropboxAppKey secret:kDropboxAppSecret];
+//            DBAccountManager *accountManager = [[DBAccountManager alloc] initWithAppKey:@"gmd9bz0ihf8t30o" secret:@"gt6onalc86cbetu"];
             [DBAccountManager setSharedManager:accountManager];
         }
         self.inRestoreProcess = NO;

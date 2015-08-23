@@ -75,7 +75,7 @@
     [super viewWillDisappear:animated];
     // user pressed back button in Navigation Bar
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-        [self.taskListViewController.navigationController popToRootViewControllerAnimated:NO];
+        [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];
     }
 }
 

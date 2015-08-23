@@ -55,7 +55,6 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Saves changes in the application's managed object context before the application terminates.
-//    [[BBCoreDataManager sharedInstance] saveContext];
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         NSLog(@"all data saved!");
     }];

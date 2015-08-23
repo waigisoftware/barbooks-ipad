@@ -8,8 +8,9 @@
 
 #import "BBBaseTableViewController.h"
 #import "BBExpenseViewController.h"
+#import "BBExpenseDelegate.h"
 
-@interface BBExpenseListViewController : BBBaseTableViewController
+@interface BBExpenseListViewController : BBBaseTableViewController <BBExpenseDelegate>
 
 @property (strong, nonatomic) Expense *expense;
 @property (strong, nonatomic) BBExpenseViewController *expenseViewController;
