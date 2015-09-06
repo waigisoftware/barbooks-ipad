@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BBTimerAccessoryView">
+            <rect key="frame" x="0.0" y="0.0" width="80" height="86"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zye-Iv-wrc">
+                    <rect key="frame" x="0.0" y="19" width="80" height="47"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mG-EK-Ia8">
+                            <rect key="frame" x="40" y="8" width="32" height="32"/>
+                            <color key="backgroundColor" red="0.90196078430000004" green="0.15686274510000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="32" id="D8m-yK-hSm"/>
+                                <constraint firstAttribute="height" constant="32" id="xgV-XW-3V3"/>
+                            </constraints>
+                            <state key="normal" image="button_timer_stop"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bCO-Kp-6xn">
+                            <rect key="frame" x="40" y="8" width="32" height="32"/>
+                            <color key="backgroundColor" white="0.87" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" image="button_timer"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="47" id="JwT-Z4-ED4"/>
+                        <constraint firstAttribute="trailing" secondItem="6mG-EK-Ia8" secondAttribute="trailing" constant="8" id="SnL-55-wJh"/>
+                        <constraint firstAttribute="bottom" secondItem="6mG-EK-Ia8" secondAttribute="bottom" constant="7" id="oH6-ox-fl3"/>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="86" id="orU-Y0-tta"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="orU-Y0-tta"/>
+                        </mask>
+                    </variation>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1na-9Q-vgY">
+                    <rect key="frame" x="8" y="32" width="22" height="22"/>
+                    <connections>
+                        <action selector="infoButtonPressed:event:" destination="-2" eventType="touchUpInside" id="Ztg-Sc-2RI"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Zye-Iv-wrc" secondAttribute="trailing" id="nmF-p8-8m5"/>
+                <constraint firstItem="Zye-Iv-wrc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="19" id="zJQ-RR-fTe"/>
+                <constraint firstItem="Zye-Iv-wrc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zi1-02-m9D"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="stopButton" destination="6mG-EK-Ia8" id="rN9-ne-vx1"/>
+                <outlet property="timerButton" destination="bCO-Kp-6xn" id="GX2-qD-cQO"/>
+            </connections>
+            <point key="canvasLocation" x="255" y="118"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="button_timer" width="32" height="32"/>
+        <image name="button_timer_stop" width="16" height="16"/>
+    </resources>
+</document>

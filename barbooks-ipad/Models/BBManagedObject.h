@@ -18,5 +18,6 @@
 @property (nonatomic, retain) NSNumber * importedObject;
 @property (nonatomic, retain) NSString * syncID;
 @property (nonatomic, retain) NSDate * updatedAt;
+@property (nonatomic, retain) NSString * owner;
 
 @end

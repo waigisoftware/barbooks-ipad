@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "Contact.h"
 
-@class GeneralExpense, Matter, Payment, Rate, Report;
+@class GeneralExpense, Matter, Payment, Rate, Template, Report;
 
 @interface Account : Contact
 
@@ -34,6 +34,8 @@
 @property (nonatomic, retain) NSSet *rates;
 @property (nonatomic, retain) NSSet *receipts;
 @property (nonatomic, retain) NSSet *reports;
+@property (nonatomic, retain) NSSet *templates;
+
 @end
 
 @interface Account (CoreDataGeneratedAccessors)
@@ -62,5 +64,11 @@
 - (void)removeReportsObject:(Report *)value;
 - (void)addReports:(NSSet *)values;
 - (void)removeReports:(NSSet *)values;
+
+
+- (void)addTemplatesObject:(Template *)value;
+- (void)removeTemplatesObject:(Template *)value;
+- (void)addTemplates:(NSSet *)values;
+- (void)removeTemplates:(NSSet *)values;
 
 @end

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "EF9139E7DDD0A6BBD00002C985BB4121A8486910",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "EF9139E7DDD0A6BBD00002C985BB4121A8486910" : 0,
+    "F6ED35E2F6B9CE9F5A102D12763FF654FEBB7426" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F0F48190-A5F4-4FBB-A543-F1E842A49724",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "EF9139E7DDD0A6BBD00002C985BB4121A8486910" : "barbooks-ipad",
+    "F6ED35E2F6B9CE9F5A102D12763FF654FEBB7426" : "BarBooks\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "barbooks-ipad",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "barbooks-ipad.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/waigisoftware\/barbooks-ipad",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EF9139E7DDD0A6BBD00002C985BB4121A8486910"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jediric\/Bar-Book.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F6ED35E2F6B9CE9F5A102D12763FF654FEBB7426"
+    }
+  ]
+}

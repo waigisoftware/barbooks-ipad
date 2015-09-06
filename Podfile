@@ -14,7 +14,7 @@ pod "MBProgressHUD", "0.9.1"
 pod "ECSlidingViewController", "2.0.3"
 pod "Reachability", "3.2"
 pod "UIFloatLabelTextField", "1.2.1"
-pod 'ParcelKit'
+#pod 'ParcelKit'
 pod "MagicalRecord"
 pod 'IQKeyboardManager'
 pod 'JTCalendar', '~> 1.1'
@@ -23,6 +23,7 @@ pod 'DropdownMenu'
 pod 'MessageBarManager'
 pod "IGLDropDownMenu"
 pod "Lockbox", "2.1.0"
+pod "couchbase-lite-ios"
 
 end
 

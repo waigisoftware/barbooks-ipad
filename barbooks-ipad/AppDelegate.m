@@ -26,6 +26,16 @@
     [self setupNavigationBarAppearance];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self determineWhichViewControllerToShowFirst];
+    
+    NSManagedObjectModel *model = [NSManagedObjectModel MR_defaultManagedObjectModel];
+    [CBLIncrementalStore updateManagedObjectModel:model];
+    
+    NSError *error = nil;
+
+    
+    NSManagedObjectContext *managedObjectContext = [CBLIncrementalStore createManagedObjectContextWithModel:model
+                                                                                               databaseName:@"barbooks"
+                                                                                                      error:&error];
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"BarBooks"];
     [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
     [self setupObservers];

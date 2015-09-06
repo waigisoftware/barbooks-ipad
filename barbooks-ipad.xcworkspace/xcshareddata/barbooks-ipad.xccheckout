@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F0F48190-A5F4-4FBB-A543-F1E842A49724</string>
+	<key>IDESourceControlProjectName</key>
+	<string>barbooks-ipad</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>EF9139E7DDD0A6BBD00002C985BB4121A8486910</key>
+		<string>https://github.com/waigisoftware/barbooks-ipad</string>
+		<key>F6ED35E2F6B9CE9F5A102D12763FF654FEBB7426</key>
+		<string>https://github.com/jediric/Bar-Book.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>barbooks-ipad.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>EF9139E7DDD0A6BBD00002C985BB4121A8486910</key>
+		<string>..</string>
+		<key>F6ED35E2F6B9CE9F5A102D12763FF654FEBB7426</key>
+		<string>../../BarBooks</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/waigisoftware/barbooks-ipad</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>EF9139E7DDD0A6BBD00002C985BB4121A8486910</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F6ED35E2F6B9CE9F5A102D12763FF654FEBB7426</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BarBooks</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>EF9139E7DDD0A6BBD00002C985BB4121A8486910</string>
+			<key>IDESourceControlWCCName</key>
+			<string>barbooks-ipad</string>
+		</dict>
+	</array>
+</dict>
+</plist>

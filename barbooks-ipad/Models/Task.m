@@ -180,10 +180,17 @@
     int selectedType = rate.type.intValue;
     
     if (selectedType == 0) {
-        NSDecimalNumber *hourUnits = [self.matter hoursFromDuration:self.duration];
         
-        fees = [rate.amount decimalNumberByMultiplyingBy:hourUnits withBehavior:[NSDecimalNumber accurateRoundingHandler]];
-
+        NSDecimalNumber *division = [NSDecimalNumber decimalNumberWithString:@"60"];
+        NSDecimalNumber *hourFee = [rate.amount decimalNumberByMultiplyingBy:self.hours withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        if (self.minutes.intValue > 0) {
+            NSDecimalNumber *minFactor = [self.minutes decimalNumberByDividingBy:division withBehavior:[NSDecimalNumber timeFractionRoundingHandler]];
+            NSDecimalNumber *minFee = [rate.amount decimalNumberByMultiplyingBy:minFactor withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+            
+            fees = [hourFee decimalNumberByAdding:minFee withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        } else {
+            fees = hourFee;
+        }
     } else if(selectedType == 1) {
         
         fees = [rate.amount decimalNumberByMultiplyingBy:self.units withBehavior:[NSDecimalNumber accurateRoundingHandler]];
@@ -235,10 +242,17 @@
     
     if (selectedType == 0) {
         
-        NSDecimalNumber *hourUnits = [self.matter hoursFromDuration:self.duration];
+        NSDecimalNumber *division = [NSDecimalNumber decimalNumberWithString:@"60"];
+        NSDecimalNumber *hourFee = [rate.amountGst decimalNumberByMultiplyingBy:self.hours withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        if (self.minutes.intValue > 0) {
+            NSDecimalNumber *minFactor = [self.minutes decimalNumberByDividingBy:division withBehavior:[NSDecimalNumber timeFractionRoundingHandler]];
+            NSDecimalNumber *minFee = [rate.amountGst decimalNumberByMultiplyingBy:minFactor withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+            
+            fees = [hourFee decimalNumberByAdding:minFee withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        } else {
+            fees = hourFee;
+        }
         
-        fees = [rate.amountGst decimalNumberByMultiplyingBy:hourUnits withBehavior:[NSDecimalNumber accurateRoundingHandler]];
-
     } else if(selectedType == 1) {
         fees = [rate.amountGst decimalNumberByMultiplyingBy:self.units withBehavior:[NSDecimalNumber accurateRoundingHandler]];
         

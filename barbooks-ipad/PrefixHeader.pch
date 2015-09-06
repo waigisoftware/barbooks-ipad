@@ -17,6 +17,11 @@
 #import <MagicalRecord/MagicalRecord.h>
 #import <MagicalRecord/MagicalRecord+ShorthandMethods.h>
 #import <MagicalRecord/MagicalRecordShorthandMethodAliases.h>
+#import <CouchbaseLite/CouchbaseLite.h>
+#import "BBIncrementalStore.h"
+#import "BBAccountManager.h"
+
+
 
 #import "BBTaskTimer.h"
 #import "NSDecimalNumber+BBUtil.h"
@@ -82,6 +87,10 @@
 #define kWoocommerceSecret @"cs_f080069717f4ee0b8cd5f809889820ea"
 #define kWordpressApiKey @"76CCD5E8334BE2DDCD9E55FAF1959"
 #define kWordpressApiParameter @"&key=76CCD5E8334BE2DDCD9E55FAF1959"
+
+#define COUCHBASE_SYNC_URL @"http://winwinretail.com:4984/"
+#define COUCHBASE_DEFAULT_BUCKET @"sync_gateway"
+#define COUCHBASE_ACCOUNT_BUCKET @"accounts"
 
 
 #endif

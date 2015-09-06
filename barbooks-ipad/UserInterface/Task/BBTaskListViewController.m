@@ -167,8 +167,8 @@
             }
         }
         
-        
         cell.taskTimeLabel.text = [task durationToFormattedString];
+        
     } else {
         
         cell.accessoryView = nil;
@@ -186,7 +186,7 @@
     NSIndexPath *indexPath = [self.tasksTableView indexPathForRowAtPoint:currentTouchPosition];
     if (indexPath != nil){
         
-        BBTaskListTableViewCell *cell = [_tasksTableView cellForRowAtIndexPath:indexPath];
+        BBTaskListTableViewCell *cell = (id)[_tasksTableView cellForRowAtIndexPath:indexPath];
         BBTimerAccessoryView *accView = (BBTimerAccessoryView *)cell.accessoryView;
         
         if ([[BBTaskTimer sharedInstance] active]) {
@@ -235,7 +235,9 @@
     BBTimerAccessoryView *accView = (BBTimerAccessoryView *)cell.accessoryView;
     UIView *innerView = [accView.subviews objectAtIndex:0];
     [innerView setTranslatesAutoresizingMaskIntoConstraints:YES];
-    CGRect accViewRect = accView.bounds;
+    UIView *viewPrototype = [BBTimerAccessoryView cellAccessoryViewWithOwner:self];
+    
+    CGRect accViewRect = viewPrototype.bounds;
     
     
     if (animated) {
@@ -422,7 +424,7 @@
     
     if (indexPath) {
 
-        BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
+        BBTaskListTableViewCell *cell = (id)[self.tasksTableView cellForRowAtIndexPath:indexPath];
         
         cell.taskTimeLabel.text = [task durationToFormattedString];
         cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
@@ -454,7 +456,7 @@
 {
     Task *task = notification.object;
     NSIndexPath *indexPath = [self indexPathOfTask:task];
-    BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
+    BBTaskListTableViewCell *cell = (id)[self.tasksTableView cellForRowAtIndexPath:indexPath];
     [(BBTimerAccessoryView*)cell.accessoryView showRunningTimer];
 }
 
@@ -462,7 +464,7 @@
 {
     Task *task = notification.object;
     NSIndexPath *indexPath = [self indexPathOfTask:task];
-    BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
+    BBTaskListTableViewCell *cell = (id)[self.tasksTableView cellForRowAtIndexPath:indexPath];
     [(BBTimerAccessoryView*)cell.accessoryView showPauseTimer];
 }
 
@@ -470,7 +472,7 @@
 {
     Task *task = notification.object;
     NSIndexPath *indexPath = [self indexPathOfTask:task];
-    BBTaskListTableViewCell *cell = [self.tasksTableView cellForRowAtIndexPath:indexPath];
+    BBTaskListTableViewCell *cell = (id)[self.tasksTableView cellForRowAtIndexPath:indexPath];
 
     cell.taskTimeLabel.text = [task durationToFormattedString];
     cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];

@@ -8,13 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		0703B2101B82CFD5009984E2 /* BBTimerAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */; };
-		0706D83E1B86B04A001F87A2 /* BBMultilineTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0706D83C1B86B04A001F87A2 /* BBMultilineTextTableViewCell.m */; };
-		0706D83F1B86B04A001F87A2 /* BBTimerCellAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0706D83D1B86B04A001F87A2 /* BBTimerCellAccessory.xib */; };
 		072007CB1B86EE74000CC616 /* BBSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */; };
+		07694AFC1B996DEE00995128 /* BBTimerCellAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */; };
+		07694B251B9BC7D500995128 /* BBIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 07694B091B9BC7D500995128 /* BBIncrementalStore.m */; };
+		07694B261B9BC7D500995128 /* CBLIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 07694B0B1B9BC7D500995128 /* CBLIncrementalStore.m */; };
 		077EC8331B855D67006F2F9B /* BBModalDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 077EC8311B855D67006F2F9B /* BBModalDatePickerViewController.m */; };
 		077EC8341B855D67006F2F9B /* BBModalDatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 077EC8321B855D67006F2F9B /* BBModalDatePickerViewController.xib */; };
 		0793E02A1B7D62C9001E2A5B /* BBColoredTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */; };
 		0793E02D1B7D7206001E2A5B /* BBTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E02C1B7D7206001E2A5B /* BBTableViewController.m */; };
+		07A82E7D1B9BF02700796F10 /* BBAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7A1B9BF02700796F10 /* BBAccountManager.m */; settings = {ASSET_TAGS = (); }; };
+		07A82E7E1B9BF02700796F10 /* BBCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7C1B9BF02700796F10 /* BBCloudManager.m */; settings = {ASSET_TAGS = (); }; };
+		07A82E811B9BF06A00796F10 /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E801B9BF06A00796F10 /* Template.m */; settings = {ASSET_TAGS = (); }; };
+		07BEE46B1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BEE46A1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m */; };
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
 		36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */ = {isa = PBXBuildFile; fileRef = 36062BC81B6CF6D80088DB29 /* BBTimers.m */; };
 		360BD8EF1B770CF10012C4F0 /* BBRateListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 360BD8EE1B770CF10012C4F0 /* BBRateListViewController.m */; };
@@ -112,11 +117,13 @@
 /* Begin PBXFileReference section */
 		0703B20E1B82CFD5009984E2 /* BBTimerAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTimerAccessoryView.h; path = UserInterface/Views/BBTimerAccessoryView.h; sourceTree = "<group>"; };
 		0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTimerAccessoryView.m; path = UserInterface/Views/BBTimerAccessoryView.m; sourceTree = "<group>"; };
-		0706D83B1B86B04A001F87A2 /* BBMultilineTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMultilineTextTableViewCell.h; path = UserInterface/Views/BBMultilineTextTableViewCell.h; sourceTree = "<group>"; };
-		0706D83C1B86B04A001F87A2 /* BBMultilineTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBMultilineTextTableViewCell.m; path = UserInterface/Views/BBMultilineTextTableViewCell.m; sourceTree = "<group>"; };
-		0706D83D1B86B04A001F87A2 /* BBTimerCellAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BBTimerCellAccessory.xib; path = UserInterface/Views/BBTimerCellAccessory.xib; sourceTree = "<group>"; };
 		072007C91B86EE74000CC616 /* BBSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSelectionTableViewController.h; path = UserInterface/Common/BBSelectionTableViewController.h; sourceTree = "<group>"; };
 		072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSelectionTableViewController.m; path = UserInterface/Common/BBSelectionTableViewController.m; sourceTree = "<group>"; };
+		07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BBTimerCellAccessory.xib; path = UserInterface/Views/BBTimerCellAccessory.xib; sourceTree = "<group>"; };
+		07694B081B9BC7D500995128 /* BBIncrementalStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBIncrementalStore.h; sourceTree = "<group>"; };
+		07694B091B9BC7D500995128 /* BBIncrementalStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBIncrementalStore.m; sourceTree = "<group>"; };
+		07694B0A1B9BC7D500995128 /* CBLIncrementalStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBLIncrementalStore.h; sourceTree = "<group>"; };
+		07694B0B1B9BC7D500995128 /* CBLIncrementalStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBLIncrementalStore.m; sourceTree = "<group>"; };
 		077EC8301B855D67006F2F9B /* BBModalDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBModalDatePickerViewController.h; path = UserInterface/Views/BBModalDatePickerViewController.h; sourceTree = "<group>"; };
 		077EC8311B855D67006F2F9B /* BBModalDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBModalDatePickerViewController.m; path = UserInterface/Views/BBModalDatePickerViewController.m; sourceTree = "<group>"; };
 		077EC8321B855D67006F2F9B /* BBModalDatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BBModalDatePickerViewController.xib; path = UserInterface/Views/BBModalDatePickerViewController.xib; sourceTree = "<group>"; };
@@ -124,6 +131,14 @@
 		0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBColoredTableViewCell.m; path = UserInterface/Views/BBColoredTableViewCell.m; sourceTree = "<group>"; };
 		0793E02B1B7D7206001E2A5B /* BBTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTableViewController.h; path = UserInterface/BBTableViewController.h; sourceTree = "<group>"; };
 		0793E02C1B7D7206001E2A5B /* BBTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTableViewController.m; path = UserInterface/BBTableViewController.m; sourceTree = "<group>"; };
+		07A82E791B9BF02700796F10 /* BBAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAccountManager.h; sourceTree = "<group>"; };
+		07A82E7A1B9BF02700796F10 /* BBAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAccountManager.m; sourceTree = "<group>"; };
+		07A82E7B1B9BF02700796F10 /* BBCloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCloudManager.h; sourceTree = "<group>"; };
+		07A82E7C1B9BF02700796F10 /* BBCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCloudManager.m; sourceTree = "<group>"; };
+		07A82E7F1B9BF06A00796F10 /* Template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Template.h; sourceTree = "<group>"; };
+		07A82E801B9BF06A00796F10 /* Template.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Template.m; sourceTree = "<group>"; };
+		07BEE4691B996CAB00876EC7 /* BBMultilineTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMultilineTextTableViewCell.h; path = UserInterface/Views/BBMultilineTextTableViewCell.h; sourceTree = "<group>"; };
+		07BEE46A1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBMultilineTextTableViewCell.m; path = UserInterface/Views/BBMultilineTextTableViewCell.m; sourceTree = "<group>"; };
 		16ED6A71BF367FA077B7B0E6 /* Pods-barbooks-ipad.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipad.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad.release.xcconfig"; sourceTree = "<group>"; };
 		36062BC71B6CF6D80088DB29 /* BBTimers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTimers.h; path = Common/BBTimers.h; sourceTree = "<group>"; };
 		36062BC81B6CF6D80088DB29 /* BBTimers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTimers.m; path = Common/BBTimers.m; sourceTree = "<group>"; };
@@ -343,6 +358,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07694B001B9BC7D500995128 /* Thirdparty */ = {
+			isa = PBXGroup;
+			children = (
+				07694B041B9BC7D500995128 /* Couchbase */,
+			);
+			path = Thirdparty;
+			sourceTree = "<group>";
+		};
+		07694B041B9BC7D500995128 /* Couchbase */ = {
+			isa = PBXGroup;
+			children = (
+				07694B071B9BC7D500995128 /* Extras */,
+			);
+			path = Couchbase;
+			sourceTree = "<group>";
+		};
+		07694B071B9BC7D500995128 /* Extras */ = {
+			isa = PBXGroup;
+			children = (
+				07694B081B9BC7D500995128 /* BBIncrementalStore.h */,
+				07694B091B9BC7D500995128 /* BBIncrementalStore.m */,
+				07694B0A1B9BC7D500995128 /* CBLIncrementalStore.h */,
+				07694B0B1B9BC7D500995128 /* CBLIncrementalStore.m */,
+			);
+			path = Extras;
+			sourceTree = "<group>";
+		};
 		0793E0271B7D6295001E2A5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,9 +395,9 @@
 				077EC8301B855D67006F2F9B /* BBModalDatePickerViewController.h */,
 				077EC8311B855D67006F2F9B /* BBModalDatePickerViewController.m */,
 				077EC8321B855D67006F2F9B /* BBModalDatePickerViewController.xib */,
-				0706D83B1B86B04A001F87A2 /* BBMultilineTextTableViewCell.h */,
-				0706D83C1B86B04A001F87A2 /* BBMultilineTextTableViewCell.m */,
-				0706D83D1B86B04A001F87A2 /* BBTimerCellAccessory.xib */,
+				07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */,
+				07BEE4691B996CAB00876EC7 /* BBMultilineTextTableViewCell.h */,
+				07BEE46A1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -518,6 +560,7 @@
 			isa = PBXGroup;
 			children = (
 				363ED8161B60A9AF00000A7A /* BarBooks.xcdatamodeld */,
+				07694B001B9BC7D500995128 /* Thirdparty */,
 				3667487A1B313D0200E23707 /* Protocals */,
 				36DEF9AE1B2706890053CD8C /* Managers */,
 				36DEF9A11B2704480053CD8C /* Common */,
@@ -638,6 +681,8 @@
 				36DEF9FE1B2710620053CD8C /* ReportDetailItem.m */,
 				36DEF9FA1B2710600053CD8C /* RegularInvoice.h */,
 				36DEF9FB1B2710600053CD8C /* RegularInvoice.m */,
+				07A82E7F1B9BF06A00796F10 /* Template.h */,
+				07A82E801B9BF06A00796F10 /* Template.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -660,6 +705,10 @@
 		36DEF9AE1B2706890053CD8C /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				07A82E791B9BF02700796F10 /* BBAccountManager.h */,
+				07A82E7A1B9BF02700796F10 /* BBAccountManager.m */,
+				07A82E7B1B9BF02700796F10 /* BBCloudManager.h */,
+				07A82E7C1B9BF02700796F10 /* BBCloudManager.m */,
 				367563261B29B0B4002C5738 /* BBCoreDataManager.h */,
 				367563271B29B0B4002C5738 /* BBCoreDataManager.m */,
 				36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */,
@@ -785,8 +834,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				36C9E6621B1AC6840085D647 /* Main.storyboard in Resources */,
+				07694AFC1B996DEE00995128 /* BBTimerCellAccessory.xib in Resources */,
 				36C9E6671B1AC6840085D647 /* LaunchScreen.xib in Resources */,
-				0706D83F1B86B04A001F87A2 /* BBTimerCellAccessory.xib in Resources */,
 				077EC8341B855D67006F2F9B /* BBModalDatePickerViewController.xib in Resources */,
 				36C9E6641B1AC6840085D647 /* Images.xcassets in Resources */,
 			);
@@ -855,6 +904,7 @@
 				3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */,
 				36555FC91B43A8010006A2CA /* BBTaskTimer.m in Sources */,
 				36C9E65F1B1AC6840085D647 /* DetailViewController.m in Sources */,
+				07A82E7E1B9BF02700796F10 /* BBCloudManager.m in Sources */,
 				363E451C1B4FED420080CE38 /* BBExpenseViewController.m in Sources */,
 				36DEFA1A1B2710640053CD8C /* Invoice.m in Sources */,
 				36DEFA2C1B2710650053CD8C /* Contact.m in Sources */,
@@ -874,6 +924,7 @@
 				36C9E6561B1AC6840085D647 /* AppDelegate.m in Sources */,
 				36DEFA261B2710650053CD8C /* ReceiptAllocation.m in Sources */,
 				36CED14B1B3A8E9900F421F5 /* BBDropDownListViewController.m in Sources */,
+				07A82E7D1B9BF02700796F10 /* BBAccountManager.m in Sources */,
 				36C39B921B7F0F8D00985DCB /* BBLoginViewController.m in Sources */,
 				36DEFA591B2710660053CD8C /* CAReport.m in Sources */,
 				3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */,
@@ -895,6 +946,7 @@
 				36DEFA411B2710650053CD8C /* Attachment.m in Sources */,
 				363ED8351B60A9B000000A7A /* BarBooks.xcdatamodeld in Sources */,
 				36EB0E4B1B38DFA200AC7411 /* BBTaskListViewController.m in Sources */,
+				07694B261B9BC7D500995128 /* CBLIncrementalStore.m in Sources */,
 				3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */,
 				36DEFA051B2710640053CD8C /* InterestInvoice.m in Sources */,
 				36DEF9351B259FCB0053CD8C /* BBMatterViewController.m in Sources */,
@@ -902,17 +954,19 @@
 				366748791B3116BA00E23707 /* BBCreateSolicitorViewController.m in Sources */,
 				36C781C01B35985500321AE2 /* NSDecimalNumber+BBUtil.m in Sources */,
 				36788FAB1B20368B00B34D3E /* NSDate+BBUtil.m in Sources */,
+				07694B251B9BC7D500995128 /* BBIncrementalStore.m in Sources */,
 				36DEFA351B2710650053CD8C /* VariationOfFees.m in Sources */,
 				077EC8331B855D67006F2F9B /* BBModalDatePickerViewController.m in Sources */,
 				36DEFA4A1B2710660053CD8C /* Task.m in Sources */,
 				36DEFA621B2710660053CD8C /* OutstandingFees.m in Sources */,
 				36DEFA231B2710640053CD8C /* TaxRefund.m in Sources */,
-				0706D83E1B86B04A001F87A2 /* BBMultilineTextTableViewCell.m in Sources */,
+				07BEE46B1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m in Sources */,
 				36C9E6531B1AC6840085D647 /* main.m in Sources */,
 				36DEFA111B2710640053CD8C /* OutstandingAmount.m in Sources */,
 				363C3A3E1B1C7A6B00B92513 /* BBMenuViewController.m in Sources */,
 				36C39B951B7F0FC500985DCB /* BBSynchronizationViewController.m in Sources */,
 				36DEF9321B25600C0053CD8C /* UISplitViewController+BBUtil.m in Sources */,
+				07A82E811B9BF06A00796F10 /* Template.m in Sources */,
 				36DEF9AD1B27052C0053CD8C /* GlobalAttributes.m in Sources */,
 				36DEFA291B2710650053CD8C /* Expense.m in Sources */,
 				36DEFA0E1B2710640053CD8C /* BASReport.m in Sources */,
@@ -1053,6 +1107,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/barbooks-ipad/Thirdparty/Couchbase",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "barbooks-ipad/PrefixHeader.pch";
 				INFOPLIST_FILE = "barbooks-ipad/Info.plist";
@@ -1072,6 +1130,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/barbooks-ipad/Thirdparty/Couchbase",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "barbooks-ipad/PrefixHeader.pch";
 				INFOPLIST_FILE = "barbooks-ipad/Info.plist";
