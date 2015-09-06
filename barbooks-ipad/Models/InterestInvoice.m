@@ -9,6 +9,8 @@
 #import "InterestInvoice.h"
 #import "Matter.h"
 #import "NSDate+BBUtil.h"
+#import "NSDecimalNumber+BBUtil.h"
+#import "Discount.h"
 
 
 @implementation InterestInvoice
@@ -27,7 +29,7 @@
         newInvoice.createdAt = [NSDate date];
         newInvoice.archived = [NSNumber numberWithBool:NO];
         newInvoice.amount   = [NSDecimalNumber zero];
-        newInvoice.amountExGst = [NSDecimalNumber zero];
+        newInvoice.amountExGst = [NSDecimalNumber oneHundred];
         newInvoice.amountGst = [NSDecimalNumber zero];
         newInvoice.totalAmount = [NSDecimalNumber zero];
         newInvoice.totalAmountExGst = [NSDecimalNumber zero];
@@ -51,6 +53,15 @@
     } else {
         return nil;
     }
+}
+
+- (NSDecimalNumber *)totalAmountExGst
+{
+    if (!self.discount) {
+        return self.amountExGst;
+    }
+    
+    return [self.discount discountedAmountForTotal:self.amountExGst];
 }
 
 @end

@@ -82,7 +82,6 @@
 + (NSArray *)allMatters;
 + (NSArray *)unarchivedMatters;
 + (NSArray *)archivedMatters;
-
-+ (NSArray *)allUnlinkedInvoicesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
++ (instancetype)firstMatter;
 
 @end

@@ -57,18 +57,18 @@
 }
 
 + (instancetype)newInstanceWithDefaultValue {
-    Matter *newMatter = [Matter MR_createEntity];
+    Matter *newMatter = [Matter MR_createEntityInContext:[NSManagedObjectContext MR_defaultContext]];
     newMatter.createdAt = [NSDate date];
     newMatter.archived = [NSNumber numberWithBool:NO];
     newMatter.createdAt = [NSDate date];
     newMatter.date = [NSDate date];
     newMatter.taxed = [NSNumber numberWithBool:YES];
     newMatter.tax = [NSDecimalNumber decimalNumberWithString:@"0.1"];
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        [localContext save:nil];
-    } completion:^(BOOL success, NSError *error) {
-        NSLog(@"%@", error);
-    }];
+    [[NSManagedObjectContext MR_defaultContext] save:nil];
+//    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+//    } completion:^(BOOL success, NSError *error) {
+//        NSLog(@"%@", error);
+//    }];
     return newMatter;
 }
 
@@ -123,7 +123,9 @@
 }
 
 - (NSArray *)tasksArray {
-    return [self.tasks allObjects];
+    return [[self.tasks allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [((Task *)obj2).createdAt compare:((Task *)obj1).createdAt];
+    }];
 }
 
 - (NSArray *)ratesArray {
@@ -131,7 +133,9 @@
 }
 
 - (NSArray *)invoicesArray {
-    return [self.invoices allObjects];
+    return [[self.invoices allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [((Invoice *)obj2).entryNumber compare:((Invoice *)obj1).entryNumber];
+    }];
 }
 
 - (NSArray *)disbursementsArray {
@@ -154,13 +158,8 @@
     return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
 }
 
-+ (NSArray *)allUnlinkedInvoicesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-{
-    NSPredicate *fetchpredicate = [NSPredicate predicateWithFormat:@"solicitor == nil OR account == nil"];
-    
-    NSArray *matters = [Matter MR_findAllWithPredicate:fetchpredicate inContext:managedObjectContext];
-    
-    return matters;
++ (instancetype)firstMatter {
+    return [[Matter unarchivedMatters] firstObject];
 }
 
 @end

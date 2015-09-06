@@ -12,6 +12,7 @@
 #import "BBExpenseListViewController.h"
 #import "BBExpenseViewController.h"
 #import "BBInvoiceListViewController.h"
+#import "BBReceiptListViewController.h"
 
 
 @interface BBHomeViewController ()
@@ -147,7 +148,7 @@
             switch (indexPath.row) {
                 case 0: {
                     NSLog(@"Matters");
-                    [self showMatters:nil];
+                    [self showMatters:[Matter firstMatter]];
                     break;
                 }
                 case 1:
@@ -183,6 +184,9 @@
         }
         if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
             ((BBInvoiceListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBReceiptListViewController class]]) {
+            ((BBReceiptListViewController *)vc).matter = matter;
         }
     }
     [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:tabBarController animated:YES];

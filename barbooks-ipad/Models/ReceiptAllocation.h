@@ -22,6 +22,4 @@
 @property (nonatomic, retain) Invoice *invoice;
 @property (nonatomic, retain) Receipt *receipt;
 
-+ (NSArray *)allUnlinkedAllocationsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-
 @end

@@ -10,6 +10,7 @@
 #import "BBInvoiceViewController.h"
 #import "BBInvoiceTableViewCell.h"
 #import "Invoice.h"
+#import "InterestInvoice.h"
 
 @interface BBInvoiceListViewController ()
 
@@ -65,7 +66,7 @@
 #pragma mark - Button actions
 
 - (void)onAddInvoice {
-    Invoice *newInvoice = [Invoice newInstanceOfMatter:self.matter];
+    Invoice *newInvoice = [InterestInvoice newInstanceOfMatter:self.matter];
     [self fetchInvoices];
     [_invoicesTableView selectRowAtIndexPath:[self indexPathOfInvoice:newInvoice] animated:YES scrollPosition:UITableViewScrollPositionTop];
     [self showInvoiceDetail:newInvoice];
@@ -85,8 +86,8 @@
     static NSString *reuseIdentifier = @"invoiceCell";
     BBInvoiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     Invoice *invoice = [_filteredItemList objectAtIndex:indexPath.row];
-    cell.invoiceNumberLabel.text = invoice.classDisplayName;
-    cell.totalAmountLabel.text = [invoice.totalAmount currencyAmount];
+    cell.invoiceNumberLabel.text = [invoice.entryNumber stringValue];
+    cell.totalAmountLabel.text = [invoice.totalAmountExGst currencyAmount];
     cell.outstandingAmountLabel.text = [invoice.totalOutstanding currencyAmount];
     cell.dueDateLabel.text = [invoice.dueDate toShortDateFormat];
     cell.matterDescriptionLabel.text = invoice.matter.name;

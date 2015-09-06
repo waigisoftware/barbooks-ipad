@@ -13,6 +13,7 @@
 #import "BBTaskListViewController.h"
 #import "BBExpenseListViewController.h"
 #import "BBInvoiceListViewController.h"
+#import "BBReceiptListViewController.h"
 
 @interface BBMatterListViewController () {
     BOOL _showUnarchived;
@@ -206,13 +207,19 @@
     tabBarController.selectedIndex = 0;
     for (UIViewController *vc in [tabBarController viewControllers]) {
         if ([vc isKindOfClass:[BBTaskListViewController class]]) {
-            ((BBTaskListViewController *)vc).matter = matter;
+            BBTaskListViewController *taskListViewController = (BBTaskListViewController *)vc;
+            taskListViewController.matter = matter;
+            taskListViewController.matterListViewController = self;
+            self.taskListViewController = taskListViewController;
         }
         if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
             ((BBExpenseListViewController *)vc).matter = matter;
         }
         if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
             ((BBInvoiceListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBReceiptListViewController class]]) {
+            ((BBReceiptListViewController *)vc).matter = matter;
         }
     }
     [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];

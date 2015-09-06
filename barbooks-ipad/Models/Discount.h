@@ -14,9 +14,12 @@
 
 @interface Discount : BBManagedObject
 
-@property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, retain) NSNumber * discountType;
 @property (nonatomic, retain) NSDecimalNumber * value;
 @property (nonatomic, retain) Invoice *invoice;
 @property (nonatomic, retain) Task *task;
+
+// helper function
+- (NSDecimalNumber *)discountedAmountForTotal:(NSDecimalNumber*)total;
 
 @end

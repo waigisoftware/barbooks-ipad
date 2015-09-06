@@ -58,6 +58,5 @@
 - (void)removeWriteOffs:(NSSet *)values;
 
 + (instancetype)newInstanceOfMatter:(Matter *)matter;
-+ (NSArray *)allUnlinkedInvoicesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 @end

@@ -14,8 +14,8 @@
 #import "UIColor+BBUtil.h"
 #import "BBTimers.h"
 #import "BBSubscriptionManager.h"
-#import "DBAccountManager.h"
-#import "DBDatastoreManager.h"
+#import <CouchbaseLite/CouchbaseLite.h>
+#import "CBLIncrementalStore.h"
 #import "BBSynchronizationViewController.h"
 
 
@@ -29,7 +29,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setupNavigationBarAppearance];
     [self determineWhichViewControllerToShowFirst];
-    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"BarBooks"];
+//    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"BarBooks"];
+    [NSManagedObjectContext MR_initializeDefaultContextWithCoordinator:[BBCoreDataManager sharedInstance].persistentStoreCoordinator];
+    CBLIncrementalStore *store = (CBLIncrementalStore *)[[[BBCoreDataManager sharedInstance].persistentStoreCoordinator persistentStores] objectAtIndex:0];
+    [store addObservingManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+    
     [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
     [self setupObservers];
     return YES;
@@ -61,24 +65,6 @@
     [MagicalRecord cleanUp];
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplicatio annotation:(id)annotation {
-    NSString *action = [url lastPathComponent];
-    
-    if ([action isEqualToString:@"connect"]) {
-        DBAccount *account = [[DBAccountManager sharedManager] handleOpenURL:url];
-        if (account) {
-            NSLog(@"App linked successfully!");
-            // Migrate any local datastores to the linked account
-            DBDatastoreManager *localManager = [DBDatastoreManager localManagerForAccountManager:
-                                                [DBAccountManager sharedManager]];
-            [localManager migrateToAccount:account error:nil];
-            // Now use Dropbox datastores
-            [DBDatastoreManager setSharedManager:[DBDatastoreManager managerForAccount:account]];
-            return YES;
-        }
-    }
-    return NO;
-}
 
 -(void) setupNavigationBarAppearance
 {

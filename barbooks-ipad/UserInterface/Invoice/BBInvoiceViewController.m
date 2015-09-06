@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *invoiceNumberTextField;
 @property (weak, nonatomic) IBOutlet UILabel *issueDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dueDateLabel;
+@property (weak, nonatomic) IBOutlet UIView *interestContainerView;
+@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *interestAmountTextField;
 
 @property (weak, nonatomic) IBOutlet UITableView *taskTableView;
 @property (weak, nonatomic) IBOutlet UITableView *disbursementTableView;
@@ -65,6 +67,12 @@
     [self showSelectedView];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self stopEditing];
+    [_delegate updateInvoice:_invoice];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -81,13 +89,22 @@
 - (void)loadInvoiceIntoUI {
     // preselect detail segment
     _segmentedControl.selectedSegmentIndex = 0;
-    _invoiceNumberTextField.text = _invoice.classDisplayName;
+    _invoiceNumberTextField.text = [_invoice.entryNumber stringValue];
     _issueDateLabel.text = [_invoice.createdAt toShortDateFormat];
     _dueDateLabel.text = [_invoice.dueDate toShortDateFormat];
+    if ([self.invoice isKindOfClass:[InterestInvoice class]]) {
+        _interestContainerView.hidden = NO;
+        _interestAmountTextField.text = [self.invoice.totalOutstandingExGst currencyAmount];
+    } else {
+        _interestContainerView.hidden = YES;
+    }
 }
 
-- (void)updateTaskFromUI {
+- (void)updateInvoiceFromUI {
     _invoice.classDisplayName = _invoiceNumberTextField.text;
+    if ([self.invoice isKindOfClass:[InterestInvoice class]]) {
+        self.invoice.totalOutstandingExGst = [NSDecimalNumber decimalNumberFromCurrencyString:_interestAmountTextField.text];
+    }
 }
 
 #pragma mark - Actions
@@ -99,6 +116,16 @@
 
 - (IBAction)onSegmentChange:(id)sender {
     [self showSelectedView];
+}
+
+#pragma mark - keyboards
+
+- (void)stopEditing {
+    [[UIResponder currentFirstResponder] resignFirstResponder];
+    // update Invoice object
+    [self updateInvoiceFromUI];
+    // refresh UI
+    [self loadInvoiceIntoUI];
 }
 
 @end

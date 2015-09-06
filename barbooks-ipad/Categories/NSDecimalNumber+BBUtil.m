@@ -44,6 +44,19 @@
     return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%d", value]];
 }
 
+// convert string value amount from $100.0 or 100.0 format to NSDecimalNumber
++ (NSDecimalNumber *)decimalNumberFromCurrencyString:(NSString *)numberValue {
+    if ([numberValue isNumeric]) {
+        return [NSDecimalNumber decimalNumberWithString:numberValue];
+    } else {
+        NSString *formattedString = [numberValue stringByReplacingOccurrencesOfString:@"$" withString:@""];
+        if ([numberValue isNumeric]) {
+            return [NSDecimalNumber decimalNumberWithString:formattedString];
+        }
+        return [NSDecimalNumber zero];
+    }
+}
+
 - (NSString *)currencyAmount {
     NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
     [nf setMinimumFractionDigits:2];
@@ -60,26 +73,40 @@
     return [NSString stringWithFormat:@"%@", [nf stringFromNumber: self]];
 }
 
+// get GST inclusive amount of a GST exclusive amount
 - (instancetype)decimalNumberAddGST {
-    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler
-                                          decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                          scale:2
-                                          raiseOnExactness:NO
-                                          raiseOnOverflow:NO
-                                          raiseOnUnderflow:NO
-                                          raiseOnDivideByZero:YES];
-    return [self decimalNumberByMultiplyingBy:[NSDecimalNumber onePointOne] withBehavior:roundPlain];
+    return [self decimalNumberByMultiplyingBy:[NSDecimalNumber onePointOne] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
 }
 
+// get GST exclusive amount of a GST inclusive amount
 - (instancetype)decimalNumberSubtractGST {
-    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler
-                                          decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                          scale:2
-                                          raiseOnExactness:NO
-                                          raiseOnOverflow:NO
-                                          raiseOnUnderflow:NO
-                                          raiseOnDivideByZero:YES];
-    return [[self decimalNumberByMultiplyingBy:[NSDecimalNumber ten]] decimalNumberByDividingBy:[NSDecimalNumber eleven] withBehavior:roundPlain];
+    return [[self decimalNumberByMultiplyingBy:[NSDecimalNumber ten] withBehavior:[NSDecimalNumber accurateRoundingHandler]] decimalNumberByDividingBy:[NSDecimalNumber eleven] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+// get GST amount of a GST inclusive amount
+- (instancetype)decimalNumberGSTOfInclusiveAmount {
+    return [[self decimalNumberByMultiplyingBy:[NSDecimalNumber one] withBehavior:[NSDecimalNumber accurateRoundingHandler]] decimalNumberByDividingBy:[NSDecimalNumber eleven] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+// get GST amount of a GST exclusive amount
+- (instancetype)decimalNumberGSTOfExclusiveAmount {
+    return [[self decimalNumberByMultiplyingBy:[NSDecimalNumber one] withBehavior:[NSDecimalNumber accurateRoundingHandler]] decimalNumberByDividingBy:[NSDecimalNumber ten] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (instancetype)decimalNumberByAccuratelyAdding:(NSDecimalNumber *)decimalNumber {
+    return [self decimalNumberByAdding:decimalNumber withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (instancetype)decimalNumberByAccuratelySubtracting:(NSDecimalNumber *)decimalNumber {
+    return [self decimalNumberBySubtracting:decimalNumber withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (instancetype)decimalNumberByAccuratelyMultiplyingBy:(NSDecimalNumber *)decimalNumber {
+    return [self decimalNumberByMultiplyingBy:decimalNumber withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (instancetype)decimalNumberByAccuratelyDividingBy:(NSDecimalNumber *)decimalNumber {
+    return [self decimalNumberByDividingBy:decimalNumber withBehavior:[NSDecimalNumber accurateRoundingHandler]];
 }
 
 // rounding handlers

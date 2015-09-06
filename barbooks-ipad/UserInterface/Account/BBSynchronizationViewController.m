@@ -7,7 +7,6 @@
 //
 
 #import "BBSynchronizationViewController.h"
-#import "DropboxConfiguration.h"
 
 @interface BBSynchronizationViewController ()
 
@@ -38,7 +37,6 @@
 */
 
 - (IBAction)onSynchronize:(id)sender {
-    [[DropboxConfiguration new] linkInViewController:self];
 }
 
 @end

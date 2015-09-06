@@ -21,13 +21,4 @@
 @dynamic invoice;
 @dynamic receipt;
 
-+ (NSArray *)allUnlinkedAllocationsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-{
-    NSPredicate *fetchpredicate = [NSPredicate predicateWithFormat:@"invoice == nil OR receipt == nil"];
-    
-    NSArray *allocations = [ReceiptAllocation MR_findAllWithPredicate:fetchpredicate inContext:managedObjectContext];
-    
-    return allocations;
-}
-
 @end

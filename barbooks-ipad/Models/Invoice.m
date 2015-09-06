@@ -12,6 +12,9 @@
 #import "ReceiptAllocation.h"
 #import "WriteOff.h"
 #import "NSDate+BBUtil.h"
+#import "NSDecimalNumber+BBUtil.h"
+#import "RegularInvoice.h"
+#import "InterestInvoice.h"
 
 
 @implementation Invoice
@@ -46,6 +49,15 @@
 @dynamic receiptAllocations;
 @dynamic writeOffs;
 
+- (void)awakeFromInsert
+{
+    [super awakeFromInsert];
+    
+    self.createdAt = [NSDate date];
+    self.date = [NSDate date];
+    self.entryNumber = [self generateIdentifier];
+}
+
 + (instancetype)newInstanceOfMatter:(Matter *)matter {
     if (matter) {
         Invoice *newInvoice = [Invoice MR_createEntity];
@@ -78,17 +90,68 @@
     }
 }
 
-+ (NSArray *)allUnlinkedInvoicesInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+- (NSNumber*)generateIdentifier
 {
-    //NSPredicate *fetchpredicate = [NSPredicate predicateWithFormat:@"matter == nil OR totalReceivedIncGst > totalAmount"];
+    if (self.importedObject.boolValue ) {
+        return nil;
+    }
     
-    NSArray *invoices = [Invoice MR_findAllInContext:managedObjectContext];
+    NSPredicate * filterPredicate = [NSPredicate predicateWithFormat:@"self != %@", self];
+    NSSortDescriptor *descending = [[NSSortDescriptor alloc] initWithKey:@"entryNumber" ascending:NO];
+
+    NSArray *objects = [[Invoice MR_findAllWithPredicate:filterPredicate] sortedArrayUsingDescriptors:@[descending]];
     
-    NSPredicate *amountPredicate = [NSPredicate predicateWithFormat:@"totalAmount <= 0 OR matter == nil OR (totalReceivedIncGst > totalAmount AND totalOutstanding > 1) OR (totalWrittenOff > totalAmount AND totalOutstanding > 1) OR (entity.name LIKE 'RegularInvoice' AND professionalFeeExGst < totalAmountExGst)"];
-    invoices = [invoices filteredArrayUsingPredicate:amountPredicate];
+    int lastID = MAX(self.entryNumber.intValue,1);
     
+    if (objects.count > 0) {
+        Invoice *invoice = [objects objectAtIndex:0];
+        if ((self.entryNumber.intValue == invoice.entryNumber.intValue && [self.createdAt compare:[[objects objectAtIndex:0] createdAt]] == NSOrderedDescending) ||
+            [self.createdAt compare:[[objects objectAtIndex:0] createdAt]] == NSOrderedDescending)
+        {
+            lastID = MAX(lastID, [[objects objectAtIndex:0] entryNumber].intValue);
+            lastID++;
+        }
+    }
     
-    return invoices;
+    return [NSNumber numberWithInt:lastID];
+}
+
+#pragma mark - Outstanding Amounts
+
+
+- (NSDecimalNumber *)totalOutstanding
+{
+    NSDecimalNumber *threshhold = [NSDecimalNumber decimalNumberWithString:@"0.99"];
+    
+    NSDecimalNumber *amount = [self.totalOutstandingExGst decimalNumberByAccuratelyAdding:self.totalOutstandingGst];
+    if ([amount compare:threshhold] == NSOrderedAscending) { // everything below threshold will be fixed to 0
+        amount = [NSDecimalNumber zero];
+    }
+    return amount;
+}
+
+- (NSDecimalNumber *)totalOutstandingExGst
+{
+    NSDecimalNumber *received = [self.totalReceivedExGst decimalNumberByAccuratelyAdding:self.totalWrittenOffExGst];
+    NSDecimalNumber *amount = [self.totalAmountExGst decimalNumberByAccuratelySubtracting:received];
+    
+    if (amount.intValue < 0) {
+        amount = [NSDecimalNumber zero];
+    }
+    
+    return amount;
+}
+
+- (NSDecimalNumber *)totalOutstandingGst
+{
+    NSDecimalNumber *received = [self.totalReceivedGst decimalNumberByAccuratelyAdding:self.totalWrittenOffGst];
+    NSDecimalNumber *amount = [self.totalAmountGst decimalNumberByAccuratelySubtracting:received];
+    
+    if (amount.intValue < 0) {
+        amount = [NSDecimalNumber zero];
+    }
+    
+    return amount;
 }
 
 @end

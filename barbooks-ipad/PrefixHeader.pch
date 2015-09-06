@@ -30,6 +30,7 @@
 #define BBSegueShowSynchronization @"showSynchronizationSegue"
 #define BBSegueShowInvoiceDetail @"showInvoiceDetailSegue"
 #define BBSegueShowExpenseDetail @"showExpenseDetailSegue"
+#define BBSegueShowReceiptDetail @"showReceiptDetailSegue"
 
 // View Controllers
 #define BBNavigationControllerHome @"BBHomeSplitViewController"
@@ -54,6 +55,7 @@
 // Constans
 #define ONE_SECOND 1
 #define MAX_COUNT_IN_DROPDOWN 4
+#define COUCHBASE_SYNC_URL @"http://winwinretail.com:8080/sync_gateway/"
 
 // Notifications
 #define BBNotificationTaskTimerUpdate @"BBNotificationTaskTimerUpdate"
