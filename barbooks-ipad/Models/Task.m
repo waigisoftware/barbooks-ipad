@@ -51,6 +51,7 @@
         }
         newTask.matter = matter;
         [matter addTasksObject:newTask];
+        [newTask.managedObjectContext MR_saveToPersistentStoreAndWait];
         return newTask;
     } else {
         return nil;
@@ -177,7 +178,7 @@
         return [NSDecimalNumber zero];
     }
     
-    int selectedType = rate.type.intValue;
+    int selectedType = rate.rateType.intValue;
     
     if (selectedType == 0) {
         
@@ -238,7 +239,7 @@
         return [NSDecimalNumber zero];
     }
     
-    int selectedType = rate.type.intValue;
+    int selectedType = rate.rateType.intValue;
     
     if (selectedType == 0) {
         

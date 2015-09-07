@@ -17,21 +17,21 @@
 @dynamic amount;
 @dynamic amountGst;
 @dynamic name;
-@dynamic type;
+@dynamic rateType;
 @dynamic account;
 @dynamic matter;
 @dynamic task;
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ - %@ - %@ (include GST) - %@ (exclude GST)", self.name, [[Rate rateTypes] objectAtIndex:[self.type integerValue]], [self.amountGst currencyAmount], [self.amount currencyAmount]];
+    return [NSString stringWithFormat:@"%@ - %@ - %@ (include GST) - %@ (exclude GST)", self.name, [[Rate rateTypes] objectAtIndex:[self.rateType integerValue]], [self.amountGst currencyAmount], [self.amount currencyAmount]];
 }
 
 - (NSString *)typeDescription {
-    return [[Rate rateTypes] objectAtIndex:[self.type intValue]];
+    return [[Rate rateTypes] objectAtIndex:[self.rateType intValue]];
 }
 
 - (BBRateChargingType)rateChargingType {
-    switch ([self.type integerValue]) {
+    switch ([self.rateType integerValue]) {
         case BBRateChargingTypeHourly:
             return BBRateChargingTypeHourly;
             break;
@@ -106,7 +106,7 @@
 - (void)copyValueToRate:(Rate *)rate {
     rate.amount = [self.amount copy];
     rate.name = [self.name copy];
-    rate.type = [self.type copy];
+    rate.rateType = [self.rateType copy];
 }
 
 + (NSArray *)rateTypes

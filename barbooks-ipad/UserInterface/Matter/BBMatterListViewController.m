@@ -12,6 +12,7 @@
 #import "BBMatterCategoryListViewController.h"
 #import "BBTaskListViewController.h"
 #import "BBExpenseListViewController.h"
+#import "Account.h"
 
 @interface BBMatterListViewController () {
     BOOL _showUnarchived;
@@ -24,8 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *filterButtonItem;
 
-@property (strong, nonatomic) NSArray *originalItemList;
-@property (strong, nonatomic) NSArray *filteredItemList;
+@property (strong, nonatomic) NSMutableArray *originalItemList;
+@property (strong, nonatomic) NSMutableArray *filteredItemList;
 
 @property (strong, nonatomic) Matter *selectedMatter;
 
@@ -59,15 +60,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self fetchMatters];
+    if (_originalItemList.count) {
+        [_matterListTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+        [self showTaskList:[_filteredItemList objectAtIndex:0]];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     // pre-select matter
-    NSUInteger index = [_originalItemList indexOfObject:self.matter];
-    if (index != NSNotFound) {
-        [_matterListTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -95,8 +96,8 @@
     Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
     cell.matterNameLabel.text = matter.name;
     cell.payorNameLabel.text = matter.payor;
-    cell.tasksUnbilledAmountLabel.text = [[matter totalTasksUnbilled] currencyAmount];
-    cell.invoicesOutstandingAmountLabel.text = [[matter totalInvoicesOutstanding] currencyAmount];
+    cell.tasksUnbilledAmountLabel.text = [[matter amountUnbilledTasks] currencyAmount];
+    cell.invoicesOutstandingAmountLabel.text = [[matter amountOutstandingInvoices] currencyAmount];
     return cell;
 }
 
@@ -129,8 +130,10 @@
 #pragma mark - Core data
 
 - (void)fetchMatters {
+    [[NSManagedObjectContext MR_rootSavingContext] processPendingChanges];
     // fetch from core data
-    _originalItemList = _showUnarchived ? [Matter unarchivedMatters] : [Matter archivedMatters];
+    NSArray *objects = _showUnarchived ? [Matter unarchivedMatters] : [Matter archivedMatters];
+    _originalItemList = [NSMutableArray arrayWithArray:objects];
     [self filterContentForSearchText:_searchBar.text scope:nil];
     //[_matterListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
@@ -141,7 +144,7 @@
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
     if (searchText && [searchText length] > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText];
-        _filteredItemList = [_originalItemList filteredArrayUsingPredicate:predicate];
+        _filteredItemList = [NSMutableArray arrayWithArray:[_originalItemList filteredArrayUsingPredicate:predicate]];
     } else {
         _filteredItemList = _originalItemList;
     }
@@ -151,18 +154,26 @@
 #pragma mark - IBActions
 
 - (IBAction)onAdd:(id)sender {
-    Matter *newMatter = [Matter newInstanceWithDefaultValue];
-    [self fetchMatters];
-    [_matterListTableView insertRowsAtIndexPaths:@[[self indexPathOfMatter:newMatter]] withRowAnimation:UITableViewRowAnimationTop];
-    [_matterListTableView selectRowAtIndexPath:[self indexPathOfMatter:newMatter] animated:YES scrollPosition:UITableViewScrollPositionTop];
+    
+    Matter *newMatter = [Matter MR_createEntityInContext:[NSManagedObjectContext MR_rootSavingContext]];
+    newMatter.account = [[BBAccountManager sharedManager].activeAccount MR_inContext:newMatter.managedObjectContext];
+    [[NSManagedObjectContext MR_rootSavingContext] save:nil];
+    
+    [self.originalItemList insertObject:newMatter atIndex:0];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [_matterListTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    [_matterListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
     [self showTaskList:newMatter];
     [self showMatterDetail:newMatter];
 }
 
 - (IBAction)onArchive:(id)sender {
     Matter *selectedMatter = [_filteredItemList objectAtIndex:_matterListTableView.indexPathForSelectedRow.row];
+    NSIndexPath *indexPath = [self indexPathOfMatter:selectedMatter];
     selectedMatter.archived = [NSNumber numberWithBool:YES];
-    [self fetchMatters];
+    [self.filteredItemList removeObject:selectedMatter];
+    [_matterListTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 - (void)animateDeleteForSelections

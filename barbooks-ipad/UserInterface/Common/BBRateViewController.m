@@ -42,7 +42,7 @@
 
     if (_rate) {
         self.title = @"Edit Rate";
-        [_rateTypeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[_rate.type integerValue] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        [_rateTypeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[_rate.rateType integerValue] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
         [_doneButton updateBackgroundColourAndSetEnabledTo:YES];
     } else {
         _rate = [Rate MR_createEntity];
@@ -52,7 +52,7 @@
     }
     
     _rateNameTextField.text = _rate.name;
-    _rateTypeLabel.text = [[Rate rateTypes] objectAtIndex:[_rate.type intValue]];
+    _rateTypeLabel.text = [[Rate rateTypes] objectAtIndex:[_rate.rateType intValue]];
     _rateAmountExcludeGSTTextField.text = [_rate.amount stringValue];
     _rateAmountIncludeGSTTextField.text = [_rate.amountGst stringValue];
     
@@ -95,7 +95,7 @@
         }
     } else {
         
-        _rate.type = @(indexPath.row);
+        _rate.rateType = @(indexPath.row);
         _rateTypeLabel.text = [[Rate rateTypes] objectAtIndex:indexPath.row];
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -132,7 +132,7 @@
     }
 
     cell.textLabel.text = [types objectAtIndex:indexPath.row];
-    if (indexPath.row == _rate.type.integerValue) {
+    if (indexPath.row == _rate.rateType.integerValue) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     }
     
@@ -174,7 +174,7 @@
     _rate.name = _rateNameTextField.text;
     //_rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text];
     _rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountExcludeGSTTextField.text];
-    _rate.type = [NSNumber numberWithUnsignedInteger:[[Rate rateTypes] indexOfObject:_rateTypeLabel.text]];
+    _rate.rateType = [NSNumber numberWithUnsignedInteger:[[Rate rateTypes] indexOfObject:_rateTypeLabel.text]];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

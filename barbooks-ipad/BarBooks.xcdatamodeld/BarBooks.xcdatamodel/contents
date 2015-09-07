@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6251" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Account" representedClassName="Account" parentEntity="Contact" syncable="YES">
         <attribute name="accountingType" optional="YES" attributeType="Integer 16" defaultValueString="1" syncable="YES"/>
         <attribute name="businessnumber" optional="YES" attributeType="String" syncable="YES"/>
@@ -192,7 +192,7 @@
         <attribute name="paymentType" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="relatedAccount" optional="YES" transient="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="totalAmount" optional="YES" transient="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="account" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Account" inverseName="receipts" inverseEntity="Account" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="receipts" inverseEntity="Account" syncable="YES"/>
     </entity>
     <entity name="Rate" representedClassName="Rate" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="50" syncable="YES"/>
@@ -210,7 +210,7 @@
         <attribute name="allocatedExGstAmount" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="allocatedGstAmount" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="allocatedIncGstAmount" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Invoice" inverseName="receiptAllocations" inverseEntity="Invoice" syncable="YES"/>
+        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Invoice" inverseName="receiptAllocations" inverseEntity="Invoice" syncable="YES"/>
         <relationship name="receipt" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Receipt" inverseName="allocations" inverseEntity="Receipt" syncable="YES"/>
     </entity>
     <entity name="Report" representedClassName="Report" isAbstract="YES" parentEntity="BBManagedObject" syncable="YES">

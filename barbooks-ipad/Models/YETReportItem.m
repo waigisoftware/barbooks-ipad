@@ -16,7 +16,7 @@
 @dynamic totalAmount;
 @dynamic totalAmountExGst;
 @dynamic totalAmountGst;
-@dynamic type;
+@dynamic itemType;
 @dynamic report;
 
 @end

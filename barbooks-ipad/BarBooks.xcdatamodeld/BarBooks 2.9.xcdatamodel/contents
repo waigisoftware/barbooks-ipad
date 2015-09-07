@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8175.2" systemVersion="14F27" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Account" representedClassName="Account" parentEntity="Contact" syncable="YES">
         <attribute name="accountingType" optional="YES" attributeType="Integer 16" defaultValueString="1" syncable="YES"/>
         <attribute name="businessnumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="chambername" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="defaultDueDate" optional="YES" attributeType="Integer 16" defaultValueString="30" syncable="YES"/>
+        <attribute name="defaultRate" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="signatureImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="tax" optional="YES" attributeType="Decimal" defaultValueString="10" syncable="YES"/>
         <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GeneralExpense" inverseName="account" inverseEntity="GeneralExpense" syncable="YES"/>
@@ -121,13 +122,23 @@
         <attribute name="userSpecifiedGst" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
     </entity>
     <entity name="InterestInvoice" representedClassName="InterestInvoice" parentEntity="Invoice" syncable="YES">
-        <attribute name="additionalInformation" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="additionalInformationFootnote" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="affectedInvoiceNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="interestRanges" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="InterestRange" inverseName="invoice" inverseEntity="InterestRange" syncable="YES"/>
+        <relationship name="interestRates" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="InterestRate" inverseName="interestInvoice" inverseEntity="InterestRate" syncable="YES"/>
+    </entity>
+    <entity name="InterestRange" syncable="YES">
+        <attribute name="fromDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="rate" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="toDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InterestInvoice" inverseName="interestRanges" inverseEntity="InterestInvoice" syncable="YES"/>
+    </entity>
+    <entity name="InterestRate" representedClassName="InterestRate" parentEntity="BBManagedObject" syncable="YES">
+        <attribute name="affectedInvoiceNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="affectedOutstandingAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="days" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="rate" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="interestInvoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InterestInvoice" inverseName="interestRates" inverseEntity="InterestInvoice" syncable="YES"/>
     </entity>
     <entity name="Invoice" representedClassName="Invoice" isAbstract="YES" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="amount" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -173,7 +184,7 @@
         <attribute name="reference" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="registry" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="roundingType" optional="YES" attributeType="Integer 16" defaultValueString="2" syncable="YES"/>
-        <attribute name="tax" optional="YES" attributeType="Decimal" minValueString="0" defaultValueString="10" syncable="YES"/>
+        <attribute name="tax" optional="YES" attributeType="Decimal" minValueString="0" defaultValueString="0.0" syncable="YES"/>
         <attribute name="taxed" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="matters" inverseEntity="Account" syncable="YES"/>
         <relationship name="disbursements" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Disbursement" inverseName="matter" inverseEntity="Disbursement" syncable="YES"/>
@@ -217,10 +228,10 @@
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="rates" inverseEntity="Account" syncable="YES"/>
         <relationship name="matter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Matter" inverseName="rates" inverseEntity="Matter" syncable="YES"/>
-        <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="rate" inverseEntity="Task" syncable="YES"/>
+        <relationship name="task" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="Task" inverseName="rate" inverseEntity="Task" syncable="YES"/>
     </entity>
     <entity name="Receipt" representedClassName="Receipt" parentEntity="Payment" syncable="YES">
-        <attribute name="printIssuedDate" optional="YES" attributeType="Date" defaultDateTimeInterval="0" syncable="YES"/>
+        <attribute name="printIssuedDate" optional="YES" attributeType="Date" defaultDateTimeInterval="0" defaultValueString="nil" syncable="YES"/>
         <relationship name="allocations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReceiptAllocation" inverseName="receipt" inverseEntity="ReceiptAllocation" syncable="YES"/>
     </entity>
     <entity name="ReceiptAllocation" representedClassName="ReceiptAllocation" parentEntity="BBManagedObject" syncable="YES">
@@ -324,6 +335,8 @@
         <attribute name="incomeTotalExGst" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="incomeTotalGst" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="netcash" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="netcashExGst" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="netcashGst" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="nonCapitalTotal" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="nonCapitalTotalExGst" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="nonCapitalTotalGst" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
@@ -342,7 +355,7 @@
         <relationship name="report" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YETReport" inverseName="entries" inverseEntity="YETReport" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Account" positionX="207" positionY="128" width="128" height="225"/>
+        <element name="Account" positionX="207" positionY="128" width="128" height="240"/>
         <element name="Address" positionX="36" positionY="171" width="128" height="43"/>
         <element name="Attachment" positionX="1573" positionY="198" width="128" height="43"/>
         <element name="BASReport" positionX="1546" positionY="27" width="128" height="43"/>
@@ -355,7 +368,9 @@
         <element name="Firm" positionX="664" positionY="-18" width="128" height="43"/>
         <element name="GeneralExpense" positionX="36" positionY="324" width="128" height="43"/>
         <element name="GeneralReceipt" positionX="1213" positionY="506" width="128" height="43"/>
-        <element name="InterestInvoice" positionX="783" positionY="414" width="128" height="43"/>
+        <element name="InterestInvoice" positionX="783" positionY="414" width="128" height="75"/>
+        <element name="InterestRange" positionX="243" positionY="135" width="128" height="105"/>
+        <element name="InterestRate" positionX="243" positionY="135" width="128" height="150"/>
         <element name="Invoice" positionX="603" positionY="540" width="128" height="43"/>
         <element name="Matter" positionX="286" positionY="371" width="128" height="360"/>
         <element name="OutstandingAmount" positionX="738" positionY="218" width="128" height="43"/>
@@ -374,7 +389,7 @@
         <element name="TaxRefund" positionX="1222" positionY="414" width="128" height="45"/>
         <element name="Template" positionX="243" positionY="135" width="128" height="105"/>
         <element name="WriteOff" positionX="1251" positionY="342" width="128" height="43"/>
-        <element name="YETReport" positionX="1402" positionY="27" width="128" height="43"/>
+        <element name="YETReport" positionX="1402" positionY="27" width="128" height="435"/>
         <element name="YETReportItem" positionX="1420" positionY="387" width="128" height="43"/>
     </elements>
 </model>

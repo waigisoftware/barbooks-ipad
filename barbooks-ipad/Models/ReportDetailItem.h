@@ -20,7 +20,7 @@
 @property (nonatomic, retain) NSString * category;
 @property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSString * info;
-@property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, retain) NSNumber * itemType;
 @property (nonatomic, retain) ReportDetail *relationship;
 
 @end

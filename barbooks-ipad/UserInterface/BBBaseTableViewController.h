@@ -12,6 +12,7 @@
 @interface BBBaseTableViewController : BBBaseViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) Matter *matter;
+@property (strong, nonatomic) IBOutlet UIView *noContentView;
 
 - (void)registerRefreshControlFor:(UITableView *)tableView withAction:(SEL)action;
 

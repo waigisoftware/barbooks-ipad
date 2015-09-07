@@ -19,7 +19,7 @@
 #import "GlobalAttributes.h"
 #import <CHDropDownTextField/CHDropDownTextField.h>
 
-@interface BBBaseViewController : UIViewController <UIAlertViewDelegate>
+@interface BBBaseViewController : UIViewController <UIAlertViewDelegate, UISplitViewControllerDelegate>
 
 //- (void)coreDataSave;
 @property (strong, nonatomic, readonly) UIStoryboard *mainStoryboard;

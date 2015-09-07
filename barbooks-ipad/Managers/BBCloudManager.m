@@ -237,7 +237,7 @@ static BOOL isInternetConnection()
            
            [self checkSubscriptionForUser:userID];
            if (!self.syncActive) {
-               [self activeSync];
+               [self activateSync];
            }
            
            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessfulNotification object:nil];
@@ -415,7 +415,7 @@ static BOOL isInternetConnection()
 
 #pragma mark - Couchbase
 
-- (void)activeSync
+- (void)activateSync
 {
     self.syncActive = YES;
     
@@ -479,11 +479,11 @@ static BOOL isInternetConnection()
                                 [account setMatters:oldAccount.matters];
                                 [account setReceipts:oldAccount.receipts];
                                 [account setReports:oldAccount.reports];
+                                [context deleteObject:oldAccount];
                             }
                             // also set solicitors and stuff
                             
                             [[BBAccountManager sharedManager] setActiveAccount:account];
-                            [context deleteObject:oldAccount];
                             [context save:nil];
                         }
                     }

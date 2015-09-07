@@ -50,15 +50,26 @@
 #pragma mark - UI
 
 - (void)refreshUI {
-    NSDecimalNumber *outstandingTasks = [NSDecimalNumber zero];
-    NSDecimalNumber *outstandingInvoices = [NSDecimalNumber zero];
-    NSArray *matters = [Matter unarchivedMatters];
-    for (Matter *matter in matters) {
-        outstandingTasks = [outstandingTasks decimalNumberByAdding:[matter totalTasksUnbilled]];
-        outstandingInvoices = [outstandingInvoices decimalNumberByAdding:[matter totalInvoicesOutstanding]];
-    }
-    _tasksOutstandingAmountLabel.text = [outstandingTasks currencyAmount];
-    _invoicesOutstandingAmountLabel.text = [outstandingInvoices currencyAmount];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        NSArray *matters = [Matter allMatters];
+        
+        NSDecimalNumber *outstandingTasks = [NSDecimalNumber zero];
+        NSDecimalNumber *outstandingInvoices = [NSDecimalNumber zero];
+        
+        for (Matter *matter in matters) {
+            outstandingTasks = [outstandingTasks decimalNumberByAdding:[matter amountUnbilledTasks]];
+            outstandingInvoices = [outstandingInvoices decimalNumberByAdding:[matter amountOutstandingInvoices]];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            _tasksOutstandingAmountLabel.text = [outstandingTasks currencyAmount];
+            _invoicesOutstandingAmountLabel.text = [outstandingInvoices currencyAmount];
+        });
+    });
+    
+    
 }
 
 #pragma mark - Navigation
@@ -72,7 +83,7 @@
 #pragma mark - button actions
 
 - (IBAction)onCreateMatter:(id)sender {
-    Matter *newMatter = [Matter newInstanceWithDefaultValue];
+    Matter *newMatter = [Matter newInstanceInDefaultManagedObjectContext];
     [self showMatters:newMatter];
 }
 
@@ -101,7 +112,7 @@
         case 0:
             return 3; break;
         case 1:
-            return 2; break;
+            return 1; break;
     }
     return 0;
 }
@@ -130,10 +141,6 @@
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    cell.imageView.image = [UIImage imageNamed:@"icon_matter_list"];
-                    cell.textLabel.text = @"Profile";
-                    break;
-                case 1:
                     cell.imageView.image = [UIImage imageNamed:@"icon_matter_list"];
                     cell.textLabel.text = @"Settings";
                     break;
@@ -168,12 +175,10 @@
         case 1:
             switch (indexPath.row) {
                 case 0: {
-                    NSLog(@"Profile");
-                    break;
-                }
-                case 1:
                     NSLog(@"Settings");
                     break;
+                }
+                
                 case 2:
                     break;
             }
@@ -203,6 +208,7 @@
             matterListViewController.taskListViewController = taskListViewController;
         }
     }
+    
     [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:tabBarController animated:YES];
 }
 

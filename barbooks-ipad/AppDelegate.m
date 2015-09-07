@@ -13,7 +13,7 @@
 #import "BBCoreDataManager.h"
 #import "UIColor+BBUtil.h"
 #import "BBTimers.h"
-#import "BBSubscriptionManager.h"
+#import <Lockbox/Lockbox.h>
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -23,22 +23,42 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
+    NSManagedObjectModel *model =  [[NSManagedObjectModel mergedModelFromBundles:nil] mutableCopy];
+    [CBLIncrementalStore updateManagedObjectModel:model];
+    
+    NSError *error = nil;
+    NSString *databaseName = @"barbooks";
+    NSURL *storeUrl = [NSURL URLWithString:databaseName];
+    
+    NSDictionary* options = @{
+                              NSMigratePersistentStoresAutomaticallyOption : @YES,
+                              NSInferMappingModelAutomaticallyOption : @YES
+                              };
+
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    
+    CBLIncrementalStore *store = [persistentStoreCoordinator addPersistentStoreWithType:[CBLIncrementalStore type]
+                                                                          configuration:nil
+                                                                                    URL:storeUrl
+                                                                                options:options
+                                                                                  error:&error];
+    
+    [NSManagedObjectContext MR_initializeDefaultContextWithCoordinator:persistentStoreCoordinator];
+    NSManagedObjectContext *context = [NSManagedObjectContext MR_rootSavingContext];
+    [store addObservingManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+    
+    [[BBAccountManager sharedManager] setManagedObjectContext:context];
+    [[BBAccountManager sharedManager] setToLargestAccount];
     [self setupNavigationBarAppearance];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self determineWhichViewControllerToShowFirst];
     
-    NSManagedObjectModel *model = [NSManagedObjectModel MR_defaultManagedObjectModel];
-    [CBLIncrementalStore updateManagedObjectModel:model];
-    
-    NSError *error = nil;
-
-    
-    NSManagedObjectContext *managedObjectContext = [CBLIncrementalStore createManagedObjectContextWithModel:model
-                                                                                               databaseName:@"barbooks"
-                                                                                                      error:&error];
-    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"BarBooks"];
     [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
     [self setupObservers];
+
+    
     return YES;
 }
 
@@ -96,11 +116,12 @@
     ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
     viewController.panGesture.delegate = self;
     
-    BOOL isAuthorized = [[BBSubscriptionManager sharedInstance] subscriptionValid];
-    isAuthorized = YES;
+    BOOL isAuthorized = [[BBCloudManager sharedManager] isLoggedIn];
+//    isAuthorized = YES;
     if (isAuthorized)
     {
         [self showMatters];
+        [[BBCloudManager sharedManager] activateSync];
     }
     else
     {
@@ -118,7 +139,7 @@
     }
 }
 
--(void) showMatters
+- (void) showMatters
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
@@ -139,13 +160,19 @@
 
 -(void) showLogin
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subscriptionUpdateSucceeded) name:kLoginSuccessfulNotification object:nil];
+
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
     viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
     [viewController resetTopViewAnimated:YES];
 }
 
--(void) showSynchronization
+- (void) subscriptionUpdateSucceeded {
+    [self showMatters];
+}
+
+- (void) showSynchronization
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
@@ -154,8 +181,8 @@
     [viewController.topViewController.navigationController performSegueWithIdentifier:BBSegueShowSynchronization sender:viewController.topViewController];
 }
 
--(void) logout {
-    [[BBSubscriptionManager sharedInstance] logout];
+- (void) logout {
+    [[BBCloudManager sharedManager] logout];
     [self showLogin];
 }
 

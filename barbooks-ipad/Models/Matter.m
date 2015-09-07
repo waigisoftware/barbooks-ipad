@@ -56,23 +56,20 @@
     return object;
 }
 
-+ (instancetype)newInstanceWithDefaultValue {
-    Matter *newMatter = [Matter MR_createEntity];
-    newMatter.archived = [NSNumber numberWithBool:NO];
-    newMatter.createdAt = [NSDate date];
-    newMatter.date = [NSDate date];
-    newMatter.costsAgreementDate = [NSDate date];
-    newMatter.taxed = [NSNumber numberWithBool:YES];
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        [localContext save:nil];
-    } completion:^(BOOL success, NSError *error) {
-        NSLog(@"%@", error);
-    }];
-    return newMatter;
-}
 
 + (NSString*)entityName {
     return NSStringFromClass(self);
+}
+
+- (void)awakeFromInsert
+{
+    [super awakeFromInsert];
+    
+    self.archived = [NSNumber numberWithBool:NO];
+    self.createdAt = [NSDate date];
+    self.date = [NSDate date];
+    self.costsAgreementDate = [NSDate date];
+    self.taxed = [NSNumber numberWithBool:YES];
 }
 
 #pragma mark - calculation
@@ -114,18 +111,37 @@
 
 #pragma mark - convenient methods
 
-- (NSDecimalNumber *)totalTasksUnbilled {
-    NSDecimalNumber *totalAmount = [NSDecimalNumber zero];
-    for (Task *task in self.tasks) {
-        totalAmount = [totalAmount decimalNumberByAdding:[task unbilledAmount]];
+
+- (NSDecimalNumber *)amountOutstandingInvoices
+{
+    if (!self.invoices.count) {
+        return [NSDecimalNumber zero];
     }
-    return totalAmount;
+    NSPredicate *outstandingPredicate = [NSPredicate predicateWithFormat:@"totalOutstanding > 0"];
+    NSSet *outstandingInvoices = [self.invoices filteredSetUsingPredicate:outstandingPredicate];
+    
+    NSString *string = [NSString stringWithFormat:@"%.3f",[[outstandingInvoices valueForKeyPath:@"@sum.totalOutstanding"] doubleValue]];
+    
+    return [[NSDecimalNumber decimalNumberWithString:string] decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber accurateRoundingHandler]];
 }
 
-- (NSDecimalNumber *)totalInvoicesOutstanding {
-    NSDecimalNumber *totalAmount = [NSDecimalNumber zero];
-    //TODO: calculate
-    return totalAmount;
+
+- (NSDecimalNumber *)amountUnbilledTasks
+{
+    if (!self.tasks.count) {
+        return [NSDecimalNumber zero];
+    }
+    NSPredicate *unbilled = [NSPredicate predicateWithFormat:@"invoice == nil"];
+    NSSet *unbilledTasks = [self.tasks filteredSetUsingPredicate:unbilled];
+    
+    NSDecimalNumber *sum = [unbilledTasks valueForKeyPath:@"@sum.totalFeesIncGst"];
+    NSString *string = [NSString stringWithFormat:@"%.3f",[sum doubleValue]];
+    
+    NSDecimalNumber *result = [[NSDecimalNumber decimalNumberWithString:string] decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber accurateRoundingHandler]];
+    if ([result isEqualToNumber:[NSDecimalNumber notANumber]]) {
+        NSLog(@"");
+    }
+    return result;
 }
 
 - (NSArray *)tasksArray {
@@ -141,6 +157,7 @@
 + (NSArray *)allMatters {
     return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO];
 }
+
 
 + (NSArray *)unarchivedMatters {
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:NO]];

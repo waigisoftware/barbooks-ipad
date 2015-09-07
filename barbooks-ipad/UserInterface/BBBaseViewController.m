@@ -20,6 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [UIFloatLabelTextField applyStyleToAllUIFloatLabelTextFieldInView:self.view];
+    self.splitViewController.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,6 +39,10 @@
         _mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     }
     return _mainStoryboard;
+}
+
+- (BOOL) splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation {
+    return NO;
 }
 
 @end

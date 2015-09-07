@@ -76,6 +76,9 @@
 #pragma mark - Rate UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    BOOL tableViewShouldBeHidden = self.matter.rates.count == 0;
+    [self.tableView setHidden:tableViewShouldBeHidden];
+
     return self.matter.rates.count;
 }
 

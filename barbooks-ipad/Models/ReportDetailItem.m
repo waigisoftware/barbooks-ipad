@@ -18,7 +18,7 @@
 @dynamic category;
 @dynamic date;
 @dynamic info;
-@dynamic type;
+@dynamic itemType;
 @dynamic relationship;
 
 @end

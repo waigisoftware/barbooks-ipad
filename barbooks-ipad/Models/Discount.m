@@ -13,7 +13,7 @@
 
 @implementation Discount
 
-@dynamic type;
+@dynamic discountType;
 @dynamic value;
 @dynamic invoice;
 @dynamic task;
@@ -23,7 +23,7 @@
 {
     NSDecimalNumber *amount = totalAmount;
     
-    switch (self.type.intValue) {
+    switch (self.discountType.intValue) {
         case 0:
             
             amount = self.value;

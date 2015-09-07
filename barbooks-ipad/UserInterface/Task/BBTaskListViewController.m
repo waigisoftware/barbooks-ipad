@@ -32,7 +32,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerStopped:) name:kTimerDeactivatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerPaused:) name:kTimerPausedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerResumed:) name:kTimerResumedNotification object:nil];
-
+    
     // tableview
     _tasksTableView.dataSource = self;
     _tasksTableView.delegate = self;
@@ -46,11 +46,12 @@
     [super viewWillAppear:animated];
     // setup navigation bar and toolbar
     [self setupNavigationBar];
+    [self fetchTasks];
+    [self.tasksTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self fetchTasks];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -78,12 +79,17 @@
     self.tabBarController.navigationItem.rightBarButtonItems = @[addButton,editButton];
 }
 
+
+
 #pragma mark - Button actions
 
 - (void)onAddTask {
+    
     Task *newTask = [Task newInstanceOfMatter:self.matter];
+    
     [self fetchTasks];
-    [_tasksTableView insertRowsAtIndexPaths:@[[self indexPathOfTask:newTask]] withRowAnimation:UITableViewRowAnimationTop];
+    NSIndexPath *path = [self indexPathOfTask:newTask];
+    [_tasksTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
     
     NSIndexPath *indexPath = [self indexPathOfTask:newTask];
     CGRect rect = [_tasksTableView rectForRowAtIndexPath:indexPath];
@@ -96,9 +102,12 @@
 - (void)onDeleteTask {
     NSArray *selections = [self.tasksTableView indexPathsForSelectedRows];
     NSArray *tasks = self.matter.tasksArray;
+    
     for (NSIndexPath *selection in selections) {
         [self.matter removeTasksObject:[tasks objectAtIndex:selection.row]];
     }
+    
+    [self.matter.managedObjectContext MR_saveToPersistentStoreAndWait];
     [self fetchTasks];
     [self.tasksTableView beginUpdates];
     [self.tasksTableView deleteRowsAtIndexPaths:selections withRowAnimation:UITableViewRowAnimationTop];
@@ -128,6 +137,9 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    BOOL tableViewShouldBeHidden = _filteredItemList.count == 0;
+    [self.tasksTableView setHidden:tableViewShouldBeHidden];
+
     return _filteredItemList.count;
 }
 
@@ -325,15 +337,28 @@
     [self.tasksTableView scrollRectToVisible:rect animated:NO];
 }
 
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    id cell = textView.superview.superview;
+    NSIndexPath *indexPath = [self.tasksTableView indexPathForCell:cell];
+    
+    Task *task = [self.filteredItemList objectAtIndex:indexPath.row];
+    [task.managedObjectContext MR_saveToPersistentStoreAndWait];
+}
+
 #pragma mark - Core data
 
 - (void)fetchTasks {
+    [self.matter.managedObjectContext processPendingChanges];
+    
 //    _originalItemList = [Task MR_findAll];
     _originalItemList = self.matter.tasksArray;
     [self filterContentForSearchText:_searchBar.text scope:nil];
     
     [self stopAndUpdateDateOnRefreshControl];
 }
+
+
 
 #pragma mark - override
 
@@ -478,5 +503,7 @@
     cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
     cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
 }
+
+
 
 @end

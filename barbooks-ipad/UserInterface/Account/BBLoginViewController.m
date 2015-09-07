@@ -10,7 +10,6 @@
 #import "BBValidator.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "MBProgressHUD.h"
-#import "BBSubscriptionManager.h"
 
 @interface BBLoginViewController ()
 
@@ -30,6 +29,7 @@
     [self configureRACOnLoginButton];
 }
 
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -43,8 +43,9 @@
 #pragma mark - IBAction
 
 - (IBAction)onLogin:(id)sender {
-    [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"Login..."];
-    [[BBSubscriptionManager sharedInstance] signinWithUsername:_usernameTextField.text password:_passwordTextField.text];
+   
+    [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"Logging in..."];
+    [[BBCloudManager sharedManager] signinWithUsername:_usernameTextField.text password:_passwordTextField.text];
 }
 
 #pragma mark - Navigation
@@ -75,12 +76,18 @@
                       }];
     
     [signal subscribeNext:^(NSNumber* isEnabled) {
-        [self.loginButton updateBackgroundColourAndSetEnabledTo:[isEnabled boolValue]];
+        if (!isEnabled.boolValue) {
+            [self.loginButton setAlpha:0.5];
+        } else {
+            [self.loginButton setAlpha:1];
+        }
+        [self.loginButton setEnabled:isEnabled.boolValue];
     }];
 }
 
 - (BOOL)isValidUsernameAndPassword {
-    return [BBValidator isEmailValid:self.usernameTextField.text] && [self.passwordTextField.text length] > 0;
+    return self.usernameTextField.text.length > 0 && self.passwordTextField.text.length > 0;
 }
+
 
 @end

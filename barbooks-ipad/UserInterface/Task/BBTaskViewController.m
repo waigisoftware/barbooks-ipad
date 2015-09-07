@@ -43,7 +43,7 @@
     _rateUnitTextField.delegate = self;
     
     
-    self.tableView.tableFooterView.hidden = self.task.rate.type.integerValue != BBRateChargingTypeHourly;
+    self.tableView.tableFooterView.hidden = self.task.rate.rateType.integerValue != BBRateChargingTypeHourly;
 
     [self loadTaskIntoUI];
 }
@@ -266,13 +266,13 @@
     } else {
         Rate *selectedRate = [self.task.matter.ratesArray objectAtIndex:indexPath.row];
         _task.rate.name = [selectedRate.name copy];
-        _task.rate.type = [selectedRate.type copy];
+        _task.rate.rateType = [selectedRate.rateType copy];
         _task.rate.amount = [selectedRate.amount copy];
         
         [self loadTaskIntoUI];
         [self.delegate updateTask:_task];
         
-        self.tableView.tableFooterView.hidden = selectedRate.type.integerValue != BBRateChargingTypeHourly;
+        self.tableView.tableFooterView.hidden = selectedRate.rateType.integerValue != BBRateChargingTypeHourly;
         [self.tableView reloadData];
         [self.navigationController popViewControllerAnimated:YES];
         
@@ -283,7 +283,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
         NSInteger rows = [super tableView:tableView numberOfRowsInSection:section];
-        if (_task.rate.type.integerValue != BBRateChargingTypeUnit) {
+        if (_task.rate.rateType.integerValue != BBRateChargingTypeUnit) {
             rows--;
         }
         return rows;

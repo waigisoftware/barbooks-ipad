@@ -36,6 +36,6 @@ typedef enum {
 - (NSDate *)subscriptionEndDate;
 - (void) checkSubscriptionStatus;
 - (void) logout;
-- (void) activeSync;
+- (void) activateSync;
 
 @end

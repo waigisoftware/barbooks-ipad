@@ -20,7 +20,7 @@
 #import <CouchbaseLite/CouchbaseLite.h>
 #import "BBIncrementalStore.h"
 #import "BBAccountManager.h"
-
+#import "BBCloudManager.h"
 
 
 #import "BBTaskTimer.h"
@@ -39,7 +39,7 @@
 
 // View Controllers
 #define BBNavigationControllerHome @"BBHomeSplitViewController"
-#define BBNavigationControllerLogin @"BBNavigationControllerLogin"
+#define BBNavigationControllerLogin @"BBLoginViewController"
 
 // Storyboard IDs
 #define StoryboardIdBBMatterListViewController @"BBMatterListViewController"

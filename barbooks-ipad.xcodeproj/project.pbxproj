@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0703B2101B82CFD5009984E2 /* BBTimerAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */; };
 		072007CB1B86EE74000CC616 /* BBSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */; };
+		0745E2EE1B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0745E2E61B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
 		07694AFC1B996DEE00995128 /* BBTimerCellAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */; };
 		07694B251B9BC7D500995128 /* BBIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 07694B091B9BC7D500995128 /* BBIncrementalStore.m */; };
 		07694B261B9BC7D500995128 /* CBLIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 07694B0B1B9BC7D500995128 /* CBLIncrementalStore.m */; };
@@ -27,7 +28,6 @@
 		3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 362543091B512C08004C8116 /* BBExpenseTableViewCell.m */; };
 		363C3A3E1B1C7A6B00B92513 /* BBMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363C3A3D1B1C7A6B00B92513 /* BBMenuViewController.m */; };
 		363E451C1B4FED420080CE38 /* BBExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E451B1B4FED420080CE38 /* BBExpenseViewController.m */; };
-		363ED8351B60A9B000000A7A /* BarBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 363ED8161B60A9AF00000A7A /* BarBooks.xcdatamodeld */; };
 		3651DFB91B2EEC18007B321A /* UIResponder+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFB81B2EEC18007B321A /* UIResponder+BBUtil.m */; };
 		3651DFBC1B2EF2BC007B321A /* NSString+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */; };
 		3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBE1B3043F6007B321A /* BBMatterListTableViewCell.m */; };
@@ -40,7 +40,6 @@
 		36788FA41B2034ED00B34D3E /* BBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FA31B2034ED00B34D3E /* BBBaseViewController.m */; };
 		36788FA71B20350F00B34D3E /* BBBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FA61B20350F00B34D3E /* BBBaseTableViewController.m */; };
 		36788FAB1B20368B00B34D3E /* NSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */; };
-		36C39B8E1B7EC14400985DCB /* BBSubscriptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */; };
 		36C39B921B7F0F8D00985DCB /* BBLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C39B911B7F0F8D00985DCB /* BBLoginViewController.m */; };
 		36C39B951B7F0FC500985DCB /* BBSynchronizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C39B941B7F0FC500985DCB /* BBSynchronizationViewController.m */; };
 		36C781BD1B35014500321AE2 /* BBContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BC1B35014500321AE2 /* BBContactListViewController.m */; };
@@ -119,6 +118,13 @@
 		0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTimerAccessoryView.m; path = UserInterface/Views/BBTimerAccessoryView.m; sourceTree = "<group>"; };
 		072007C91B86EE74000CC616 /* BBSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSelectionTableViewController.h; path = UserInterface/Common/BBSelectionTableViewController.h; sourceTree = "<group>"; };
 		072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSelectionTableViewController.m; path = UserInterface/Common/BBSelectionTableViewController.m; sourceTree = "<group>"; };
+		0745E2E71B9BF4BB00B0FB8A /* BarBooks 2.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.5.xcdatamodel"; sourceTree = "<group>"; };
+		0745E2E81B9BF4BB00B0FB8A /* BarBooks 2.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.6.xcdatamodel"; sourceTree = "<group>"; };
+		0745E2E91B9BF4BB00B0FB8A /* BarBooks 2.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.7.xcdatamodel"; sourceTree = "<group>"; };
+		0745E2EA1B9BF4BB00B0FB8A /* BarBooks 2.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.8.xcdatamodel"; sourceTree = "<group>"; };
+		0745E2EB1B9BF4BB00B0FB8A /* BarBooks 2.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.9.xcdatamodel"; sourceTree = "<group>"; };
+		0745E2EC1B9BF4BB00B0FB8A /* BarBooks 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 3.xcdatamodel"; sourceTree = "<group>"; };
+		0745E2ED1B9BF4BB00B0FB8A /* BarBooks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BarBooks.xcdatamodel; sourceTree = "<group>"; };
 		07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BBTimerCellAccessory.xib; path = UserInterface/Views/BBTimerCellAccessory.xib; sourceTree = "<group>"; };
 		07694B081B9BC7D500995128 /* BBIncrementalStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBIncrementalStore.h; sourceTree = "<group>"; };
 		07694B091B9BC7D500995128 /* BBIncrementalStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBIncrementalStore.m; sourceTree = "<group>"; };
@@ -155,36 +161,6 @@
 		363C3A3F1B1C7BF200B92513 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		363E451A1B4FED420080CE38 /* BBExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBExpenseViewController.h; path = UserInterface/Expense/BBExpenseViewController.h; sourceTree = "<group>"; };
 		363E451B1B4FED420080CE38 /* BBExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBExpenseViewController.m; path = UserInterface/Expense/BBExpenseViewController.m; sourceTree = "<group>"; };
-		363ED8171B60A9B000000A7A /* BarBooks 0.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.1.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8181B60A9B000000A7A /* BarBooks 0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.2.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8191B60A9B000000A7A /* BarBooks 0.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.3.xcdatamodel"; sourceTree = "<group>"; };
-		363ED81A1B60A9B000000A7A /* BarBooks 0.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.4.xcdatamodel"; sourceTree = "<group>"; };
-		363ED81B1B60A9B000000A7A /* BarBooks 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.5.xcdatamodel"; sourceTree = "<group>"; };
-		363ED81C1B60A9B000000A7A /* BarBooks 0.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.6.xcdatamodel"; sourceTree = "<group>"; };
-		363ED81D1B60A9B000000A7A /* BarBooks 0.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.7.xcdatamodel"; sourceTree = "<group>"; };
-		363ED81E1B60A9B000000A7A /* BarBooks 0.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.8.xcdatamodel"; sourceTree = "<group>"; };
-		363ED81F1B60A9B000000A7A /* BarBooks 0.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 0.9.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8201B60A9B000000A7A /* BarBooks 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.0.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8211B60A9B000000A7A /* BarBooks 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.1.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8221B60A9B000000A7A /* BarBooks 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.2.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8231B60A9B000000A7A /* BarBooks 1.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.3.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8241B60A9B000000A7A /* BarBooks 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.4.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8251B60A9B000000A7A /* BarBooks 1.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.5.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8261B60A9B000000A7A /* BarBooks 1.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.6.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8271B60A9B000000A7A /* BarBooks 1.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.7.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8281B60A9B000000A7A /* BarBooks 1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.8.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8291B60A9B000000A7A /* BarBooks 1.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 1.9.xcdatamodel"; sourceTree = "<group>"; };
-		363ED82A1B60A9B000000A7A /* BarBooks 2.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.1.xcdatamodel"; sourceTree = "<group>"; };
-		363ED82B1B60A9B000000A7A /* BarBooks 2.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.2.xcdatamodel"; sourceTree = "<group>"; };
-		363ED82C1B60A9B000000A7A /* BarBooks 2.3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.3.xcdatamodel"; sourceTree = "<group>"; };
-		363ED82D1B60A9B000000A7A /* BarBooks 2.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.4.xcdatamodel"; sourceTree = "<group>"; };
-		363ED82E1B60A9B000000A7A /* BarBooks 2.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.5.xcdatamodel"; sourceTree = "<group>"; };
-		363ED82F1B60A9B000000A7A /* BarBooks 2.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.6.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8301B60A9B000000A7A /* BarBooks 2.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.7.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8311B60A9B000000A7A /* BarBooks 2.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.8.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8321B60A9B000000A7A /* BarBooks 2.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.9.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8331B60A9B000000A7A /* BarBooks 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.xcdatamodel"; sourceTree = "<group>"; };
-		363ED8341B60A9B000000A7A /* BarBooks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BarBooks.xcdatamodel; sourceTree = "<group>"; };
 		3651DFB71B2EEC18007B321A /* UIResponder+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIResponder+BBUtil.h"; path = "Categories/UIResponder+BBUtil.h"; sourceTree = "<group>"; };
 		3651DFB81B2EEC18007B321A /* UIResponder+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIResponder+BBUtil.m"; path = "Categories/UIResponder+BBUtil.m"; sourceTree = "<group>"; };
 		3651DFBA1B2EF2BC007B321A /* NSString+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BBUtil.h"; path = "Categories/NSString+BBUtil.h"; sourceTree = "<group>"; };
@@ -211,8 +187,6 @@
 		36788FA91B20368B00B34D3E /* NSDate+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+BBUtil.h"; path = "Categories/NSDate+BBUtil.h"; sourceTree = "<group>"; };
 		36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+BBUtil.m"; path = "Categories/NSDate+BBUtil.m"; sourceTree = "<group>"; };
 		36B983911B3FD9E90030E915 /* BBDropDownListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDropDownListDelegate.h; path = Protocals/BBDropDownListDelegate.h; sourceTree = "<group>"; };
-		36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSubscriptionManager.h; sourceTree = "<group>"; };
-		36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSubscriptionManager.m; sourceTree = "<group>"; };
 		36C39B901B7F0F8D00985DCB /* BBLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBLoginViewController.h; path = UserInterface/Account/BBLoginViewController.h; sourceTree = "<group>"; };
 		36C39B911B7F0F8D00985DCB /* BBLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBLoginViewController.m; path = UserInterface/Account/BBLoginViewController.m; sourceTree = "<group>"; };
 		36C39B931B7F0FC500985DCB /* BBSynchronizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSynchronizationViewController.h; path = UserInterface/Account/BBSynchronizationViewController.h; sourceTree = "<group>"; };
@@ -559,7 +533,7 @@
 		36C9E64F1B1AC6840085D647 /* barbooks-ipad */ = {
 			isa = PBXGroup;
 			children = (
-				363ED8161B60A9AF00000A7A /* BarBooks.xcdatamodeld */,
+				0745E2E61B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld */,
 				07694B001B9BC7D500995128 /* Thirdparty */,
 				3667487A1B313D0200E23707 /* Protocals */,
 				36DEF9AE1B2706890053CD8C /* Managers */,
@@ -711,8 +685,6 @@
 				07A82E7C1B9BF02700796F10 /* BBCloudManager.m */,
 				367563261B29B0B4002C5738 /* BBCoreDataManager.h */,
 				367563271B29B0B4002C5738 /* BBCoreDataManager.m */,
-				36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */,
-				36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -917,7 +889,6 @@
 				0793E02A1B7D62C9001E2A5B /* BBColoredTableViewCell.m in Sources */,
 				3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */,
 				36DEFA381B2710650053CD8C /* Firm.m in Sources */,
-				36C39B8E1B7EC14400985DCB /* BBSubscriptionManager.m in Sources */,
 				36DEFA0B1B2710640053CD8C /* GeneralExpense.m in Sources */,
 				36C9E65C1B1AC6840085D647 /* MasterViewController.m in Sources */,
 				36EB0E471B38DF7700AC7411 /* BBMatterCategoryListViewController.m in Sources */,
@@ -944,7 +915,6 @@
 				36DEF92F1B231A2C0053CD8C /* BBMatterListViewController.m in Sources */,
 				367563281B29B0B4002C5738 /* BBCoreDataManager.m in Sources */,
 				36DEFA411B2710650053CD8C /* Attachment.m in Sources */,
-				363ED8351B60A9B000000A7A /* BarBooks.xcdatamodeld in Sources */,
 				36EB0E4B1B38DFA200AC7411 /* BBTaskListViewController.m in Sources */,
 				07694B261B9BC7D500995128 /* CBLIncrementalStore.m in Sources */,
 				3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */,
@@ -969,6 +939,7 @@
 				07A82E811B9BF06A00796F10 /* Template.m in Sources */,
 				36DEF9AD1B27052C0053CD8C /* GlobalAttributes.m in Sources */,
 				36DEFA291B2710650053CD8C /* Expense.m in Sources */,
+				0745E2EE1B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld in Sources */,
 				36DEFA0E1B2710640053CD8C /* BASReport.m in Sources */,
 				360BD8EF1B770CF10012C4F0 /* BBRateListViewController.m in Sources */,
 				362543071B512BB8004C8116 /* BBExpenseListViewController.m in Sources */,
@@ -1218,41 +1189,18 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		363ED8161B60A9AF00000A7A /* BarBooks.xcdatamodeld */ = {
+		0745E2E61B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				363ED8171B60A9B000000A7A /* BarBooks 0.1.xcdatamodel */,
-				363ED8181B60A9B000000A7A /* BarBooks 0.2.xcdatamodel */,
-				363ED8191B60A9B000000A7A /* BarBooks 0.3.xcdatamodel */,
-				363ED81A1B60A9B000000A7A /* BarBooks 0.4.xcdatamodel */,
-				363ED81B1B60A9B000000A7A /* BarBooks 0.5.xcdatamodel */,
-				363ED81C1B60A9B000000A7A /* BarBooks 0.6.xcdatamodel */,
-				363ED81D1B60A9B000000A7A /* BarBooks 0.7.xcdatamodel */,
-				363ED81E1B60A9B000000A7A /* BarBooks 0.8.xcdatamodel */,
-				363ED81F1B60A9B000000A7A /* BarBooks 0.9.xcdatamodel */,
-				363ED8201B60A9B000000A7A /* BarBooks 1.0.xcdatamodel */,
-				363ED8211B60A9B000000A7A /* BarBooks 1.1.xcdatamodel */,
-				363ED8221B60A9B000000A7A /* BarBooks 1.2.xcdatamodel */,
-				363ED8231B60A9B000000A7A /* BarBooks 1.3.xcdatamodel */,
-				363ED8241B60A9B000000A7A /* BarBooks 1.4.xcdatamodel */,
-				363ED8251B60A9B000000A7A /* BarBooks 1.5.xcdatamodel */,
-				363ED8261B60A9B000000A7A /* BarBooks 1.6.xcdatamodel */,
-				363ED8271B60A9B000000A7A /* BarBooks 1.7.xcdatamodel */,
-				363ED8281B60A9B000000A7A /* BarBooks 1.8.xcdatamodel */,
-				363ED8291B60A9B000000A7A /* BarBooks 1.9.xcdatamodel */,
-				363ED82A1B60A9B000000A7A /* BarBooks 2.1.xcdatamodel */,
-				363ED82B1B60A9B000000A7A /* BarBooks 2.2.xcdatamodel */,
-				363ED82C1B60A9B000000A7A /* BarBooks 2.3.xcdatamodel */,
-				363ED82D1B60A9B000000A7A /* BarBooks 2.4.xcdatamodel */,
-				363ED82E1B60A9B000000A7A /* BarBooks 2.5.xcdatamodel */,
-				363ED82F1B60A9B000000A7A /* BarBooks 2.6.xcdatamodel */,
-				363ED8301B60A9B000000A7A /* BarBooks 2.7.xcdatamodel */,
-				363ED8311B60A9B000000A7A /* BarBooks 2.8.xcdatamodel */,
-				363ED8321B60A9B000000A7A /* BarBooks 2.9.xcdatamodel */,
-				363ED8331B60A9B000000A7A /* BarBooks 2.xcdatamodel */,
-				363ED8341B60A9B000000A7A /* BarBooks.xcdatamodel */,
+				0745E2E71B9BF4BB00B0FB8A /* BarBooks 2.5.xcdatamodel */,
+				0745E2E81B9BF4BB00B0FB8A /* BarBooks 2.6.xcdatamodel */,
+				0745E2E91B9BF4BB00B0FB8A /* BarBooks 2.7.xcdatamodel */,
+				0745E2EA1B9BF4BB00B0FB8A /* BarBooks 2.8.xcdatamodel */,
+				0745E2EB1B9BF4BB00B0FB8A /* BarBooks 2.9.xcdatamodel */,
+				0745E2EC1B9BF4BB00B0FB8A /* BarBooks 3.xcdatamodel */,
+				0745E2ED1B9BF4BB00B0FB8A /* BarBooks.xcdatamodel */,
 			);
-			currentVersion = 363ED8321B60A9B000000A7A /* BarBooks 2.9.xcdatamodel */;
+			currentVersion = 0745E2EC1B9BF4BB00B0FB8A /* BarBooks 3.xcdatamodel */;
 			path = BarBooks.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

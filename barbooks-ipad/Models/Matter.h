@@ -69,7 +69,6 @@
 
 + (instancetype)newInstanceInManagedObjectContext:(NSManagedObjectContext*)context;
 + (instancetype)newInstanceInDefaultManagedObjectContext;
-+ (instancetype)newInstanceWithDefaultValue;
 
 - (NSDecimalNumber *)hoursFromDuration:(NSDecimalNumber *)duration;
 - (NSDecimalNumber *)totalTasksUnbilled;

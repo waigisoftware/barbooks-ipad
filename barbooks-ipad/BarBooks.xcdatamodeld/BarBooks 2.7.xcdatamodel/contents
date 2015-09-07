@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Account" representedClassName="Account" parentEntity="Contact" syncable="YES">
         <attribute name="accountingType" optional="YES" attributeType="Integer 16" defaultValueString="1" syncable="YES"/>
         <attribute name="businessnumber" optional="YES" attributeType="String" syncable="YES"/>
@@ -103,8 +103,8 @@
     <entity name="Discount" representedClassName="Discount" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Invoice" inverseName="discount" inverseEntity="Invoice" syncable="YES"/>
-        <relationship name="task" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Task" inverseName="discount" inverseEntity="Task" syncable="YES"/>
+        <relationship name="invoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Invoice" inverseName="discount" inverseEntity="Invoice" syncable="YES"/>
+        <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="discount" inverseEntity="Task" syncable="YES"/>
     </entity>
     <entity name="Expense" representedClassName="Expense" isAbstract="YES" parentEntity="BBManagedObject" syncable="YES">
         <attribute name="amountExGst" optional="YES" attributeType="Decimal" defaultValueString="1" syncable="YES"/>
@@ -371,7 +371,7 @@
         <element name="Contact" positionX="61" positionY="74" width="128" height="43"/>
         <element name="CostsAgreement" positionX="304" positionY="261" width="128" height="43"/>
         <element name="Disbursement" positionX="612" positionY="479" width="128" height="43"/>
-        <element name="Discount" positionX="313" positionY="504" width="128" height="43"/>
+        <element name="Discount" positionX="313" positionY="504" width="128" height="105"/>
         <element name="Expense" positionX="36" positionY="263" width="128" height="43"/>
         <element name="Firm" positionX="664" positionY="-18" width="128" height="43"/>
         <element name="GeneralExpense" positionX="36" positionY="324" width="128" height="43"/>

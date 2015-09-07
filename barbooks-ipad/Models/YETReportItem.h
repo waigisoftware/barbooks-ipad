@@ -18,7 +18,7 @@
 @property (nonatomic, retain) NSDecimalNumber * totalAmount;
 @property (nonatomic, retain) NSDecimalNumber * totalAmountExGst;
 @property (nonatomic, retain) NSDecimalNumber * totalAmountGst;
-@property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, retain) NSNumber * itemType;
 @property (nonatomic, retain) YETReport *report;
 
 @end
