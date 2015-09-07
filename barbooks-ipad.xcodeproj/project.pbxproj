@@ -31,7 +31,6 @@
 		365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */; };
 		365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CFD1B8039930051D2C2 /* BBInvoiceListViewController.m */; };
 		365F3D011B8039C60051D2C2 /* BBInvoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3D001B8039C60051D2C2 /* BBInvoiceViewController.m */; };
-		3665A9D11B81E60D0098657E /* BBAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3665A9D01B81E60D0098657E /* BBAccountManager.m */; };
 		366748791B3116BA00E23707 /* BBCreateSolicitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */; };
 		367563281B29B0B4002C5738 /* BBCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 367563271B29B0B4002C5738 /* BBCoreDataManager.m */; };
 		3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3675632E1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m */; };
@@ -194,8 +193,6 @@
 		365F3CFD1B8039930051D2C2 /* BBInvoiceListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceListViewController.m; path = UserInterface/Invoice/BBInvoiceListViewController.m; sourceTree = "<group>"; };
 		365F3CFF1B8039C60051D2C2 /* BBInvoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceViewController.h; path = UserInterface/Invoice/BBInvoiceViewController.h; sourceTree = "<group>"; };
 		365F3D001B8039C60051D2C2 /* BBInvoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBInvoiceViewController.m; path = UserInterface/Invoice/BBInvoiceViewController.m; sourceTree = "<group>"; };
-		3665A9CF1B81E60D0098657E /* BBAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAccountManager.h; sourceTree = "<group>"; };
-		3665A9D01B81E60D0098657E /* BBAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAccountManager.m; sourceTree = "<group>"; };
 		366748771B3116BA00E23707 /* BBCreateSolicitorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBCreateSolicitorViewController.h; path = UserInterface/Matter/BBCreateSolicitorViewController.h; sourceTree = "<group>"; };
 		366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBCreateSolicitorViewController.m; path = UserInterface/Matter/BBCreateSolicitorViewController.m; sourceTree = "<group>"; };
 		3667487B1B313D4600E23707 /* BBMatterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterDelegate.h; path = Protocals/BBMatterDelegate.h; sourceTree = "<group>"; };
@@ -708,8 +705,6 @@
 				367563271B29B0B4002C5738 /* BBCoreDataManager.m */,
 				36C39B8C1B7EC14400985DCB /* BBSubscriptionManager.h */,
 				36C39B8D1B7EC14400985DCB /* BBSubscriptionManager.m */,
-				3665A9CF1B81E60D0098657E /* BBAccountManager.h */,
-				3665A9D01B81E60D0098657E /* BBAccountManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -931,7 +926,6 @@
 				36C936051B4A65AF002B4946 /* UIButton+BBUtil.m in Sources */,
 				36DEFA531B2710660053CD8C /* Discount.m in Sources */,
 				36DEFA3B1B2710650053CD8C /* BBManagedObject.m in Sources */,
-				3665A9D11B81E60D0098657E /* BBAccountManager.m in Sources */,
 				36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */,
 				365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */,
 				365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */,
