@@ -157,4 +157,15 @@
     return handler;
 }
 
++ (NSDecimalNumberHandler*)bankersRoundingHandler
+{
+    NSDecimalNumberHandler *handler = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundBankers
+                                                                                             scale:0
+                                                                                  raiseOnExactness:NO
+                                                                                   raiseOnOverflow:NO
+                                                                                  raiseOnUnderflow:NO
+                                                                               raiseOnDivideByZero:NO];
+    return handler;
+}
+
 @end

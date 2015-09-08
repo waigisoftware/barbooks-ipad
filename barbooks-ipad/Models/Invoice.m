@@ -116,6 +116,135 @@
     return [NSNumber numberWithInt:lastID];
 }
 
+#pragma mark - Totals and Discounts
+
+- (NSDecimalNumber *)discountGstRate
+{
+    if (!self.discount) {
+        return [NSDecimalNumber zero];
+    }
+    NSDecimalNumber *discountTotal = [self.discount discountedAmountForTotal:self.amount];
+    
+    NSDecimalNumber *taxFactor = [self.matter.tax decimalNumberByAccuratelyDividingBy:[NSDecimalNumber ten]];
+    taxFactor = [taxFactor decimalNumberByAccuratelyAdding:[NSDecimalNumber ten]];
+    
+    NSDecimalNumber *discountGstAmount = [discountTotal decimalNumberByAccuratelyDividingBy:taxFactor];
+    
+    if ([discountGstAmount compare:self.amountGst] == NSOrderedDescending) {
+        discountGstAmount = self.amountGst;
+    }
+    return discountGstAmount;
+}
+
+- (NSDecimalNumber *)discountExGstRate
+{
+    if (!self.discount) {
+        return [NSDecimalNumber zero];
+    }
+    NSDecimalNumber *discountExGst = [self.discountRate decimalNumberByAccuratelySubtracting:self.discountGstRate];
+    
+    return discountExGst;
+}
+
+- (NSDecimalNumber *)discountRate
+{
+    if (!self.discount) {
+        return [NSDecimalNumber zero];
+    }
+    
+    return [self.discount discountedAmountForTotal:self.amount];
+}
+
+- (NSNumber *)isPayable
+{
+    return @(self.totalOutstanding.intValue > 1 && !self.isPaid.boolValue && !self.isWrittenOff.boolValue);
+}
+
+- (NSDecimalNumber *)totalAmountExGst
+{
+    if (!self.discount) {
+        return self.amountExGst;
+    }
+    
+    NSDecimalNumber *discountTotal = [self.discount discountedAmountForTotal:self.amount];
+    
+    NSDecimalNumber *discountExGst = [discountTotal decimalNumberByAccuratelySubtracting:[self discountGstRate]];
+    
+    return [self.amountExGst decimalNumberByAccuratelySubtracting:discountExGst];
+}
+
+- (NSDecimalNumber *)totalAmountGst
+{
+    if (!self.discount || [self.amountGst compare:[NSDecimalNumber zero]] == NSOrderedSame) {
+        return self.amountGst ? self.amountGst : [NSDecimalNumber zero];
+    }
+    
+    return [self.amountGst decimalNumberByAccuratelySubtracting:[self discountGstRate]];
+}
+
+- (NSDecimalNumber *)totalAmount
+{
+    if (self.totalOutstanding.integerValue == 0) {
+        return [self.totalReceivedIncGst decimalNumberByAccuratelyAdding:self.totalWrittenOff];
+    }
+    
+    return [self.totalAmountExGst decimalNumberByAccuratelyAdding:self.totalAmountGst];
+}
+
+- (NSDecimalNumber *)amount
+{
+    NSDecimalNumber *total = [self.amountExGst decimalNumberByAccuratelyAdding:self.amountGst];
+    return total;
+}
+
+#pragma mark - Receiving Money
+
+- (NSNumber *)isPaid
+{
+    NSDecimalNumber *total = [self.totalAmount decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber bankersRoundingHandler]];
+    NSDecimalNumber *received = [self.totalReceivedIncGst decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber bankersRoundingHandler]];
+    
+    BOOL fullPaid = abs(total.intValue-received.intValue) <= 1;
+    
+    return @(fullPaid);
+}
+
+- (NSNumber *)isWrittenOff
+{
+    NSDecimalNumber *total = [self.totalAmount decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber bankersRoundingHandler]];
+    NSDecimalNumber *writtenOff = [self.totalWrittenOff decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber bankersRoundingHandler]];
+    
+    BOOL fullWrittenOff = abs(total.intValue-writtenOff.intValue) <= 1;
+    
+    return @(fullWrittenOff);
+}
+
+
+- (NSNumber *)totalReceivedExGst
+{
+    if (self.receiptAllocations.count == 0) {
+        return [NSDecimalNumber zero];
+    }
+    NSDecimalNumber * amount = [self.receiptAllocations valueForKeyPath:@"@sum.allocatedExGstAmount"];
+    
+    return [amount decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (NSDecimalNumber *)totalReceivedGst
+{
+    if (self.receiptAllocations.count == 0) {
+        return [NSDecimalNumber zero];
+    }
+    NSDecimalNumber * amount = [self.receiptAllocations valueForKeyPath:@"@sum.allocatedGstAmount"];
+    
+    return [amount decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (NSDecimalNumber *)totalReceivedIncGst
+{
+    return [[self.receiptAllocations valueForKeyPath:@"@sum.allocatedIncGstAmount"] decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
 #pragma mark - Outstanding Amounts
 
 
@@ -153,5 +282,40 @@
     
     return amount;
 }
+
+#pragma mark - Write-Offs
+
+- (NSDecimalNumber *)totalWrittenOff
+{
+    if (self.writeOffs.count == 0) {
+        return [NSDecimalNumber zero];
+    }
+    
+    NSDecimalNumber *amount = [self.totalWrittenOffExGst decimalNumberByAccuratelyAdding:self.totalWrittenOffGst];
+    
+    return amount;
+}
+
+- (NSNumber *)totalWrittenOffExGst
+{
+    if (self.writeOffs.count == 0) {
+        return [NSDecimalNumber zero];
+    }
+    NSDecimalNumber *amount = [self.writeOffs valueForKeyPath:@"@sum.amountExGst"];
+    
+    return [amount decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+- (NSNumber *)totalWrittenOffGst
+{
+    if (self.writeOffs.count == 0) {
+        return [NSDecimalNumber zero];
+    }
+    NSDecimalNumber *amount = [self.writeOffs valueForKeyPath:@"@sum.amountGst"];
+    
+    return [amount decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
+
 
 @end
