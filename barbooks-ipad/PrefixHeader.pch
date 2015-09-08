@@ -63,7 +63,10 @@
 // Constans
 #define ONE_SECOND 1
 #define MAX_COUNT_IN_DROPDOWN 4
-#define COUCHBASE_SYNC_URL @"http://winwinretail.com:8080/sync_gateway/"
+#define COUCHBASE_SYNC_URL @"http://winwinretail.com:4984/"
+#define COUCHBASE_DEFAULT_BUCKET @"sync_gateway"
+#define COUCHBASE_ACCOUNT_BUCKET @"accounts"
+
 
 // Notifications
 #define BBNotificationTaskTimerUpdate @"BBNotificationTaskTimerUpdate"
@@ -95,9 +98,6 @@
 #define kWordpressApiKey @"76CCD5E8334BE2DDCD9E55FAF1959"
 #define kWordpressApiParameter @"&key=76CCD5E8334BE2DDCD9E55FAF1959"
 
-#define COUCHBASE_SYNC_URL @"http://winwinretail.com:4984/"
-#define COUCHBASE_DEFAULT_BUCKET @"sync_gateway"
-#define COUCHBASE_ACCOUNT_BUCKET @"accounts"
 
 
 #endif

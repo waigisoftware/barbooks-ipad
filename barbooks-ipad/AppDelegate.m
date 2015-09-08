@@ -14,8 +14,11 @@
 #import "UIColor+BBUtil.h"
 #import "BBTimers.h"
 #import <Lockbox/Lockbox.h>
+#import <JDStatusBarNotification/JDStatusBarNotification.h>
+#import "RegularInvoice.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
+
 
 @end
 
@@ -24,6 +27,37 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [JDStatusBarNotification setDefaultStyle:^JDStatusBarStyle *(JDStatusBarStyle *style) {
+        // main properties
+        style.barColor = [UIColor bbPrimaryBlue];
+        style.textColor = [UIColor whiteColor];
+        style.font = [UIFont fontWithName:@"Helvetica Neue" size:10];
+        
+        // advanced properties
+        style.animationType = JDStatusBarAnimationTypeBounce;
+        style.textShadow = nil;
+        style.textVerticalPositionAdjustment = 0;
+        
+        // progress bar
+        style.progressBarColor = [UIColor bbGreen];
+        style.progressBarHeight = 2;
+        style.progressBarPosition = JDStatusBarProgressBarPositionBelow;
+        
+        return style;
+    }];
+    
+    [JDStatusBarNotification addStyleNamed:@"warning"
+                                   prepare:^JDStatusBarStyle *(JDStatusBarStyle *style) {
+                                       // main properties
+                                       style.barColor = [UIColor bbRed];
+                                       style.textColor = [UIColor whiteColor];
+                                       style.font = [UIFont fontWithName:@"Helvetica Neue" size:10];
+                                       
+                                       // advanced properties
+                                       style.animationType = JDStatusBarAnimationTypeBounce;
+                                       
+                                       return style;
+                                   }];
     
     NSManagedObjectModel *model =  [[NSManagedObjectModel mergedModelFromBundles:nil] mutableCopy];
     [CBLIncrementalStore updateManagedObjectModel:model];
@@ -57,10 +91,29 @@
     
     [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
     [self setupObservers];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncStatusProgressed) name:kSyncStatusProgressedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncStatusProgressed) name:kSyncStatusUpdatedNotification object:nil];
     
     return YES;
 }
+
+- (void)syncStatusProgressed
+{
+    if ([[BBCloudManager sharedManager] syncStatus] == kCBLReplicationActive && [[BBCloudManager sharedManager] progress] > 0.0) {
+        if (![JDStatusBarNotification isVisible]) {
+            [JDStatusBarNotification showWithStatus:@"Synchronising ..."];
+        }
+        [JDStatusBarNotification showProgress:[[BBCloudManager sharedManager] progress]];
+    } else if ([[BBCloudManager sharedManager] syncStatus] == kCBLReplicationOffline) {
+        if (![JDStatusBarNotification isVisible]) {
+            [JDStatusBarNotification showWithStatus:@"Offline. Please check your internet connection." styleName:@"warning"];
+        }
+    }else {
+        [JDStatusBarNotification dismissAnimated:YES];
+    }
+}
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -171,18 +224,6 @@
     [self showMatters];
 }
 
-- (void) showSynchronization
-{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
-    viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
-    [viewController resetTopViewAnimated:NO];
-    
-    BBSynchronizationViewController *synchronizationViewController = ((BBSynchronizationViewController *)[viewController.topViewController.storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBSynchronizationViewController]);
-    [(UINavigationController *)viewController.topViewController pushViewController:synchronizationViewController animated:YES];
-
-//    [viewController.topViewController.navigationController performSegueWithIdentifier:BBSegueShowSynchronization sender:viewController.topViewController];
-}
 
 - (void) logout {
     [[BBCloudManager sharedManager] logout];

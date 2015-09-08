@@ -110,6 +110,7 @@
     if (!self.invoices.count) {
         return [NSDecimalNumber zero];
     }
+    
     NSPredicate *outstandingPredicate = [NSPredicate predicateWithFormat:@"totalOutstanding > 0"];
     NSSet *outstandingInvoices = [self.invoices filteredSetUsingPredicate:outstandingPredicate];
     

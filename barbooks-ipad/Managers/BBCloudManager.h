@@ -13,6 +13,7 @@
 #define kLoginFailedNotification @"kLoginFailedNotification"
 #define kSubscriptionUpdatedNotification @"kSubscriptionUpdatedNotification"
 #define kSyncStatusUpdatedNotification @"kSyncStatusUpdatedNotification"
+#define kSyncStatusProgressedNotification @"kSyncStatusProgressedNotification"
 
 #define kMaxDaysOverdue 14
 
@@ -26,6 +27,9 @@ typedef enum {
 
 @property (assign) BOOL isLoggedIn;
 @property (assign) CBLReplicationStatus syncStatus;
+@property (assign) CGFloat progress;
+@property (assign) NSInteger changes;
+@property (assign) NSInteger changesCompleted;
 
 + (instancetype)sharedManager;
 

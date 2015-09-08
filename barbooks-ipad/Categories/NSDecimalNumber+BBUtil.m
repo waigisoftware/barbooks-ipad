@@ -59,10 +59,8 @@
 
 - (NSString *)currencyAmount {
     NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
-    [nf setMinimumFractionDigits:2];
-    [nf setMaximumFractionDigits:2];
-    [nf setMinimumIntegerDigits: 1];
-    return [NSString stringWithFormat:@"$%@", [nf stringFromNumber: self]];
+    [nf setNumberStyle:NSNumberFormatterCurrencyStyle];
+    return [nf stringFromNumber: self];
 }
 
 - (NSString *)roundedAmount {
@@ -110,53 +108,6 @@
 }
 
 // rounding handlers
-
-+ (NSDecimalNumberHandler*)currencyRoundingHandler
-{
-    NSDecimalNumberHandler *handler = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundBankers
-                                                                                             scale:2
-                                                                                  raiseOnExactness:NO
-                                                                                   raiseOnOverflow:NO
-                                                                                  raiseOnUnderflow:NO
-                                                                               raiseOnDivideByZero:NO];
-    return handler;
-}
-
-
-+ (NSDecimalNumberHandler*)timeRoundingHandler
-{
-    NSDecimalNumberHandler *handler = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown
-                                                                                             scale:0
-                                                                                  raiseOnExactness:NO
-                                                                                   raiseOnOverflow:NO
-                                                                                  raiseOnUnderflow:NO
-                                                                               raiseOnDivideByZero:NO];
-    return handler;
-}
-
-
-+ (NSDecimalNumberHandler*)timeFractionRoundingHandler
-{
-    NSDecimalNumberHandler *handler = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                                                                             scale:5
-                                                                                  raiseOnExactness:NO
-                                                                                   raiseOnOverflow:NO
-                                                                                  raiseOnUnderflow:NO
-                                                                               raiseOnDivideByZero:NO];
-    return handler;
-}
-
-+ (NSDecimalNumberHandler*)accurateRoundingHandler
-{
-    NSDecimalNumberHandler *handler = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown
-                                                                                             scale:6
-                                                                                  raiseOnExactness:NO
-                                                                                   raiseOnOverflow:NO
-                                                                                  raiseOnUnderflow:NO
-                                                                               raiseOnDivideByZero:NO];
-    return handler;
-}
-
 
 + (NSDecimalNumberHandler*)currencyRoundingHandler
 {

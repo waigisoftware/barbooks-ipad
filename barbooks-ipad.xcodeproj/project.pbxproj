@@ -40,7 +40,6 @@
 		3657AA021B8B317C00E18367 /* BBReceiptListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657AA011B8B317C00E18367 /* BBReceiptListViewController.m */; };
 		3657AA051B8B31AF00E18367 /* BBReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657AA041B8B31AF00E18367 /* BBReceiptViewController.m */; };
 		3657AA081B8B33A000E18367 /* BBReceiptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657AA071B8B33A000E18367 /* BBReceiptTableViewCell.m */; };
-		3657AA0D1B8DC18500E18367 /* CBLIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657AA0C1B8DC18500E18367 /* CBLIncrementalStore.m */; };
 		365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */; };
 		365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CFD1B8039930051D2C2 /* BBInvoiceListViewController.m */; };
 		365F3D011B8039C60051D2C2 /* BBInvoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3D001B8039C60051D2C2 /* BBInvoiceViewController.m */; };
@@ -198,8 +197,6 @@
 		3657AA061B8B33A000E18367 /* BBReceiptTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBReceiptTableViewCell.h; path = UserInterface/Receipt/BBReceiptTableViewCell.h; sourceTree = "<group>"; };
 		3657AA071B8B33A000E18367 /* BBReceiptTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBReceiptTableViewCell.m; path = UserInterface/Receipt/BBReceiptTableViewCell.m; sourceTree = "<group>"; };
 		3657AA091B8B34FF00E18367 /* BBReceiptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBReceiptDelegate.h; path = Protocals/BBReceiptDelegate.h; sourceTree = "<group>"; };
-		3657AA0B1B8DC18500E18367 /* CBLIncrementalStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBLIncrementalStore.h; path = ThirdParty/CBLIncrementalStore.h; sourceTree = "<group>"; };
-		3657AA0C1B8DC18500E18367 /* CBLIncrementalStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBLIncrementalStore.m; path = ThirdParty/CBLIncrementalStore.m; sourceTree = "<group>"; };
 		365F3CF81B7F5A7A0051D2C2 /* BBValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBValidator.h; path = Common/BBValidator.h; sourceTree = "<group>"; };
 		365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBValidator.m; path = Common/BBValidator.m; sourceTree = "<group>"; };
 		365F3CFC1B8039930051D2C2 /* BBInvoiceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceListViewController.h; path = UserInterface/Invoice/BBInvoiceListViewController.h; sourceTree = "<group>"; };
@@ -481,15 +478,6 @@
 				3657AA071B8B33A000E18367 /* BBReceiptTableViewCell.m */,
 			);
 			name = Receipt;
-			sourceTree = "<group>";
-		};
-		3657AA0A1B8DC0FD00E18367 /* ThirdParty */ = {
-			isa = PBXGroup;
-			children = (
-				3657AA0B1B8DC18500E18367 /* CBLIncrementalStore.h */,
-				3657AA0C1B8DC18500E18367 /* CBLIncrementalStore.m */,
-			);
-			name = ThirdParty;
 			sourceTree = "<group>";
 		};
 		365F3CFB1B80395C0051D2C2 /* Invoice */ = {
@@ -1009,7 +997,6 @@
 				36EB0E4B1B38DFA200AC7411 /* BBTaskListViewController.m in Sources */,
 				07694B261B9BC7D500995128 /* CBLIncrementalStore.m in Sources */,
 				3625430A1B512C08004C8116 /* BBExpenseTableViewCell.m in Sources */,
-				3657AA0D1B8DC18500E18367 /* CBLIncrementalStore.m in Sources */,
 				3657AA081B8B33A000E18367 /* BBReceiptTableViewCell.m in Sources */,
 				36537B2A1B81C6EA00E6CF0F /* BBInvoiceDisbursementTableViewCell.m in Sources */,
 				36DEFA051B2710640053CD8C /* InterestInvoice.m in Sources */,

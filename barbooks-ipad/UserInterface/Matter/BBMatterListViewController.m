@@ -11,6 +11,8 @@
 #import "BBMatterListTableViewCell.h"
 #import "BBMatterCategoryListViewController.h"
 #import "BBTaskListViewController.h"
+#import "BBInvoiceListViewController.h"
+#import "BBReceiptListViewController.h"
 #import "BBExpenseListViewController.h"
 #import "Account.h"
 
@@ -24,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *archiveBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *filterButtonItem;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @property (strong, nonatomic) NSMutableArray *originalItemList;
 @property (strong, nonatomic) NSMutableArray *filteredItemList;
@@ -42,13 +45,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _toolBar.clipsToBounds = YES;
     _showUnarchived = YES;
 
     // tableview
     _matterListTableView.dataSource = self;
     _matterListTableView.delegate = self;
     //[self registerRefreshControlFor:_matterListTableView withAction:@selector(fetchMatters)];
-    
+    [_matterListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height)];
     // toolbar buttons
     UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIImage *imageArchive = [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -129,6 +133,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
         Matter *matterToDelete = [_originalItemList objectAtIndex:indexPath.row];
         [matterToDelete MR_deleteEntity];
         [self fetchMatters];

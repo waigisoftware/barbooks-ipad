@@ -220,9 +220,9 @@
 {
 #if TARGET_OS_IPHONE
     NSArray *accounts = [[Account MR_findAll] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"matters.@count"
-                                                                                                                                     ascending:NO],
-                                                                                                       [NSSortDescriptor sortDescriptorWithKey:@"expenses.@count"
-                                                                                                                                     ascending:NO]
+                                                                                                          ascending:NO],
+                                                                            [NSSortDescriptor sortDescriptorWithKey:@"expenses.@count"
+                                                                                                          ascending:NO]
                                                                                                        ]];
 
 #else

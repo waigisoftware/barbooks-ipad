@@ -24,6 +24,7 @@ pod 'MessageBarManager'
 pod "IGLDropDownMenu"
 pod "Lockbox", "2.1.0"
 pod "couchbase-lite-ios"
+pod "JDStatusBarNotification"
 
 end
 
