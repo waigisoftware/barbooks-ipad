@@ -48,6 +48,11 @@
     self.tableView.editing = allowsEditing;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    _ratesTableView.editing = NO;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -71,6 +76,7 @@
 }
 
 - (void)onDeleteRate {
+    _ratesTableView.editing = !_ratesTableView.editing;
 }
 
 #pragma mark - Rate UITableViewDataSource
@@ -95,6 +101,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self pushRateViewWithRate:[self.matter.ratesArray objectAtIndex:indexPath.row]];
     //[self popoverRateViewWithRate:[self.matter.ratesArray objectAtIndex:indexPath.row]];
+}
+
+// handle delete
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Rate *rateToDelete = [self.matter.ratesArray objectAtIndex:indexPath.row];
+        [self.matter removeRatesObject:rateToDelete];
+        [_ratesTableView reloadData];
+    }
 }
 
 // show no empty cells

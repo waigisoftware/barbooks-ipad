@@ -8,6 +8,7 @@
 
 #import "BBExpenseListViewController.h"
 #import "BBExpenseTableViewCell.h"
+#import "Disbursement.h"
 
 @interface BBExpenseListViewController ()
 
@@ -16,9 +17,11 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *archiveBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarHeight;
 
 @property (strong, nonatomic) NSArray *originalItemList;
 @property (strong, nonatomic) NSArray *filteredItemList;
+@property (strong, nonatomic) Expense *selectedExpense;
 
 - (IBAction)onAdd:(id)sender;
 - (IBAction)onArchive:(id)sender;
@@ -53,6 +56,7 @@
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
         [self.expenseViewController.navigationController popViewControllerAnimated:YES];
     }
+    _expenseListTableView.editing = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,7 +86,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Expense *expense = [_filteredItemList objectAtIndex:indexPath.row];
-    _expenseViewController.expense = expense;
+    if ([self isMatterExpenses]) {
+        [self showExpenseDetail:expense];
+    } else {
+        _expenseViewController.expense = expense;
+    }
+}
+
+// handle delete
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Expense *expenseToDelete = [_originalItemList objectAtIndex:indexPath.row];
+        if ([self isMatterExpenses]) {
+            [self.matter removeDisbursementsObject:(Disbursement *)expenseToDelete];
+        } else {
+            [expenseToDelete MR_deleteEntity];
+        }
+        [self fetchExpenses];
+    }
 }
 
 #pragma mark - TableView helper methods
@@ -119,18 +145,25 @@
 #pragma mark - IBActions
 
 - (IBAction)onAdd:(id)sender {
-    Expense *newExpense = [Expense newInstanceWithDefaultValue];
-    [self.expenseViewController setExpense:newExpense];
-    [self fetchExpenses];
-    [_expenseListTableView selectRowAtIndexPath:[self indexPathOfExpense:newExpense] animated:YES scrollPosition:UITableViewScrollPositionTop];
-    _expenseViewController.expense = newExpense;
+    if ([self isMatterExpenses]) {
+        Disbursement *newDisbursement = [Disbursement newInstanceOfMatter:self.matter];
+        [self fetchExpenses];
+        [_expenseListTableView selectRowAtIndexPath:[self indexPathOfExpense:newDisbursement] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        [self showExpenseDetail:newDisbursement];
+    } else {
+        Expense *newExpense = [Expense newInstanceWithDefaultValue];
+        [self.expenseViewController setExpense:newExpense];
+        [self fetchExpenses];
+        [_expenseListTableView selectRowAtIndexPath:[self indexPathOfExpense:newExpense] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        _expenseViewController.expense = newExpense;
+    }
 }
 
 - (IBAction)onArchive:(id)sender {
 }
 
 - (void)onDelete {
-    
+    _expenseListTableView.editing = !_expenseListTableView.editing;
 }
 
 #pragma mark - UI method
@@ -152,19 +185,46 @@
         UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDelete)];
         self.tabBarController.navigationItem.rightBarButtonItems = @[deleteButton, addButton];
         // toolbar buttons
+        self.toolbarHeight.constant = 0;
         self.toolbar.hidden = YES;
-        [self.toolbar removeFromSuperview];
+        
+        [self.view updateConstraintsIfNeeded];
     } else {
         // show back button
         self.navigationItem.hidesBackButton = NO;
         self.navigationItem.title = nil;
         // toolbar buttons
+        self.toolbarHeight.constant = 44;
         self.toolbar.hidden = NO;
         UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         UIImage *imageArchive = [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         _addBarButtonItem.image = imageAdd;
         _archiveBarButtonItem.image = imageArchive;
+        
+        [self.view updateConstraintsIfNeeded];
     }
+}
+
+#pragma mark - Navigation
+
+- (void)showExpenseDetail:(Expense *)expense {
+    self.selectedExpense = expense;
+    [self performSegueWithIdentifier:BBSegueShowExpenseDetail sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:BBSegueShowExpenseDetail]) {
+        BBExpenseViewController *expenseViewController = (BBExpenseViewController *)[segue destinationViewController];
+        expenseViewController.expense = self.selectedExpense;
+        expenseViewController.delegate = self;
+    }
+}
+
+
+#pragma mark - BBExpenseDelegate
+
+- (void)updateExpense:(id)data {
+    [self fetchExpenses];
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "Discount.h"
 #import "Invoice.h"
 #import "Task.h"
-
+#import "NSDecimalNumber+BBUtil.h"
 
 @implementation Discount
 

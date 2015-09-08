@@ -75,9 +75,12 @@
 - (NSDecimalNumber *)totalInvoicesOutstanding;
 - (NSArray *)tasksArray;
 - (NSArray *)ratesArray;
+- (NSArray *)invoicesArray;
+- (NSArray *)disbursementsArray;
 
 + (NSArray *)allMatters;
 + (NSArray *)unarchivedMatters;
 + (NSArray *)archivedMatters;
++ (instancetype)firstMatter;
 
 @end

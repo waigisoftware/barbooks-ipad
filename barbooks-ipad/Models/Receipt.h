@@ -9,15 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "Payment.h"
+#import "Matter.h"
 
 @class ReceiptAllocation;
 
 @interface Receipt : Payment
 
 @property (nonatomic, retain) NSArray * matters;
-@property (nonatomic, retain) id printInformation;
-@property (nonatomic, retain) NSDate * printIssuedDate;
-@property (nonatomic, retain) NSSet *allocations;
+@property (nonatomic, retain) id printInformation;//not used
+@property (nonatomic, retain) NSDate * printIssuedDate;//not used
+@property (nonatomic, retain) NSSet *allocations;//ReceiptAllocation(Payment)
 @end
 
 @interface Receipt (CoreDataGeneratedAccessors)
@@ -26,5 +27,12 @@
 - (void)removeAllocationsObject:(ReceiptAllocation *)value;
 - (void)addAllocations:(NSSet *)values;
 - (void)removeAllocations:(NSSet *)values;
+
++ (instancetype)newInstanceOfMatter:(Matter *)matter;
+
+- (NSArray *)invoices;
+- (NSString *)invoicesNumber;
+- (NSString *)mattersDescription;
+- (NSDecimalNumber*)allocateInvoices:(NSArray*)invoices amount:(NSDecimalNumber*)amount;
 
 @end

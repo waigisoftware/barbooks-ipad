@@ -11,6 +11,8 @@
 #import "BBTaskListViewController.h"
 #import "BBExpenseListViewController.h"
 #import "BBExpenseViewController.h"
+#import "BBInvoiceListViewController.h"
+#import "BBReceiptListViewController.h"
 
 
 @interface BBHomeViewController ()
@@ -160,7 +162,7 @@
             switch (indexPath.row) {
                 case 0: {
                     NSLog(@"Matters");
-                    [self showMatters:nil];
+                    [self showMatters:[Matter firstMatter]];
                     break;
                 }
                 case 1:
@@ -190,13 +192,8 @@
 - (void)showMatters:(Matter *)matter {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     BBMatterListViewController *matterListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterListViewController];
-//    BBTaskListViewController *taskListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskListViewController];
     [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:matterListViewController animated:YES];
-//    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:taskListViewController animated:YES];
     matterListViewController.matter = matter;
-//    matterListViewController.taskListViewController = taskListViewController;
-//    taskListViewController.matter = matter;
-//    taskListViewController.matterListViewController = matterListViewController;
     
     UITabBarController *tabBarController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryTabBarController];
     tabBarController.selectedIndex = 0;
@@ -206,6 +203,15 @@
             taskListViewController.matter = matter;
             taskListViewController.matterListViewController = matterListViewController;
             matterListViewController.taskListViewController = taskListViewController;
+        }
+        if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
+            ((BBExpenseListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
+            ((BBInvoiceListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBReceiptListViewController class]]) {
+            ((BBReceiptListViewController *)vc).matter = matter;
         }
     }
     

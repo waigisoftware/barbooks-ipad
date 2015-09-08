@@ -82,7 +82,6 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Saves changes in the application's managed object context before the application terminates.
-//    [[BBCoreDataManager sharedInstance] saveContext];
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         NSLog(@"all data saved!");
     }];
@@ -178,7 +177,11 @@
     ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
     viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
     [viewController resetTopViewAnimated:NO];
-    [viewController.topViewController.navigationController performSegueWithIdentifier:BBSegueShowSynchronization sender:viewController.topViewController];
+    
+    BBSynchronizationViewController *synchronizationViewController = ((BBSynchronizationViewController *)[viewController.topViewController.storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBSynchronizationViewController]);
+    [(UINavigationController *)viewController.topViewController pushViewController:synchronizationViewController animated:YES];
+
+//    [viewController.topViewController.navigationController performSegueWithIdentifier:BBSegueShowSynchronization sender:viewController.topViewController];
 }
 
 - (void) logout {

@@ -10,6 +10,8 @@
 
 @interface BBSynchronizationViewController ()
 
+- (IBAction)onSynchronize:(id)sender;
+
 @end
 
 @implementation BBSynchronizationViewController
@@ -33,5 +35,8 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (IBAction)onSynchronize:(id)sender {
+}
 
 @end

@@ -52,6 +52,6 @@
 // recalculate all amounts
 - (void)recalculate;
 
-//- (void)saveTask;
++ (NSArray *)allUnlinkedObjectsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 @end

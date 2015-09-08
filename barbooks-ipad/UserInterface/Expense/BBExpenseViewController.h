@@ -10,6 +10,7 @@
 #import "Expense.h"
 #import <JTCalendar.h>
 #import <IGLDropDownMenu/IGLDropDownMenu.h>
+#import "BBExpenseDelegate.h"
 
 @class BBExpenseListViewController;
 
@@ -17,5 +18,8 @@
 
 @property (strong, nonatomic) Expense *expense;
 @property (weak, nonatomic) BBExpenseListViewController *expenseListViewController;
+@property (weak, nonatomic) id<BBExpenseDelegate> delegate;
+
+@property BOOL showCloseButton;
 
 @end

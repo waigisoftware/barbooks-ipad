@@ -20,4 +20,7 @@
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSString * owner;
 
++ (BBManagedObject*) oldestEntryInManagedObjectContext:(NSManagedObjectContext*)context;
++ (BBManagedObject*) latestEntryInManagedObjectContext:(NSManagedObjectContext*)context;
+
 @end

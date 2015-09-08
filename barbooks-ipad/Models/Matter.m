@@ -79,18 +79,11 @@
     NSDecimalNumber *hours;
     NSDecimalNumber *unit;
     NSDecimalNumber *numberOfUnit;
-    NSDecimalNumberHandler *roundUp = [NSDecimalNumberHandler
-                                       decimalNumberHandlerWithRoundingMode:NSRoundUp
-                                       scale:0
-                                       raiseOnExactness:NO
-                                       raiseOnOverflow:NO
-                                       raiseOnUnderflow:NO
-                                       raiseOnDivideByZero:YES];
 
     switch ([self.roundingType intValue]) {
         case 0:
             unit = [NSDecimalNumber decimalNumberWithString:@"360"];
-            numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:roundUp];
+            numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:[NSDecimalNumber timeFractionRoundingHandler]];
             hours = [numberOfUnit decimalNumberByMultiplyingBy:[unit decimalNumberByDividingBy:[NSDecimalNumber anHourSeconds]]];
             break;
         case 1:
@@ -103,7 +96,7 @@
             unit = [NSDecimalNumber decimalNumberWithString:@"1200"];
             break;
     }
-    numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:roundUp];
+    numberOfUnit = [duration decimalNumberByDividingBy:unit withBehavior:[NSDecimalNumber timeFractionRoundingHandler]];
     hours = [numberOfUnit decimalNumberByMultiplyingBy:[unit decimalNumberByDividingBy:[NSDecimalNumber anHourSeconds]]];
 
     return hours;
@@ -145,11 +138,23 @@
 }
 
 - (NSArray *)tasksArray {
-    return [self.tasks allObjects];
+    return [[self.tasks allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [((Task *)obj2).createdAt compare:((Task *)obj1).createdAt];
+    }];
 }
 
 - (NSArray *)ratesArray {
     return [self.rates allObjects];
+}
+
+- (NSArray *)invoicesArray {
+    return [[self.invoices allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [((Invoice *)obj2).entryNumber compare:((Invoice *)obj1).entryNumber];
+    }];
+}
+
+- (NSArray *)disbursementsArray {
+    return [self.disbursements allObjects];
 }
 
 #pragma mark - Core Data
@@ -167,6 +172,10 @@
 + (NSArray *)archivedMatters {
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:YES]];
     return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+}
+
++ (instancetype)firstMatter {
+    return [[Matter unarchivedMatters] firstObject];
 }
 
 @end

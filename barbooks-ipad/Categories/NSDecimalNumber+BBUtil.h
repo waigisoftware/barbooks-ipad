@@ -11,6 +11,7 @@
 @interface NSDecimalNumber (BBUtil)
 
 + (NSDecimalNumber *)decimalNumberWithStringAndValidation:(NSString *)numberValue ;
++ (NSDecimalNumber *)decimalNumberFromCurrencyString:(NSString *)numberValue;
 + (instancetype)ten;
 + (instancetype)eleven;
 + (instancetype)oneHundred;
@@ -21,6 +22,17 @@
 - (NSString *)roundedAmount;
 - (instancetype)decimalNumberAddGST;
 - (instancetype)decimalNumberSubtractGST;
+- (instancetype)decimalNumberGSTOfInclusiveAmount;
+- (instancetype)decimalNumberGSTOfExclusiveAmount;
+- (instancetype)decimalNumberByAccuratelyAdding:(NSDecimalNumber *)decimalNumber;
+- (instancetype)decimalNumberByAccuratelySubtracting:(NSDecimalNumber *)decimalNumber;
+- (instancetype)decimalNumberByAccuratelyMultiplyingBy:(NSDecimalNumber *)decimalNumber;
+- (instancetype)decimalNumberByAccuratelyDividingBy:(NSDecimalNumber *)decimalNumber;
+
++ (NSDecimalNumberHandler*)timeRoundingHandler;
++ (NSDecimalNumberHandler*)timeFractionRoundingHandler;
++ (NSDecimalNumberHandler*)accurateRoundingHandler;
++ (NSDecimalNumberHandler*)currencyRoundingHandler;
 
 + (NSDecimalNumberHandler*)timeRoundingHandler;
 + (NSDecimalNumberHandler*)timeFractionRoundingHandler;

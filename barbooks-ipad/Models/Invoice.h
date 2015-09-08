@@ -57,4 +57,6 @@
 - (void)addWriteOffs:(NSSet *)values;
 - (void)removeWriteOffs:(NSSet *)values;
 
++ (instancetype)newInstanceOfMatter:(Matter *)matter;
+
 @end

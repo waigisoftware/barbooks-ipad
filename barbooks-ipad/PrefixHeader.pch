@@ -36,6 +36,9 @@
 #define BBSegueMatterToRateList @"matterToRateListSegue"
 #define BBSegueRateListToRateDetail @"showRateDetailSegue"
 #define BBSegueShowSynchronization @"showSynchronizationSegue"
+#define BBSegueShowInvoiceDetail @"showInvoiceDetailSegue"
+#define BBSegueShowExpenseDetail @"showExpenseDetailSegue"
+#define BBSegueShowReceiptDetail @"showReceiptDetailSegue"
 
 // View Controllers
 #define BBNavigationControllerHome @"BBHomeSplitViewController"
@@ -53,10 +56,14 @@
 #define StoryboardIdBBExpenseListViewController @"BBExpenseListViewController"
 #define StoryboardIdBBExpenseViewController @"BBExpenseViewController"
 #define StoryboardIdBBMatterCategoryTabBarController @"BBMatterCategoryTabBarController"
+#define StoryboardIdBBInvoiceListViewController @"BBInvoiceListViewController"
+#define StoryboardIdBBInvoiceViewController @"BBInvoiceViewController"
+#define StoryboardIdBBSynchronizationViewController @"BBSynchronizationViewController"
 
 // Constans
 #define ONE_SECOND 1
 #define MAX_COUNT_IN_DROPDOWN 4
+#define COUCHBASE_SYNC_URL @"http://winwinretail.com:8080/sync_gateway/"
 
 // Notifications
 #define BBNotificationTaskTimerUpdate @"BBNotificationTaskTimerUpdate"

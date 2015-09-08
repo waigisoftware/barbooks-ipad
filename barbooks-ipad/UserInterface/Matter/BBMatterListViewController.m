@@ -75,7 +75,7 @@
     [super viewWillDisappear:animated];
     // user pressed back button in Navigation Bar
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-        [self.taskListViewController.navigationController popToRootViewControllerAnimated:NO];
+        [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];
     }
 }
 
@@ -119,6 +119,20 @@
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return tableView.rowHeight;
+}
+
+// handle delete
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Matter *matterToDelete = [_originalItemList objectAtIndex:indexPath.row];
+        [matterToDelete MR_deleteEntity];
+        [self fetchMatters];
+    }
 }
 
 #pragma mark - TableView helper methods
@@ -211,10 +225,19 @@
     tabBarController.selectedIndex = 0;
     for (UIViewController *vc in [tabBarController viewControllers]) {
         if ([vc isKindOfClass:[BBTaskListViewController class]]) {
-            ((BBTaskListViewController *)vc).matter = matter;
+            BBTaskListViewController *taskListViewController = (BBTaskListViewController *)vc;
+            taskListViewController.matter = matter;
+            taskListViewController.matterListViewController = self;
+            self.taskListViewController = taskListViewController;
         }
         if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
             ((BBExpenseListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
+            ((BBInvoiceListViewController *)vc).matter = matter;
+        }
+        if ([vc isKindOfClass:[BBReceiptListViewController class]]) {
+            ((BBReceiptListViewController *)vc).matter = matter;
         }
     }
     [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];
