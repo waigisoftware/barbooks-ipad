@@ -17,6 +17,8 @@
 #import <CouchbaseLite/CouchbaseLite.h>
 #import "CBLIncrementalStore.h"
 #import "BBSynchronizationViewController.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
@@ -27,6 +29,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Fabric with:@[[Crashlytics class]]];
     [self setupNavigationBarAppearance];
     [self determineWhichViewControllerToShowFirst];
 //    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"BarBooks"];

@@ -18,6 +18,21 @@
 @dynamic invoice;
 @dynamic task;
 
++ (instancetype)newInstanceOfTask:(Task *)task invoice:(Invoice *)invoice {
+    Discount *newDiscount = [Discount MR_createEntity];
+//    newDiscount.discountType = [NSNumber numberWithInt:0];
+    newDiscount.value = [NSDecimalNumber zero];
+    if (task) {
+        task.discount = newDiscount;
+        newDiscount.task = task;
+    }
+    if (invoice) {
+        invoice.discount = newDiscount;
+        newDiscount.invoice = invoice;
+    }
+    return newDiscount;
+}
+
 - (NSDecimalNumber *)discountedAmountForTotal:(NSDecimalNumber*)totalAmount
 {
     NSDecimalNumber *amount = totalAmount;
@@ -44,6 +59,24 @@
     }
     
     return amount;
+}
+
+- (NSString *)discountTypeDescription {
+    switch ([self.discountType intValue]) {
+        case 0:
+            return @"by amount";
+            break;
+        case 1:
+            return @"by percent";
+            break;
+        case 2:
+            return @"reprice";
+            break;
+            
+        default:
+            break;
+    }
+    return nil;
 }
 
 @end
