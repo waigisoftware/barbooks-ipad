@@ -128,7 +128,7 @@
     //TODO: tasks discount
     _invoiceDiscountExcludeGSTLabel.text = [self.invoice.discountExGstRate currencyAmount];
     _invoiceDiscountGSTLabel.text = [self.invoice.discountGstRate currencyAmount];
-    _invoiceDiscountIncludeGSTLabel.text = [self.invoice.discountGstRate currencyAmount];
+    _invoiceDiscountIncludeGSTLabel.text = [self.invoice.discountRate currencyAmount];
     _totalExcludeGSTLabel.text = [self.invoice.totalAmountExGst currencyAmount];
     _totalGSTLabel.text = [self.invoice.totalAmountGst currencyAmount];
     _totalIncludeGSTLabel.text = [self.invoice.totalAmount currencyAmount];
@@ -185,7 +185,7 @@
     // pop it over
     UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:discountViewController];
     popoverController.delegate = self;
-    popoverController.popoverContentSize = CGSizeMake(300, 170);
+    popoverController.popoverContentSize = CGSizeMake(320, 150);
     [popoverController presentPopoverFromRect:self.discountButton.frame
                                        inView:self.view
                      permittedArrowDirections:UIPopoverArrowDirectionLeft

@@ -20,7 +20,7 @@
 
 + (instancetype)newInstanceOfTask:(Task *)task invoice:(Invoice *)invoice {
     Discount *newDiscount = [Discount MR_createEntity];
-//    newDiscount.discountType = [NSNumber numberWithInt:0];
+    newDiscount.discountType = [NSNumber numberWithInt:0];
     newDiscount.value = [NSDecimalNumber zero];
     if (task) {
         task.discount = newDiscount;
@@ -39,19 +39,16 @@
     
     switch (self.discountType.intValue) {
         case 0:
-            
-            amount = self.value;
-            
+            amount = [totalAmount decimalNumberByAccuratelySubtracting:self.value];
             break;
         case 1:
         {
             NSDecimalNumber *discountFactor = [self.value decimalNumberByAccuratelyDividingBy:[NSDecimalNumber oneHundred]];
             amount = [totalAmount decimalNumberByAccuratelyMultiplyingBy:discountFactor];
-            
             break;
         }
         case 2:
-            amount = [totalAmount decimalNumberByAccuratelySubtracting:self.value];
+            amount = self.value;
             break;
         default:
             return totalAmount;

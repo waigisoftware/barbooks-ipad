@@ -8,7 +8,9 @@
 
 #import "BBDiscountViewController.h"
 
-@interface BBDiscountViewController ()
+@interface BBDiscountViewController () {
+    UITableViewCell *_lastSelectedCell;
+}
 
 @property (weak, nonatomic) IBOutlet UISwitch *discountSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *discountTypeLabel;
@@ -35,6 +37,7 @@
     [super viewWillDisappear:animated];
     [self stopEditing];
     [self updateDiscountFromUI];
+    [self.delegate updateDiscount:self.discount];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,12 +58,16 @@
         _discountSwitch.on = NO;
         _discountTypeLabel.text = @"";
         _discountAmountTextField.text = [[NSDecimalNumber zero] currencyAmount];
+        if (_lastSelectedCell) {
+            _lastSelectedCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        _lastSelectedCell = nil;
     }
     
     // visibility
     _discountTypeLabel.enabled = self.discount ? : NO;
     _discountAmountTextField.enabled = self.discount ? : NO;
-    _discountTypeTableView.hidden = self.discount ? : NO;
+    _discountTypeTableView.hidden = self.discount ? NO : YES;
 }
 
 - (void)updateDiscountFromUI {
@@ -92,6 +99,9 @@
     switch (indexPath.row) {
         case 0:
             cell.textLabel.text = @"by amount";
+            if (!_lastSelectedCell) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }
             break;
         case 1:
             cell.textLabel.text = @"by percent";
@@ -105,6 +115,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (_lastSelectedCell) {
+        _lastSelectedCell.accessoryType = UITableViewCellAccessoryNone;
+        _lastSelectedCell = cell;
+    }
+    _lastSelectedCell = cell;
     if (cell.accessoryType == UITableViewCellAccessoryNone) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
@@ -119,7 +134,9 @@
         self.discount = [Discount newInstanceOfTask:self.task invoice:self.invoice];
     } else if (!_discountSwitch.on && self.discount) {
         [self.discount MR_deleteEntity];
+        self.discount = nil;
     }
+    [self loadDiscountIntoUI];
 }
 
 #pragma mark - keyboards
