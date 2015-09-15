@@ -23,16 +23,13 @@
     [self.taskNameLabel setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 
-- (void)layoutSubviews
+
+- (void)setAccessoryView:(UIView *)accessoryView
 {
-    [super layoutSubviews];
-    
-    if (self.accessoryView) {
-        CGRect frame = self.accessoryView.frame;
-        frame.origin.y = 0;
-        [self.accessoryView setFrame:frame];
-    }
+    [super setAccessoryView:accessoryView];
+    [self setNeedsUpdateConstraints];
 }
+
 
 - (void)setEditing:(BOOL)editing
 {

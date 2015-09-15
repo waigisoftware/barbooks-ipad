@@ -34,18 +34,19 @@
     // tableview
     _receiptListTableView.dataSource = self;
     _receiptListTableView.delegate = self;
-    [self registerRefreshControlFor:_receiptListTableView withAction:@selector(fetchReceipts)];
+    [self registerRefreshControlFor:_receiptListTableView withAction:@selector(refreshReceipts)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self refreshReceipts];
+    [_receiptListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height)];
     // setup navigation bar and toolbar
     [self setupUI];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self fetchReceipts];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -125,8 +126,13 @@
         _originalItemList = [Receipt MR_findAllSortedBy:@"date" ascending:NO];
     }
     [self filterContentForSearchText:_searchBar.text scope:nil];
+}
+
+- (void)refreshReceipts {
+    [self fetchReceipts];
     [_receiptListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
+    [_receiptListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
 }
 
 #pragma mark - override

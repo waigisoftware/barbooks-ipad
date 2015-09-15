@@ -10,7 +10,7 @@
 
 @interface BBExpenseTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *payeeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *amountLabel;

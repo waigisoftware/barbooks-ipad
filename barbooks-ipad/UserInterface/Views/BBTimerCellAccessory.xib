@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -43,6 +42,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="47" id="JwT-Z4-ED4"/>
                         <constraint firstAttribute="trailing" secondItem="6mG-EK-Ia8" secondAttribute="trailing" constant="8" id="SnL-55-wJh"/>
+                        <constraint firstAttribute="width" constant="80" id="ckr-aH-H7m"/>
                         <constraint firstAttribute="bottom" secondItem="6mG-EK-Ia8" secondAttribute="bottom" constant="7" id="oH6-ox-fl3"/>
                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="86" id="orU-Y0-tta"/>
                     </constraints>
@@ -52,7 +52,7 @@
                         </mask>
                     </variation>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1na-9Q-vgY">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1na-9Q-vgY">
                     <rect key="frame" x="8" y="32" width="22" height="22"/>
                     <connections>
                         <action selector="infoButtonPressed:event:" destination="-2" eventType="touchUpInside" id="Ztg-Sc-2RI"/>
@@ -61,11 +61,18 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="1na-9Q-vgY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="32" id="MhQ-8a-v8e"/>
+                <constraint firstAttribute="trailing" secondItem="1na-9Q-vgY" secondAttribute="trailing" constant="50" id="hL3-yU-3Bm"/>
                 <constraint firstAttribute="trailing" secondItem="Zye-Iv-wrc" secondAttribute="trailing" id="nmF-p8-8m5"/>
                 <constraint firstItem="Zye-Iv-wrc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="19" id="zJQ-RR-fTe"/>
                 <constraint firstItem="Zye-Iv-wrc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zi1-02-m9D"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="zi1-02-m9D"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="stopButton" destination="6mG-EK-Ia8" id="rN9-ne-vx1"/>
                 <outlet property="timerButton" destination="bCO-Kp-6xn" id="GX2-qD-cQO"/>

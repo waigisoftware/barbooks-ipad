@@ -51,8 +51,9 @@
     // tableview
     _matterListTableView.dataSource = self;
     _matterListTableView.delegate = self;
-    //[self registerRefreshControlFor:_matterListTableView withAction:@selector(fetchMatters)];
+    [self registerRefreshControlFor:_matterListTableView withAction:@selector(refreshMatters)];
     [_matterListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height)];
+
     // toolbar buttons
     UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIImage *imageArchive = [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -154,8 +155,14 @@
     NSArray *objects = _showUnarchived ? [Matter unarchivedMatters] : [Matter archivedMatters];
     _originalItemList = [NSMutableArray arrayWithArray:objects];
     [self filterContentForSearchText:_searchBar.text scope:nil];
-    //[_matterListTableView reloadData];
+}
+
+- (void)refreshMatters {
+    [self fetchMatters];
+    [_matterListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
+    [_matterListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
+
 }
 
 #pragma mark - override

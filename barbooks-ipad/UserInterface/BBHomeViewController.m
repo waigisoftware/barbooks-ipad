@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *tasksOutstandingAmountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *invoicesOutstandingAmountLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSOperationQueue *totalsCalculationOperation;
 
 - (IBAction)onCreateMatter:(id)sender;
 - (IBAction)onCreateTask:(id)sender;
@@ -33,6 +34,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.totalsCalculationOperation = [NSOperationQueue new];
+
     // Do any additional setup after loading the view.
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -41,6 +44,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self refreshUI];
 }
 
@@ -49,11 +57,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.totalsCalculationOperation cancelAllOperations];
+}
+
 #pragma mark - UI
 
 - (void)refreshUI {
+    _tasksOutstandingAmountLabel.text = @"Calculating ...";
+    _invoicesOutstandingAmountLabel.text = @"";
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [self.totalsCalculationOperation addOperationWithBlock:^{
         
         NSArray *matters = [Matter allMatters];
         
@@ -64,12 +80,35 @@
             outstandingTasks = [outstandingTasks decimalNumberByAdding:[matter amountUnbilledTasks]];
             outstandingInvoices = [outstandingInvoices decimalNumberByAdding:[matter amountOutstandingInvoices]];
         }
+        
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             
             _tasksOutstandingAmountLabel.text = [outstandingTasks currencyAmount];
             _invoicesOutstandingAmountLabel.text = [outstandingInvoices currencyAmount];
         });
-    });
+    }];
+    
+//    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        
+//        NSArray *matters = [Matter allMatters];
+//        
+//        NSDecimalNumber *outstandingTasks = [NSDecimalNumber zero];
+//        NSDecimalNumber *outstandingInvoices = [NSDecimalNumber zero];
+//        
+//        for (Matter *matter in matters) {
+//            outstandingTasks = [outstandingTasks decimalNumberByAdding:[matter amountUnbilledTasks]];
+//            outstandingInvoices = [outstandingInvoices decimalNumberByAdding:[matter amountOutstandingInvoices]];
+//        }
+//        
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            
+//            _tasksOutstandingAmountLabel.text = [outstandingTasks currencyAmount];
+//            _invoicesOutstandingAmountLabel.text = [outstandingInvoices currencyAmount];
+//        });
+//    });
     
     
 }

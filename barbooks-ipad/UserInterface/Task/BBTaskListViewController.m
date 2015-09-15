@@ -36,10 +36,9 @@
     // tableview
     _tasksTableView.dataSource = self;
     _tasksTableView.delegate = self;
-    _tasksTableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     _tasksTableView.estimatedRowHeight = _tasksTableView.rowHeight;
     _tasksTableView.rowHeight = UITableViewAutomaticDimension;
-    //[self registerRefreshControlFor:_tasksTableView withAction:@selector(fetchTasks)];
+    [self registerRefreshControlFor:_tasksTableView withAction:@selector(refreshTasks)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -48,6 +47,7 @@
     [self setupNavigationBar];
     [self fetchTasks];
     [self.tasksTableView reloadData];
+    [_tasksTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height)];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -91,11 +91,10 @@
     NSIndexPath *path = [self indexPathOfTask:newTask];
     [_tasksTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
     
-    NSIndexPath *indexPath = [self indexPathOfTask:newTask];
-    CGRect rect = [_tasksTableView rectForRowAtIndexPath:indexPath];
+    CGRect rect = [_tasksTableView rectForRowAtIndexPath:path];
     rect.origin.y += _tasksTableView.contentInset.top;
     
-    BBTaskListTableViewCell *cell = [_tasksTableView cellForRowAtIndexPath:indexPath];
+    BBTaskListTableViewCell *cell = (id)[_tasksTableView cellForRowAtIndexPath:path];
     [cell.taskNameLabel becomeFirstResponder];
 }
 
@@ -355,7 +354,13 @@
     _originalItemList = self.matter.tasksArray;
     [self filterContentForSearchText:_searchBar.text scope:nil];
     
+}
+
+- (void)refreshTasks {
+    [self fetchTasks];
+    [_tasksTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
+    [_tasksTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
 }
 
 

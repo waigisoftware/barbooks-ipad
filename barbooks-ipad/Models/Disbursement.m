@@ -30,6 +30,7 @@
     newExpense.expenseType = BBExpenseTypeExpense;
     newExpense.matter = matter;
     [matter addDisbursementsObject:newExpense];
+    [newExpense.managedObjectContext MR_saveToPersistentStoreAndWait];
     return newExpense;
 }
 
