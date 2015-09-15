@@ -9,8 +9,9 @@
 #import "BBBaseViewController.h"
 #import "Invoice.h"
 #import "BBInvoiceDelegate.h"
+#import "BBDiscountDelegate.h"
 
-@interface BBInvoiceViewController : BBBaseViewController
+@interface BBInvoiceViewController : BBBaseViewController <BBDiscountDelegate, UIPopoverControllerDelegate>
 
 @property (strong, nonatomic) Invoice *invoice;
 @property (weak, nonatomic) id<BBInvoiceDelegate> delegate;

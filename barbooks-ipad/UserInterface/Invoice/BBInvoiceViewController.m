@@ -11,6 +11,7 @@
 #import "BBInvoiceDisbursementListViewController.h"
 #import "RegularInvoice.h"
 #import "InterestInvoice.h"
+#import "BBDiscountViewController.h"
 
 @interface BBInvoiceViewController ()
 
@@ -23,6 +24,28 @@
 @property (weak, nonatomic) IBOutlet UILabel *dueDateLabel;
 @property (weak, nonatomic) IBOutlet UIView *interestContainerView;
 @property (weak, nonatomic) IBOutlet UIFloatLabelTextField *interestAmountTextField;
+@property (weak, nonatomic) IBOutlet UILabel *feesExcludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *feesGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *feesIncludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tasksDiscountExcludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tasksDiscountGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tasksDiscountIncludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *invoiceDiscountExcludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *invoiceDiscountGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *invoiceDiscountIncludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalExcludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalIncludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *paidAmountExcludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *paidAmountGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *paidAmountIncludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *writtenOffExcludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *writtenOffGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *writtenOffIncludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *outstandingExcludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *outstandingGSTLabel;
+@property (weak, nonatomic) IBOutlet UILabel *outstandingIncludeGSTLabel;
+@property (weak, nonatomic) IBOutlet UIButton *discountButton;
 
 @property (weak, nonatomic) IBOutlet UITableView *taskTableView;
 @property (weak, nonatomic) IBOutlet UITableView *disbursementTableView;
@@ -32,6 +55,7 @@
 
 - (IBAction)onSegmentChange:(id)sender;
 - (IBAction)onClose:(id)sender;
+- (IBAction)onDiscount:(id)sender;
 
 @end
 
@@ -98,6 +122,25 @@
     } else {
         _interestContainerView.hidden = YES;
     }
+    _feesExcludeGSTLabel.text = [self.invoice.amountExGst currencyAmount];
+    _feesGSTLabel.text = [self.invoice.amountGst currencyAmount];
+    _feesIncludeGSTLabel.text = [self.invoice.amount currencyAmount];
+    //TODO: tasks discount
+    _invoiceDiscountExcludeGSTLabel.text = [self.invoice.discountExGstRate currencyAmount];
+    _invoiceDiscountGSTLabel.text = [self.invoice.discountGstRate currencyAmount];
+    _invoiceDiscountIncludeGSTLabel.text = [self.invoice.discountRate currencyAmount];
+    _totalExcludeGSTLabel.text = [self.invoice.totalAmountExGst currencyAmount];
+    _totalGSTLabel.text = [self.invoice.totalAmountGst currencyAmount];
+    _totalIncludeGSTLabel.text = [self.invoice.totalAmount currencyAmount];
+    _paidAmountExcludeGSTLabel.text = [self.invoice.totalReceivedExGst currencyAmount];
+    _paidAmountGSTLabel.text = [self.invoice.totalReceivedGst currencyAmount];
+    _paidAmountIncludeGSTLabel.text = [self.invoice.totalReceivedIncGst currencyAmount];
+    _writtenOffExcludeGSTLabel.text = [self.invoice.totalWrittenOffExGst currencyAmount];
+    _writtenOffGSTLabel.text = [self.invoice.totalWrittenOffGst currencyAmount];
+    _writtenOffIncludeGSTLabel.text = [self.invoice.totalWrittenOff currencyAmount];
+    _outstandingExcludeGSTLabel.text = [self.invoice.totalOutstandingExGst currencyAmount];
+    _outstandingGSTLabel.text = [self.invoice.totalOutstandingGst currencyAmount];
+    _outstandingIncludeGSTLabel.text = [self.invoice.totalOutstanding currencyAmount];
 }
 
 - (void)updateInvoiceFromUI {
@@ -114,6 +157,10 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)onDiscount:(id)sender {
+    [self popoverDiscountView];
+}
+
 - (IBAction)onSegmentChange:(id)sender {
     [self showSelectedView];
 }
@@ -125,6 +172,29 @@
     // update Invoice object
     [self updateInvoiceFromUI];
     // refresh UI
+    [self loadInvoiceIntoUI];
+}
+
+#pragma mark - popover
+
+- (void)popoverDiscountView {
+    BBDiscountViewController *discountViewController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBDiscountViewController];
+    discountViewController.delegate = self;
+    discountViewController.invoice = self.invoice;
+    
+    // pop it over
+    UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:discountViewController];
+    popoverController.delegate = self;
+    popoverController.popoverContentSize = CGSizeMake(320, 150);
+    [popoverController presentPopoverFromRect:self.discountButton.frame
+                                       inView:self.view
+                     permittedArrowDirections:UIPopoverArrowDirectionLeft
+                                     animated:YES];
+}
+
+#pragma mark - BBDiscountDelegate
+
+- (void)updateDiscount:(id)data {
     [self loadInvoiceIntoUI];
 }
 

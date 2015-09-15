@@ -33,6 +33,7 @@
 + (NSDecimalNumberHandler*)timeFractionRoundingHandler;
 + (NSDecimalNumberHandler*)accurateRoundingHandler;
 + (NSDecimalNumberHandler*)currencyRoundingHandler;
++ (NSDecimalNumberHandler*)bankersRoundingHandler;
 
 + (NSDecimalNumberHandler*)timeRoundingHandler;
 + (NSDecimalNumberHandler*)timeFractionRoundingHandler;

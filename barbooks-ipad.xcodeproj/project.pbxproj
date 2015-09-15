@@ -22,6 +22,7 @@
 		07A82E811B9BF06A00796F10 /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E801B9BF06A00796F10 /* Template.m */; settings = {ASSET_TAGS = (); }; };
 		07BEE46B1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BEE46A1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m */; };
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
+		1B8DE4AF9E36DB7AA9479290 /* libPods-barbooks-ipadTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58C9897D4CE4F5D4B234CD54 /* libPods-barbooks-ipadTests.a */; };
 		36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */ = {isa = PBXBuildFile; fileRef = 36062BC81B6CF6D80088DB29 /* BBTimers.m */; };
 		360BD8EF1B770CF10012C4F0 /* BBRateListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 360BD8EE1B770CF10012C4F0 /* BBRateListViewController.m */; };
 		360D7D251B80449300D1259E /* BBInvoiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 360D7D241B80449300D1259E /* BBInvoiceTableViewCell.m */; };
@@ -44,6 +45,7 @@
 		365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CFD1B8039930051D2C2 /* BBInvoiceListViewController.m */; };
 		365F3D011B8039C60051D2C2 /* BBInvoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3D001B8039C60051D2C2 /* BBInvoiceViewController.m */; };
 		366748791B3116BA00E23707 /* BBCreateSolicitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */; };
+		366A09F41BA4F41D0076C2B3 /* BBDiscountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366A09F31BA4F41D0076C2B3 /* BBDiscountViewController.m */; };
 		367563281B29B0B4002C5738 /* BBCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 367563271B29B0B4002C5738 /* BBCoreDataManager.m */; };
 		3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3675632E1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m */; };
 		367563321B2C2CCB002C5738 /* UIColor+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 367563311B2C2CCB002C5738 /* UIColor+BBUtil.m */; };
@@ -111,6 +113,12 @@
 		36EB0E4B1B38DFA200AC7411 /* BBTaskListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB0E4A1B38DFA200AC7411 /* BBTaskListViewController.m */; };
 		36EB0E4E1B38DFD700AC7411 /* BBTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB0E4D1B38DFD700AC7411 /* BBTaskViewController.m */; };
 		36EB0E511B38E0FA00AC7411 /* BBTaskListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB0E501B38E0FA00AC7411 /* BBTaskListTableViewCell.m */; };
+		36FE52DD1BA0162000930E4C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36FE52DB1BA0162000930E4C /* Fabric.framework */; };
+		36FE52DE1BA0162000930E4C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36FE52DC1BA0162000930E4C /* Crashlytics.framework */; };
+		36FE52E21BA133E300930E4C /* TestNSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FE52E11BA133E300930E4C /* TestNSDate+BBUtil.m */; };
+		36FE52E31BA136E900930E4C /* NSDate+BBUtil.h in Sources */ = {isa = PBXBuildFile; fileRef = 36788FA91B20368B00B34D3E /* NSDate+BBUtil.h */; };
+		36FE52E41BA136E900930E4C /* NSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */; };
+		36FE52E61BA1382900930E4C /* PrefixHeader.pch in Sources */ = {isa = PBXBuildFile; fileRef = 363C3A3F1B1C7BF200B92513 /* PrefixHeader.pch */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +214,9 @@
 		366748771B3116BA00E23707 /* BBCreateSolicitorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBCreateSolicitorViewController.h; path = UserInterface/Matter/BBCreateSolicitorViewController.h; sourceTree = "<group>"; };
 		366748781B3116BA00E23707 /* BBCreateSolicitorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBCreateSolicitorViewController.m; path = UserInterface/Matter/BBCreateSolicitorViewController.m; sourceTree = "<group>"; };
 		3667487B1B313D4600E23707 /* BBMatterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterDelegate.h; path = Protocals/BBMatterDelegate.h; sourceTree = "<group>"; };
+		366A09F21BA4F41D0076C2B3 /* BBDiscountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDiscountViewController.h; path = UserInterface/Common/BBDiscountViewController.h; sourceTree = "<group>"; };
+		366A09F31BA4F41D0076C2B3 /* BBDiscountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBDiscountViewController.m; path = UserInterface/Common/BBDiscountViewController.m; sourceTree = "<group>"; };
+		366A09F51BA4F59B0076C2B3 /* BBDiscountDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDiscountDelegate.h; path = Protocals/BBDiscountDelegate.h; sourceTree = "<group>"; };
 		367563261B29B0B4002C5738 /* BBCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBCoreDataManager.h; sourceTree = "<group>"; };
 		367563271B29B0B4002C5738 /* BBCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCoreDataManager.m; sourceTree = "<group>"; };
 		3675632D1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFloatLabelTextField+BBUtil.h"; path = "Categories/UIFloatLabelTextField+BBUtil.h"; sourceTree = "<group>"; };
@@ -342,6 +353,14 @@
 		36EB0E4F1B38E0FA00AC7411 /* BBTaskListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTaskListTableViewCell.h; path = UserInterface/Task/BBTaskListTableViewCell.h; sourceTree = "<group>"; };
 		36EB0E501B38E0FA00AC7411 /* BBTaskListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTaskListTableViewCell.m; path = UserInterface/Task/BBTaskListTableViewCell.m; sourceTree = "<group>"; };
 		36EB0E521B39674A00AC7411 /* BBTaskDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTaskDelegate.h; path = Protocals/BBTaskDelegate.h; sourceTree = "<group>"; };
+		36FE52DB1BA0162000930E4C /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
+		36FE52DC1BA0162000930E4C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		36FE52E11BA133E300930E4C /* TestNSDate+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestNSDate+BBUtil.m"; sourceTree = "<group>"; };
+		36FE52EE1BA138B600930E4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		36FE52EF1BA138B600930E4C /* barbooks_ipad_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = barbooks_ipad_Tests.m; sourceTree = "<group>"; };
+		40637052552039C9500C75C2 /* Pods-barbooks-ipadTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipadTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipadTests/Pods-barbooks-ipadTests.debug.xcconfig"; sourceTree = "<group>"; };
+		58C9897D4CE4F5D4B234CD54 /* libPods-barbooks-ipadTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbooks-ipadTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8405C19B61BE3BE9CEE34FAD /* Pods-barbooks-ipadTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipadTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipadTests/Pods-barbooks-ipadTests.release.xcconfig"; sourceTree = "<group>"; };
 		8618EA4FD2DC3531324F4342 /* Pods-barbooks-ipad.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipad.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad.debug.xcconfig"; sourceTree = "<group>"; };
 		DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbooks-ipad.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -352,6 +371,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */,
+				36FE52DE1BA0162000930E4C /* Crashlytics.framework in Frameworks */,
+				36FE52DD1BA0162000930E4C /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +380,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B8DE4AF9E36DB7AA9479290 /* libPods-barbooks-ipadTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +502,17 @@
 			name = Receipt;
 			sourceTree = "<group>";
 		};
+		3657AA0A1B8DC0FD00E18367 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				36FE52DB1BA0162000930E4C /* Fabric.framework */,
+				36FE52DC1BA0162000930E4C /* Crashlytics.framework */,
+				3657AA0B1B8DC18500E18367 /* CBLIncrementalStore.h */,
+				3657AA0C1B8DC18500E18367 /* CBLIncrementalStore.m */,
+			);
+			name = ThirdParty;
+			sourceTree = "<group>";
+		};
 		365F3CFB1B80395C0051D2C2 /* Invoice */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,6 +545,7 @@
 				36537B1E1B8194E400E6CF0F /* BBInvoiceDelegate.h */,
 				3678E45A1B89B3D000A603E1 /* BBExpenseDelegate.h */,
 				3657AA091B8B34FF00E18367 /* BBReceiptDelegate.h */,
+				366A09F51BA4F59B0076C2B3 /* BBDiscountDelegate.h */,
 			);
 			name = Protocals;
 			sourceTree = "<group>";
@@ -565,8 +599,12 @@
 			children = (
 				36CED1491B3A8E9900F421F5 /* BBDropDownListViewController.h */,
 				36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */,
+
 				072007C91B86EE74000CC616 /* BBSelectionTableViewController.h */,
 				072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */,
+
+				366A09F21BA4F41D0076C2B3 /* BBDiscountViewController.h */,
+				366A09F31BA4F41D0076C2B3 /* BBDiscountViewController.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -587,6 +625,7 @@
 			children = (
 				36C9E64F1B1AC6840085D647 /* barbooks-ipad */,
 				36C9E66F1B1AC6840085D647 /* barbooks-ipadTests */,
+				36FE52EC1BA138B600930E4C /* barbooks-ipad Tests */,
 				36C9E64E1B1AC6840085D647 /* Products */,
 				EB31F5B922FBE1F04ADA685C /* Pods */,
 				8A4FEF9AFCF6BC556AFF52E8 /* Frameworks */,
@@ -642,6 +681,7 @@
 			children = (
 				36C9E6721B1AC6840085D647 /* barbooks_ipadTests.m */,
 				36C9E6701B1AC6840085D647 /* Supporting Files */,
+				36FE52E11BA133E300930E4C /* TestNSDate+BBUtil.m */,
 			);
 			path = "barbooks-ipadTests";
 			sourceTree = "<group>";
@@ -776,10 +816,28 @@
 			name = Task;
 			sourceTree = "<group>";
 		};
+		36FE52EC1BA138B600930E4C /* barbooks-ipad Tests */ = {
+			isa = PBXGroup;
+			children = (
+				36FE52EF1BA138B600930E4C /* barbooks_ipad_Tests.m */,
+				36FE52ED1BA138B600930E4C /* Supporting Files */,
+			);
+			path = "barbooks-ipad Tests";
+			sourceTree = "<group>";
+		};
+		36FE52ED1BA138B600930E4C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				36FE52EE1BA138B600930E4C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		8A4FEF9AFCF6BC556AFF52E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */,
+				58C9897D4CE4F5D4B234CD54 /* libPods-barbooks-ipadTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -789,6 +847,8 @@
 			children = (
 				8618EA4FD2DC3531324F4342 /* Pods-barbooks-ipad.debug.xcconfig */,
 				16ED6A71BF367FA077B7B0E6 /* Pods-barbooks-ipad.release.xcconfig */,
+				40637052552039C9500C75C2 /* Pods-barbooks-ipadTests.debug.xcconfig */,
+				8405C19B61BE3BE9CEE34FAD /* Pods-barbooks-ipadTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -805,6 +865,7 @@
 				36C9E64A1B1AC6840085D647 /* Frameworks */,
 				36C9E64B1B1AC6840085D647 /* Resources */,
 				D0A32646F7CCC154A181C964 /* Copy Pods Resources */,
+				36FE52DA1BA015B200930E4C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -819,9 +880,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 36C9E6791B1AC6850085D647 /* Build configuration list for PBXNativeTarget "barbooks-ipadTests" */;
 			buildPhases = (
+				8D7860D9B010A18986CF1BC0 /* Check Pods Manifest.lock */,
 				36C9E6681B1AC6840085D647 /* Sources */,
 				36C9E6691B1AC6840085D647 /* Frameworks */,
 				36C9E66A1B1AC6840085D647 /* Resources */,
+				F3338FD989783D292DB4C28C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -895,6 +958,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		36FE52DA1BA015B200930E4C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 17295be15f5bd6fe9b61ae2aed8dc8f15d94e620 c3d35fad06bbc5c6884ca83491b010243465cabe055f7ca073af2f83ce799ef8";
+		};
+		8D7860D9B010A18986CF1BC0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		ABB24DB663C4F33BD302856D /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -923,6 +1014,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3338FD989783D292DB4C28C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-barbooks-ipadTests/Pods-barbooks-ipadTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -983,6 +1089,7 @@
 				36C936051B4A65AF002B4946 /* UIButton+BBUtil.m in Sources */,
 				36DEFA531B2710660053CD8C /* Discount.m in Sources */,
 				36DEFA3B1B2710650053CD8C /* BBManagedObject.m in Sources */,
+				366A09F41BA4F41D0076C2B3 /* BBDiscountViewController.m in Sources */,
 				36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */,
 				365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */,
 				365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */,
@@ -1036,6 +1143,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36FE52E61BA1382900930E4C /* PrefixHeader.pch in Sources */,
+				36FE52E31BA136E900930E4C /* NSDate+BBUtil.h in Sources */,
+				36FE52E41BA136E900930E4C /* NSDate+BBUtil.m in Sources */,
+				36FE52E21BA133E300930E4C /* TestNSDate+BBUtil.m in Sources */,
 				36C9E6731B1AC6840085D647 /* barbooks_ipadTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1158,11 +1269,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_BITCODE = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Can Zhan (8BEDNLYJRA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/barbooks-ipad/Thirdparty/Couchbase",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "barbooks-ipad/PrefixHeader.pch";
@@ -1181,11 +1291,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_BITCODE = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Can Zhan (8BEDNLYJRA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/barbooks-ipad/Thirdparty/Couchbase",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "barbooks-ipad/PrefixHeader.pch";
@@ -1200,6 +1309,7 @@
 		};
 		36C9E67A1B1AC6850085D647 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 40637052552039C9500C75C2 /* Pods-barbooks-ipadTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1222,6 +1332,7 @@
 		};
 		36C9E67B1B1AC6850085D647 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8405C19B61BE3BE9CEE34FAD /* Pods-barbooks-ipadTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";

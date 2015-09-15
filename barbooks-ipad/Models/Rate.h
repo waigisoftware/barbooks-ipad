@@ -38,6 +38,5 @@ typedef NS_ENUM(NSUInteger, BBRateChargingType) {
 - (void)copyValueToRate:(Rate *)rate;
 
 + (NSArray *)rateTypes;
-+ (NSArray *)allUnlinkedAllocationsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 @end

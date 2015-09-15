@@ -59,4 +59,11 @@
 
 + (instancetype)newInstanceOfMatter:(Matter *)matter;
 
+- (NSDecimalNumber *)discountGstRate;
+- (NSDecimalNumber *)discountExGstRate;
+- (NSDecimalNumber *)discountRate;
+- (NSNumber *)totalReceivedExGst;
+- (NSDecimalNumber *)totalReceivedGst;
+- (NSDecimalNumber *)totalReceivedIncGst;
+
 @end
