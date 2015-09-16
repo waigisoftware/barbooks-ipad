@@ -117,18 +117,6 @@
              ];
 }
 
-+ (NSArray *)allUnlinkedAllocationsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-{
-    NSArray *rates = [Rate MR_findAllInContext:managedObjectContext];
-    
-    rates = [rates filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"matter == nil"]];
-    rates = [rates filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"task == nil"]];
-    rates = [rates filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"account == nil"]];
-    
-    
-    return rates;
-}
-
 @end
 
 

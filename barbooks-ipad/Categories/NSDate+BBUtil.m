@@ -8,6 +8,7 @@
 
 #import "NSDate+BBUtil.h"
 #import "ISO8601DateFormatter.h"
+#import "PrefixHeader.pch"
 
 @implementation NSDate (BBUtil)
 

@@ -18,6 +18,20 @@
 @dynamic invoice;
 @dynamic task;
 
++ (instancetype)newInstanceOfTask:(Task *)task invoice:(Invoice *)invoice {
+    Discount *newDiscount = [Discount MR_createEntity];
+    newDiscount.discountType = [NSNumber numberWithInt:0];
+    newDiscount.value = [NSDecimalNumber zero];
+    if (task) {
+        task.discount = newDiscount;
+        newDiscount.task = task;
+    }
+    if (invoice) {
+        invoice.discount = newDiscount;
+        newDiscount.invoice = invoice;
+    }
+    return newDiscount;
+}
 
 - (NSDecimalNumber *)discountedAmountForTotal:(NSDecimalNumber*)totalAmount
 {
@@ -25,27 +39,16 @@
     
     switch (self.discountType.intValue) {
         case 0:
-            
-            amount = self.value;
-            
+            amount = [totalAmount decimalNumberByAccuratelySubtracting:self.value];
             break;
         case 1:
         {
-            
-            NSDecimalNumberHandler *handler = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                                                                                     scale:4
-                                                                                          raiseOnExactness:NO
-                                                                                           raiseOnOverflow:NO
-                                                                                          raiseOnUnderflow:NO
-                                                                                       raiseOnDivideByZero:NO];
-            
-            NSDecimalNumber *discountFactor = [self.value decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:@"100"] withBehavior:handler];
-            amount = [totalAmount decimalNumberByMultiplyingBy:discountFactor withBehavior:[NSDecimalNumber accurateRoundingHandler]];
-            
+            NSDecimalNumber *discountFactor = [self.value decimalNumberByAccuratelyDividingBy:[NSDecimalNumber oneHundred]];
+            amount = [totalAmount decimalNumberByAccuratelyMultiplyingBy:discountFactor];
             break;
         }
         case 2:
-            amount = [totalAmount decimalNumberBySubtracting:self.value withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+            amount = self.value;
             break;
         default:
             return totalAmount;
@@ -53,6 +56,24 @@
     }
     
     return amount;
+}
+
+- (NSString *)discountTypeDescription {
+    switch ([self.discountType intValue]) {
+        case 0:
+            return @"by amount";
+            break;
+        case 1:
+            return @"by percent";
+            break;
+        case 2:
+            return @"reprice";
+            break;
+            
+        default:
+            break;
+    }
+    return nil;
 }
 
 @end

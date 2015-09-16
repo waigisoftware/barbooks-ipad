@@ -9,6 +9,7 @@
 #import "BBTaskListViewController.h"
 #import "BBTaskListTableViewCell.h"
 #import "BBTaskViewController.h"
+#import "BBDiscountViewController.h"
 #import "BBMatterListViewController.h"
 #import "Task.h"
 #import "BBTimerAccessoryView.h"
@@ -377,8 +378,7 @@
 }
 
 - (void)popoverTaskViewWithTask:(Task *)task inRect:(CGRect)rect inView:(UIView*)view {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    BBTaskViewController *taskViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskViewController];
+    BBTaskViewController *taskViewController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBTaskViewController];
     taskViewController.delegate = self;
     taskViewController.task = task;
     
@@ -404,7 +404,22 @@
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
+    //TODO:
+}
+
+- (void)popoverDiscountViewWithTask:(Task *)task inCell:(UITableViewCell *)cell {
+    BBDiscountViewController *discountViewController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBDiscountViewController];
+    discountViewController.delegate = self;
+    discountViewController.task = task;
     
+    // pop it over
+    UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:discountViewController];
+    popoverController.delegate = self;
+    popoverController.popoverContentSize = CGSizeMake(300, 170);
+    [popoverController presentPopoverFromRect:self.navigationController.navigationBar.frame
+                                       inView:self.view
+                     permittedArrowDirections:UIPopoverArrowDirectionAny
+                                     animated:YES];
 }
 
 #pragma mark - BBTaskDelegate
@@ -509,6 +524,13 @@
     cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
 }
 
+#pragma mark - BBDiscountDelegate
 
+- (void)updateDiscount:(id)data {
+    [self fetchTasks];
+    
+    // refresh matter list accordingly
+    [self.matterListViewController fetchMatters];
+}
 
 @end

@@ -21,4 +21,8 @@
 
 - (NSDecimalNumber *)discountedAmountForTotal:(NSDecimalNumber*)total;
 
+- (NSString *)discountTypeDescription;
+
++ (instancetype)newInstanceOfTask:(Task *)task invoice:(Invoice *)invoice;
+
 @end

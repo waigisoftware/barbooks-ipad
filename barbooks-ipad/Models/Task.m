@@ -63,38 +63,30 @@
 #pragma mark - calculations
 
 - (void)recalculate {
-//    [self recalculateFees];
     [self recalculateTotals];
 }
 
 - (void)recalculateTotals {
-//    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler
-//                                       decimalNumberHandlerWithRoundingMode:NSRoundPlain
-//                                       scale:0
-//                                       raiseOnExactness:NO
-//                                       raiseOnOverflow:NO
-//                                       raiseOnUnderflow:NO
-//                                       raiseOnDivideByZero:YES];
     switch (self.rate.rateChargingType) {
         case BBRateChargingTypeHourly:
         {
             NSDecimalNumber *hours = [self.matter hoursFromDuration:self.duration];
-            self.totalFeesExGst = [self.rate.amount decimalNumberByMultiplyingBy:hours withBehavior:[NSDecimalNumber accurateRoundingHandler]];
-            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByMultiplyingBy:hours withBehavior:[NSDecimalNumber accurateRoundingHandler]];
-            self.totalFeesGst = [self.totalFeesIncGst decimalNumberBySubtracting:self.totalFeesExGst];
+            self.totalFeesExGst = [self.rate.amount decimalNumberByAccuratelyMultiplyingBy:hours];
+            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByAccuratelyMultiplyingBy:hours];
+            self.totalFeesGst = [self.totalFeesIncGst decimalNumberByAccuratelySubtracting:self.totalFeesExGst];
             break;
         }
         case BBRateChargingTypeUnit:
         {
-            self.totalFeesExGst = [self.rate.amount decimalNumberByMultiplyingBy:self.units withBehavior:[NSDecimalNumber accurateRoundingHandler]];
-            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByMultiplyingBy:self.units withBehavior:[NSDecimalNumber accurateRoundingHandler]];
-            self.totalFeesGst = [self.totalFeesIncGst decimalNumberBySubtracting:self.totalFeesExGst];
+            self.totalFeesExGst = [self.rate.amount decimalNumberByAccuratelyMultiplyingBy:self.units];
+            self.totalFeesIncGst = [self.rate.amountGst decimalNumberByAccuratelyMultiplyingBy:self.units];
+            self.totalFeesGst = [self.totalFeesIncGst decimalNumberByAccuratelySubtracting:self.totalFeesExGst];
         }
         case BBRateChargingTypeFixed:
         {
             self.totalFeesExGst = self.rate.amount;
             self.totalFeesIncGst = self.rate.amountGst;
-            self.totalFeesGst = [self.totalFeesIncGst decimalNumberBySubtracting:self.totalFeesExGst];
+            self.totalFeesGst = [self.totalFeesIncGst decimalNumberByAccuratelySubtracting:self.totalFeesExGst];
         }
     }
 }
@@ -362,13 +354,191 @@
     }];
 }
 
-+ (NSArray *)allUnlinkedObjectsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+/*
+- (NSDecimalNumber *)totalFeesIncGst
 {
-    NSPredicate *fetchpredicate = [NSPredicate predicateWithFormat:@"matter == nil"];
+    if (!self.discount || (self.discount && self.discount.value == nil)) {
+        return self.feesIncGst;
+    }
+    NSLog(@"Discount %@ ---- %@",[self.discount discountedAmountForTotal:self.feesIncGst], self.discount);
+    NSLog(@"Bla %@",self.feesIncGst);
+    return [self.feesIncGst decimalNumberByAccuratelySubtracting:[self.discount discountedAmountForTotal:self.feesIncGst]];
+}
+
+- (NSDecimalNumber*)discountGstRate
+{
+    NSDecimalNumber *discountTotal = [self.discount discountedAmountForTotal:self.feesIncGst];
     
-    NSArray *tasks = [Task MR_findAllWithPredicate:fetchpredicate inContext:managedObjectContext];
+    NSDecimalNumber *discountGstAmount = [NSDecimalNumber zero];
+    if (![self.matter.tax isEqualToNumber:[NSDecimalNumber notANumber]] && [self.matter.tax compare:[NSDecimalNumber zero]] == NSOrderedDescending) {
+        NSDecimalNumber *taxFactor = [self.matter.tax decimalNumberByAccuratelyDividingBy:[NSDecimalNumber ten]];
+        taxFactor = [taxFactor decimalNumberByAccuratelyAdding:[NSDecimalNumber ten]];
+        
+        discountGstAmount = [discountTotal decimalNumberByAccuratelyDividingBy:taxFactor];
+    }
     
-    return tasks;
+    return discountGstAmount;
+}
+
+- (NSDecimalNumber *)totalFeesExGst
+{
+    if (!self.discount || (self.discount && self.discount.value == nil)) {
+        return self.feesExGst;
+    }
+    
+    NSDecimalNumber *discountExGst = [[self.discount discountedAmountForTotal:self.feesIncGst] decimalNumberByAccuratelySubtracting:[self discountGstRate]];
+    
+    return [self.feesExGst decimalNumberByAccuratelySubtracting:discountExGst];
+}
+
+- (NSDecimalNumber *)totalFeesGst
+{
+    if (!self.discount || (self.discount && self.discount.value == nil)) {
+        return self.feesGst;
+    }
+    
+    return [self.feesGst decimalNumberByAccuratelySubtracting:[self discountGstRate]];
+}
+
+- (NSDecimalNumber *)feesExGst
+{
+    [self willAccessValueForKey:@"feesExGst"];
+    NSDecimalNumber *amount = [self primitiveValueForKey:@"feesExGst"];
+    [self didAccessValueForKey:@"feesExGst"];
+    
+    if (self.importedObject.boolValue && self.invoice != nil && amount && amount.intValue != 0 && ![amount isEqualToNumber:[NSDecimalNumber notANumber]]) {
+        return amount;
+    }
+    
+    NSDecimalNumber * fees = nil;
+    
+    
+    Rate *rate = self.rate;
+    if (!rate) {
+        return [NSDecimalNumber zero];
+    }
+    
+    int selectedType = rate.type.intValue;
+    
+    if (selectedType == 0) {
+        
+        NSDecimalNumber *division = [NSDecimalNumber decimalNumberWithString:@"60"];
+        NSDecimalNumber *hourFee = [rate.amount decimalNumberByMultiplyingBy:self.hours withBehavior:[BBManagedObject accurateRoundingHandler]];
+        if (self.minutes.intValue > 0) {
+            NSDecimalNumber *minFactor = [self.minutes decimalNumberByDividingBy:division withBehavior:[BBManagedObject timeFractionRoundingHandler]];
+            NSDecimalNumber *minFee = [rate.amount decimalNumberByMultiplyingBy:minFactor withBehavior:[BBManagedObject accurateRoundingHandler]];
+            
+            fees = [hourFee decimalNumberByAdding:minFee withBehavior:[BBManagedObject accurateRoundingHandler]];
+        } else {
+            fees = hourFee;
+        }
+    } else if(selectedType == 1) {
+        
+        fees = [rate.amount decimalNumberByMultiplyingBy:self.units withBehavior:[BBManagedObject accurateRoundingHandler]];
+    } else {
+        fees = rate.amount;
+    }
+    
+    return fees;
+    
+}
+
+- (NSDecimalNumber *)feesIncGst
+{
+    if (!self.taxed.boolValue) {
+        return self.feesExGst;
+    }
+    
+    NSDecimalNumber *exGst = [self.feesExGst decimalNumberByRoundingAccordingToBehavior:[BBManagedObject currencyRoundingHandler]];
+    NSDecimalNumber *gst = [self.feesGst decimalNumberByRoundingAccordingToBehavior:[BBManagedObject currencyRoundingHandler]];
+    
+    return [exGst decimalNumberByAdding:gst withBehavior:[BBManagedObject accurateRoundingHandler]];
+}
+
+- (NSDecimalNumber *)feesGst
+{
+    if (!self.taxed.boolValue) {
+        return [NSDecimalNumber zero];
+    }
+    
+    [self willAccessValueForKey:@"feesGst"];
+    NSDecimalNumber *amount = [self primitiveValueForKey:@"feesGst"];
+    [self didAccessValueForKey:@"feesGst"];
+    
+    if (self.importedObject.boolValue && self.invoice != nil && amount && amount.intValue != 0 && ![amount isEqualToNumber:[NSDecimalNumber notANumber]]) {
+        return amount;
+    }
+    
+    
+    NSDecimalNumber * fees = nil;
+    
+    Rate *rate = self.rate;
+    if (!rate) {
+        return [NSDecimalNumber zero];
+    }
+    
+    int selectedType = rate.rateType.intValue;
+    
+    if (selectedType == 0) {
+        
+        NSDecimalNumber *division = [NSDecimalNumber decimalNumberWithString:@"60"];
+        NSDecimalNumber *hourFee = [rate.amountGst decimalNumberByMultiplyingBy:self.hours withBehavior:[BBManagedObject accurateRoundingHandler]];
+        if (self.minutes.intValue > 0) {
+            NSDecimalNumber *minFactor = [self.minutes decimalNumberByDividingBy:division withBehavior:[BBManagedObject timeFractionRoundingHandler]];
+            NSDecimalNumber *minFee = [rate.amountGst decimalNumberByMultiplyingBy:minFactor withBehavior:[BBManagedObject accurateRoundingHandler]];
+            
+            fees = [hourFee decimalNumberByAdding:minFee withBehavior:[BBManagedObject accurateRoundingHandler]];
+        } else {
+            fees = hourFee;
+        }
+    } else if(selectedType == 1) {
+        fees = [rate.amountGst decimalNumberByMultiplyingBy:self.units withBehavior:[BBManagedObject accurateRoundingHandler]];
+        
+    } else {
+        fees = rate.amountGst;
+    }
+    
+    
+    return [fees decimalNumberBySubtracting:self.feesExGst withBehavior:[BBManagedObject accurateRoundingHandler]];
+}
+*/
+
+#pragma mark Discounts
+
+- (NSDecimalNumber*)discountGst
+{
+    NSDecimalNumber *discountTotal = [self.discount discountedAmountForTotal:self.feesIncGst];
+    
+    NSDecimalNumber *discountGstAmount = [NSDecimalNumber zero];
+    if (![self.matter.tax isEqualToNumber:[NSDecimalNumber notANumber]] && [self.matter.tax compare:[NSDecimalNumber zero]] == NSOrderedDescending) {
+        
+        NSDecimalNumber *taxFactor = [self.matter.tax decimalNumberByAccuratelyDividingBy:[NSDecimalNumber ten]];
+        taxFactor = [taxFactor decimalNumberByAccuratelyAdding:[NSDecimalNumber ten]];
+        
+        discountGstAmount = [discountTotal decimalNumberByAccuratelyDividingBy:taxFactor];
+    }
+    
+    return discountGstAmount;
+}
+
+- (NSDecimalNumber *)discountExGst
+{
+    if (!self.discount || (self.discount && self.discount.value == nil)) {
+        return [NSDecimalNumber zero];
+    }
+    
+    NSDecimalNumber *discountExGst = [[self.discount discountedAmountForTotal:self.feesIncGst] decimalNumberByAccuratelySubtracting:[self discountGst]];
+    
+    return discountExGst;
+}
+
+- (NSDecimalNumber *)discountIncGst
+{
+    if (!self.discount || (self.discount && self.discount.value == nil)) {
+        return [NSDecimalNumber zero];
+    }
+    
+    return [self.discountExGst decimalNumberByAccuratelyAdding:self.discountGst];
 }
 
 @end

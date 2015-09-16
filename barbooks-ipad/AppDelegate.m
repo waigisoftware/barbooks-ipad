@@ -16,6 +16,12 @@
 #import <Lockbox/Lockbox.h>
 #import <JDStatusBarNotification/JDStatusBarNotification.h>
 #import "RegularInvoice.h"
+#import <CouchbaseLite/CouchbaseLite.h>
+#import "CBLIncrementalStore.h"
+#import "BBSynchronizationViewController.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -26,7 +32,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
     [JDStatusBarNotification setDefaultStyle:^JDStatusBarStyle *(JDStatusBarStyle *style) {
         // main properties
         style.barColor = [UIColor bbPrimaryBlue];
@@ -85,6 +91,9 @@
     
     [[BBAccountManager sharedManager] setManagedObjectContext:context];
     [[BBAccountManager sharedManager] setToLargestAccount];
+
+    [Fabric with:@[[Crashlytics class]]];
+
     [self setupNavigationBarAppearance];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
@@ -169,7 +178,7 @@
     viewController.panGesture.delegate = self;
     
     BOOL isAuthorized = [[BBCloudManager sharedManager] isLoggedIn];
-//    isAuthorized = YES;
+    isAuthorized = YES;
     if (isAuthorized)
     {
         [[BBCloudManager sharedManager] activateSync];
