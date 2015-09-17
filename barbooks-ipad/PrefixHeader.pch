@@ -21,10 +21,12 @@
 #import "BBIncrementalStore.h"
 #import "BBAccountManager.h"
 #import "BBCloudManager.h"
-
-
 #import "BBTaskTimer.h"
 #import "NSDecimalNumber+BBUtil.h"
+#import "NSMutableDictionary+BBUtil.h"
+#import "BankfeedsClient.h"
+#import "BankfeedsSample.h"
+
 // Formats
 #define SHORT_DATE_FORMAT @"dd MMM yyyy"
 #define SHORT_DATE_TIME_FORMAT @"dd MMM yyyy, h:mm"

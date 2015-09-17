@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0703B2101B82CFD5009984E2 /* BBTimerAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */; };
 		072007CB1B86EE74000CC616 /* BBSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */; };
-		0745E2EE1B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0745E2E61B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
+		0745E2EE1B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0745E2E61B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld */; };
 		07694AFC1B996DEE00995128 /* BBTimerCellAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */; };
 		07694B251B9BC7D500995128 /* BBIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 07694B091B9BC7D500995128 /* BBIncrementalStore.m */; };
 		07694B261B9BC7D500995128 /* CBLIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 07694B0B1B9BC7D500995128 /* CBLIncrementalStore.m */; };
@@ -17,9 +17,9 @@
 		077EC8341B855D67006F2F9B /* BBModalDatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 077EC8321B855D67006F2F9B /* BBModalDatePickerViewController.xib */; };
 		0793E02A1B7D62C9001E2A5B /* BBColoredTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */; };
 		0793E02D1B7D7206001E2A5B /* BBTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E02C1B7D7206001E2A5B /* BBTableViewController.m */; };
-		07A82E7D1B9BF02700796F10 /* BBAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7A1B9BF02700796F10 /* BBAccountManager.m */; settings = {ASSET_TAGS = (); }; };
-		07A82E7E1B9BF02700796F10 /* BBCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7C1B9BF02700796F10 /* BBCloudManager.m */; settings = {ASSET_TAGS = (); }; };
-		07A82E811B9BF06A00796F10 /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E801B9BF06A00796F10 /* Template.m */; settings = {ASSET_TAGS = (); }; };
+		07A82E7D1B9BF02700796F10 /* BBAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7A1B9BF02700796F10 /* BBAccountManager.m */; };
+		07A82E7E1B9BF02700796F10 /* BBCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7C1B9BF02700796F10 /* BBCloudManager.m */; };
+		07A82E811B9BF06A00796F10 /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E801B9BF06A00796F10 /* Template.m */; };
 		07BEE46B1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BEE46A1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m */; };
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
 		1B8DE4AF9E36DB7AA9479290 /* libPods-barbooks-ipadTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58C9897D4CE4F5D4B234CD54 /* libPods-barbooks-ipadTests.a */; };
@@ -41,6 +41,10 @@
 		3657AA021B8B317C00E18367 /* BBReceiptListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657AA011B8B317C00E18367 /* BBReceiptListViewController.m */; };
 		3657AA051B8B31AF00E18367 /* BBReceiptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657AA041B8B31AF00E18367 /* BBReceiptViewController.m */; };
 		3657AA081B8B33A000E18367 /* BBReceiptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657AA071B8B33A000E18367 /* BBReceiptTableViewCell.m */; };
+		365EF6871BAA29B600139A34 /* BFCustomer.m in Sources */ = {isa = PBXBuildFile; fileRef = 365EF6861BAA29B600139A34 /* BFCustomer.m */; };
+		365EF68A1BAA2D7B00139A34 /* BFCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 365EF6891BAA2D7B00139A34 /* BFCredential.m */; };
+		365EF68D1BAAE0D500139A34 /* BankfeedsSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 365EF68C1BAAE0D500139A34 /* BankfeedsSample.m */; };
+		365EF6901BAAF71B00139A34 /* NSMutableDictionary+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 365EF68F1BAAF71B00139A34 /* NSMutableDictionary+BBUtil.m */; };
 		365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */; };
 		365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3CFD1B8039930051D2C2 /* BBInvoiceListViewController.m */; };
 		365F3D011B8039C60051D2C2 /* BBInvoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 365F3D001B8039C60051D2C2 /* BBInvoiceViewController.m */; };
@@ -66,6 +70,10 @@
 		36C9E6641B1AC6840085D647 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36C9E6631B1AC6840085D647 /* Images.xcassets */; };
 		36C9E6671B1AC6840085D647 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36C9E6651B1AC6840085D647 /* LaunchScreen.xib */; };
 		36C9E6731B1AC6840085D647 /* barbooks_ipadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C9E6721B1AC6840085D647 /* barbooks_ipadTests.m */; };
+		36CA103C1BA92A2A0077D888 /* BankfeedsClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CA103B1BA92A2A0077D888 /* BankfeedsClient.m */; };
+		36CA10411BA9536B0077D888 /* BankfeedsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CA10401BA9536B0077D888 /* BankfeedsTests.m */; };
+		36CA10421BA955EF0077D888 /* BankfeedsClient.h in Sources */ = {isa = PBXBuildFile; fileRef = 36CA103A1BA92A2A0077D888 /* BankfeedsClient.h */; };
+		36CA10431BA955EF0077D888 /* BankfeedsClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CA103B1BA92A2A0077D888 /* BankfeedsClient.m */; };
 		36CC97501B47B6CF00CB1C45 /* BBRateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CC974F1B47B6CF00CB1C45 /* BBRateViewController.m */; };
 		36CED14B1B3A8E9900F421F5 /* BBDropDownListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */; };
 		36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF92B1B22FEE70053CD8C /* BBHomeViewController.m */; };
@@ -205,6 +213,14 @@
 		3657AA061B8B33A000E18367 /* BBReceiptTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBReceiptTableViewCell.h; path = UserInterface/Receipt/BBReceiptTableViewCell.h; sourceTree = "<group>"; };
 		3657AA071B8B33A000E18367 /* BBReceiptTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBReceiptTableViewCell.m; path = UserInterface/Receipt/BBReceiptTableViewCell.m; sourceTree = "<group>"; };
 		3657AA091B8B34FF00E18367 /* BBReceiptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBReceiptDelegate.h; path = Protocals/BBReceiptDelegate.h; sourceTree = "<group>"; };
+		365EF6851BAA29B600139A34 /* BFCustomer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BFCustomer.h; path = BankReconciliation/BFCustomer.h; sourceTree = "<group>"; };
+		365EF6861BAA29B600139A34 /* BFCustomer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BFCustomer.m; path = BankReconciliation/BFCustomer.m; sourceTree = "<group>"; };
+		365EF6881BAA2D7B00139A34 /* BFCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BFCredential.h; path = BankReconciliation/BFCredential.h; sourceTree = "<group>"; };
+		365EF6891BAA2D7B00139A34 /* BFCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BFCredential.m; path = BankReconciliation/BFCredential.m; sourceTree = "<group>"; };
+		365EF68B1BAAE0D500139A34 /* BankfeedsSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BankfeedsSample.h; path = BankReconciliation/BankfeedsSample.h; sourceTree = "<group>"; };
+		365EF68C1BAAE0D500139A34 /* BankfeedsSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankfeedsSample.m; path = BankReconciliation/BankfeedsSample.m; sourceTree = "<group>"; };
+		365EF68E1BAAF71B00139A34 /* NSMutableDictionary+BBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+BBUtil.h"; path = "Categories/NSMutableDictionary+BBUtil.h"; sourceTree = "<group>"; };
+		365EF68F1BAAF71B00139A34 /* NSMutableDictionary+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+BBUtil.m"; path = "Categories/NSMutableDictionary+BBUtil.m"; sourceTree = "<group>"; };
 		365F3CF81B7F5A7A0051D2C2 /* BBValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBValidator.h; path = Common/BBValidator.h; sourceTree = "<group>"; };
 		365F3CF91B7F5A7A0051D2C2 /* BBValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBValidator.m; path = Common/BBValidator.m; sourceTree = "<group>"; };
 		365F3CFC1B8039930051D2C2 /* BBInvoiceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBInvoiceListViewController.h; path = UserInterface/Invoice/BBInvoiceListViewController.h; sourceTree = "<group>"; };
@@ -258,6 +274,9 @@
 		36C9E66C1B1AC6840085D647 /* barbooks-ipadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "barbooks-ipadTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36C9E6711B1AC6840085D647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		36C9E6721B1AC6840085D647 /* barbooks_ipadTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = barbooks_ipadTests.m; sourceTree = "<group>"; };
+		36CA103A1BA92A2A0077D888 /* BankfeedsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BankfeedsClient.h; path = BankReconciliation/BankfeedsClient.h; sourceTree = "<group>"; };
+		36CA103B1BA92A2A0077D888 /* BankfeedsClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankfeedsClient.m; path = BankReconciliation/BankfeedsClient.m; sourceTree = "<group>"; };
+		36CA10401BA9536B0077D888 /* BankfeedsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankfeedsTests.m; sourceTree = "<group>"; };
 		36CC974E1B47B6CF00CB1C45 /* BBRateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBRateViewController.h; path = UserInterface/Common/BBRateViewController.h; sourceTree = "<group>"; };
 		36CC974F1B47B6CF00CB1C45 /* BBRateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBRateViewController.m; path = UserInterface/Common/BBRateViewController.m; sourceTree = "<group>"; };
 		36CED1491B3A8E9900F421F5 /* BBDropDownListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDropDownListViewController.h; path = UserInterface/BBDropDownListViewController.h; sourceTree = "<group>"; };
@@ -356,8 +375,6 @@
 		36FE52DB1BA0162000930E4C /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		36FE52DC1BA0162000930E4C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		36FE52E11BA133E300930E4C /* TestNSDate+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestNSDate+BBUtil.m"; sourceTree = "<group>"; };
-		36FE52EE1BA138B600930E4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		36FE52EF1BA138B600930E4C /* barbooks_ipad_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = barbooks_ipad_Tests.m; sourceTree = "<group>"; };
 		40637052552039C9500C75C2 /* Pods-barbooks-ipadTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipadTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipadTests/Pods-barbooks-ipadTests.debug.xcconfig"; sourceTree = "<group>"; };
 		58C9897D4CE4F5D4B234CD54 /* libPods-barbooks-ipadTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbooks-ipadTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8405C19B61BE3BE9CEE34FAD /* Pods-barbooks-ipadTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipadTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipadTests/Pods-barbooks-ipadTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -502,17 +519,6 @@
 			name = Receipt;
 			sourceTree = "<group>";
 		};
-		3657AA0A1B8DC0FD00E18367 /* ThirdParty */ = {
-			isa = PBXGroup;
-			children = (
-				36FE52DB1BA0162000930E4C /* Fabric.framework */,
-				36FE52DC1BA0162000930E4C /* Crashlytics.framework */,
-				3657AA0B1B8DC18500E18367 /* CBLIncrementalStore.h */,
-				3657AA0C1B8DC18500E18367 /* CBLIncrementalStore.m */,
-			);
-			name = ThirdParty;
-			sourceTree = "<group>";
-		};
 		365F3CFB1B80395C0051D2C2 /* Invoice */ = {
 			isa = PBXGroup;
 			children = (
@@ -590,6 +596,8 @@
 				36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */,
 				36C936031B4A65AF002B4946 /* UIButton+BBUtil.h */,
 				36C936041B4A65AF002B4946 /* UIButton+BBUtil.m */,
+				365EF68E1BAAF71B00139A34 /* NSMutableDictionary+BBUtil.h */,
+				365EF68F1BAAF71B00139A34 /* NSMutableDictionary+BBUtil.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -599,10 +607,8 @@
 			children = (
 				36CED1491B3A8E9900F421F5 /* BBDropDownListViewController.h */,
 				36CED14A1B3A8E9900F421F5 /* BBDropDownListViewController.m */,
-
 				072007C91B86EE74000CC616 /* BBSelectionTableViewController.h */,
 				072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */,
-
 				366A09F21BA4F41D0076C2B3 /* BBDiscountViewController.h */,
 				366A09F31BA4F41D0076C2B3 /* BBDiscountViewController.m */,
 			);
@@ -625,7 +631,6 @@
 			children = (
 				36C9E64F1B1AC6840085D647 /* barbooks-ipad */,
 				36C9E66F1B1AC6840085D647 /* barbooks-ipadTests */,
-				36FE52EC1BA138B600930E4C /* barbooks-ipad Tests */,
 				36C9E64E1B1AC6840085D647 /* Products */,
 				EB31F5B922FBE1F04ADA685C /* Pods */,
 				8A4FEF9AFCF6BC556AFF52E8 /* Frameworks */,
@@ -644,6 +649,7 @@
 		36C9E64F1B1AC6840085D647 /* barbooks-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				36CA10361BA929610077D888 /* BankReconciliation */,
 				0745E2E61B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld */,
 				07694B001B9BC7D500995128 /* Thirdparty */,
 				3667487A1B313D0200E23707 /* Protocals */,
@@ -679,6 +685,7 @@
 		36C9E66F1B1AC6840085D647 /* barbooks-ipadTests */ = {
 			isa = PBXGroup;
 			children = (
+				36CA10401BA9536B0077D888 /* BankfeedsTests.m */,
 				36C9E6721B1AC6840085D647 /* barbooks_ipadTests.m */,
 				36C9E6701B1AC6840085D647 /* Supporting Files */,
 				36FE52E11BA133E300930E4C /* TestNSDate+BBUtil.m */,
@@ -692,6 +699,21 @@
 				36C9E6711B1AC6840085D647 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		36CA10361BA929610077D888 /* BankReconciliation */ = {
+			isa = PBXGroup;
+			children = (
+				36CA103A1BA92A2A0077D888 /* BankfeedsClient.h */,
+				36CA103B1BA92A2A0077D888 /* BankfeedsClient.m */,
+				365EF6851BAA29B600139A34 /* BFCustomer.h */,
+				365EF6861BAA29B600139A34 /* BFCustomer.m */,
+				365EF6881BAA2D7B00139A34 /* BFCredential.h */,
+				365EF6891BAA2D7B00139A34 /* BFCredential.m */,
+				365EF68B1BAAE0D500139A34 /* BankfeedsSample.h */,
+				365EF68C1BAAE0D500139A34 /* BankfeedsSample.m */,
+			);
+			name = BankReconciliation;
 			sourceTree = "<group>";
 		};
 		36DEF9361B27004D0053CD8C /* Models */ = {
@@ -814,23 +836,6 @@
 				36555FC81B43A8010006A2CA /* BBTaskTimer.m */,
 			);
 			name = Task;
-			sourceTree = "<group>";
-		};
-		36FE52EC1BA138B600930E4C /* barbooks-ipad Tests */ = {
-			isa = PBXGroup;
-			children = (
-				36FE52EF1BA138B600930E4C /* barbooks_ipad_Tests.m */,
-				36FE52ED1BA138B600930E4C /* Supporting Files */,
-			);
-			path = "barbooks-ipad Tests";
-			sourceTree = "<group>";
-		};
-		36FE52ED1BA138B600930E4C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				36FE52EE1BA138B600930E4C /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		8A4FEF9AFCF6BC556AFF52E8 /* Frameworks */ = {
@@ -1045,6 +1050,7 @@
 				36C781C31B36B41600321AE2 /* NSArray+BBUtil.m in Sources */,
 				3657AA021B8B317C00E18367 /* BBReceiptListViewController.m in Sources */,
 				36DEFA441B2710650053CD8C /* Matter.m in Sources */,
+				365EF68D1BAAE0D500139A34 /* BankfeedsSample.m in Sources */,
 				36DEFA471B2710650053CD8C /* TaxExpense.m in Sources */,
 				36EB0E4E1B38DFD700AC7411 /* BBTaskViewController.m in Sources */,
 				36DEFA141B2710640053CD8C /* Report.m in Sources */,
@@ -1073,6 +1079,8 @@
 				36DEFA381B2710650053CD8C /* Firm.m in Sources */,
 				36DEFA0B1B2710640053CD8C /* GeneralExpense.m in Sources */,
 				36C9E65C1B1AC6840085D647 /* MasterViewController.m in Sources */,
+				365EF68A1BAA2D7B00139A34 /* BFCredential.m in Sources */,
+				365EF6901BAAF71B00139A34 /* NSMutableDictionary+BBUtil.m in Sources */,
 				36EB0E471B38DF7700AC7411 /* BBMatterCategoryListViewController.m in Sources */,
 				36C9E6561B1AC6840085D647 /* AppDelegate.m in Sources */,
 				365F3D011B8039C60051D2C2 /* BBInvoiceViewController.m in Sources */,
@@ -1087,6 +1095,7 @@
 				360D7D251B80449300D1259E /* BBInvoiceTableViewCell.m in Sources */,
 				367563321B2C2CCB002C5738 /* UIColor+BBUtil.m in Sources */,
 				36C936051B4A65AF002B4946 /* UIButton+BBUtil.m in Sources */,
+				365EF6871BAA29B600139A34 /* BFCustomer.m in Sources */,
 				36DEFA531B2710660053CD8C /* Discount.m in Sources */,
 				36DEFA3B1B2710650053CD8C /* BBManagedObject.m in Sources */,
 				366A09F41BA4F41D0076C2B3 /* BBDiscountViewController.m in Sources */,
@@ -1127,6 +1136,7 @@
 				36DEF9321B25600C0053CD8C /* UISplitViewController+BBUtil.m in Sources */,
 				07A82E811B9BF06A00796F10 /* Template.m in Sources */,
 				36DEF9AD1B27052C0053CD8C /* GlobalAttributes.m in Sources */,
+				36CA103C1BA92A2A0077D888 /* BankfeedsClient.m in Sources */,
 				36DEFA291B2710650053CD8C /* Expense.m in Sources */,
 				0745E2EE1B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld in Sources */,
 				36DEFA0E1B2710640053CD8C /* BASReport.m in Sources */,
@@ -1143,11 +1153,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36CA10421BA955EF0077D888 /* BankfeedsClient.h in Sources */,
+				36CA10431BA955EF0077D888 /* BankfeedsClient.m in Sources */,
 				36FE52E61BA1382900930E4C /* PrefixHeader.pch in Sources */,
 				36FE52E31BA136E900930E4C /* NSDate+BBUtil.h in Sources */,
 				36FE52E41BA136E900930E4C /* NSDate+BBUtil.m in Sources */,
 				36FE52E21BA133E300930E4C /* TestNSDate+BBUtil.m in Sources */,
 				36C9E6731B1AC6840085D647 /* barbooks_ipadTests.m in Sources */,
+				36CA10411BA9536B0077D888 /* BankfeedsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
