@@ -238,8 +238,6 @@
     CGRect popRect = CGRectMake(cell.frame.origin.x + cell.contentView.frame.size.width, cell.frame.size.height/2.0, 1, 1);
 
     [self popoverTaskViewWithTask:[self.filteredItemList objectAtIndex:indexPath.row] inRect:popRect inView:cell];
-
-    
 }
 
 - (void)expandTimerForCell:(UITableViewCell*)cell animated:(BOOL)animated

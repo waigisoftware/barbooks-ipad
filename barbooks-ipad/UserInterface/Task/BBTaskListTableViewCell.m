@@ -27,7 +27,7 @@
 - (void)setAccessoryView:(UIView *)accessoryView
 {
     [super setAccessoryView:accessoryView];
-    [self setNeedsUpdateConstraints];
+    
 }
 
 

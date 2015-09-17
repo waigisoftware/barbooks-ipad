@@ -64,8 +64,8 @@
 // Constans
 #define ONE_SECOND 1
 #define MAX_COUNT_IN_DROPDOWN 4
-#define COUCHBASE_SYNC_URL @"http://winwinretail.com:4984/"
-#define COUCHBASE_DEFAULT_BUCKET @"sync_gateway"
+#define COUCHBASE_SYNC_URL @"http://52.64.142.97:4984/"
+#define COUCHBASE_DEFAULT_BUCKET @"default"
 #define COUCHBASE_ACCOUNT_BUCKET @"accounts"
 
 

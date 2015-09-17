@@ -10,6 +10,7 @@
 #import "BBRateListViewController.h"
 #import "NSString+BBUtil.h"
 #import "BBModalDatePickerViewController.h"
+#import "Discount.h"
 
 @interface BBTaskViewController () <BBModalDatePickerViewControllerDelegate, UIPickerViewDelegate>
 
@@ -20,6 +21,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *rateAmountInclTextField;
 @property (weak, nonatomic) IBOutlet UITextField *rateUnitTextField;
 @property (weak, nonatomic) IBOutlet UIPickerView *hoursPickerView;
+@property (strong, nonatomic) IBOutlet UISwitch *discountActiveSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *discountTypeLabel;
+@property (weak, nonatomic) IBOutlet UITextField *discountValueTextField;
 @property (strong, nonatomic) BBModalDatePickerViewController *datePickerController;
 @property (strong, nonatomic) NSObject *observer;
 
@@ -87,6 +91,17 @@
     } else {
         _rateUnitTextField.text = [_task.units stringValue];
     }
+    BOOL discountExists = _task.discount != nil;
+    _discountActiveSwitch.on = discountExists;
+    if (discountExists) {
+        NSNumberFormatter *discountFormatter = [NSNumberFormatter new];
+        [discountFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        if (_task.discount.discountType.integerValue == 1) {
+            [discountFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        }
+        _discountTypeLabel.text = [_task.discount discountTypeDescription];
+        _discountValueTextField.text = [discountFormatter stringFromNumber:_task.discount.value];
+    }
 }
 
 - (void)updateTaskFromUI {
@@ -103,6 +118,10 @@
         if ([_rateUnitTextField.text isNumeric]) {
             _task.units = [NSDecimalNumber decimalNumberWithString:_rateUnitTextField.text];
         }
+    }
+    
+    if (_task.discount) {
+        _task.discount.value = [NSDecimalNumber decimalNumberWithString:_discountValueTextField.text];
     }
     
     // recalculate
@@ -223,6 +242,23 @@
     [self.delegate updateTask:self.task];
 }
 
+- (IBAction)onDiscountSwitched:(id)sender {
+    if (_discountActiveSwitch.on) {
+        _task.discount = [Discount MR_createEntity];
+        _task.discount.value = [NSDecimalNumber zero];
+        _task.discount.discountType = @0;
+        
+        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1],[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self loadTaskIntoUI];
+    } else {
+        [_task.discount MR_deleteEntity];
+        _task.discount = nil;
+        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1],[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    
+    [[NSManagedObjectContext MR_rootSavingContext] MR_saveToPersistentStoreAndWait];
+}
+
 
 - (void)startPulsingButton:(UIButton *)button {
     CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
@@ -283,9 +319,12 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
         NSInteger rows = [super tableView:tableView numberOfRowsInSection:section];
-        if (_task.rate.rateType.integerValue != BBRateChargingTypeUnit) {
+        if (_task.rate.rateType.integerValue != BBRateChargingTypeUnit && section == 0) {
             rows--;
+        } else if (section == 1 && !_task.discount) {
+            rows -= 2;
         }
+        
         return rows;
     }
     NSInteger count = self.task.matter.rates.count;
@@ -301,6 +340,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (tableView == self.tableView) {
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
