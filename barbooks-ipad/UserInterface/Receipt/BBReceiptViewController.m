@@ -157,22 +157,43 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    Invoice *invoice = [_filteredItemList objectAtIndex:indexPath.row];
-//    if (!_selectedInvoiceList) {
-//        _selectedInvoiceList = [NSMutableArray array];
-//    }
-//    [_selectedInvoiceList addObject:invoice];
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    Invoice *invoice = [_filteredItemList objectAtIndex:indexPath.row];
+    if (!_selectedInvoiceList) {
+        _selectedInvoiceList = [NSMutableArray array];
     }
+    [_selectedInvoiceList addObject:invoice];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    _amountTextField.text = [[self selectedInvoicesTotalAmount] currencyAmount];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Invoice *invoice = [_filteredItemList objectAtIndex:indexPath.row];
+    if (!_selectedInvoiceList) {
+        _selectedInvoiceList = [NSMutableArray array];
+    }
+    [_selectedInvoiceList removeObject:invoice];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    _amountTextField.text = [[self selectedInvoicesTotalAmount] currencyAmount];
 }
 
 - (void)loadInvoices {
     NSArray *invoices = [[self.matter.invoices filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"totalOutstanding > 0"]] allObjects];
     _filteredItemList = invoices;
+    [_invoiceTableView reloadData];
+}
+
+- (NSDecimalNumber *)selectedInvoicesTotalAmount {
+    NSDecimalNumber *amountToAllocate = [NSDecimalNumber zero];
+    if (_receipt.paymentType.intValue == 0) {
+        for (Invoice *invoice in _selectedInvoiceList) {
+            amountToAllocate = [amountToAllocate decimalNumberByAccuratelyAdding:invoice.totalOutstanding];
+        }
+    } else {
+        amountToAllocate = [NSDecimalNumber decimalNumberFromCurrencyString:_amountTextField.text];
+    }
+    return amountToAllocate;
 }
 
 #pragma mark - Receipt value
@@ -192,7 +213,7 @@
 
 - (void)updateReceiptFromUI {
     _receipt.date = [_dateTextField.text fromShortDateFormatToDate];
-    _receipt.totalAmount = [NSDecimalNumber decimalNumberWithStringAndValidation:_amountTextField.text];
+    _receipt.totalAmount = [NSDecimalNumber decimalNumberFromCurrencyString:_amountTextField.text];
     _receipt.paymentType = [NSNumber numberWithInteger:_receiptTypeDrowdown.selectedIndex];
 }
 
@@ -247,16 +268,7 @@
 }
 
 - (IBAction)onSave:(id)sender {
-    NSArray *selectedInvoices = [_invoiceTableView indexPathsForSelectedRows];
-    NSDecimalNumber *amountToAllocate = [NSDecimalNumber zero];
-    if (_receipt.paymentType == 0) {
-        for (Invoice *invoice in selectedInvoices) {
-            [amountToAllocate decimalNumberByAccuratelyAdding:invoice.totalOutstanding];
-        }
-    } else {
-        amountToAllocate = [NSDecimalNumber decimalNumberWithString:_amountTextField.text];
-    }
-    [self.receipt allocateInvoices:selectedInvoices amount:amountToAllocate];
+    [self.receipt allocateInvoices:_selectedInvoiceList amount:[self selectedInvoicesTotalAmount]];
     [self.delegate updateReceipt:self.receipt];
     [self onClose:sender];
 }

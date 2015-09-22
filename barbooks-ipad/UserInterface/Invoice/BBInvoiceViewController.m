@@ -146,7 +146,7 @@
 - (void)updateInvoiceFromUI {
     _invoice.classDisplayName = _invoiceNumberTextField.text;
     if ([self.invoice isKindOfClass:[InterestInvoice class]]) {
-        self.invoice.totalOutstandingExGst = [NSDecimalNumber decimalNumberFromCurrencyString:_interestAmountTextField.text];
+        self.invoice.amountExGst = [NSDecimalNumber decimalNumberFromCurrencyString:_interestAmountTextField.text];
     }
 }
 
