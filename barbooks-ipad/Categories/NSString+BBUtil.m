@@ -31,6 +31,10 @@
     if ([sc scanFloat:NULL]) {
         return [sc isAtEnd];
     }
+    sc = [NSScanner scannerWithString:self];
+    if ([sc scanInteger:NULL]) {
+        return [sc isAtEnd];
+    }
     return NO;
 }
 

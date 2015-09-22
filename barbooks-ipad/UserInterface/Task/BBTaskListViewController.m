@@ -147,45 +147,49 @@
     static NSString *reuseIdentifier = @"taskCell";
     BBTaskListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     Task *task = [_filteredItemList objectAtIndex:indexPath.row];
-    cell.taskNameLabel.text = task.name;
-    cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
-    cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
-    cell.slashLabel.hidden = !task.isTaxed;
-    cell.includeGSTLabel.hidden = !task.isTaxed;
-    cell.totalFeesIncludeGSTLabel.hidden = !task.isTaxed;
-    cell.matterDescriptionLabel.text = task.matter.name;
-    cell.taskDateLabel.text = [task.date toShortDateFormat];
-    
-    if ([task hourlyRate]) {
+    if (task != NULL) {
+        cell.taskNameLabel.text = task.name;
+        cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
+        cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
+        cell.slashLabel.hidden = !task.isTaxed;
+        cell.includeGSTLabel.hidden = !task.isTaxed;
+        cell.totalFeesIncludeGSTLabel.hidden = !task.isTaxed;
+        cell.matterDescriptionLabel.text = task.matter.name;
+        cell.taskDateLabel.text = [task.date toShortDateFormat];
         
-        BBTimerAccessoryView *accView = [BBTimerAccessoryView cellAccessoryViewWithOwner:self];
-        
-        UIButton *button = accView.timerButton;
-        [button setImage:[UIImage imageNamed:@"button_timer"] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(timerButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
-        UIButton *stopbutton = accView.stopButton;
-        stopbutton.alpha = 0;
-        [stopbutton setImage:[UIImage imageNamed:@"button_timer_stop"] forState:UIControlStateNormal];
-        [stopbutton addTarget:self action:@selector(stopButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
-        
-        cell.accessoryView = accView;
-        
-        if ([[BBTaskTimer sharedInstance] currentTask] == task) {
-            [self expandTimerForCell:cell animated:NO];
-            if ([[BBTaskTimer sharedInstance] active]) {
-                [accView showRunningTimer];
-            } else {
-                [accView showPauseTimer];
+        if ([task hourlyRate]) {
+            
+            BBTimerAccessoryView *accView = [BBTimerAccessoryView cellAccessoryViewWithOwner:self];
+            
+            UIButton *button = accView.timerButton;
+            [button setImage:[UIImage imageNamed:@"button_timer"] forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(timerButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
+            UIButton *stopbutton = accView.stopButton;
+            stopbutton.alpha = 0;
+            [stopbutton setImage:[UIImage imageNamed:@"button_timer_stop"] forState:UIControlStateNormal];
+            [stopbutton addTarget:self action:@selector(stopButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
+            
+            cell.accessoryView = accView;
+            
+            if ([[BBTaskTimer sharedInstance] currentTask] == task) {
+                [self expandTimerForCell:cell animated:NO];
+                if ([[BBTaskTimer sharedInstance] active]) {
+                    [accView showRunningTimer];
+                } else {
+                    [accView showPauseTimer];
+                }
             }
+            
+            cell.taskTimeLabel.text = [task durationToFormattedString];
+            
+        } else {
+            
+            cell.accessoryView = nil;
+            [cell setAccessoryType:UITableViewCellAccessoryDetailButton];
+            cell.taskTimeLabel.text = [NSString stringWithFormat:@"%@ %@", [task.units stringValue], [task.rate typeDescription]];
         }
         
-        cell.taskTimeLabel.text = [task durationToFormattedString];
-        
-    } else {
-        
-        cell.accessoryView = nil;
-        [cell setAccessoryType:UITableViewCellAccessoryDetailButton];
-        cell.taskTimeLabel.text = [NSString stringWithFormat:@"%@ %@", [task.units stringValue], [task.rate typeDescription]];
+
     }
     
     return cell;

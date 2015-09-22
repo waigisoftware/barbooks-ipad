@@ -161,6 +161,8 @@
 
 -(void) setupNavigationBarAppearance
 {
+    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor bbPrimaryBlue]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];

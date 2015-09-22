@@ -285,7 +285,6 @@
     }
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Expense *expense = [self.filteredItemList objectAtIndex:indexPath.row];
     BBExpenseTableViewCell *cell = (id)[tableView cellForRowAtIndexPath:indexPath];

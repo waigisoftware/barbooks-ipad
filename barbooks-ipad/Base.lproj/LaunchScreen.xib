@@ -48,12 +48,12 @@
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="Y3O-hQ-yT7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0sn-el-XJs"/>
-                <constraint firstItem="Y3O-hQ-yT7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="6OH-qm-FZp"/>
-                <constraint firstItem="JX7-sK-IMx" firstAttribute="centerY" secondItem="Y3O-hQ-yT7" secondAttribute="centerY" id="Ny5-Cx-D34"/>
-                <constraint firstAttribute="trailing" secondItem="Y3O-hQ-yT7" secondAttribute="trailing" id="ZIW-dc-F95"/>
-                <constraint firstAttribute="bottom" secondItem="Y3O-hQ-yT7" secondAttribute="bottom" id="mlI-rP-UoI"/>
-                <constraint firstItem="JX7-sK-IMx" firstAttribute="centerX" secondItem="Y3O-hQ-yT7" secondAttribute="centerX" id="vDw-jh-IzV"/>
+                <constraint firstAttribute="trailing" secondItem="Y3O-hQ-yT7" secondAttribute="trailing" id="8Xj-ej-UyG"/>
+                <constraint firstItem="Y3O-hQ-yT7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="PJn-Aq-ZBq"/>
+                <constraint firstItem="Y3O-hQ-yT7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Woq-1k-eN1"/>
+                <constraint firstItem="JX7-sK-IMx" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="iBZ-eh-Uiy"/>
+                <constraint firstItem="JX7-sK-IMx" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="r9j-EA-EqX"/>
+                <constraint firstAttribute="bottom" secondItem="Y3O-hQ-yT7" secondAttribute="bottom" id="yGJ-wZ-v7s"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

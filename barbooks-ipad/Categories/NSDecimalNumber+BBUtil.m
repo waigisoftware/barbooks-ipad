@@ -50,7 +50,7 @@
         return [NSDecimalNumber decimalNumberWithString:numberValue];
     } else {
         NSString *formattedString = [numberValue stringByReplacingOccurrencesOfString:@"$" withString:@""];
-        if ([numberValue isNumeric]) {
+        if ([formattedString isNumeric]) {
             return [NSDecimalNumber decimalNumberWithString:formattedString];
         }
         return [NSDecimalNumber zero];

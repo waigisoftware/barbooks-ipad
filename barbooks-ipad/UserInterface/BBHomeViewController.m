@@ -182,7 +182,7 @@
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    cell.imageView.image = [UIImage imageNamed:@"icon_matter_list"];
+                    cell.imageView.image = [UIImage imageNamed:@"icon_settings"];
                     cell.textLabel.text = @"Settings";
                     break;
             }
