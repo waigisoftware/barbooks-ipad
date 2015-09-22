@@ -18,6 +18,7 @@
 @dynamic invoice;
 @dynamic task;
 
+
 + (instancetype)newInstanceOfTask:(Task *)task invoice:(Invoice *)invoice {
     Discount *newDiscount = [Discount MR_createEntity];
     newDiscount.discountType = [NSNumber numberWithInt:0];
@@ -39,6 +40,9 @@
     
     switch (self.discountType.intValue) {
         case 0:
+            if (!self.value) {
+                NSLog(@"");
+            }
             amount = [totalAmount decimalNumberByAccuratelySubtracting:self.value];
             break;
         case 1:
@@ -54,6 +58,7 @@
             return totalAmount;
             break;
     }
+    
     
     return amount;
 }

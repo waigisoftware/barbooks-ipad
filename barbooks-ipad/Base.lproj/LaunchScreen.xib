@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8187.4" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9046" systemVersion="15A282a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9035"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,26 +13,31 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Y3O-hQ-yT7">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                    <animations/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JX7-sK-IMx">
                     <rect key="frame" x="8" y="90" width="464" height="300"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bbooks_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Z8l-ZK-tcT">
                             <rect key="frame" x="175" y="8" width="115" height="119"/>
+                            <animations/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BarBooks" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vp-xT-eua">
                             <rect key="frame" x="88" y="158" width="288" height="39"/>
+                            <animations/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="40"/>
                             <color key="textColor" red="0.054901961239999998" green="0.13725490870000001" blue="0.27450981740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Accounting Software for Barristers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlR-es-CXd">
                             <rect key="frame" x="0.0" y="203" width="464" height="26"/>
+                            <animations/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
                             <color key="textColor" red="0.054901961239999998" green="0.13725490870000001" blue="0.27450981740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="464" id="3bM-Mw-qaK"/>
@@ -40,14 +45,15 @@
                     </constraints>
                 </view>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="Y3O-hQ-yT7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0sn-el-XJs"/>
-                <constraint firstItem="Y3O-hQ-yT7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="6OH-qm-FZp"/>
-                <constraint firstItem="JX7-sK-IMx" firstAttribute="centerY" secondItem="Y3O-hQ-yT7" secondAttribute="centerY" id="Ny5-Cx-D34"/>
-                <constraint firstAttribute="trailing" secondItem="Y3O-hQ-yT7" secondAttribute="trailing" id="ZIW-dc-F95"/>
-                <constraint firstAttribute="bottom" secondItem="Y3O-hQ-yT7" secondAttribute="bottom" id="mlI-rP-UoI"/>
-                <constraint firstItem="JX7-sK-IMx" firstAttribute="centerX" secondItem="Y3O-hQ-yT7" secondAttribute="centerX" id="vDw-jh-IzV"/>
+                <constraint firstAttribute="trailing" secondItem="Y3O-hQ-yT7" secondAttribute="trailing" id="8Xj-ej-UyG"/>
+                <constraint firstItem="Y3O-hQ-yT7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="PJn-Aq-ZBq"/>
+                <constraint firstItem="Y3O-hQ-yT7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Woq-1k-eN1"/>
+                <constraint firstItem="JX7-sK-IMx" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="iBZ-eh-Uiy"/>
+                <constraint firstItem="JX7-sK-IMx" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="r9j-EA-EqX"/>
+                <constraint firstAttribute="bottom" secondItem="Y3O-hQ-yT7" secondAttribute="bottom" id="yGJ-wZ-v7s"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

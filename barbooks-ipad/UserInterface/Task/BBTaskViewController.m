@@ -10,6 +10,7 @@
 #import "BBRateListViewController.h"
 #import "NSString+BBUtil.h"
 #import "BBModalDatePickerViewController.h"
+#import "Discount.h"
 
 @interface BBTaskViewController () <BBModalDatePickerViewControllerDelegate, UIPickerViewDelegate>
 
@@ -20,6 +21,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *rateAmountInclTextField;
 @property (weak, nonatomic) IBOutlet UITextField *rateUnitTextField;
 @property (weak, nonatomic) IBOutlet UIPickerView *hoursPickerView;
+@property (strong, nonatomic) IBOutlet UISwitch *discountActiveSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *discountTypeLabel;
+@property (weak, nonatomic) IBOutlet UITextField *discountValueTextField;
 @property (strong, nonatomic) BBModalDatePickerViewController *datePickerController;
 @property (strong, nonatomic) NSObject *observer;
 
@@ -57,10 +61,10 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.observer];
     [self stopEditing];
     [_delegate updateTask:_task];
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.observer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,19 +83,35 @@
     _taskDateLabel.text = [_task.date toShortDateFormat];
     _taxedSwitch.on = _task.isTaxed;
     _rateNameLabel.text = _task.rate.name;
-    _rateAmountTextField.text = [_task.rate.amount roundedAmount];
-    _rateAmountInclTextField.text = [_task.rate.amountGst roundedAmount];
+    _rateAmountTextField.text = [_task.rate.amount currencyAmount];
+    _rateAmountInclTextField.text = [_task.rate.amountGst currencyAmount];
     if ([_task hourlyRate]) {
         [self.hoursPickerView selectRow:_task.hours.integerValue inComponent:0 animated:NO];
         [self.hoursPickerView selectRow:_task.minutes.integerValue inComponent:1 animated:NO];
     } else {
         _rateUnitTextField.text = [_task.units stringValue];
     }
+    BOOL discountExists = _task.discount != nil;
+    _discountActiveSwitch.on = discountExists;
+    if (discountExists) {
+        NSNumberFormatter *discountFormatter = [NSNumberFormatter new];
+        [discountFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        if (_task.discount.discountType.integerValue == 1) {
+            [discountFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        }
+        _discountTypeLabel.text = [_task.discount discountTypeDescription];
+        _discountValueTextField.text = [discountFormatter stringFromNumber:_task.discount.value];
+    }
 }
 
 - (void)updateTaskFromUI {
     _task.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
-    _task.rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountTextField.text];
+    NSDecimalNumber *amountInclGst = [NSDecimalNumber decimalNumberFromCurrencyString:_rateAmountInclTextField.text];
+    if ([amountInclGst compare:_task.rate.amountGst] != NSOrderedSame) {
+        _task.rate.amountGst = [NSDecimalNumber decimalNumberFromCurrencyString:_rateAmountInclTextField.text];
+    } else {
+        _task.rate.amount = [NSDecimalNumber decimalNumberFromCurrencyString:_rateAmountTextField.text];
+    }
     //[self resetRateAmountWithTax];
     if ([_task hourlyRate]) {
         // get time from timer
@@ -104,6 +124,13 @@
             _task.units = [NSDecimalNumber decimalNumberWithString:_rateUnitTextField.text];
         }
     }
+    
+    if (_task.discount) {
+        _task.discount.value = [NSDecimalNumber decimalNumberWithString:_discountValueTextField.text];
+    }
+    _rateAmountInclTextField.text = [_task.rate.amountGst currencyAmount];
+    _rateAmountTextField.text = [_task.rate.amount currencyAmount];
+    _discountTypeLabel.text = [_task.discount.value currencyAmount];
     
     // recalculate
     [self.delegate updateTask:_task];
@@ -223,6 +250,25 @@
     [self.delegate updateTask:self.task];
 }
 
+- (IBAction)onDiscountSwitched:(id)sender {
+    if (_discountActiveSwitch.on) {
+        _task.discount = [Discount MR_createEntityInContext:_task.managedObjectContext];
+        _task.discount.value = [NSDecimalNumber zero];
+        _task.discount.discountType = @0;
+        _discountTypeLabel.text = [_task.discount discountTypeDescription];
+        
+        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1],[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self loadTaskIntoUI];
+        
+    } else {
+        [_task.discount MR_deleteEntity];
+        _task.discount = nil;
+        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1],[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    
+//    [[NSManagedObjectContext MR_rootSavingContext] MR_saveToPersistentStoreAndWait];
+}
+
 
 - (void)startPulsingButton:(UIButton *)button {
     CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
@@ -256,26 +302,38 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView == self.tableView) {
-        if (indexPath.row == 0) {
-            [self onCalendar:self];
-            
-        } else if (indexPath.row == 1){
-            [self showRateSelectorTable];
+        if (indexPath.section == 0) {
+            if (indexPath.row == 0) {
+                [self onCalendar:self];
+                
+            } else if (indexPath.row == 1){
+                [self showRateSelectorTable];
+            }
+        } else {
+            if (indexPath.row == 1) {
+                [self showDiscountTypeSelectorTable];
+            }
         }
+        
 
     } else {
-        Rate *selectedRate = [self.task.matter.ratesArray objectAtIndex:indexPath.row];
-        _task.rate.name = [selectedRate.name copy];
-        _task.rate.rateType = [selectedRate.rateType copy];
-        _task.rate.amount = [selectedRate.amount copy];
+        if (tableView.tag == 0) {
+            Rate *selectedRate = [self.task.matter.ratesArray objectAtIndex:indexPath.row];
+            _task.rate.name = [selectedRate.name copy];
+            _task.rate.rateType = [selectedRate.rateType copy];
+            _task.rate.amount = [selectedRate.amount copy];
+            
+            [self loadTaskIntoUI];
+            [self.delegate updateTask:_task];
+            
+            self.tableView.tableFooterView.hidden = selectedRate.rateType.integerValue != BBRateChargingTypeHourly;
+        } else {
+            _task.discount.discountType = @(indexPath.row);
+            _discountTypeLabel.text = [_task.discount discountTypeDescription];
+        }
         
-        [self loadTaskIntoUI];
-        [self.delegate updateTask:_task];
-        
-        self.tableView.tableFooterView.hidden = selectedRate.rateType.integerValue != BBRateChargingTypeHourly;
         [self.tableView reloadData];
         [self.navigationController popViewControllerAnimated:YES];
-        
     }
 }
 
@@ -283,10 +341,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.tableView) {
         NSInteger rows = [super tableView:tableView numberOfRowsInSection:section];
-        if (_task.rate.rateType.integerValue != BBRateChargingTypeUnit) {
+        if (_task.rate.rateType.integerValue != BBRateChargingTypeUnit && section == 0) {
             rows--;
+        } else if (section == 1 && !_task.discount) {
+            rows -= 2;
         }
+        
         return rows;
+    } else if (tableView.tag == 1) {
+        return 3;
     }
     NSInteger count = self.task.matter.rates.count;
     return count;
@@ -301,22 +364,49 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (tableView == self.tableView) {
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    } else if (tableView.tag == 0) {
+        static NSString *reuseIdentifier = @"rateCell";
+        UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        }
+        Rate *rate = [self.task.matter.ratesArray objectAtIndex:indexPath.row];
+        cell.textLabel.text = [rate name];
+        if ([rate.name isEqualToString:_task.rate.name]) {
+            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+        }
+        
+        return cell;
+    } else if (tableView.tag == 1) {
+        static NSString *reuseIdentifier = @"rateCell";
+        UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        }
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"Amount";
+                break;
+            case 1:
+                cell.textLabel.text = @"Percent";
+                break;
+            case 2:
+                cell.textLabel.text = @"Reprice";
+                break;
+            default:
+                break;
+        }
+        if (_task.discount && _task.discount.discountType.integerValue == indexPath.row) {
+            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+        }
+        
+        return cell;
     }
     
-    static NSString *reuseIdentifier = @"rateCell";
-    UITableViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-    }
-    Rate *rate = [self.task.matter.ratesArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = [rate name];
-    if ([rate.name isEqualToString:_task.rate.name]) {
-        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-    }
-    
-    return cell;
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -334,18 +424,34 @@
 }
 
 #pragma mark - Navigation
+- (UITableViewController *)newTableViewController {
+    UITableViewController *tableviewController = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    tableviewController.tableView.dataSource = self;
+    tableviewController.tableView.delegate = self;
+    tableviewController.view.backgroundColor = self.view.backgroundColor;
+    tableviewController.tableView.backgroundColor = self.tableView.backgroundColor;
+    tableviewController.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
+    tableviewController.tableView.rowHeight = self.tableView.rowHeight;
+    
+    return tableviewController;
+}
+
 - (void)showRateSelectorTable {
-    UITableViewController *ratesTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    ratesTableViewController.tableView.dataSource = self;
-    ratesTableViewController.tableView.delegate = self;
+    UITableViewController *ratesTableViewController = [self newTableViewController];
     ratesTableViewController.title = @"Rates";
-    ratesTableViewController.view.backgroundColor = self.view.backgroundColor;
-    ratesTableViewController.tableView.backgroundColor = self.tableView.backgroundColor;
-    ratesTableViewController.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
-    ratesTableViewController.tableView.rowHeight = self.tableView.rowHeight;
+    ratesTableViewController.tableView.tag = 0;
     
     [self.navigationController showViewController:ratesTableViewController sender:nil];
 }
+
+- (void)showDiscountTypeSelectorTable {
+    UITableViewController *tableViewController = [self newTableViewController];
+    tableViewController.title = @"Discount Type";
+    tableViewController.tableView.tag = 1;
+    
+    [self.navigationController showViewController:tableViewController sender:nil];
+}
+
 
 #pragma mark - Observers
 -(void) addTaskTimerObserver {

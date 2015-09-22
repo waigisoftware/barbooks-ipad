@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
+    [self.descriptionLabel setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

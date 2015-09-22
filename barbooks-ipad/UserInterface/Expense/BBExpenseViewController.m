@@ -10,43 +10,31 @@
 #import "BBExpenseListViewController.h"
 #import "Contact.h"
 #import "Disbursement.h"
+#import "BBModalDatePickerViewController.h"
 
-@interface BBExpenseViewController ()
+@interface BBExpenseViewController () <BBModalDatePickerViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *coverView;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *descriptionTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *dateTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *amountTextField;
+@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
+@property (weak, nonatomic) IBOutlet UITextField *dateTextField;
+@property (weak, nonatomic) IBOutlet UITextField *amountTextField;
 @property (weak, nonatomic) IBOutlet CHDropDownTextField *payeeTextField;
 @property (weak, nonatomic) IBOutlet UISwitch *taxedSwitch;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *taxTypeTextField;
 @property (weak, nonatomic) IBOutlet UILabel *taxAmountLabel;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *gstTextField;
-@property (weak, nonatomic) IBOutlet UIFloatLabelTextField *typeTextField;
+@property (weak, nonatomic) IBOutlet UITextField *gstTextField;
 @property (weak, nonatomic) IBOutlet CHDropDownTextField *categoryTextField;
-@property (weak, nonatomic) IBOutlet UIButton *closeButton;
-@property (weak, nonatomic) IBOutlet UIView *buttonsView;
+@property (weak, nonatomic) IBOutlet UIView *gstTypeDropdownContainer;
+@property (weak, nonatomic) IBOutlet UIView *expenseTypeDropdownContainer;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 
-// date picker
-@property (weak, nonatomic) IBOutlet UIView *calendarContainerView;
-@property (weak, nonatomic) IBOutlet UILabel *pickedDateWeekdayLabel;
-@property (weak, nonatomic) IBOutlet UILabel *pickedDateMonthLabel;
-@property (weak, nonatomic) IBOutlet UILabel *pickedDateDayLabel;
-@property (weak, nonatomic) IBOutlet UILabel *pickedDateYearLabel;
-@property (weak, nonatomic) IBOutlet JTCalendarMenuView *calendarMenuView;
-@property (weak, nonatomic) IBOutlet JTCalendarContentView *calendarContentView;
-@property (strong, nonatomic) JTCalendar *calendar;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonsViewHeightConstraint;
-
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IGLDropDownMenu *gstTypeDrowdown;
 @property (strong, nonatomic) IGLDropDownMenu *expenseTypeDrowdown;
 @property (strong, nonatomic) NSArray *payees;
 @property (strong, nonatomic) NSArray *categories;
+@property (strong, nonatomic) BBModalDatePickerViewController *datePickerController;
 
-- (IBAction)onSelectDate:(id)sender;
 - (IBAction)onTax:(id)sender;
-- (IBAction)onCancelPickDate:(id)sender;
-- (IBAction)onConfirmPickDate:(id)sender;
 - (IBAction)onBackgroundButton:(id)sender;
 - (IBAction)onEditingPayee:(id)sender;
 - (IBAction)onClose:(id)sender;
@@ -65,24 +53,28 @@
     _dateTextField.delegate = self;
     _amountTextField.delegate = self;
     _payeeTextField.delegate = self;
-    _taxTypeTextField.delegate = self;
     _gstTextField.delegate = self;
-    _typeTextField.delegate = self;
     _categoryTextField.delegate = self;
     
     [self setupPayeeDropDown];
     [self setupCategoryDropDown];
-    [self setupCalendarPickingView];
     [self showCloseButtonIfNeeded];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self setupExpenseTypeDropDown];
     [self setupTaxTypeDropDown];
+
     [self loadExpenseIntoUI];
     [self.view bringSubviewToFront:_payeeTextField];
-    [self.view bringSubviewToFront:_calendarContainerView];
     [self coverViewIfNeeded];
 }
 
@@ -100,11 +92,9 @@
 
 - (void)showCloseButtonIfNeeded {
     if (self.navigationController) {
-        _buttonsView.hidden = YES;
-        _buttonsViewHeightConstraint.constant = 0; // displaying in the detail view
+        [self.navigationBar setHidden:YES];
     } else {
-        _buttonsView.hidden = NO;
-        _buttonsViewHeightConstraint.constant = 44;// displaying in the modal view
+        [self.navigationBar setHidden:NO];
     }
     [self.view updateConstraintsIfNeeded];
 }
@@ -123,68 +113,110 @@
     _categoryTextField.dropDownDelegate = self;
 }
 
-- (void)setupCalendarPickingView {
-    // set calendar picker
-    self.calendar = [JTCalendar new];
-    self.calendar.calendarAppearance.dayCircleColorSelected = [UIColor bbPrimaryBlue];
-    [self.calendar setMenuMonthsView:self.calendarMenuView];
-    [self.calendar setContentView:self.calendarContentView];
-    [self.calendar setDataSource:self];
-}
 
 - (void)setupTaxTypeDropDown {
     // setup selection item
     NSMutableArray *dropdownItems = [[NSMutableArray alloc] init];
     IGLDropDownItem *item = [[IGLDropDownItem alloc] init];
+    [self setupDropDownItem:item];
+
     [item setText:@"10%"];
     [dropdownItems addObject:item];
     item = [[IGLDropDownItem alloc] init];
+    [self setupDropDownItem:item];
+
     [item setText:@"Specify:"];
     [dropdownItems addObject:item];
-    
+
     // setup dropdown selection
     _gstTypeDrowdown = [[IGLDropDownMenu alloc] init];
-    [_gstTypeDrowdown setFrame:_taxTypeTextField.frame];
+    [self setupDropDownItem:_gstTypeDrowdown.menuButton];
+    [_gstTypeDrowdown setFrame:_gstTypeDropdownContainer.frame];
+    for (NSLayoutConstraint *constraint in _gstTypeDropdownContainer.constraints) {
+        
+        id firstItem = constraint.firstItem == _gstTypeDropdownContainer ? _gstTypeDrowdown : constraint.firstItem;
+        id secondItem = constraint.secondItem == _gstTypeDropdownContainer ? _gstTypeDrowdown : constraint.secondItem;
+        
+        [_gstTypeDrowdown addConstraint:[NSLayoutConstraint constraintWithItem:firstItem
+                                                                         attribute:constraint.firstAttribute
+                                                                         relatedBy:constraint.relation
+                                                                            toItem:secondItem
+                                                                         attribute:constraint.secondAttribute
+                                                                        multiplier:constraint.multiplier
+                                                                          constant:constraint.constant]];
+    }
     _gstTypeDrowdown.menuText = @"Choose Tax Type";
     _gstTypeDrowdown.menuIconImage = [UIImage imageNamed:@"button-add"];
-    _gstTypeDrowdown.paddingLeft = 15;
+    _gstTypeDrowdown.paddingLeft = 8;
     _gstTypeDrowdown.dropDownItems = dropdownItems;
     _gstTypeDrowdown.delegate = self;
     _gstTypeDrowdown.type = IGLDropDownMenuTypeNormal;
     _gstTypeDrowdown.gutterY = 0;
     [_gstTypeDrowdown reloadView];
-    [self.view addSubview:_gstTypeDrowdown];
-    
+    [_gstTypeDropdownContainer.superview addSubview:_gstTypeDrowdown];
+    [_gstTypeDrowdown.menuButton addTarget:self action:@selector(dropDownMenuItemSelected:) forControlEvents:UIControlEventTouchUpInside];
+
     if (_expense) {
         [_gstTypeDrowdown selectItemAtIndex:_expense.taxType];
     } else {
         [_gstTypeDrowdown selectItemAtIndex:0];
     }
-    
+}
+
+- (void)setupDropDownItem:(IGLDropDownItem*)item
+{
+    UIView *bgView = [[item subviews] objectAtIndex:0];
+    bgView.layer.shadowOpacity = 0;
+    bgView.layer.shadowOffset = CGSizeMake(0, 0);
+    bgView.layer.shadowRadius = 0;
+    bgView.layer.cornerRadius = 5;
+    bgView.layer.shouldRasterize = NO;
+    bgView.layer.borderWidth = 0.25;
+    bgView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 }
 
 - (void)setupExpenseTypeDropDown {
     // setup selection item
     NSMutableArray *dropdownItems = [[NSMutableArray alloc] init];
     IGLDropDownItem *item = [[IGLDropDownItem alloc] init];
+    [self setupDropDownItem:item];
+
     [item setText:@"expense"];
     [dropdownItems addObject:item];
     item = [[IGLDropDownItem alloc] init];
+    [self setupDropDownItem:item];
+    
     [item setText:@"capital"];
     [dropdownItems addObject:item];
     
     // setup dropdown selection
     _expenseTypeDrowdown = [[IGLDropDownMenu alloc] init];
-    [_expenseTypeDrowdown setFrame:_typeTextField.frame];
+    [self setupDropDownItem:_expenseTypeDrowdown.menuButton];
+    [_expenseTypeDrowdown setFrame:_expenseTypeDropdownContainer.frame];
+    for (NSLayoutConstraint *constraint in _expenseTypeDropdownContainer.constraints) {
+        
+        id firstItem = constraint.firstItem == _expenseTypeDropdownContainer ? _expenseTypeDrowdown : constraint.firstItem;
+        id secondItem = constraint.secondItem == _expenseTypeDropdownContainer ? _expenseTypeDrowdown : constraint.secondItem;
+        
+        [_expenseTypeDrowdown addConstraint:[NSLayoutConstraint constraintWithItem:firstItem
+                                                                         attribute:constraint.firstAttribute
+                                                                         relatedBy:constraint.relation
+                                                                            toItem:secondItem
+                                                                         attribute:constraint.secondAttribute
+                                                                        multiplier:constraint.multiplier
+                                                                          constant:constraint.constant]];
+    }
     _expenseTypeDrowdown.menuText = @"Choose Expense Type";
     _expenseTypeDrowdown.menuIconImage = [UIImage imageNamed:@"button-add"];
-    _expenseTypeDrowdown.paddingLeft = 15;
+    _expenseTypeDrowdown.paddingLeft = 8;
     _expenseTypeDrowdown.dropDownItems = dropdownItems;
     _expenseTypeDrowdown.delegate = self;
     _expenseTypeDrowdown.type = IGLDropDownMenuTypeNormal;
     _expenseTypeDrowdown.gutterY = 0;
     [_expenseTypeDrowdown reloadView];
-    [self.view addSubview:_expenseTypeDrowdown];
+
+    [_expenseTypeDropdownContainer.superview addSubview:_expenseTypeDrowdown];
+    [_expenseTypeDrowdown.menuButton addTarget:self action:@selector(dropDownMenuItemSelected:) forControlEvents:UIControlEventTouchUpInside];
     
     if (_expense) {
         [_expenseTypeDrowdown selectItemAtIndex:[_expense.expenseType integerValue]];
@@ -270,13 +302,16 @@
 
 - (void)stopEditing {
     [[UIResponder currentFirstResponder] resignFirstResponder];
-    [self onCancelPickDate:nil];
     if (_gstTypeDrowdown.isExpanding) {
         [_gstTypeDrowdown selectItemAtIndex:_expense.taxType];
     }
     if (_expenseTypeDrowdown.isExpanding) {
         [_expenseTypeDrowdown selectItemAtIndex:[_expense.expenseType integerValue]];
     }
+    [_gstTypeDrowdown setEnabled:YES];
+    [_expenseTypeDrowdown setEnabled:YES];
+    [_categoryTextField setEnabled:YES];
+
     // update Expense object
     [self updateExpenseFromUI];
     // refresh UI
@@ -284,14 +319,6 @@
 }
 
 #pragma mark IBActions
-
-- (IBAction)onSelectDate:(id)sender {
-    [self stopEditing];
-    _calendarContainerView.hidden = !_calendarContainerView.hidden;
-    if (!_calendarContainerView.hidden && !_dateTextField.text) {
-        [_calendar setCurrentDate:_expense.date];
-    }
-}
 
 - (IBAction)onTax:(id)sender {
     _expense.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
@@ -305,33 +332,30 @@
 - (IBAction)onEditingPayee:(id)sender {
 }
 
-- (IBAction)onCancelPickDate:(id)sender {
-    _calendarContainerView.hidden = YES;
-}
-
-- (IBAction)onConfirmPickDate:(id)sender {
-    _calendarContainerView.hidden = YES;
-    _dateTextField.text = [_calendar.currentDateSelected toShortDateFormat];
-    [self stopEditing];
-}
 
 #pragma mark - Date
+- (IBAction)onSelectDate:(id)sender {
+    if (!self.datePickerController) {
+        self.datePickerController = [BBModalDatePickerViewController defaultPicker];
+        [self.datePickerController.view setFrame:self.view.bounds];
+        
+        [self.datePickerController.datePicker setDate:_expense.date];
+        self.datePickerController.delegate = self;
+        
+    }
+    
+    [self.scrollView addSubview:self.datePickerController.view];
+    [[UIApplication sharedApplication] resignFirstResponder];
+    [self.datePickerController run];
+}
 
-// OpenDate JTCalendarDataSource
-- (BOOL)calendarHaveEvent:(JTCalendar *)calendar date:(NSDate *)date {
-    return NO;
-}
-- (void)calendarDidDateSelected:(JTCalendar *)calendar date:(NSDate *)date {
-    [self updateCalendarContainerViewWithDate:date];
+- (IBAction)onDatePicked:(UIDatePicker*)datePicker {
+    _expense.date = datePicker.date;
+    _dateTextField.text = [datePicker.date toShortDateFormat];
+    [self updateExpenseFromUI];
+    [self.delegate updateExpense:_expense];
 }
 
-// Date methods
-- (void)updateCalendarContainerViewWithDate:(NSDate *)date {
-    _pickedDateWeekdayLabel.text = [date weekday];
-    _pickedDateMonthLabel.text = [date month];
-    _pickedDateDayLabel.text = [date day];
-    _pickedDateYearLabel.text = [date year];
-}
 
 #pragma mark - CHDropDownTextFieldDelegate
 - (void)dropDownTextField:(CHDropDownTextField *)dropDownTextField didChooseDropDownOptionAtIndex:(NSUInteger)index {
@@ -351,13 +375,34 @@
     } else {
         _expense.expenseType = [NSNumber numberWithInteger:index];
     }
+    
     [self stopEditing];
+}
+
+- (void)dropDownMenuItemSelected:(IGLDropDownItem*)item
+{
+    if (item == _expenseTypeDrowdown.menuButton && _expenseTypeDrowdown.isExpanding) {
+        [_gstTypeDrowdown setEnabled:NO];
+        [_categoryTextField setEnabled:NO];
+    } else if (_gstTypeDrowdown.isExpanding) {
+        [_expenseTypeDrowdown setEnabled:NO];
+        [_categoryTextField setEnabled:NO];
+    } else {
+        [self stopEditing];
+    }
 }
 
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self stopEditing];
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    [_expenseTypeDrowdown setExpanding:NO];
+    [_gstTypeDrowdown setExpanding:NO];
+    return YES;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

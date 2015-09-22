@@ -79,11 +79,11 @@
 
     NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
     
-    CBLIncrementalStore *store = [persistentStoreCoordinator addPersistentStoreWithType:[CBLIncrementalStore type]
-                                                                          configuration:nil
-                                                                                    URL:storeUrl
-                                                                                options:options
-                                                                                  error:&error];
+    CBLIncrementalStore *store = (id)[persistentStoreCoordinator addPersistentStoreWithType:[CBLIncrementalStore type]
+                                                                              configuration:nil
+                                                                                        URL:storeUrl
+                                                                                    options:options
+                                                                                      error:&error];
     
     [NSManagedObjectContext MR_initializeDefaultContextWithCoordinator:persistentStoreCoordinator];
     NSManagedObjectContext *context = [NSManagedObjectContext MR_rootSavingContext];
@@ -96,19 +96,19 @@
 
     [self setupNavigationBarAppearance];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [self determineWhichViewControllerToShowFirst];
     
     [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
     [self setupObservers];
+    [self determineWhichViewControllerToShowFirst];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncStatusProgressed) name:kSyncStatusProgressedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncStatusProgressed) name:kSyncStatusUpdatedNotification object:nil];
-    
+
     return YES;
 }
 
 - (void)syncStatusProgressed
 {
-    if ([[BBCloudManager sharedManager] syncStatus] == kCBLReplicationActive && [[BBCloudManager sharedManager] progress] > 0.0) {
+    if ([[BBCloudManager sharedManager] syncStatus] == kCBLReplicationActive) {
         if (![JDStatusBarNotification isVisible]) {
             [JDStatusBarNotification showWithStatus:@"Synchronising ..."];
         }
@@ -161,6 +161,8 @@
 
 -(void) setupNavigationBarAppearance
 {
+    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor bbPrimaryBlue]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -181,8 +183,8 @@
     isAuthorized = YES;
     if (isAuthorized)
     {
-        [self showMatters];
         [[BBCloudManager sharedManager] activateSync];
+        [self showMatters];
     }
     else
     {

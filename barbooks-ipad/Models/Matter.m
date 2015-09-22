@@ -132,17 +132,16 @@
     if (!self.tasks.count) {
         return [NSDecimalNumber zero];
     }
-    NSPredicate *unbilled = [NSPredicate predicateWithFormat:@"invoice == nil"];
-    NSSet *unbilledTasks = [self.tasks filteredSetUsingPredicate:unbilled];
     
-    NSDecimalNumber *sum = [unbilledTasks valueForKeyPath:@"@sum.totalFeesIncGst"];
-    NSString *string = [NSString stringWithFormat:@"%.3f",[sum doubleValue]];
+    NSDecimalNumber *sum = [NSDecimalNumber zero];
     
-    NSDecimalNumber *result = [[NSDecimalNumber decimalNumberWithString:string] decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber accurateRoundingHandler]];
-    if ([result isEqualToNumber:[NSDecimalNumber notANumber]]) {
-        NSLog(@"");
+    for (Task *task in self.tasks) {
+        if (!task.invoice) {
+            sum = [sum decimalNumberByAccuratelyAdding:task.totalFeesIncGst];
+        }
     }
-    return result;
+
+    return sum;
 }
 
 - (NSArray *)tasksArray {

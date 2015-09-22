@@ -29,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,9 +39,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    CGRect rect = _invoicesTableView.frame;
+    rect = self.view.frame;
+    rect = self.view.superview.frame;
+
+    [_invoicesTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height)];
     // setup navigation bar and toolbar
     [self setupNavigationBar];
-    [self fetchInvoices];
+    [self refreshInvoices];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -57,23 +63,61 @@
     
     // add 'Add' & 'Delete' button
     UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIImage *imageDelete = [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:imageAdd style:UIBarButtonItemStylePlain target:self action:@selector(onAddInvoice)];
-    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDeleteInvoice)];
-    self.tabBarController.navigationItem.rightBarButtonItems = @[deleteButton, addButton];
+    self.tabBarController.navigationItem.rightBarButtonItems = @[addButton,editButton];
 }
 
 #pragma mark - Button actions
 
 - (void)onAddInvoice {
+    
+    // first choose which invoice type
+    // then choose the content
+    
+    
     Invoice *newInvoice = [InterestInvoice newInstanceOfMatter:self.matter];
     [self fetchInvoices];
+    [_invoicesTableView insertRowsAtIndexPaths:@[[self indexPathOfInvoice:newInvoice]] withRowAnimation:UITableViewRowAnimationTop];
     [_invoicesTableView selectRowAtIndexPath:[self indexPathOfInvoice:newInvoice] animated:YES scrollPosition:UITableViewScrollPositionTop];
     [self showInvoiceDetail:newInvoice];
 }
 
+
+- (void)onEdit {
+    if (_invoicesTableView.editing) {
+        UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:imageAdd style:UIBarButtonItemStylePlain target:self action:@selector(onAddInvoice)];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
+        
+        [self.tabBarController.navigationItem setRightBarButtonItems:@[addButton,editButton] animated:YES];
+        
+    } else {
+        UIImage *imageDelete = [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIBarButtonItem *removeButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDeleteInvoice)];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onEdit)];
+        
+        [self.tabBarController.navigationItem setRightBarButtonItems:@[removeButton,editButton] animated:YES];
+    }
+    
+    [_invoicesTableView setEditing:!_invoicesTableView.editing animated:YES];
+}
+
+
 - (void)onDeleteInvoice {
-    _invoicesTableView.editing = !_invoicesTableView.editing;
+    NSArray *selections = [_invoicesTableView indexPathsForSelectedRows];
+    NSArray *tasks = self.matter.tasksArray;
+    
+    for (NSIndexPath *selection in selections) {
+        [self.matter removeTasksObject:[tasks objectAtIndex:selection.row]];
+    }
+    
+    [self.matter.managedObjectContext MR_saveToPersistentStoreAndWait];
+    [self fetchInvoices];
+    [_invoicesTableView beginUpdates];
+    [_invoicesTableView deleteRowsAtIndexPaths:selections withRowAnimation:UITableViewRowAnimationTop];
+    [_invoicesTableView endUpdates];
 }
 
 #pragma mark - UITableViewDataSource
@@ -98,8 +142,10 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Invoice *invoice = [_filteredItemList objectAtIndex:indexPath.row];
-    [self showInvoiceDetail:invoice];
+    if (!tableView.editing) {
+        Invoice *invoice = [_filteredItemList objectAtIndex:indexPath.row];
+        [self showInvoiceDetail:invoice];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -133,10 +179,17 @@
 #pragma mark - Core data
 
 - (void)fetchInvoices {
+    [[NSManagedObjectContext MR_rootSavingContext] processPendingChanges];
+    
     _originalItemList = self.matter.invoicesArray;
     [self filterContentForSearchText:_searchBar.text scope:nil];
+}
+
+- (void)refreshInvoices {
+    [self fetchInvoices];
     [_invoicesTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
+    [_invoicesTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
 }
 
 #pragma mark - override

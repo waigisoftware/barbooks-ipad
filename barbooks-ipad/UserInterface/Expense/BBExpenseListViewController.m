@@ -36,18 +36,22 @@
     // tableview
     _expenseListTableView.dataSource = self;
     _expenseListTableView.delegate = self;
-    [self registerRefreshControlFor:_expenseListTableView withAction:@selector(fetchExpenses)];
+    _expenseListTableView.estimatedRowHeight = _expenseListTableView.rowHeight;
+    _expenseListTableView.rowHeight = UITableViewAutomaticDimension;
+
+    [self registerRefreshControlFor:_expenseListTableView withAction:@selector(refreshExpenses)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // setup navigation bar and toolbar
     [self setupUI];
+    [_expenseListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height)];
+    [self refreshExpenses];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self fetchExpenses];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -71,7 +75,8 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *reuseIdentifier = @"expenseCell";
+    
+    NSString *reuseIdentifier = [self isMatterExpenses] ? @"disbursementCell" : @"expenseCell";
     BBExpenseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     Expense *expense = [_filteredItemList objectAtIndex:indexPath.row];
     cell.descriptionLabel.text = expense.info;
@@ -84,13 +89,25 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
     Expense *expense = [_filteredItemList objectAtIndex:indexPath.row];
     if ([self isMatterExpenses]) {
         [self showExpenseDetail:expense];
     } else {
-        _expenseViewController.expense = expense;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!tableView.editing) {
+        Expense *expense = [_filteredItemList objectAtIndex:indexPath.row];
+        if ([self isMatterExpenses]) {
+            
+        } else {
+            _expenseViewController.expense = expense;
+        }
+    }
+
 }
 
 // handle delete
@@ -102,12 +119,10 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Expense *expenseToDelete = [_originalItemList objectAtIndex:indexPath.row];
-        if ([self isMatterExpenses]) {
-            [self.matter removeDisbursementsObject:(Disbursement *)expenseToDelete];
-        } else {
-            [expenseToDelete MR_deleteEntity];
-        }
+        [expenseToDelete MR_deleteEntity];
+        [expenseToDelete.managedObjectContext MR_saveToPersistentStoreAndWait];
         [self fetchExpenses];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
     }
 }
 
@@ -120,6 +135,7 @@
 #pragma mark - Core data
 
 - (void)fetchExpenses {
+    [[NSManagedObjectContext MR_rootSavingContext] processPendingChanges];
     // fetch from core data
     if ([self isMatterExpenses]) {
         _originalItemList = [self.matter.disbursements allObjects];
@@ -127,8 +143,14 @@
         _originalItemList = [Expense MR_findAllSortedBy:@"date" ascending:NO];
     }
     [self filterContentForSearchText:_searchBar.text scope:nil];
+}
+
+
+- (void)refreshExpenses {
+    [self fetchExpenses];
     [_expenseListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
+    [_expenseListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
 }
 
 #pragma mark - override
@@ -142,15 +164,52 @@
     }
 }
 
+#pragma mark - UITextViewDelegate Methods
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    id cell = textView.superview.superview;
+    NSIndexPath *indexPath = [_expenseListTableView indexPathForCell:cell];
+    
+    Expense *expense = [self.filteredItemList objectAtIndex:indexPath.row];
+    expense.info = textView.text;
+    
+    [UIView setAnimationsEnabled:NO];
+    [_expenseListTableView beginUpdates];
+    [_expenseListTableView endUpdates];
+    [UIView setAnimationsEnabled:YES];
+    
+    CGRect rect = [_expenseListTableView rectForRowAtIndexPath:indexPath];
+    [_expenseListTableView scrollRectToVisible:rect animated:NO];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    id cell = textView.superview.superview;
+    NSIndexPath *indexPath = [_expenseListTableView indexPathForCell:cell];
+    
+    Task *task = [self.filteredItemList objectAtIndex:indexPath.row];
+    [task.managedObjectContext MR_saveToPersistentStoreAndWait];
+}
+
 #pragma mark - IBActions
 
 - (IBAction)onAdd:(id)sender {
     if ([self isMatterExpenses]) {
         Disbursement *newDisbursement = [Disbursement newInstanceOfMatter:self.matter];
         [self fetchExpenses];
-        [_expenseListTableView selectRowAtIndexPath:[self indexPathOfExpense:newDisbursement] animated:YES scrollPosition:UITableViewScrollPositionTop];
-        [self showExpenseDetail:newDisbursement];
+        NSIndexPath *path = [self indexPathOfExpense:newDisbursement];
+        [_expenseListTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
+        [_expenseListTableView selectRowAtIndexPath:path animated:YES scrollPosition:UITableViewScrollPositionTop];
+        
+        CGRect rect = [_expenseListTableView rectForRowAtIndexPath:path];
+        rect.origin.y += _expenseListTableView.contentInset.top;
+        
+        BBExpenseTableViewCell *cell = (id)[_expenseListTableView cellForRowAtIndexPath:path];
+        [cell.descriptionLabel becomeFirstResponder];
     } else {
+        
+        // choose the type of expense
         Expense *newExpense = [Expense newInstanceWithDefaultValue];
         [self.expenseViewController setExpense:newExpense];
         [self fetchExpenses];
@@ -163,8 +222,30 @@
 }
 
 - (void)onDelete {
-    _expenseListTableView.editing = !_expenseListTableView.editing;
+    
 }
+
+
+- (void)onEdit {
+    if (_expenseListTableView.editing) {
+        UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:imageAdd style:UIBarButtonItemStylePlain target:self action:@selector(onAdd:)];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
+        
+        [self.tabBarController.navigationItem setRightBarButtonItems:@[addButton,editButton] animated:YES];
+        
+    } else {
+        UIImage *imageDelete = [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIBarButtonItem *removeButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDelete)];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onEdit)];
+        
+        [self.tabBarController.navigationItem setRightBarButtonItems:@[removeButton,editButton] animated:YES];
+    }
+    
+    [_expenseListTableView setEditing:!_expenseListTableView.editing animated:YES];
+}
+
 
 #pragma mark - UI method
 
@@ -180,10 +261,9 @@
         self.tabBarController.navigationItem.title = @"Disbursements";
         // add 'Add' & 'Delete' button
         UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        UIImage *imageDelete = [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit)];
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:imageAdd style:UIBarButtonItemStylePlain target:self action:@selector(onAdd:)];
-        UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithImage:imageDelete style:UIBarButtonItemStylePlain target:self action:@selector(onDelete)];
-        self.tabBarController.navigationItem.rightBarButtonItems = @[deleteButton, addButton];
+        self.tabBarController.navigationItem.rightBarButtonItems = @[addButton,editButton];
         // toolbar buttons
         self.toolbarHeight.constant = 0;
         self.toolbar.hidden = YES;
@@ -203,6 +283,24 @@
         
         [self.view updateConstraintsIfNeeded];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    Expense *expense = [self.filteredItemList objectAtIndex:indexPath.row];
+    BBExpenseTableViewCell *cell = (id)[tableView cellForRowAtIndexPath:indexPath];
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15]};
+    // NSString class method: boundingRectWithSize:options:attributes:context is
+    // available only on ios7.0 sdk.
+    CGRect rect = [expense.info boundingRectWithSize:CGSizeMake(cell.descriptionLabel.frame.size.width, CGFLOAT_MAX)
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:attributes
+                                             context:nil];
+    
+    CGSize size = rect.size;
+    size.height += tableView.estimatedRowHeight;
+    
+    return MAX(size.height, tableView.estimatedRowHeight);
 }
 
 #pragma mark - Navigation
