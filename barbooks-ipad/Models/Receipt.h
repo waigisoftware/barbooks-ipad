@@ -15,7 +15,7 @@
 
 @interface Receipt : Payment
 
-@property (nonatomic, retain) NSArray * matters;
+@property (nonatomic, retain, readonly) NSArray *matters;
 @property (nonatomic, retain) id printInformation;//not used
 @property (nonatomic, retain) NSDate * printIssuedDate;//not used
 @property (nonatomic, retain) NSSet *allocations;//ReceiptAllocation(Payment)

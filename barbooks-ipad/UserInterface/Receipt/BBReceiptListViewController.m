@@ -99,7 +99,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        Receipt *receiptToDelete = [_originalItemList objectAtIndex:indexPath.row];
+        Receipt *receiptToDelete = [_filteredItemList objectAtIndex:indexPath.row];
         if ([self isMatterReceipts]) {
 //            [self.matter removeReceiptsObject:(Receipt *)receiptToDelete];
         } else {
@@ -112,7 +112,7 @@
 #pragma mark - TableView helper methods
 
 - (NSIndexPath *)indexPathOfReceipt:(Receipt *)receipt {
-    return [NSIndexPath indexPathForRow:[_originalItemList indexOfObject:receipt] inSection:0];
+    return [NSIndexPath indexPathForRow:[_filteredItemList indexOfObject:receipt] inSection:0];
 }
 
 #pragma mark - Core data
@@ -120,7 +120,9 @@
 - (void)fetchReceipts {
     // fetch from core data
     if ([self isMatterReceipts]) {
-//        _originalItemList = [self.matter.receipts allObjects];
+//        NSPredicate *fetchPredicate = [NSPredicate predicateWithFormat:@"matter == %@", @[self.matter]];
+//        _originalItemList = [Receipt MR_findAllSortedBy:@"date" ascending:NO withPredicate:fetchPredicate];
+        _originalItemList = [Receipt MR_findAllSortedBy:@"date" ascending:NO];
     } else {
         _originalItemList = [Receipt MR_findAllSortedBy:@"date" ascending:NO];
     }
@@ -146,7 +148,7 @@
     if ([self isMatterReceipts]) {
         Receipt *newReceipt = [Receipt newInstanceOfMatter:self.matter];
         [self fetchReceipts];
-        [_receiptListTableView selectRowAtIndexPath:[self indexPathOfReceipt:newReceipt] animated:YES scrollPosition:UITableViewScrollPositionTop];
+//        [_receiptListTableView selectRowAtIndexPath:[self indexPathOfReceipt:newReceipt] animated:YES scrollPosition:UITableViewScrollPositionTop];
         [self showReceiptDetail:newReceipt];
     } else {
         Receipt *newReceipt = [Receipt newInstanceOfMatter:nil];
@@ -214,6 +216,7 @@
     if ([[segue identifier] isEqualToString:BBSegueShowReceiptDetail]) {
         BBReceiptViewController *receiptViewController = (BBReceiptViewController *)[segue destinationViewController];
         receiptViewController.receipt = self.selectedReceipt;
+        receiptViewController.matter = self.matter;
         receiptViewController.delegate = self;
     }
 }

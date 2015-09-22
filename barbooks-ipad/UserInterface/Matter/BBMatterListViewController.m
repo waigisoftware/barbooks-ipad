@@ -154,7 +154,7 @@
     NSArray *objects = _showUnarchived ? [Matter unarchivedMatters] : [Matter archivedMatters];
     _originalItemList = [NSMutableArray arrayWithArray:objects];
     [self filterContentForSearchText:_searchBar.text scope:nil];
-    //[_matterListTableView reloadData];
+    [_matterListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
 }
 

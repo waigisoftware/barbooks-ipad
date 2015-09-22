@@ -52,8 +52,15 @@
 }
 
 + (instancetype)newInstanceInDefaultManagedObjectContext {
-    id object = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:[[BBCoreDataManager sharedInstance] managedObjectContext]];
-    return object;
+//    id object = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:[[BBCoreDataManager sharedInstance] managedObjectContext]];
+    Matter *newMatter = [Matter MR_createEntityInContext:[[BBCoreDataManager sharedInstance] managedObjectContext]];
+    newMatter.createdAt = [NSDate date];
+    newMatter.archived = [NSNumber numberWithBool:NO];
+    newMatter.date = [NSDate date];
+    newMatter.taxed = [NSNumber numberWithBool:YES];
+    newMatter.tax = [NSDecimalNumber decimalNumberWithString:@"0.1"];
+    newMatter.costsAgreementDate = [NSDate date];
+    return newMatter;
 }
 
 
@@ -142,6 +149,7 @@
     return [[self.tasks allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [((Task *)obj2).createdAt compare:((Task *)obj1).createdAt];
     }];
+    return [[self.tasks allObjects] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
 }
 
 - (NSArray *)ratesArray {

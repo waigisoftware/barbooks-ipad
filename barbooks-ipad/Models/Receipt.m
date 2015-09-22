@@ -34,6 +34,27 @@
     }
 }
 
+- (Matter*)matter
+{
+    if (self.matters.count) {
+        return [self.matters objectAtIndex:0];
+    }
+    return nil;
+}
+
+- (NSArray *)matters
+{
+    NSMutableArray *matters = [NSMutableArray new];
+    for (ReceiptAllocation *allocation in self.allocations) {
+        
+        if (allocation.invoice && allocation.invoice.matter && ![matters containsObject:allocation.invoice.matter]) {
+            [matters addObject:allocation.invoice.matter];
+        }
+    }
+    
+    return matters;
+}
+
 - (NSArray *)invoices
 {
     NSMutableArray *invoices = [NSMutableArray new];
