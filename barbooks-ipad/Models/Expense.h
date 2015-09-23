@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, BBExpenseType) {
 + (NSArray *)payeeList;
 + (NSArray *)categoryList;
 
-- (void)recalculate;
+//- (void)recalculate;
 - (BBExpenseTaxType)taxType;
 - (BOOL)isTaxed;
 

@@ -322,7 +322,7 @@
 #pragma mark - BBExpenseDelegate
 
 - (void)updateExpense:(id)data {
-    [self fetchExpenses];
+    [self refreshExpenses];
 }
 
 @end

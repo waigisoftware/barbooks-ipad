@@ -45,8 +45,16 @@
     return newExpense;
 }
 
-#pragma mark - calculations
+- (NSDecimalNumber *)amountIncGst {
+    if (self.userSpecifiedGst.boolValue) {
+        return [self.amountExGst decimalNumberByAccuratelyAdding:self.tax];
+    } else {
+        return [self.amountExGst decimalNumberByAccuratelyAdding:self.amountGst];
+    }
+}
 
+#pragma mark - calculations
+/*
 - (void)recalculate {
     [self recalculateFees];
 }
@@ -65,6 +73,7 @@
         self.amountGst = [NSDecimalNumber zero];
     }
 }
+*/
 
 #pragma mark - convenient methods
 
