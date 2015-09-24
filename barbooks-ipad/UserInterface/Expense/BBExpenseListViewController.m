@@ -150,7 +150,7 @@
     [self fetchExpenses];
     [_expenseListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
-    [_expenseListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
+//    [_expenseListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
 }
 
 #pragma mark - override
@@ -213,6 +213,7 @@
         Expense *newExpense = [Expense newInstanceWithDefaultValue];
         [self.expenseViewController setExpense:newExpense];
         [self fetchExpenses];
+        [_expenseListTableView reloadData];
         [_expenseListTableView selectRowAtIndexPath:[self indexPathOfExpense:newExpense] animated:YES scrollPosition:UITableViewScrollPositionTop];
         _expenseViewController.expense = newExpense;
     }

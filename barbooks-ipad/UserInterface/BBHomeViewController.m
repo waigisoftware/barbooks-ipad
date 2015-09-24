@@ -267,6 +267,7 @@
     expenseListViewController.expenseViewController = expenseViewController;
     expenseViewController.expense = expense;
     expenseViewController.expenseListViewController = expenseListViewController;
+    expenseViewController.delegate = expenseListViewController;
 }
 
 @end

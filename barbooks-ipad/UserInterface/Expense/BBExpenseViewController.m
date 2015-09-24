@@ -80,8 +80,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self stopEditing];
-    [_delegate updateExpense:self.expense];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -365,6 +363,12 @@
 
 #pragma mark IBActions
 
+- (IBAction)onClose:(id)sender {
+    // save data and update list
+    [self stopEditing];
+    [self.delegate updateExpense:self.expense];
+}
+
 - (IBAction)onTax:(id)sender {
     _expense.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
     [self recalculateTax];
@@ -462,15 +466,5 @@
     return YES;
 }
 
-#pragma mark - Core data
-
-
-
-#pragma mark - Actions
-
-- (IBAction)onClose:(id)sender {
-    [self.delegate updateExpense:self.expense];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 @end
