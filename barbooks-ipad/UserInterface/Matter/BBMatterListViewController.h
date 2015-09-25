@@ -9,8 +9,9 @@
 #import "BBBaseTableViewController.h"
 #import "BBTaskListViewController.h"
 #import "BBMatterViewController.h"
+#import "BBMatterDelegate.h"
 
-@interface BBMatterListViewController : BBBaseTableViewController
+@interface BBMatterListViewController : BBBaseTableViewController <BBMatterDelegate>
 
 @property (strong, nonatomic) BBTaskListViewController *taskListViewController;
 

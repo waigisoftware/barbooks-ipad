@@ -367,6 +367,7 @@
     // save data and update list
     [self stopEditing];
     [self.delegate updateExpense:self.expense];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onTax:(id)sender {

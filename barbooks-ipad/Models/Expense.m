@@ -99,4 +99,25 @@
     return [set allObjects];
 }
 
+#pragma mark - Core Data
+
++ (NSArray *)allExpenses {
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO];
+}
+
+
++ (NSArray *)unarchivedExpenses {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:NO]];
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+}
+
++ (NSArray *)archivedExpenses {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:YES]];
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+}
+
++ (instancetype)firstExpense {
+    return [[Expense unarchivedExpenses] firstObject];
+}
+
 @end

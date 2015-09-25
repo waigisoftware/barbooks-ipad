@@ -29,6 +29,10 @@
 - (void)removeAllocations:(NSSet *)values;
 
 + (instancetype)newInstanceOfMatter:(Matter *)matter;
++ (NSArray *)allReceipts;
++ (NSArray *)unarchivedReceipts;
++ (NSArray *)archivedReceipts;
++ (instancetype)firstReceipt;
 
 - (NSArray *)invoices;
 - (NSString *)invoicesNumber;

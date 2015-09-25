@@ -202,17 +202,17 @@
     [_matterListTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
 }
 
+- (IBAction)onDelete:(id)sender {
+//    Matter *selectedMatter = [_filteredItemList objectAtIndex:_matterListTableView.indexPathForSelectedRow.row];
+//    [selectedMatter MR_deleteEntity];
+//    [self fetchMatters];
+    [self animateDeleteForSelections];
+}
+
 - (void)animateDeleteForSelections
 {
     NSArray *selections = [_matterListTableView indexPathsForSelectedRows];
     [_matterListTableView deleteRowsAtIndexPaths:selections withRowAnimation:UITableViewRowAnimationTop];
-}
-
-- (IBAction)onDelete:(id)sender {
-    Matter *selectedMatter = [_filteredItemList objectAtIndex:_matterListTableView.indexPathForSelectedRow.row];
-    [selectedMatter MR_deleteEntity];
-    [self fetchMatters];
-    [self animateDeleteForSelections];
 }
 
 - (IBAction)onFilterMatters:(id)sender {
@@ -227,7 +227,7 @@
     [_deleteBarButtonItem setEnabled:!_showUnarchived];
     [_deleteBarButtonItem setImage:!_showUnarchived ? [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] : nil];
     
-    [self fetchMatters];
+    [self refreshMatters];
 }
 
 #pragma mark - Navigation
@@ -266,7 +266,14 @@
         BBMatterViewController *matterViewController = [((UINavigationController *)[segue destinationViewController]).viewControllers objectAtIndex:0];
         matterViewController.matter = self.selectedMatter;
         matterViewController.matterListViewController = self;
+        matterViewController.delegate = self;
     }
+}
+
+#pragma mark - BBMatterDelegate
+
+- (void)updateMatter:(id)data {
+    [self refreshMatters];
 }
 
 @end

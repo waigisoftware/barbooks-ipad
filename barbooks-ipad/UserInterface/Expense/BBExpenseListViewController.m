@@ -10,21 +10,27 @@
 #import "BBExpenseTableViewCell.h"
 #import "Disbursement.h"
 
-@interface BBExpenseListViewController ()
+@interface BBExpenseListViewController () {
+    BOOL _showUnarchived;
+}
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *expenseListTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *archiveBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *filterButtonItem;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarHeight;
 
-@property (strong, nonatomic) NSArray *originalItemList;
-@property (strong, nonatomic) NSArray *filteredItemList;
+@property (strong, nonatomic) NSMutableArray *originalItemList;
+@property (strong, nonatomic) NSMutableArray *filteredItemList;
 @property (strong, nonatomic) Expense *selectedExpense;
 
 - (IBAction)onAdd:(id)sender;
 - (IBAction)onArchive:(id)sender;
+- (IBAction)onDelete:(id)sender;
+- (IBAction)onFilterExpenses:(id)sender;
 
 @end
 
@@ -32,6 +38,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _showUnarchived = YES;
     
     // tableview
     _expenseListTableView.dataSource = self;
@@ -110,6 +118,24 @@
 
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    Expense *expense = [self.filteredItemList objectAtIndex:indexPath.row];
+    BBExpenseTableViewCell *cell = (id)[tableView cellForRowAtIndexPath:indexPath];
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15]};
+    // NSString class method: boundingRectWithSize:options:attributes:context is
+    // available only on ios7.0 sdk.
+    CGRect rect = [expense.info boundingRectWithSize:CGSizeMake(cell.descriptionLabel.frame.size.width, CGFLOAT_MAX)
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:attributes
+                                             context:nil];
+    
+    CGSize size = rect.size;
+    size.height += tableView.estimatedRowHeight;
+    
+    return MAX(size.height, tableView.estimatedRowHeight);
+}
+
 // handle delete
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -129,7 +155,7 @@
 #pragma mark - TableView helper methods
 
 - (NSIndexPath *)indexPathOfExpense:(Expense *)expense {
-    return [NSIndexPath indexPathForRow:[_originalItemList indexOfObject:expense] inSection:0];
+    return [NSIndexPath indexPathForRow:[_filteredItemList indexOfObject:expense] inSection:0];
 }
 
 #pragma mark - Core data
@@ -138,9 +164,10 @@
     [[NSManagedObjectContext MR_rootSavingContext] processPendingChanges];
     // fetch from core data
     if ([self isMatterExpenses]) {
-        _originalItemList = [self.matter.disbursements allObjects];
+        _originalItemList = [NSMutableArray arrayWithArray:[self.matter.disbursements allObjects]];
     } else {
-        _originalItemList = [Expense MR_findAllSortedBy:@"date" ascending:NO];
+        NSArray *objects = _showUnarchived ? [Expense unarchivedExpenses] : [Expense archivedExpenses];
+        _originalItemList = [NSMutableArray arrayWithArray:objects];
     }
     [self filterContentForSearchText:_searchBar.text scope:nil];
 }
@@ -158,7 +185,7 @@
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
     if (searchText && [searchText length] > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"info contains[cd] %@", searchText];
-        _filteredItemList = [_originalItemList filteredArrayUsingPredicate:predicate];
+        _filteredItemList = [NSMutableArray arrayWithArray:[_originalItemList filteredArrayUsingPredicate:predicate]];
     } else {
         _filteredItemList = _originalItemList;
     }
@@ -212,20 +239,33 @@
         // choose the type of expense
         Expense *newExpense = [Expense newInstanceWithDefaultValue];
         [self.expenseViewController setExpense:newExpense];
-        [self fetchExpenses];
-        [_expenseListTableView reloadData];
+        [self refreshExpenses];
         [_expenseListTableView selectRowAtIndexPath:[self indexPathOfExpense:newExpense] animated:YES scrollPosition:UITableViewScrollPositionTop];
         _expenseViewController.expense = newExpense;
     }
 }
 
 - (IBAction)onArchive:(id)sender {
+    Expense *selectedExpense = [_filteredItemList objectAtIndex:_expenseListTableView.indexPathForSelectedRow.row];
+    NSIndexPath *indexPath = [self indexPathOfExpense:selectedExpense];
+    selectedExpense.archived = [NSNumber numberWithBool:YES];
+    [_filteredItemList removeObject:selectedExpense];
+    [_expenseListTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 - (void)onDelete {
-    
+    //    _expenseListTableView.editing = !_expenseListTableView.editing;
+//    Expense *selectedExpense = [_filteredItemList objectAtIndex:_expenseListTableView.indexPathForSelectedRow.row];
+//    [selectedExpense MR_deleteEntity];
+//    [self fetchExpenses];
+    [self animateDeleteForSelections];
 }
 
+- (void)animateDeleteForSelections
+{
+    NSArray *selections = [_expenseListTableView indexPathsForSelectedRows];
+    [_expenseListTableView deleteRowsAtIndexPaths:selections withRowAnimation:UITableViewRowAnimationTop];
+}
 
 - (void)onEdit {
     if (_expenseListTableView.editing) {
@@ -247,6 +287,27 @@
     [_expenseListTableView setEditing:!_expenseListTableView.editing animated:YES];
 }
 
+- (IBAction)onDelete:(id)sender {
+    Expense *selectedExpense = [_filteredItemList objectAtIndex:_expenseListTableView.indexPathForSelectedRow.row];
+    [selectedExpense MR_deleteEntity];
+    [self fetchExpenses];
+    [self animateDeleteForSelections];
+}
+
+- (IBAction)onFilterExpenses:(id)sender {
+    _showUnarchived = !_showUnarchived;
+    _filterButtonItem.title = _showUnarchived ? @"Archived" : @"Unarchived";
+    
+    // toggle other bar buttons
+    [_archiveBarButtonItem setTintColor:_showUnarchived ? [UIColor blackColor] : [UIColor clearColor]];
+    [_archiveBarButtonItem setEnabled:_showUnarchived];
+    [_archiveBarButtonItem setImage:_showUnarchived ? [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] : nil];
+    [_deleteBarButtonItem setTintColor:!_showUnarchived ? [UIColor blackColor] : [UIColor clearColor]];
+    [_deleteBarButtonItem setEnabled:!_showUnarchived];
+    [_deleteBarButtonItem setImage:!_showUnarchived ? [[UIImage imageNamed:@"button_delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] : nil];
+    
+    [self refreshExpenses];
+}
 
 #pragma mark - UI method
 
@@ -284,24 +345,6 @@
         
         [self.view updateConstraintsIfNeeded];
     }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    Expense *expense = [self.filteredItemList objectAtIndex:indexPath.row];
-    BBExpenseTableViewCell *cell = (id)[tableView cellForRowAtIndexPath:indexPath];
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15]};
-    // NSString class method: boundingRectWithSize:options:attributes:context is
-    // available only on ios7.0 sdk.
-    CGRect rect = [expense.info boundingRectWithSize:CGSizeMake(cell.descriptionLabel.frame.size.width, CGFLOAT_MAX)
-                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:attributes
-                                             context:nil];
-    
-    CGSize size = rect.size;
-    size.height += tableView.estimatedRowHeight;
-    
-    return MAX(size.height, tableView.estimatedRowHeight);
 }
 
 #pragma mark - Navigation
