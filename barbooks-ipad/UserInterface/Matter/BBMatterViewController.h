@@ -15,6 +15,7 @@
 @interface BBMatterViewController : BBTableViewController <UITextFieldDelegate, BBMatterDelegate, UIPopoverControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, JTCalendarDataSource>
 
 @property (strong, nonatomic) BBMatterListViewController *matterListViewController;
+@property (weak, nonatomic) id<BBMatterDelegate> delegate;
 
 
 @end

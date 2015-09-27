@@ -45,8 +45,16 @@
     return newExpense;
 }
 
-#pragma mark - calculations
+- (NSDecimalNumber *)amountIncGst {
+    if (self.userSpecifiedGst.boolValue) {
+        return [self.amountExGst decimalNumberByAccuratelyAdding:self.tax];
+    } else {
+        return [self.amountExGst decimalNumberByAccuratelyAdding:self.amountGst];
+    }
+}
 
+#pragma mark - calculations
+/*
 - (void)recalculate {
     [self recalculateFees];
 }
@@ -65,6 +73,7 @@
         self.amountGst = [NSDecimalNumber zero];
     }
 }
+*/
 
 
 - (void)setAmountIncGst:(NSDecimalNumber *)amountIncGst
@@ -132,6 +141,27 @@
     [set removeObject:[NSNull null]];
     [set removeObject:@""];
     return [set allObjects];
+}
+
+#pragma mark - Core Data
+
++ (NSArray *)allExpenses {
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO];
+}
+
+
++ (NSArray *)unarchivedExpenses {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:NO]];
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+}
+
++ (NSArray *)archivedExpenses {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:YES]];
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+}
+
++ (instancetype)firstExpense {
+    return [[Expense unarchivedExpenses] firstObject];
 }
 
 @end

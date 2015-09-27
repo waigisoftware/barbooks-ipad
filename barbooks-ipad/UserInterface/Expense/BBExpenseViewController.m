@@ -78,6 +78,10 @@
     [self coverViewIfNeeded];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -236,7 +240,7 @@
     
     _descriptionTextField.text = _expense.info;
     _dateTextField.text = [_expense.date toShortDateFormat];
-    _amountTextField.text = [_expense.amountIncGst roundedAmount];
+    _amountTextField.text = [_expense.amountIncGst currencyAmount];
     _payeeTextField.text = _expense.payee;
     _categoryTextField.text = _expense.category;
     _taxedSwitch.on = _expense.isTaxed;
@@ -245,14 +249,16 @@
         _gstTextField.hidden = NO;
         _taxAmountLabel.hidden = NO;
         // tax related fields
-        _taxAmountLabel.text = [_expense.amountGst roundedAmount];
-        _gstTextField.text = [_expense.tax roundedAmount];
-        if (_expense.taxType == BBExpenseTaxTypePercentage) {
-            _taxAmountLabel.hidden = NO;
-            _gstTextField.hidden = !_taxAmountLabel.hidden;
-        } else {
+//        _taxAmountLabel.text = [_expense.amountGst currencyAmount];
+//        _gstTextField.text = [_expense.tax roundedAmount];
+        if (_expense.userSpecifiedGst.boolValue) {
             _taxAmountLabel.hidden = YES;
             _gstTextField.hidden = !_taxAmountLabel.hidden;
+            _gstTextField.text = [_expense.tax currencyAmount];
+        } else {
+            _taxAmountLabel.hidden = NO;
+            _gstTextField.hidden = !_taxAmountLabel.hidden;
+            _taxAmountLabel.text = [_expense.amountGst currencyAmount];
         }
         if (_gstTypeDrowdown.selectedIndex != _expense.taxType) {
             [_gstTypeDrowdown selectItemAtIndex:_expense.taxType];
@@ -274,21 +280,58 @@
 - (void)updateExpenseFromUI {
     _expense.info = _descriptionTextField.text;
     _expense.date = [_dateTextField.text fromShortDateFormatToDate];
-    _expense.amountIncGst = [NSDecimalNumber decimalNumberWithStringAndValidation:_amountTextField.text];
-    _expense.payee = _payeeTextField.text;
+    [self recalculateTax];
+    /*
+    NSDecimalNumber *amountIncGst = [NSDecimalNumber decimalNumberFromCurrencyString:_amountTextField.text];
     _expense.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
-    _expense.tax = [NSDecimalNumber decimalNumberWithStringAndValidation:_gstTextField.text];
-    _expense.category = _categoryTextField.text;
-    if (_gstTypeDrowdown.selectedIndex == 0) {
-        _expense.userSpecifiedGst = [NSNumber numberWithBool:NO];
+    if ([_expense.taxed boolValue]) {
+        if (_gstTypeDrowdown.selectedIndex == 0) {
+            _expense.userSpecifiedGst = [NSNumber numberWithBool:NO];
+        } else {
+            _expense.userSpecifiedGst = [NSNumber numberWithBool:YES];
+        }
+        if (_expense.userSpecifiedGst.boolValue) {
+            _expense.tax = [NSDecimalNumber decimalNumberFromCurrencyString:_gstTextField.text];
+            _expense.amountExGst = [amountIncGst decimalNumberByAccuratelySubtracting:_expense.tax];
+            _expense.amountGst = [NSDecimalNumber zero];
+        } else {
+            _expense.amountExGst = [amountIncGst decimalNumberSubtractGST];
+            _expense.amountGst = [amountIncGst decimalNumberGSTOfInclusiveAmount];
+            _expense.tax = [NSDecimalNumber zero];
+        }
     } else {
-        _expense.userSpecifiedGst = [NSNumber numberWithBool:YES];
+        _expense.amountExGst = amountIncGst;
+        _expense.amountGst = [NSDecimalNumber zero];
+        _expense.tax = [NSDecimalNumber zero];
     }
+     */
+    _expense.payee = _payeeTextField.text;
+    _expense.category = _categoryTextField.text;
     _expense.expenseType = [NSNumber numberWithInteger:_expenseTypeDrowdown.selectedIndex];
     
-    [_expense recalculate];
+//    [_expense recalculate];
     // refresh matter list accordingly
-    [self.expenseListViewController fetchExpenses];
+//    [self.expenseListViewController fetchExpenses];
+}
+
+- (void)recalculateTax {
+    NSDecimalNumber *amountIncGst = [NSDecimalNumber decimalNumberFromCurrencyString:_amountTextField.text];
+    _expense.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
+    if ([_expense.taxed boolValue]) {
+        if (_expense.userSpecifiedGst.boolValue) {
+            _expense.tax = [NSDecimalNumber decimalNumberFromCurrencyString:_gstTextField.text];
+            _expense.amountExGst = [amountIncGst decimalNumberByAccuratelySubtracting:_expense.tax];
+            _expense.amountGst = [NSDecimalNumber zero];
+        } else {
+            _expense.amountExGst = [amountIncGst decimalNumberSubtractGST];
+            _expense.amountGst = [amountIncGst decimalNumberGSTOfInclusiveAmount];
+            _expense.tax = [NSDecimalNumber zero];
+        }
+    } else {
+        _expense.amountExGst = amountIncGst;
+        _expense.amountGst = [NSDecimalNumber zero];
+        _expense.tax = [NSDecimalNumber zero];
+    }
 }
 
 #pragma mark - preset data
@@ -320,8 +363,16 @@
 
 #pragma mark IBActions
 
+- (IBAction)onClose:(id)sender {
+    // save data and update list
+    [self stopEditing];
+    [self.delegate updateExpense:self.expense];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)onTax:(id)sender {
     _expense.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
+    [self recalculateTax];
     [self loadExpenseIntoUI];
 }
 
@@ -371,7 +422,13 @@
 
 - (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
     if (dropDownMenu == _gstTypeDrowdown) {
+//        if (_gstTypeDrowdown.selectedIndex == BBExpenseTaxTypePercentage) {
+//            _expense.userSpecifiedGst = [NSNumber numberWithBool:NO];
+//        } else {
+//            _expense.userSpecifiedGst = [NSNumber numberWithBool:YES];
+//        }
         _expense.userSpecifiedGst = (index == BBExpenseTaxTypeUserSpecified) ? [NSNumber numberWithBool:YES] : [NSNumber numberWithBool:NO];
+        [self recalculateTax];
     } else {
         _expense.expenseType = [NSNumber numberWithInteger:index];
     }
@@ -410,15 +467,5 @@
     return YES;
 }
 
-#pragma mark - Core data
-
-
-
-#pragma mark - Actions
-
-- (IBAction)onClose:(id)sender {
-    [self.delegate updateExpense:self.expense];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 @end

@@ -166,4 +166,25 @@
     return tempAmountPaid;
 }
 
+#pragma mark - Core Data
+
++ (NSArray *)allReceipts {
+    return [Receipt MR_findAllSortedBy:@"createdAt" ascending:NO];
+}
+
+
++ (NSArray *)unarchivedReceipts {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:NO]];
+    return [Receipt MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+}
+
++ (NSArray *)archivedReceipts {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:YES]];
+    return [Receipt MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+}
+
++ (instancetype)firstReceipt {
+    return [[Receipt unarchivedReceipts] firstObject];
+}
+
 @end

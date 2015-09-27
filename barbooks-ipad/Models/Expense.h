@@ -39,8 +39,12 @@ typedef NS_ENUM(NSUInteger, BBExpenseType) {
 // all distinct existing payees & categories
 + (NSArray *)payeeList;
 + (NSArray *)categoryList;
++ (NSArray *)allExpenses;
++ (NSArray *)unarchivedExpenses;
++ (NSArray *)archivedExpenses;
++ (instancetype)firstExpense;
 
-- (void)recalculate;
+//- (void)recalculate;
 - (BBExpenseTaxType)taxType;
 - (BOOL)isTaxed;
 

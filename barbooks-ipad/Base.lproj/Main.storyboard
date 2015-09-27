@@ -5274,6 +5274,12 @@ D</string>
                                             <action selector="onArchive:" destination="5nb-ll-7PS" id="jVp-Dn-DjE"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aBi-4s-Lfj"/>
+                                    <barButtonItem title="View Archive" id="PMc-zj-LlJ" userLabel="Filter Bar Button Item">
+                                        <connections>
+                                            <action selector="onFilterExpenses:" destination="5nb-ll-7PS" id="Gjk-Du-UeV"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="95" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="aou-z5-vU3">
@@ -5511,6 +5517,7 @@ D</string>
                         <outlet property="addBarButtonItem" destination="vAn-z4-tc9" id="4Pw-pL-72I"/>
                         <outlet property="archiveBarButtonItem" destination="ell-N4-4qN" id="uda-6L-PHN"/>
                         <outlet property="expenseListTableView" destination="aou-z5-vU3" id="TkH-Qm-FvC"/>
+                        <outlet property="filterButtonItem" destination="PMc-zj-LlJ" id="dAm-Mg-Ld8"/>
                         <outlet property="searchBar" destination="G1a-iv-ecS" id="HNT-uF-zEB"/>
                         <outlet property="toolbar" destination="S1a-Bo-7Bh" id="dQd-fc-tPF"/>
                         <outlet property="toolbarHeight" destination="qb3-UD-OYC" id="O31-ih-qgF"/>
@@ -5549,6 +5556,12 @@ D</string>
                                     <barButtonItem tag="1" image="button_archive" id="EP6-xe-bky" userLabel="Archive Bar Button Item">
                                         <connections>
                                             <action selector="onArchive:" destination="Qjo-a9-VkM" id="5SW-Gy-1dk"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="JaH-G0-alT"/>
+                                    <barButtonItem title="View Archive" id="96L-OA-Ekh" userLabel="Filter Bar Button Item">
+                                        <connections>
+                                            <action selector="onFilterReceipts:" destination="Qjo-a9-VkM" id="h1G-Z7-KSW"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -5697,6 +5710,7 @@ D</string>
                     <connections>
                         <outlet property="addBarButtonItem" destination="Rsk-Ev-B6Z" id="7Y6-0N-RFd"/>
                         <outlet property="archiveBarButtonItem" destination="EP6-xe-bky" id="LrU-TC-2SB"/>
+                        <outlet property="filterButtonItem" destination="96L-OA-Ekh" id="BOl-2z-kUj"/>
                         <outlet property="receiptListTableView" destination="4v8-bx-Ude" id="2Ao-qN-Exc"/>
                         <outlet property="searchBar" destination="VFE-Pl-oo7" id="Lrz-dz-xRH"/>
                         <outlet property="toolbar" destination="CIm-mb-4KU" id="stY-GF-uab"/>
@@ -5717,11 +5731,11 @@ D</string>
                         <viewControllerLayoutGuide type="bottom" id="zzA-rr-0jk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FdP-yq-Zgh">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oTO-4O-wGQ" userLabel="Background Button">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <animations/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -5868,7 +5882,7 @@ D</string>
                                 </prototypes>
                             </tableView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rar-Lo-ofk" userLabel="Calendar Container View">
-                                <rect key="frame" x="150" y="25" width="300" height="550"/>
+                                <rect key="frame" x="150" y="3" width="300" height="550"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P2Y-zL-gAE" userLabel="Selected Date View">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
@@ -6002,7 +6016,7 @@ D</string>
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ng-BS-qwu" userLabel="Cover View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No Receipt" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOp-am-ULj">
                                         <rect key="frame" x="257" y="289.5" width="86" height="20.5"/>
@@ -6077,6 +6091,7 @@ D</string>
                             <constraint firstItem="Po2-fw-Dwh" firstAttribute="top" secondItem="gW8-kq-3dY" secondAttribute="bottom" constant="8" id="zLe-jp-DQO"/>
                         </constraints>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="amountTextField" destination="Po2-fw-Dwh" id="ItH-R4-cRb"/>
                         <outlet property="buttonsView" destination="nRc-3w-L65" id="nDq-vt-KzL"/>
@@ -6095,6 +6110,19 @@ D</string>
                         <outlet property="typeTextField" destination="gW8-kq-3dY" id="KKX-TY-0tK"/>
                     </connections>
                 </viewController>
+                <navigationBar contentMode="scaleToFill" id="XFW-ej-DeV">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <items>
+                        <navigationItem title="Details" id="WAg-ua-1rK">
+                            <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="UFD-g9-IPJ">
+                                <connections>
+                                    <action selector="onClose:" destination="h6Q-kd-ShK" id="thz-hZ-Hgw"/>
+                                </connections>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S7H-rW-CA5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3006" y="-2864"/>

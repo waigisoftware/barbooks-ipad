@@ -249,6 +249,7 @@ BBContactListViewController *_contactListViewController;
     [self stopEditing];
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.matterListViewController fetchMatters];
+    [self.delegate updateMatter:self.matter];
 }
 
 #pragma mark - UITableViewDelegate

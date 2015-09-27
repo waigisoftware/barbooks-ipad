@@ -63,6 +63,9 @@
 #define StoryboardIdBBInvoiceViewController @"BBInvoiceViewController"
 #define StoryboardIdBBSynchronizationViewController @"BBSynchronizationViewController"
 #define StoryboardIdBBDiscountViewController @"BBDiscountViewController"
+#define StoryboardIdBBReceiptListViewController @"BBReceiptListViewController"
+#define StoryboardIdBBReceiptViewController @"BBReceiptViewController"
+
 
 // Constans
 #define ONE_SECOND 1

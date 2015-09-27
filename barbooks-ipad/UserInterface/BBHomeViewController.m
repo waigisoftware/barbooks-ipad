@@ -229,6 +229,7 @@
                 }
                 case 3:
                     NSLog(@"Receipts");
+                    [self showReceipts:nil];
                     break;
                 case 2:
                     NSLog(@"Expenses");
