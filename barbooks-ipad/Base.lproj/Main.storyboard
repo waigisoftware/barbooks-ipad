@@ -3233,6 +3233,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DAb-cU-OfJ" userLabel="Cover View">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pa7-z4-pWf">
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <subviews>
@@ -3579,9 +3583,13 @@
                             <constraint firstItem="pa7-z4-pWf" firstAttribute="top" secondItem="xeA-Ar-Pau" secondAttribute="bottom" id="AFr-FJ-xLT"/>
                             <constraint firstItem="gBc-O4-LAP" firstAttribute="top" secondItem="pa7-z4-pWf" secondAttribute="bottom" id="Es7-60-EfG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pa7-z4-pWf" secondAttribute="trailing" constant="-20" id="ICg-Mv-3cT"/>
+                            <constraint firstItem="gBc-O4-LAP" firstAttribute="top" secondItem="DAb-cU-OfJ" secondAttribute="bottom" id="Kdn-4f-you"/>
                             <constraint firstItem="pa7-z4-pWf" firstAttribute="top" secondItem="9A9-AX-smM" secondAttribute="bottom" constant="44" id="Wzg-4T-x6f"/>
+                            <constraint firstAttribute="trailing" secondItem="DAb-cU-OfJ" secondAttribute="trailing" id="Z3V-ZL-bec"/>
+                            <constraint firstItem="DAb-cU-OfJ" firstAttribute="leading" secondItem="rrU-kQ-vsS" secondAttribute="leading" id="anJ-NK-iU3"/>
                             <constraint firstItem="xeA-Ar-Pau" firstAttribute="leading" secondItem="rrU-kQ-vsS" secondAttribute="leadingMargin" constant="-20" id="jTd-pY-FwW"/>
                             <constraint firstItem="pa7-z4-pWf" firstAttribute="leading" secondItem="rrU-kQ-vsS" secondAttribute="leadingMargin" constant="-20" id="ltj-FI-95P"/>
+                            <constraint firstItem="DAb-cU-OfJ" firstAttribute="top" secondItem="9A9-AX-smM" secondAttribute="bottom" id="mUO-Od-BSH"/>
                             <constraint firstItem="xeA-Ar-Pau" firstAttribute="top" secondItem="9A9-AX-smM" secondAttribute="bottom" id="oaS-wP-dJh"/>
                             <constraint firstItem="pa7-z4-pWf" firstAttribute="trailing" secondItem="xeA-Ar-Pau" secondAttribute="trailing" id="vhJ-eL-okX"/>
                             <constraint firstItem="pa7-z4-pWf" firstAttribute="leading" secondItem="rrU-kQ-vsS" secondAttribute="leading" id="wB8-qP-0K4"/>
@@ -3611,6 +3619,7 @@
                     <connections>
                         <outlet property="amountTextField" destination="blT-2J-1Dp" id="LvO-Nt-EdK"/>
                         <outlet property="categoryTextField" destination="eb4-2R-7W3" id="xYK-da-YBK"/>
+                        <outlet property="coverView" destination="DAb-cU-OfJ" id="sTJ-Lw-eLN"/>
                         <outlet property="dateTextField" destination="PbR-WW-vUq" id="yAE-w7-xV8"/>
                         <outlet property="descriptionTextField" destination="4A3-Mw-rd3" id="vsw-Q1-ycA"/>
                         <outlet property="expenseTypeDropdownContainer" destination="s2b-hO-9bk" id="h4h-4w-JL6"/>

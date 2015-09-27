@@ -40,7 +40,7 @@
 
 + (NSArray *)defaultNaturesOfBrief;
 + (NSArray *)accountingTypes;
-- (NSArray *)expenseTypes;
++ (NSArray *)expenseTypes;
 + (NSArray *)expenseCategories;
 + (NSArray *)timerRoundingTypes;
 + (NSArray *)timerRoundingTypeStrings;

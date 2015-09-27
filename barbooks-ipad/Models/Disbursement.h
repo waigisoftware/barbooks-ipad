@@ -19,6 +19,4 @@
 
 + (instancetype)newInstanceOfMatter:(Matter *)matter;
 
-+ (NSArray *)allUnlinkedObjectsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-
 @end
