@@ -21,7 +21,6 @@
 
 @property (strong, nonatomic) NSArray *originalItemList;
 @property (strong, nonatomic) NSArray *filteredItemList;
-@property (strong, nonatomic) Expense *selectedExpense;
 
 - (IBAction)onAdd:(id)sender;
 - (IBAction)onArchive:(id)sender;
@@ -92,20 +91,12 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     Expense *expense = [_filteredItemList objectAtIndex:indexPath.row];
-    if ([self isMatterExpenses]) {
-        [self showExpenseDetail:expense];
-    } else {
-    }
+    [self performSegueWithIdentifier:BBSegueShowExpenseDetailModal sender:expense];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!tableView.editing) {
-        Expense *expense = [_filteredItemList objectAtIndex:indexPath.row];
-        if ([self isMatterExpenses]) {
-            
-        } else {
-            _expenseViewController.expense = expense;
-        }
+        
     }
 
 }
@@ -257,7 +248,6 @@
 - (void)setupUI {
     if ([self isMatterExpenses]) {
         // hide back button
-        self.tabBarController.navigationItem.hidesBackButton = YES;
         self.tabBarController.navigationItem.title = @"Disbursements";
         // add 'Add' & 'Delete' button
         UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -271,7 +261,6 @@
         [self.view updateConstraintsIfNeeded];
     } else {
         // show back button
-        self.navigationItem.hidesBackButton = NO;
         self.navigationItem.title = nil;
         // toolbar buttons
         self.toolbarHeight.constant = 44;
@@ -305,15 +294,16 @@
 
 #pragma mark - Navigation
 
-- (void)showExpenseDetail:(Expense *)expense {
-    self.selectedExpense = expense;
-    [self performSegueWithIdentifier:BBSegueShowExpenseDetail sender:self];
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:BBSegueShowExpenseDetail]) {
-        BBExpenseViewController *expenseViewController = (BBExpenseViewController *)[segue destinationViewController];
-        expenseViewController.expense = self.selectedExpense;
+    if ([[segue identifier] isEqualToString:BBSegueShowExpenseDetail] || [[segue identifier] isEqualToString:BBSegueShowExpenseDetailModal]) {
+        Expense *expense = sender;
+        if ([sender isKindOfClass:[UITableViewCell class]]) {
+            expense = [_filteredItemList objectAtIndex:[self.expenseListTableView indexPathForSelectedRow].row];
+        }
+        
+        UINavigationController *navigationController = [segue destinationViewController];
+        BBExpenseViewController *expenseViewController = (BBExpenseViewController *)[navigationController topViewController] ;
+        expenseViewController.expense = expense;
         expenseViewController.delegate = self;
     }
 }

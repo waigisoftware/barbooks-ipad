@@ -16,5 +16,6 @@
 @interface BBTaskListViewController : BBBaseTableViewController <BBTaskDelegate, BBDiscountDelegate, UIPopoverControllerDelegate>
 
 @property (weak, nonatomic) BBMatterListViewController *matterListViewController;
+@property (weak, nonatomic) IBOutlet UITableView *tasksTableView;
 
 @end

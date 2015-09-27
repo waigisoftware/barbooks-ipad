@@ -9,12 +9,32 @@
 /* Begin PBXBuildFile section */
 		0703B2101B82CFD5009984E2 /* BBTimerAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */; };
 		072007CB1B86EE74000CC616 /* BBSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */; };
+		073ED86B1BB2154000DC89C7 /* BBDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 073ED86A1BB2154000DC89C7 /* BBDashboardViewController.m */; };
+		073ED8941BB24AF800DC89C7 /* BBPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 073ED8931BB24AF800DC89C7 /* BBPopoverController.m */; };
+		073ED89B1BB25AB000DC89C7 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073ED89A1BB25AB000DC89C7 /* NotificationCenter.framework */; };
+		073ED89F1BB25AB000DC89C7 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 073ED89E1BB25AB000DC89C7 /* TodayViewController.m */; };
+		073ED8A21BB25AB000DC89C7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073ED8A01BB25AB000DC89C7 /* MainInterface.storyboard */; };
+		073ED8AB1BB2623400DC89C7 /* BBTaskTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 36555FC81B43A8010006A2CA /* BBTaskTimer.m */; };
+		073ED8AC1BB2623D00DC89C7 /* BBTimerAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */; };
+		073ED8AD1BB2623D00DC89C7 /* BBTimerCellAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */; };
+		073ED8AE1BB262DB00DC89C7 /* NSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */; };
+		073ED8AF1BB262DB00DC89C7 /* UIColor+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 367563311B2C2CCB002C5738 /* UIColor+BBUtil.m */; };
+		073ED8B01BB262DB00DC89C7 /* NSString+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651DFBB1B2EF2BC007B321A /* NSString+BBUtil.m */; };
+		073ED8B11BB262DB00DC89C7 /* NSDecimalNumber+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781BF1B35985500321AE2 /* NSDecimalNumber+BBUtil.m */; };
+		073ED8B21BB262DB00DC89C7 /* NSArray+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C781C21B36B41600321AE2 /* NSArray+BBUtil.m */; };
+		073ED8B31BB262DB00DC89C7 /* UIButton+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C936041B4A65AF002B4946 /* UIButton+BBUtil.m */; };
+		073ED8B41BB262DB00DC89C7 /* NSMutableDictionary+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 365EF68F1BAAF71B00139A34 /* NSMutableDictionary+BBUtil.m */; };
+		073ED8B61BB265FF00DC89C7 /* GlobalAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 36DEF9AB1B27052C0053CD8C /* GlobalAttributes.m */; };
+		073ED8B71BB269C400DC89C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36C9E6631B1AC6840085D647 /* Images.xcassets */; };
 		0745E2EE1B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0745E2E61B9BF4BB00B0FB8A /* BarBooks.xcdatamodeld */; };
 		07694AFC1B996DEE00995128 /* BBTimerCellAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */; };
 		07694B251B9BC7D500995128 /* BBIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 07694B091B9BC7D500995128 /* BBIncrementalStore.m */; };
 		07694B261B9BC7D500995128 /* CBLIncrementalStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 07694B0B1B9BC7D500995128 /* CBLIncrementalStore.m */; };
 		077EC8331B855D67006F2F9B /* BBModalDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 077EC8311B855D67006F2F9B /* BBModalDatePickerViewController.m */; };
 		077EC8341B855D67006F2F9B /* BBModalDatePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 077EC8321B855D67006F2F9B /* BBModalDatePickerViewController.xib */; };
+		078D322C1BB3D8AC00A44D8B /* BBSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 078D322B1BB3D8AC00A44D8B /* BBSplitViewController.m */; };
+		078D322F1BB4CCAF00A44D8B /* BBSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 078D322E1BB4CCAF00A44D8B /* BBSettingsTableViewController.m */; };
+		078D32321BB50CDF00A44D8B /* BBProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 078D32311BB50CDF00A44D8B /* BBProfileTableViewController.m */; };
 		0793E02A1B7D62C9001E2A5B /* BBColoredTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */; };
 		0793E02D1B7D7206001E2A5B /* BBTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0793E02C1B7D7206001E2A5B /* BBTableViewController.m */; };
 		07A82E7D1B9BF02700796F10 /* BBAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7A1B9BF02700796F10 /* BBAccountManager.m */; };
@@ -125,8 +145,8 @@
 		36FE52DE1BA0162000930E4C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36FE52DC1BA0162000930E4C /* Crashlytics.framework */; };
 		36FE52E21BA133E300930E4C /* TestNSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FE52E11BA133E300930E4C /* TestNSDate+BBUtil.m */; };
 		36FE52E31BA136E900930E4C /* NSDate+BBUtil.h in Sources */ = {isa = PBXBuildFile; fileRef = 36788FA91B20368B00B34D3E /* NSDate+BBUtil.h */; };
-		36FE52E41BA136E900930E4C /* NSDate+BBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36788FAA1B20368B00B34D3E /* NSDate+BBUtil.m */; };
 		36FE52E61BA1382900930E4C /* PrefixHeader.pch in Sources */ = {isa = PBXBuildFile; fileRef = 363C3A3F1B1C7BF200B92513 /* PrefixHeader.pch */; };
+		E27390647AD46662B21CA498 /* libPods-BarBooks Tracker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5E415CD806E02B9CE8F4DC /* libPods-BarBooks Tracker.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +164,16 @@
 		0703B20F1B82CFD5009984E2 /* BBTimerAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBTimerAccessoryView.m; path = UserInterface/Views/BBTimerAccessoryView.m; sourceTree = "<group>"; };
 		072007C91B86EE74000CC616 /* BBSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSelectionTableViewController.h; path = UserInterface/Common/BBSelectionTableViewController.h; sourceTree = "<group>"; };
 		072007CA1B86EE74000CC616 /* BBSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSelectionTableViewController.m; path = UserInterface/Common/BBSelectionTableViewController.m; sourceTree = "<group>"; };
+		073ED8691BB2154000DC89C7 /* BBDashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBDashboardViewController.h; path = UserInterface/BBDashboardViewController.h; sourceTree = "<group>"; };
+		073ED86A1BB2154000DC89C7 /* BBDashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBDashboardViewController.m; path = UserInterface/BBDashboardViewController.m; sourceTree = "<group>"; };
+		073ED8921BB24AF800DC89C7 /* BBPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBPopoverController.h; path = UserInterface/Views/BBPopoverController.h; sourceTree = "<group>"; };
+		073ED8931BB24AF800DC89C7 /* BBPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBPopoverController.m; path = UserInterface/Views/BBPopoverController.m; sourceTree = "<group>"; };
+		073ED8991BB25AB000DC89C7 /* BarBooks Tracker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "BarBooks Tracker.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		073ED89A1BB25AB000DC89C7 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		073ED89D1BB25AB000DC89C7 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		073ED89E1BB25AB000DC89C7 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		073ED8A11BB25AB000DC89C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		073ED8A31BB25AB000DC89C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0745E2E71B9BF4BB00B0FB8A /* BarBooks 2.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.5.xcdatamodel"; sourceTree = "<group>"; };
 		0745E2E81B9BF4BB00B0FB8A /* BarBooks 2.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.6.xcdatamodel"; sourceTree = "<group>"; };
 		0745E2E91B9BF4BB00B0FB8A /* BarBooks 2.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BarBooks 2.7.xcdatamodel"; sourceTree = "<group>"; };
@@ -159,6 +189,12 @@
 		077EC8301B855D67006F2F9B /* BBModalDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBModalDatePickerViewController.h; path = UserInterface/Views/BBModalDatePickerViewController.h; sourceTree = "<group>"; };
 		077EC8311B855D67006F2F9B /* BBModalDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBModalDatePickerViewController.m; path = UserInterface/Views/BBModalDatePickerViewController.m; sourceTree = "<group>"; };
 		077EC8321B855D67006F2F9B /* BBModalDatePickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BBModalDatePickerViewController.xib; path = UserInterface/Views/BBModalDatePickerViewController.xib; sourceTree = "<group>"; };
+		078D322A1BB3D8AC00A44D8B /* BBSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSplitViewController.h; sourceTree = "<group>"; };
+		078D322B1BB3D8AC00A44D8B /* BBSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSplitViewController.m; sourceTree = "<group>"; };
+		078D322D1BB4CCAF00A44D8B /* BBSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBSettingsTableViewController.h; path = UserInterface/BBSettingsTableViewController.h; sourceTree = "<group>"; };
+		078D322E1BB4CCAF00A44D8B /* BBSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBSettingsTableViewController.m; path = UserInterface/BBSettingsTableViewController.m; sourceTree = "<group>"; };
+		078D32301BB50CDF00A44D8B /* BBProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBProfileTableViewController.h; path = UserInterface/BBProfileTableViewController.h; sourceTree = "<group>"; };
+		078D32311BB50CDF00A44D8B /* BBProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBProfileTableViewController.m; path = UserInterface/BBProfileTableViewController.m; sourceTree = "<group>"; };
 		0793E0281B7D62C9001E2A5B /* BBColoredTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBColoredTableViewCell.h; path = UserInterface/Views/BBColoredTableViewCell.h; sourceTree = "<group>"; };
 		0793E0291B7D62C9001E2A5B /* BBColoredTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBColoredTableViewCell.m; path = UserInterface/Views/BBColoredTableViewCell.m; sourceTree = "<group>"; };
 		0793E02B1B7D7206001E2A5B /* BBTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBTableViewController.h; path = UserInterface/BBTableViewController.h; sourceTree = "<group>"; };
@@ -375,14 +411,26 @@
 		36FE52DB1BA0162000930E4C /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		36FE52DC1BA0162000930E4C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		36FE52E11BA133E300930E4C /* TestNSDate+BBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestNSDate+BBUtil.m"; sourceTree = "<group>"; };
+		3D5E415CD806E02B9CE8F4DC /* libPods-BarBooks Tracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BarBooks Tracker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		40637052552039C9500C75C2 /* Pods-barbooks-ipadTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipadTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipadTests/Pods-barbooks-ipadTests.debug.xcconfig"; sourceTree = "<group>"; };
 		58C9897D4CE4F5D4B234CD54 /* libPods-barbooks-ipadTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbooks-ipadTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8405C19B61BE3BE9CEE34FAD /* Pods-barbooks-ipadTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipadTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipadTests/Pods-barbooks-ipadTests.release.xcconfig"; sourceTree = "<group>"; };
 		8618EA4FD2DC3531324F4342 /* Pods-barbooks-ipad.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipad.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad.debug.xcconfig"; sourceTree = "<group>"; };
+		87159D0F2E2B79D1993BED67 /* Pods-BarBooks Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BarBooks Tracker.release.xcconfig"; path = "Pods/Target Support Files/Pods-BarBooks Tracker/Pods-BarBooks Tracker.release.xcconfig"; sourceTree = "<group>"; };
+		8FF85447AFF11A4981D33592 /* Pods-BarBooks Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BarBooks Tracker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BarBooks Tracker/Pods-BarBooks Tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbooks-ipad.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		073ED8961BB25AB000DC89C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				073ED89B1BB25AB000DC89C7 /* NotificationCenter.framework in Frameworks */,
+				E27390647AD46662B21CA498 /* libPods-BarBooks Tracker.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36C9E64A1B1AC6840085D647 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -404,6 +452,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		073ED89C1BB25AB000DC89C7 /* Tracker */ = {
+			isa = PBXGroup;
+			children = (
+				073ED89D1BB25AB000DC89C7 /* TodayViewController.h */,
+				073ED89E1BB25AB000DC89C7 /* TodayViewController.m */,
+				073ED8A01BB25AB000DC89C7 /* MainInterface.storyboard */,
+				073ED8A31BB25AB000DC89C7 /* Info.plist */,
+			);
+			path = Tracker;
+			sourceTree = "<group>";
+		};
 		07694B001B9BC7D500995128 /* Thirdparty */ = {
 			isa = PBXGroup;
 			children = (
@@ -444,6 +503,8 @@
 				07694AFB1B996DEE00995128 /* BBTimerCellAccessory.xib */,
 				07BEE4691B996CAB00876EC7 /* BBMultilineTextTableViewCell.h */,
 				07BEE46A1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m */,
+				073ED8921BB24AF800DC89C7 /* BBPopoverController.h */,
+				073ED8931BB24AF800DC89C7 /* BBPopoverController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -478,8 +539,14 @@
 				36788FA61B20350F00B34D3E /* BBBaseTableViewController.m */,
 				36DEF92A1B22FEE70053CD8C /* BBHomeViewController.h */,
 				36DEF92B1B22FEE70053CD8C /* BBHomeViewController.m */,
+				073ED8691BB2154000DC89C7 /* BBDashboardViewController.h */,
+				073ED86A1BB2154000DC89C7 /* BBDashboardViewController.m */,
 				0793E02B1B7D7206001E2A5B /* BBTableViewController.h */,
 				0793E02C1B7D7206001E2A5B /* BBTableViewController.m */,
+				078D322A1BB3D8AC00A44D8B /* BBSplitViewController.h */,
+				078D322B1BB3D8AC00A44D8B /* BBSplitViewController.m */,
+				078D322D1BB4CCAF00A44D8B /* BBSettingsTableViewController.h */,
+				078D322E1BB4CCAF00A44D8B /* BBSettingsTableViewController.m */,
 			);
 			name = UserInterface;
 			sourceTree = "<group>";
@@ -622,6 +689,8 @@
 				36C39B911B7F0F8D00985DCB /* BBLoginViewController.m */,
 				36C39B931B7F0FC500985DCB /* BBSynchronizationViewController.h */,
 				36C39B941B7F0FC500985DCB /* BBSynchronizationViewController.m */,
+				078D32301BB50CDF00A44D8B /* BBProfileTableViewController.h */,
+				078D32311BB50CDF00A44D8B /* BBProfileTableViewController.m */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -631,6 +700,7 @@
 			children = (
 				36C9E64F1B1AC6840085D647 /* barbooks-ipad */,
 				36C9E66F1B1AC6840085D647 /* barbooks-ipadTests */,
+				073ED89C1BB25AB000DC89C7 /* Tracker */,
 				36C9E64E1B1AC6840085D647 /* Products */,
 				EB31F5B922FBE1F04ADA685C /* Pods */,
 				8A4FEF9AFCF6BC556AFF52E8 /* Frameworks */,
@@ -642,6 +712,7 @@
 			children = (
 				36C9E64D1B1AC6840085D647 /* barbooks-ipad.app */,
 				36C9E66C1B1AC6840085D647 /* barbooks-ipadTests.xctest */,
+				073ED8991BB25AB000DC89C7 /* BarBooks Tracker.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -843,6 +914,8 @@
 			children = (
 				DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */,
 				58C9897D4CE4F5D4B234CD54 /* libPods-barbooks-ipadTests.a */,
+				073ED89A1BB25AB000DC89C7 /* NotificationCenter.framework */,
+				3D5E415CD806E02B9CE8F4DC /* libPods-BarBooks Tracker.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -854,6 +927,8 @@
 				16ED6A71BF367FA077B7B0E6 /* Pods-barbooks-ipad.release.xcconfig */,
 				40637052552039C9500C75C2 /* Pods-barbooks-ipadTests.debug.xcconfig */,
 				8405C19B61BE3BE9CEE34FAD /* Pods-barbooks-ipadTests.release.xcconfig */,
+				8FF85447AFF11A4981D33592 /* Pods-BarBooks Tracker.debug.xcconfig */,
+				87159D0F2E2B79D1993BED67 /* Pods-BarBooks Tracker.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -861,6 +936,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		073ED8981BB25AB000DC89C7 /* BarBooks Tracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 073ED8A71BB25AB000DC89C7 /* Build configuration list for PBXNativeTarget "BarBooks Tracker" */;
+			buildPhases = (
+				20A77BD726EEE791284DFDC2 /* Check Pods Manifest.lock */,
+				073ED8951BB25AB000DC89C7 /* Sources */,
+				073ED8961BB25AB000DC89C7 /* Frameworks */,
+				073ED8971BB25AB000DC89C7 /* Resources */,
+				ED3C7AD3BC6210805DB244A0 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BarBooks Tracker";
+			productName = Tracker;
+			productReference = 073ED8991BB25AB000DC89C7 /* BarBooks Tracker.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		36C9E64C1B1AC6840085D647 /* barbooks-ipad */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 36C9E6761B1AC6850085D647 /* Build configuration list for PBXNativeTarget "barbooks-ipad" */;
@@ -910,6 +1004,10 @@
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = Censea;
 				TargetAttributes = {
+					073ED8981BB25AB000DC89C7 = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 4RGE7J3J76;
+					};
 					36C9E64C1B1AC6840085D647 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 4RGE7J3J76;
@@ -936,11 +1034,22 @@
 			targets = (
 				36C9E64C1B1AC6840085D647 /* barbooks-ipad */,
 				36C9E66B1B1AC6840085D647 /* barbooks-ipadTests */,
+				073ED8981BB25AB000DC89C7 /* BarBooks Tracker */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		073ED8971BB25AB000DC89C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				073ED8B71BB269C400DC89C7 /* Images.xcassets in Resources */,
+				073ED8AD1BB2623D00DC89C7 /* BBTimerCellAccessory.xib in Resources */,
+				073ED8A21BB25AB000DC89C7 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36C9E64B1B1AC6840085D647 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -963,6 +1072,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		20A77BD726EEE791284DFDC2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		36FE52DA1BA015B200930E4C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1021,6 +1145,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		ED3C7AD3BC6210805DB244A0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BarBooks Tracker/Pods-BarBooks Tracker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F3338FD989783D292DB4C28C /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1039,6 +1178,24 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		073ED8951BB25AB000DC89C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				073ED8B21BB262DB00DC89C7 /* NSArray+BBUtil.m in Sources */,
+				073ED8AC1BB2623D00DC89C7 /* BBTimerAccessoryView.m in Sources */,
+				073ED8B01BB262DB00DC89C7 /* NSString+BBUtil.m in Sources */,
+				073ED8B11BB262DB00DC89C7 /* NSDecimalNumber+BBUtil.m in Sources */,
+				073ED8AB1BB2623400DC89C7 /* BBTaskTimer.m in Sources */,
+				073ED8B61BB265FF00DC89C7 /* GlobalAttributes.m in Sources */,
+				073ED8AF1BB262DB00DC89C7 /* UIColor+BBUtil.m in Sources */,
+				073ED8B31BB262DB00DC89C7 /* UIButton+BBUtil.m in Sources */,
+				073ED8B41BB262DB00DC89C7 /* NSMutableDictionary+BBUtil.m in Sources */,
+				073ED8AE1BB262DB00DC89C7 /* NSDate+BBUtil.m in Sources */,
+				073ED89F1BB25AB000DC89C7 /* TodayViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36C9E6491B1AC6840085D647 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1058,6 +1215,7 @@
 				36DEFA2F1B2710650053CD8C /* Account.m in Sources */,
 				36DEFA4D1B2710660053CD8C /* YETReport.m in Sources */,
 				3651DFB91B2EEC18007B321A /* UIResponder+BBUtil.m in Sources */,
+				078D322C1BB3D8AC00A44D8B /* BBSplitViewController.m in Sources */,
 				3651DFBF1B3043F6007B321A /* BBMatterListTableViewCell.m in Sources */,
 				36555FC91B43A8010006A2CA /* BBTaskTimer.m in Sources */,
 				36C9E65F1B1AC6840085D647 /* DetailViewController.m in Sources */,
@@ -1071,6 +1229,7 @@
 				36537B2D1B81C71000E6CF0F /* BBInvoiceTaskTableViewCell.m in Sources */,
 				36DEF9FC1B2710600053CD8C /* RegularInvoice.m in Sources */,
 				36062BC91B6CF6D80088DB29 /* BBTimers.m in Sources */,
+				078D322F1BB4CCAF00A44D8B /* BBSettingsTableViewController.m in Sources */,
 				072007CB1B86EE74000CC616 /* BBSelectionTableViewController.m in Sources */,
 				36DEF9FF1B2710620053CD8C /* ReportDetailItem.m in Sources */,
 				36DEFA1D1B2710640053CD8C /* GeneralReceipt.m in Sources */,
@@ -1086,6 +1245,7 @@
 				365F3D011B8039C60051D2C2 /* BBInvoiceViewController.m in Sources */,
 				36DEFA261B2710650053CD8C /* ReceiptAllocation.m in Sources */,
 				36CED14B1B3A8E9900F421F5 /* BBDropDownListViewController.m in Sources */,
+				078D32321BB50CDF00A44D8B /* BBProfileTableViewController.m in Sources */,
 				07A82E7D1B9BF02700796F10 /* BBAccountManager.m in Sources */,
 				36C39B921B7F0F8D00985DCB /* BBLoginViewController.m in Sources */,
 				36DEFA591B2710660053CD8C /* CAReport.m in Sources */,
@@ -1102,6 +1262,7 @@
 				36DEF92C1B22FEE70053CD8C /* BBHomeViewController.m in Sources */,
 				365F3CFA1B7F5A7A0051D2C2 /* BBValidator.m in Sources */,
 				365F3CFE1B8039930051D2C2 /* BBInvoiceListViewController.m in Sources */,
+				073ED8941BB24AF800DC89C7 /* BBPopoverController.m in Sources */,
 				36DEFA3E1B2710650053CD8C /* Receipt.m in Sources */,
 				36CC97501B47B6CF00CB1C45 /* BBRateViewController.m in Sources */,
 				36DEFA561B2710660053CD8C /* Solicitor.m in Sources */,
@@ -1124,6 +1285,7 @@
 				36788FAB1B20368B00B34D3E /* NSDate+BBUtil.m in Sources */,
 				07694B251B9BC7D500995128 /* BBIncrementalStore.m in Sources */,
 				36DEFA351B2710650053CD8C /* VariationOfFees.m in Sources */,
+				073ED86B1BB2154000DC89C7 /* BBDashboardViewController.m in Sources */,
 				077EC8331B855D67006F2F9B /* BBModalDatePickerViewController.m in Sources */,
 				36DEFA4A1B2710660053CD8C /* Task.m in Sources */,
 				36DEFA621B2710660053CD8C /* OutstandingFees.m in Sources */,
@@ -1157,7 +1319,6 @@
 				36CA10431BA955EF0077D888 /* BankfeedsClient.m in Sources */,
 				36FE52E61BA1382900930E4C /* PrefixHeader.pch in Sources */,
 				36FE52E31BA136E900930E4C /* NSDate+BBUtil.h in Sources */,
-				36FE52E41BA136E900930E4C /* NSDate+BBUtil.m in Sources */,
 				36FE52E21BA133E300930E4C /* TestNSDate+BBUtil.m in Sources */,
 				36C9E6731B1AC6840085D647 /* barbooks_ipadTests.m in Sources */,
 				36CA10411BA9536B0077D888 /* BankfeedsTests.m in Sources */,
@@ -1175,6 +1336,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		073ED8A01BB25AB000DC89C7 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				073ED8A11BB25AB000DC89C7 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		36C9E6601B1AC6840085D647 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1194,6 +1363,49 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		073ED8A81BB25AB000DC89C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8FF85447AFF11A4981D33592 /* Pods-BarBooks Tracker.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Tracker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.censea.barbooks-ipad.BarBooks-Tracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		073ED8A91BB25AB000DC89C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87159D0F2E2B79D1993BED67 /* Pods-BarBooks Tracker.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Tracker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.censea.barbooks-ipad.BarBooks-Tracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		36C9E6741B1AC6850085D647 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1367,6 +1579,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		073ED8A71BB25AB000DC89C7 /* Build configuration list for PBXNativeTarget "BarBooks Tracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				073ED8A81BB25AB000DC89C7 /* Debug */,
+				073ED8A91BB25AB000DC89C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		36C9E6481B1AC6840085D647 /* Build configuration list for PBXProject "barbooks-ipad" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

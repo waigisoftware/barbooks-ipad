@@ -44,6 +44,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [[self.splitViewController navigationController] popToRootViewControllerAnimated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -119,6 +121,13 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue destinationViewController] isKindOfClass:[BBMatterListViewController class]]) {
+        BBMatterListViewController *matterList = [segue destinationViewController];
+        matterList.matter = sender;
+    } else if ([[segue destinationViewController] isKindOfClass:[BBExpenseListViewController class]]) {
+        BBExpenseListViewController *expenseList = [segue destinationViewController];
+        expenseList.expense = sender;
+    }
 }
 
 #pragma mark - button actions
@@ -129,12 +138,15 @@
 }
 
 - (IBAction)onCreateTask:(id)sender {
+    
 }
 
 - (IBAction)onCreateInvoice:(id)sender {
+    
 }
 
 - (IBAction)onCreateReceipt:(id)sender {
+    
 }
 
 - (IBAction)onCreateExpense:(id)sender {
@@ -149,12 +161,15 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     switch (section) {
         case 0:
-            return 3; break;
+            return 3;
         case 1:
-            return 1; break;
+            return 1;
+            break;
     }
+    
     return 0;
 }
 
@@ -166,10 +181,14 @@
         case 0:
             switch (indexPath.row) {
                 case 0:
+                    cell.imageView.image = [UIImage imageNamed:@"icon_overview"];
+                    cell.textLabel.text = @"Dashboard";
+                    break;
+                case 1:
                     cell.imageView.image = [UIImage imageNamed:@"icon_matter_list"];
                     cell.textLabel.text = @"Matters";
                     break;
-                case 1:
+                case 3:
                     cell.imageView.image = [UIImage imageNamed:@"icon_receipt_list"];
                     cell.textLabel.text = @"Receipts";
                     break;
@@ -177,6 +196,7 @@
                     cell.imageView.image = [UIImage imageNamed:@"icon_expense_list"];
                     cell.textLabel.text = @"Expenses";
                     break;
+                    
             }
             break;
         case 1:
@@ -199,12 +219,15 @@
     switch (indexPath.section) {
         case 0:
             switch (indexPath.row) {
-                case 0: {
+                case 0:
+                    [self performSegueWithIdentifier:@"showDetail" sender:indexPath];
+                    break;
+                case 1: {
                     NSLog(@"Matters");
-                    [self showMatters:[Matter firstMatter]];
+                    [self showMatters:[Matter firstMatterOfAccount:[BBAccountManager sharedManager].activeAccount]];
                     break;
                 }
-                case 1:
+                case 3:
                     NSLog(@"Receipts");
                     break;
                 case 2:
@@ -217,6 +240,7 @@
             switch (indexPath.row) {
                 case 0: {
                     NSLog(@"Settings");
+                    [self performSegueWithIdentifier:@"showSettings" sender:self];
                     break;
                 }
                 
@@ -226,47 +250,30 @@
     }
 }
 
-//- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+
+- (IBAction)unwindToHomeViewController:(id)sender
+{
+    
+}
 
 - (void)showMatters:(Matter *)matter {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    BBMatterListViewController *matterListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterListViewController];
-    [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:matterListViewController animated:YES];
-    matterListViewController.matter = matter;
-    
-    UITabBarController *tabBarController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryTabBarController];
-    tabBarController.selectedIndex = 0;
-    for (UIViewController *vc in [tabBarController viewControllers]) {
-        if ([vc isKindOfClass:[BBTaskListViewController class]]) {
-            BBTaskListViewController *taskListViewController = (BBTaskListViewController *)vc;
-            taskListViewController.matter = matter;
-            taskListViewController.matterListViewController = matterListViewController;
-            matterListViewController.taskListViewController = taskListViewController;
-        }
-        if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
-            ((BBExpenseListViewController *)vc).matter = matter;
-        }
-        if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
-            ((BBInvoiceListViewController *)vc).matter = matter;
-        }
-        if ([vc isKindOfClass:[BBReceiptListViewController class]]) {
-            ((BBReceiptListViewController *)vc).matter = matter;
-        }
-    }
-    
-    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:tabBarController animated:YES];
+    [self performSegueWithIdentifier:@"showMatters" sender:matter];
+
 }
 
 - (void)showExpenses:(Expense *)expense {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    BBExpenseListViewController *expenseListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBExpenseListViewController];
-    BBExpenseViewController *expenseViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBExpenseViewController];
-    [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:expenseListViewController animated:YES];
-    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:expenseViewController animated:YES];
-    expenseListViewController.expense = expense;
-    expenseListViewController.expenseViewController = expenseViewController;
-    expenseViewController.expense = expense;
-    expenseViewController.expenseListViewController = expenseListViewController;
+    [self performSegueWithIdentifier:@"showExpensesList" sender:expense];
+    
+//
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    BBExpenseListViewController *expenseListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBExpenseListViewController];
+//    BBExpenseViewController *expenseViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBExpenseViewController];
+//    [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:expenseListViewController animated:YES];
+//    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:expenseViewController animated:YES];
+//    expenseListViewController.expense = expense;
+//    expenseListViewController.expenseViewController = expenseViewController;
+//    expenseViewController.expense = expense;
+//    expenseViewController.expenseListViewController = expenseListViewController;
 }
 
 @end

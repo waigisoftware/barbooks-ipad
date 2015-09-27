@@ -40,15 +40,20 @@
     
     switch (self.discountType.intValue) {
         case 0:
-            if (!self.value) {
-                NSLog(@"");
-            }
+           
             amount = [totalAmount decimalNumberByAccuratelySubtracting:self.value];
             break;
         case 1:
         {
-            NSDecimalNumber *discountFactor = [self.value decimalNumberByAccuratelyDividingBy:[NSDecimalNumber oneHundred]];
-            amount = [totalAmount decimalNumberByAccuratelyMultiplyingBy:discountFactor];
+            NSDecimalNumberHandler *handler = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                                                     scale:4
+                                                                                          raiseOnExactness:NO
+                                                                                           raiseOnOverflow:NO
+                                                                                          raiseOnUnderflow:NO
+                                                                                       raiseOnDivideByZero:NO];
+            
+            NSDecimalNumber *discountFactor = [self.value decimalNumberByDividingBy:[NSDecimalNumber oneHundred] withBehavior:handler];
+            amount = [totalAmount decimalNumberByMultiplyingBy:[[NSDecimalNumber one] decimalNumberByAccuratelySubtracting:discountFactor] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
             break;
         }
         case 2:

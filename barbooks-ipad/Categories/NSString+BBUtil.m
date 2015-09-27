@@ -16,7 +16,7 @@
     static dispatch_once_t oncetoken;
     dispatch_once(&oncetoken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:SHORT_DATE_FORMAT];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     });
     
     return [dateFormatter dateFromString:self];

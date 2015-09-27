@@ -36,6 +36,10 @@
     return [NSDecimalNumber decimalNumberWithString:@"100"];
 }
 
++ (instancetype)sixty {
+    return [NSDecimalNumber decimalNumberWithString:@"60"];
+}
+
 + (instancetype)anHourSeconds {
     return [NSDecimalNumber decimalNumberWithString:@"3600"];
 }
@@ -49,12 +53,21 @@
     if ([numberValue isNumeric]) {
         return [NSDecimalNumber decimalNumberWithString:numberValue];
     } else {
-        NSString *formattedString = [numberValue stringByReplacingOccurrencesOfString:@"$" withString:@""];
+        NSString *formattedString = [numberValue stringByReplacingOccurrencesOfString:@"%" withString:@""];
+        formattedString = [formattedString stringByReplacingOccurrencesOfString:@"$" withString:@""];
         if ([formattedString isNumeric]) {
             return [NSDecimalNumber decimalNumberWithString:formattedString];
         }
         return [NSDecimalNumber zero];
     }
+}
+
+
+- (NSString *)percentAmount {
+    NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterPercentStyle];
+    
+    return [nf stringFromNumber: [self decimalNumberByAccuratelyDividingBy:[NSDecimalNumber oneHundred]]];
 }
 
 - (NSString *)currencyAmount {

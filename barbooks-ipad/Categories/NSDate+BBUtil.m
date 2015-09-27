@@ -37,7 +37,7 @@
     static dispatch_once_t oncetoken;
     dispatch_once(&oncetoken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:SHORT_DATE_FORMAT];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     });
     
     return [dateFormatter stringFromDate:self];
@@ -50,6 +50,8 @@
     static dispatch_once_t oncetoken;
     dispatch_once(&oncetoken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+
         [dateFormatter setDateFormat:SHORT_DATE_TIME_FORMAT];
     });
     
@@ -111,6 +113,47 @@ NSString *YEAR_FORMAT = @"yyyy";
     
     NSDate *currentDatePlusMonth = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
     return currentDatePlusMonth;
+}
+
+- (NSDate*)dateByAddingDays:(NSInteger)days
+{
+    NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
+    dayComponent.day = days;
+    
+    NSCalendar *theCalendar = [NSCalendar currentCalendar];
+    NSDate *nextDate = [theCalendar dateByAddingComponents:dayComponent toDate:self options:0];
+    
+    return nextDate;
+}
+
+
+- (NSDate*)endOfDay
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger comps = (NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute);
+    
+    NSDateComponents *dateComponents = [calendar components:comps
+                                                   fromDate: self];
+    dateComponents.hour = 23;
+    dateComponents.minute = 59;
+    dateComponents.second = 59;
+    
+    return [calendar dateFromComponents:dateComponents];
+}
+
+
+- (NSDate*)startOfDay
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger comps = (NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute);
+    
+    NSDateComponents *dateComponents = [calendar components:comps
+                                                   fromDate: self];
+    dateComponents.hour = 0;
+    dateComponents.minute = 0;
+    dateComponents.second = 0;
+    
+    return [calendar dateFromComponents:dateComponents];
 }
 
 - (NSInteger)financialYear

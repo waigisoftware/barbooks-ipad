@@ -34,6 +34,7 @@
 //    [[[BBCoreDataManager sharedInstance] managedObjectContext] save:nil];
 //}
 
+
 - (UIStoryboard *)mainStoryboard {
     if (!_mainStoryboard) {
         _mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -42,7 +43,11 @@
 }
 
 - (BOOL) splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation {
-    return NO;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

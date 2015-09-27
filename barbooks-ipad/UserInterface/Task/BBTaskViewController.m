@@ -62,7 +62,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [self stopEditing];
-    [_delegate updateTask:_task];
+    //[_delegate updateTask:_task];
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self.observer];
 }
@@ -85,12 +85,14 @@
     _rateNameLabel.text = _task.rate.name;
     _rateAmountTextField.text = [_task.rate.amount currencyAmount];
     _rateAmountInclTextField.text = [_task.rate.amountGst currencyAmount];
+    
     if ([_task hourlyRate]) {
         [self.hoursPickerView selectRow:_task.hours.integerValue inComponent:0 animated:NO];
         [self.hoursPickerView selectRow:_task.minutes.integerValue inComponent:1 animated:NO];
     } else {
         _rateUnitTextField.text = [_task.units stringValue];
     }
+    
     BOOL discountExists = _task.discount != nil;
     _discountActiveSwitch.on = discountExists;
     if (discountExists) {
@@ -99,8 +101,14 @@
         if (_task.discount.discountType.integerValue == 1) {
             [discountFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
         }
+        
         _discountTypeLabel.text = [_task.discount discountTypeDescription];
-        _discountValueTextField.text = [discountFormatter stringFromNumber:_task.discount.value];
+
+        if (_task.discount.discountType.integerValue == 1) {
+            _discountValueTextField.text = [_task.discount.value percentAmount];
+        } else {
+            _discountValueTextField.text = [_task.discount.value currencyAmount];
+        }
     }
 }
 
@@ -126,11 +134,17 @@
     }
     
     if (_task.discount) {
-        _task.discount.value = [NSDecimalNumber decimalNumberWithString:_discountValueTextField.text];
+        _task.discount.value = [NSDecimalNumber decimalNumberFromCurrencyString:_discountValueTextField.text];
     }
     _rateAmountInclTextField.text = [_task.rate.amountGst currencyAmount];
     _rateAmountTextField.text = [_task.rate.amount currencyAmount];
-    _discountTypeLabel.text = [_task.discount.value currencyAmount];
+    if (_task.discount.discountType.integerValue == 1) {
+        _discountValueTextField.text = [_task.discount.value percentAmount];
+    } else {
+        _discountValueTextField.text = [_task.discount.value currencyAmount];
+    }
+    
+    [_task.managedObjectContext MR_saveToPersistentStoreAndWait];
     
     // recalculate
     [self.delegate updateTask:_task];
@@ -213,9 +227,9 @@
 - (void)stopEditing {
     [[UIResponder currentFirstResponder] resignFirstResponder];
     // update Task object
-    [self updateTaskFromUI];
+//    [self updateTaskFromUI];
     // refresh UI
-    [self loadTaskIntoUI];
+//    [self loadTaskIntoUI];
 }
 
 #pragma mark IBActions
@@ -252,7 +266,7 @@
 
 - (IBAction)onDiscountSwitched:(id)sender {
     if (_discountActiveSwitch.on) {
-        _task.discount = [Discount MR_createEntityInContext:_task.managedObjectContext];
+        _task.discount = [Discount MR_createEntity];
         _task.discount.value = [NSDecimalNumber zero];
         _task.discount.discountType = @0;
         _discountTypeLabel.text = [_task.discount discountTypeDescription];
@@ -329,7 +343,7 @@
             self.tableView.tableFooterView.hidden = selectedRate.rateType.integerValue != BBRateChargingTypeHourly;
         } else {
             _task.discount.discountType = @(indexPath.row);
-            _discountTypeLabel.text = [_task.discount discountTypeDescription];
+            [self updateTaskFromUI];
         }
         
         [self.tableView reloadData];
@@ -423,6 +437,13 @@
     return 0;
 }
 
+- (IBAction)onDone:(id)sender {
+    [self.delegate updateTask:_task];
+    [_task.managedObjectContext MR_saveToPersistentStoreAndWait];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 #pragma mark - Navigation
 - (UITableViewController *)newTableViewController {
     UITableViewController *tableviewController = [[UITableViewController alloc] initWithStyle:UITableViewStyleGrouped];

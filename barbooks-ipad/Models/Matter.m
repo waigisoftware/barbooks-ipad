@@ -145,10 +145,7 @@
 }
 
 - (NSArray *)tasksArray {
-    return [[self.tasks allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [((Task *)obj2).createdAt compare:((Task *)obj1).createdAt];
-    }];
-    return [[self.tasks allObjects] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+    return [[self.tasks allObjects] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]]];
 }
 
 - (NSArray *)ratesArray {
@@ -172,18 +169,18 @@
 }
 
 
-+ (NSArray *)unarchivedMatters {
-    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:NO]];
++ (NSArray *)unarchivedMattersOfAccount:(Account*)account {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@ AND account == %@", [NSNumber numberWithBool:NO], account];
     return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
 }
 
-+ (NSArray *)archivedMatters {
-    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:YES]];
++ (NSArray *)archivedMattersOfAccount:(Account*)account {
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@ AND account == %@", [NSNumber numberWithBool:YES],account];
     return [Matter MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
 }
 
-+ (instancetype)firstMatter {
-    return [[Matter unarchivedMatters] firstObject];
++ (instancetype)firstMatterOfAccount:(Account*)account {
+    return [[Matter unarchivedMattersOfAccount:account] firstObject];
 }
 
 @end

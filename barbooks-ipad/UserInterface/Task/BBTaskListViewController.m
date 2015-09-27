@@ -17,7 +17,6 @@
 @interface BBTaskListViewController () <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UITableView *tasksTableView;
 
 @property (strong, nonatomic) NSArray *originalItemList;
 @property (strong, nonatomic) NSArray *filteredItemList;
@@ -29,11 +28,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerUpdated:) name:kTimerUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerStopped:) name:kTimerDeactivatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerPaused:) name:kTimerPausedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerResumed:) name:kTimerResumedNotification object:nil];
-    
     // tableview
     _tasksTableView.dataSource = self;
     _tasksTableView.delegate = self;
@@ -44,6 +38,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerUpdated:) name:kTimerUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerStopped:) name:kTimerDeactivatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerPaused:) name:kTimerPausedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timerResumed:) name:kTimerResumedNotification object:nil];
+
     // setup navigation bar and toolbar
     [self setupNavigationBar];
     [self fetchTasks];
@@ -55,8 +54,7 @@
     [super viewDidAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -71,7 +69,7 @@
     self.tabBarController.navigationItem.title = @"Tasks";
     
     // hide back button
-    self.tabBarController.navigationItem.hidesBackButton = YES;
+    // self.tabBarController.navigationItem.hidesBackButton = YES;
     
     // add 'Add' & 'Delete' button
     UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -81,22 +79,30 @@
 }
 
 
-
 #pragma mark - Button actions
 
 - (void)onAddTask {
+    if (self.matter.rates.count == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Rates"
+                                                        message:@"The matter needs default rates to allow tasks to be added."
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil];
+        [alert show];
+    } else {
+        Task *newTask = [Task newInstanceOfMatter:self.matter];
+        
+        [self fetchTasks];
+        NSIndexPath *path = [self indexPathOfTask:newTask];
+        [_tasksTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
+        
+        CGRect rect = [_tasksTableView rectForRowAtIndexPath:path];
+        rect.origin.y += _tasksTableView.contentInset.top;
+        
+        BBTaskListTableViewCell *cell = (id)[_tasksTableView cellForRowAtIndexPath:path];
+        [cell.taskNameLabel becomeFirstResponder];
+    }
     
-    Task *newTask = [Task newInstanceOfMatter:self.matter];
-    
-    [self fetchTasks];
-    NSIndexPath *path = [self indexPathOfTask:newTask];
-    [_tasksTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
-    
-    CGRect rect = [_tasksTableView rectForRowAtIndexPath:path];
-    rect.origin.y += _tasksTableView.contentInset.top;
-    
-    BBTaskListTableViewCell *cell = (id)[_tasksTableView cellForRowAtIndexPath:path];
-    [cell.taskNameLabel becomeFirstResponder];
 }
 
 - (void)onDeleteTask {
@@ -148,17 +154,19 @@
     BBTaskListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     Task *task = [_filteredItemList objectAtIndex:indexPath.row];
     if (task != NULL) {
+        NSDateFormatter *dateFormatter = [NSDateFormatter new];
+        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
         cell.taskNameLabel.text = task.name;
         cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
         cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
         cell.slashLabel.hidden = !task.isTaxed;
-        cell.includeGSTLabel.hidden = !task.isTaxed;
+        cell.includeGSTLabel.hidden = !task.isTaxed || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone;
         cell.totalFeesIncludeGSTLabel.hidden = !task.isTaxed;
         cell.matterDescriptionLabel.text = task.matter.name;
-        cell.taskDateLabel.text = [task.date toShortDateFormat];
+        cell.taskDateLabel.text = [dateFormatter stringFromDate:task.date];
+        cell.invoicedIndicator.hidden = task.invoice == nil;
         
         if ([task hourlyRate]) {
-            
             BBTimerAccessoryView *accView = [BBTimerAccessoryView cellAccessoryViewWithOwner:self];
             
             UIButton *button = accView.timerButton;
@@ -188,8 +196,6 @@
             [cell setAccessoryType:UITableViewCellAccessoryDetailButton];
             cell.taskTimeLabel.text = [NSString stringWithFormat:@"%@ %@", [task.units stringValue], [task.rate typeDescription]];
         }
-        
-
     }
     
     return cell;
@@ -228,7 +234,9 @@
     NSIndexPath *indexPath = [self.tasksTableView indexPathForRowAtPoint:currentTouchPosition];
     if (indexPath != nil){
         
-        [self popoverTaskViewWithTask:[self.filteredItemList objectAtIndex:indexPath.row] inRect:sender.frame inView:[self.tasksTableView cellForRowAtIndexPath:indexPath].accessoryView];
+        [self performSegueWithIdentifier:@"showTaskDetail" sender:[self.filteredItemList objectAtIndex:indexPath.row]];
+
+        //[self popoverTaskViewWithTask:[self.filteredItemList objectAtIndex:indexPath.row] inRect:sender.frame inView:[self.tasksTableView cellForRowAtIndexPath:indexPath].accessoryView];
     }
 }
 
@@ -237,11 +245,11 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    //CGRect popRect = CGRectMake(cell.frame.origin.x + cell.contentView.frame.size.width, cell.frame.size.height/2.0, 1, 1);
 
-    CGRect popRect = CGRectMake(cell.frame.origin.x + cell.contentView.frame.size.width, cell.frame.size.height/2.0, 1, 1);
-
-    [self popoverTaskViewWithTask:[self.filteredItemList objectAtIndex:indexPath.row] inRect:popRect inView:cell];
+    [self performSegueWithIdentifier:@"showTaskDetail" sender:[self.filteredItemList objectAtIndex:indexPath.row]];
+    //[self popoverTaskViewWithTask:[self.filteredItemList objectAtIndex:indexPath.row] inRect:popRect inView:cell];
 }
 
 - (void)expandTimerForCell:(UITableViewCell*)cell animated:(BOOL)animated
@@ -252,7 +260,6 @@
     UIView *viewPrototype = [BBTimerAccessoryView cellAccessoryViewWithOwner:self];
     
     CGRect accViewRect = viewPrototype.bounds;
-    
     
     if (animated) {
         [UIView animateWithDuration:0.6
@@ -367,7 +374,6 @@
 }
 
 
-
 #pragma mark - override
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
@@ -409,21 +415,6 @@
     //TODO:
 }
 
-- (void)popoverDiscountViewWithTask:(Task *)task inCell:(UITableViewCell *)cell {
-    BBDiscountViewController *discountViewController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBDiscountViewController];
-    discountViewController.delegate = self;
-    discountViewController.task = task;
-    
-    // pop it over
-    UIPopoverController * popoverController = [[UIPopoverController alloc] initWithContentViewController:discountViewController];
-    popoverController.delegate = self;
-    popoverController.popoverContentSize = CGSizeMake(300, 170);
-    [popoverController presentPopoverFromRect:self.navigationController.navigationBar.frame
-                                       inView:self.view
-                     permittedArrowDirections:UIPopoverArrowDirectionAny
-                                     animated:YES];
-}
-
 #pragma mark - BBTaskDelegate
 
 - (void)updateTask:(id)data {
@@ -431,6 +422,7 @@
     Task *task = data;
     // refresh matter list accordingly
     [self.matterListViewController fetchMatters];
+    [self.matterListViewController.matterListTableView reloadData];
     [self.tasksTableView beginUpdates];
     [self.tasksTableView reloadRowsAtIndexPaths:@[[self indexPathOfTask:task]] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tasksTableView endUpdates];
@@ -533,6 +525,27 @@
     
     // refresh matter list accordingly
     [self.matterListViewController fetchMatters];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    UINavigationController *navigationController = segue.destinationViewController;
+    BBTaskViewController *taskViewController = (BBTaskViewController*)navigationController.topViewController;
+    taskViewController.delegate = self;
+    taskViewController.task = sender;
+    
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [self.tasksTableView reloadRowsAtIndexPaths:self.tasksTableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    }];
+    
 }
 
 @end

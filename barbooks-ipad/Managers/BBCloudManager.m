@@ -44,11 +44,10 @@
 @property (strong) NSMutableData *responseData;
 @property (assign) BOOL syncActive;
 
-
 @end
 
-@implementation BBCloudManager
 
+@implementation BBCloudManager
 
 + (instancetype) sharedManager
 {
@@ -500,7 +499,7 @@ static BOOL isInternetConnection()
                     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:properties
                                                                        options:NSJSONWritingPrettyPrinted
                                                                          error:&error];
-                                        
+                    
                     [self startCouchbaseUserRequestWithURL:[NSURL URLWithString:[remoteDbURL stringByAppendingString:@"/"]]
                                                 httpMethod:@"POST"
                                                       data:jsonData

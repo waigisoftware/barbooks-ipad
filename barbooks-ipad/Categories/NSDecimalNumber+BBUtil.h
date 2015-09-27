@@ -14,11 +14,13 @@
 + (NSDecimalNumber *)decimalNumberFromCurrencyString:(NSString *)numberValue;
 + (instancetype)ten;
 + (instancetype)eleven;
++ (instancetype)sixty;
 + (instancetype)oneHundred;
 + (instancetype)decimalNumberWithInt:(int)value;
 + (instancetype)anHourSeconds;
 
-- (NSString*)currencyAmount;
+- (NSString *)currencyAmount;
+- (NSString *)percentAmount;
 - (NSString *)roundedAmount;
 - (instancetype)decimalNumberAddGST;
 - (instancetype)decimalNumberSubtractGST;
@@ -34,10 +36,5 @@
 + (NSDecimalNumberHandler*)accurateRoundingHandler;
 + (NSDecimalNumberHandler*)currencyRoundingHandler;
 + (NSDecimalNumberHandler*)bankersRoundingHandler;
-
-+ (NSDecimalNumberHandler*)timeRoundingHandler;
-+ (NSDecimalNumberHandler*)timeFractionRoundingHandler;
-+ (NSDecimalNumberHandler*)accurateRoundingHandler;
-+ (NSDecimalNumberHandler*)currencyRoundingHandler;
 
 @end

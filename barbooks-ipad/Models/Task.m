@@ -97,7 +97,7 @@
         return self.feesIncGst;
     }
     
-    return [self.feesIncGst decimalNumberBySubtracting:[self.discount discountedAmountForTotal:self.feesIncGst] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+    return [self.discount discountedAmountForTotal:self.feesIncGst];
 }
 
 + (NSSet *)keyPathsForValuesAffectingTotalFeesIncGst
@@ -141,7 +141,7 @@
     
     NSDecimalNumber *discountExGst = [[self.discount discountedAmountForTotal:self.feesIncGst] decimalNumberBySubtracting:[self discountGstRate] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
     
-    return [self.feesExGst decimalNumberBySubtracting:discountExGst withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+    return discountExGst;
 }
 
 
@@ -151,7 +151,7 @@
         return self.feesGst;
     }
     
-    return [self.feesGst decimalNumberBySubtracting:[self discountGstRate] withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+    return [self discountGstRate];
 }
 
 - (NSDecimalNumber *)feesExGst

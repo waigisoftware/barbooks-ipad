@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9046" systemVersion="15A282a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="M4Y-Lb-cyx">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9035"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Today View Controller-->
+        <scene sceneID="cwh-vc-ff4">
+            <objects>
+                <viewController id="M4Y-Lb-cyx" customClass="TodayViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ft6-oW-KC0"/>
+                        <viewControllerLayoutGuide type="bottom" id="FKl-LY-JtV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="86"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello World" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
+                                <rect key="frame" x="16" y="8" width="164" height="34"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="MUd-Jc-4UB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matter" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="cto-by-b1Y">
+                                <rect key="frame" x="16" y="50" width="164" height="28"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="V1s-7e-qQE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="pL8-xg-SND">
+                                <rect key="frame" x="192" y="8" width="72" height="34"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="Z5F-lW-7KJ"/>
+                                    <constraint firstAttribute="width" constant="72" id="e1g-nH-LgX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HnD-FS-auD" customClass="BBTimerAccessoryView">
+                                <rect key="frame" x="272" y="8" width="32" height="70"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Cp-ow-9Rv">
+                                        <rect key="frame" x="0.0" y="38" width="32" height="32"/>
+                                        <animations/>
+                                        <color key="backgroundColor" red="0.90196078430000004" green="0.15686274510000001" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="button_timer_stop"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="16"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="stopButtonPressed:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="WZe-pl-du3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="70Y-Mb-UAK">
+                                        <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="0.87" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="button_timer"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="16"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="timerButtonPressed:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="Vxo-Hd-wDQ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="kP6-8X-vwZ"/>
+                                    <constraint firstAttribute="width" constant="32" id="nB2-49-KaN"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="stopButton" destination="3Cp-ow-9Rv" id="SaJ-iY-Y7t"/>
+                                    <outlet property="timerButton" destination="70Y-Mb-UAK" id="MYU-gd-w6V"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$4,000.00" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="kfj-sn-3PJ">
+                                <rect key="frame" x="192" y="50" width="72" height="28"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="72" id="Zy4-0e-PWh"/>
+                                    <constraint firstAttribute="height" constant="28" id="oT6-Jq-49n"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="cto-by-b1Y" secondAttribute="leading" id="ATF-Hr-K3z"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="GcN-lo-r42" secondAttribute="leading" id="CMc-7c-jKv"/>
+                            <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="8" id="KJT-Px-M3t"/>
+                            <constraint firstItem="HnD-FS-auD" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="8" id="Mof-yZ-eYX"/>
+                            <constraint firstItem="kfj-sn-3PJ" firstAttribute="top" secondItem="pL8-xg-SND" secondAttribute="bottom" constant="8" id="PQc-Rh-Oih"/>
+                            <constraint firstItem="pL8-xg-SND" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="8" id="Q6H-Tz-TPW"/>
+                            <constraint firstItem="kfj-sn-3PJ" firstAttribute="leading" secondItem="cto-by-b1Y" secondAttribute="trailing" constant="12" id="SEL-0g-l1J"/>
+                            <constraint firstItem="pL8-xg-SND" firstAttribute="leading" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="12" id="YJB-0U-Z3g"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HnD-FS-auD" secondAttribute="trailing" id="YTy-xe-Je7"/>
+                            <constraint firstItem="HnD-FS-auD" firstAttribute="leading" secondItem="kfj-sn-3PJ" secondAttribute="trailing" constant="8" id="cRB-tJ-VQK"/>
+                            <constraint firstItem="cto-by-b1Y" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="8" id="eRM-Fw-Whg"/>
+                            <constraint firstItem="HnD-FS-auD" firstAttribute="leading" secondItem="pL8-xg-SND" secondAttribute="trailing" constant="8" id="f2h-jG-Du6"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="86"/>
+                    <connections>
+                        <outlet property="accessoryView" destination="HnD-FS-auD" id="6sl-xE-hvI"/>
+                        <outlet property="amountLabel" destination="kfj-sn-3PJ" id="wtE-be-aos"/>
+                        <outlet property="matterLabel" destination="cto-by-b1Y" id="qaj-Jd-eth"/>
+                        <outlet property="taskName" destination="GcN-lo-r42" id="pg3-5A-gXD"/>
+                        <outlet property="timeLabel" destination="pL8-xg-SND" id="pnt-oC-4WA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="516" y="284"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="button_timer" width="32" height="32"/>
+        <image name="button_timer_stop" width="16" height="16"/>
+    </resources>
+</document>

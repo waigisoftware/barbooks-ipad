@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *matterDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taskDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taskTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *invoicedIndicator;
 
 
 

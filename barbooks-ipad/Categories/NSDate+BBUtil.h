@@ -19,7 +19,10 @@
 - (NSString *)day;
 - (NSString *)month;
 - (NSString *)year;
+- (NSDate *)endOfDay;
+- (NSDate *)startOfDay;
 - (NSDate *)dateAfterMonths:(NSInteger)numberOfMonths;
+- (NSDate *)dateByAddingDays:(NSInteger)numberOfDays;
 - (NSInteger)financialYear;
 
 @end

@@ -22,7 +22,6 @@
 @property (strong) NSTimer *refreshTimer;
 @property (strong) NSTimer *remindTimer;
 @property (strong) NSDecimalNumberHandler *handler;
-@property (assign) CFAbsoluteTime startStamp;
 @property (strong) NSDecimalNumber *startDuration;
 
 
@@ -99,6 +98,11 @@
             
         }
         
+        NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.censea.sharedDefaults"];
+        [userDefaults setObject:@0 forKey:@"status"];
+        [userDefaults setObject:_currentTask.duration forKey:@"duration"];
+        [userDefaults synchronize];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:kTimerUpdatedNotification
                                                             object:self.currentTask
                                                           userInfo:nil];
@@ -139,7 +143,11 @@
 
 - (void)startWithTask:(Task *)task sender:(id)sender
 {
-    
+    NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.censea.sharedDefaults"];
+    [userDefaults setObject:@0 forKey:@"status"];
+    [userDefaults setObject:task.duration forKey:@"duration"];
+    [userDefaults synchronize];
+
     if (self.currentTask != nil) {
         [self stop];
     }
@@ -161,6 +169,10 @@
 
 - (void)resume
 {
+    NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.censea.sharedDefaults"];
+    [userDefaults setObject:@0 forKey:@"status"];
+    [userDefaults synchronize];
+
     [self.remindTimer invalidate];
     
     self.timerActive = YES;
@@ -195,6 +207,10 @@
 
 - (void)pause
 {
+    NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.censea.sharedDefaults"];
+    [userDefaults setObject:@1 forKey:@"status"];
+    [userDefaults synchronize];
+
     self.remindTimer = [NSTimer scheduledTimerWithTimeInterval:10*60 target:self selector:@selector(remindNotification) userInfo:nil repeats:NO];
     
     [self.refreshTimer invalidate];
@@ -207,6 +223,12 @@
 
 - (void)stop
 {
+    
+    NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.censea.sharedDefaults"];
+    [userDefaults setObject:@2 forKey:@"status"];
+    [userDefaults synchronize];
+
+    
     self.timerActive = NO;
 
     [self hideBadge];

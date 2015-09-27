@@ -28,11 +28,11 @@
 #import "BankfeedsSample.h"
 
 // Formats
-#define SHORT_DATE_FORMAT @"dd MMM yyyy"
 #define SHORT_DATE_TIME_FORMAT @"dd MMM yyyy, h:mm"
 
 // Segues
 #define BBSegueShowHome @"showHomeSegue"
+#define BBSegueShowMatterEntries @"showMatterEntries"
 #define BBSegueShowMatterDetail @"showMatterDetailSegue"
 #define BBSegueMatterToContactList @"matterToContactListSegue"
 #define BBSegueMatterToRateList @"matterToRateListSegue"
@@ -40,6 +40,7 @@
 #define BBSegueShowSynchronization @"showSynchronizationSegue"
 #define BBSegueShowInvoiceDetail @"showInvoiceDetailSegue"
 #define BBSegueShowExpenseDetail @"showExpenseDetailSegue"
+#define BBSegueShowExpenseDetailModal @"showExpenseDetailModalSegue"
 #define BBSegueShowReceiptDetail @"showReceiptDetailSegue"
 
 // View Controllers
@@ -66,8 +67,8 @@
 // Constans
 #define ONE_SECOND 1
 #define MAX_COUNT_IN_DROPDOWN 4
-#define COUCHBASE_SYNC_URL @"http://52.64.142.97:4984/"
-#define COUCHBASE_DEFAULT_BUCKET @"default"
+#define COUCHBASE_SYNC_URL @"http://winwinretail.com:4984/"
+#define COUCHBASE_DEFAULT_BUCKET @"sync_gateway"
 #define COUCHBASE_ACCOUNT_BUCKET @"accounts"
 
 

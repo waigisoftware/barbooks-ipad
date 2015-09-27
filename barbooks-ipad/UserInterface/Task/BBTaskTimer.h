@@ -23,8 +23,9 @@
 
 @property (strong, nonatomic) Task *currentTask;
 
-+ (instancetype)sharedInstance;
+@property (assign) CFAbsoluteTime startStamp;
 
++ (instancetype)sharedInstance;
 
 - (void)startWithTask:(Task *)task sender:(id)sender;
 - (void)stop;

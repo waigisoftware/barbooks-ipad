@@ -164,7 +164,6 @@ BBContactListViewController *_contactListViewController;
 }
 
 
-
 // Date picker
 - (void)showDatePickerWithDate:(NSDate*)date {
     if (!self.datePickerController) {
@@ -173,8 +172,9 @@ BBContactListViewController *_contactListViewController;
         
         self.datePickerController.delegate = self;
     }
-    
-    [self.datePickerController.datePicker setDate:date];
+    if (date) {
+        [self.datePickerController.datePicker setDate:date];
+    }
 
     [self.view addSubview:self.datePickerController.view];
     [[UIApplication sharedApplication] resignFirstResponder];

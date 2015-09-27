@@ -66,6 +66,50 @@
     }
 }
 
+
+- (void)setAmountIncGst:(NSDecimalNumber *)amountIncGst
+{
+    if (self.userSpecifiedGst.boolValue)
+    {
+        
+    } else if(self.taxed.boolValue)
+    {
+        NSDecimalNumber *dec10 = [NSDecimalNumber decimalNumberWithString:@"10"];
+        NSDecimalNumber *taxFactor = [self.tax decimalNumberByDividingBy:dec10 withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        taxFactor = [taxFactor decimalNumberByAdding:dec10 withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        
+        if ([taxFactor compare:[NSDecimalNumber zero]] == NSOrderedSame) {
+            self.amountGst = [NSDecimalNumber zero];
+        } else {
+            self.amountGst = [amountIncGst decimalNumberByDividingBy:taxFactor withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        }
+    }
+    
+    self.amountExGst = [amountIncGst decimalNumberBySubtracting:self.amountGst withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+    
+}
+
+- (NSDecimalNumber *)amountIncGst
+{
+    /*
+     NSDecimalNumber *amountGst = [NSDecimalNumber zero];
+     
+     if (self.userSpecifiedGst.boolValue) {
+     amountGst = self.amountGst;
+     } else if (self.taxed.boolValue) {
+     NSDecimalNumber *division = [NSDecimalNumber decimalNumberWithString:@"100"];
+     NSDecimalNumber *taxFactor = [self.tax decimalNumberByDividingBy:division withBehavior:[BBManagedObject roundingHandler]];
+     
+     amountGst = [self.amountExGst decimalNumberByMultiplyingBy:taxFactor withBehavior:[BBManagedObject roundingHandler]];
+     }
+     */
+    
+    NSDecimalNumber *exGst = [self.amountExGst decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber currencyRoundingHandler]];
+    NSDecimalNumber *gst = [self.amountGst decimalNumberByRoundingAccordingToBehavior:[NSDecimalNumber currencyRoundingHandler]];
+    
+    return [exGst decimalNumberByAdding:gst withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+}
+
 #pragma mark - convenient methods
 
 - (BBExpenseTaxType)taxType {

@@ -10,6 +10,7 @@
 #import "BBValidator.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "MBProgressHUD.h"
+#import "Account.h"
 
 @interface BBLoginViewController ()
 
@@ -27,6 +28,7 @@
     [super viewDidLoad];
     
     [self configureRACOnLoginButton];
+    
 }
 
 
@@ -40,10 +42,44 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([[BBCloudManager sharedManager] isLoggedIn]) {
+        [self performSegueWithIdentifier:@"showMainApp" sender:self];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subscriptionUpdateSucceeded) name:kLoginSuccessfulNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)subscriptionUpdateSucceeded {
+    [self performSegueWithIdentifier:@"showMainApp" sender:self];
+}
+
 #pragma mark - IBAction
 
 - (IBAction)onLogin:(id)sender {
    
+    Account *account = [[BBAccountManager sharedManager] activeAccount];
+    if (account && ![account.owner isEqualToString:_usernameTextField.text]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Different User"
+                                                        message:@"You are about to log in with a new user. This will remove all previous data./n/nDo you want to proceed?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"No"
+                                              otherButtonTitles:@"Yes", nil];
+    } else {
+        [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"Logging in..."];
+        [[BBCloudManager sharedManager] signinWithUsername:_usernameTextField.text password:_passwordTextField.text];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
     [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"Logging in..."];
     [[BBCloudManager sharedManager] signinWithUsername:_usernameTextField.text password:_passwordTextField.text];
 }
@@ -51,6 +87,11 @@
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+}
+
+- (IBAction)unwindToLoginViewController:(UIStoryboardSegue *)unwindSegue
+{
+    
 }
 
 

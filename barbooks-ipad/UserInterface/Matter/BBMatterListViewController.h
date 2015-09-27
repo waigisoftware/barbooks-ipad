@@ -13,6 +13,7 @@
 @interface BBMatterListViewController : BBBaseTableViewController
 
 @property (strong, nonatomic) BBTaskListViewController *taskListViewController;
+@property (weak, nonatomic) IBOutlet UITableView *matterListTableView;
 
 - (void)fetchMatters;
 

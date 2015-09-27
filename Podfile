@@ -28,6 +28,12 @@ target 'barbooks-ipad' do
     
 end
 
+target 'BarBooks Tracker' do
+    
+    pod "ISO8601DateFormatter", "0.7"
+    
+end
+
 target 'barbooks-ipadTests' do
     
     pod "AFNetworking"

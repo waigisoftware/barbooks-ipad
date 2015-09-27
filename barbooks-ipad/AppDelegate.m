@@ -91,7 +91,7 @@
     
     [[BBAccountManager sharedManager] setManagedObjectContext:context];
     [[BBAccountManager sharedManager] setToLargestAccount];
-
+    
     [Fabric with:@[[Crashlytics class]]];
 
     [self setupNavigationBarAppearance];
@@ -132,6 +132,11 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    Task *task = [[BBTaskTimer sharedInstance] currentTask];
+    if (task) {
+        [[NSUserDefaults standardUserDefaults] setObject:[[task.objectID URIRepresentation] absoluteString] forKey:@"Running Task"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithFloat:[[BBTaskTimer sharedInstance] startStamp]] forKey:@"Timer Stamp"];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -140,7 +145,19 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    Task *task = [[BBTaskTimer sharedInstance] currentTask];
+    if (!task && [[NSUserDefaults standardUserDefaults] objectForKey:@"Running Task"]) {
+        NSURL *objectURI = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"Running Task"]];
+        NSManagedObjectID *objectID = [[NSManagedObjectContext MR_rootSavingContext].persistentStoreCoordinator managedObjectIDForURIRepresentation:objectURI];
+        
+        task = [[NSManagedObjectContext MR_defaultContext] objectWithID:objectID];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Running Task"];
+        [[BBTaskTimer sharedInstance] startWithTask:task sender:self];
+        [[BBTaskTimer sharedInstance] setStartStamp:[[[NSUserDefaults standardUserDefaults] objectForKey:@"Timer Stamp"] floatValue]];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Timer Stamp"];
+    }
 }
+
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Saves changes in the application's managed object context before the application terminates.
@@ -176,19 +193,19 @@
 
 -(void) determineWhichViewControllerToShowFirst
 {
-    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
-    viewController.panGesture.delegate = self;
-    
+    //ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
+    //viewController.panGesture.delegate = self;
+
     BOOL isAuthorized = [[BBCloudManager sharedManager] isLoggedIn];
-    isAuthorized = YES;
+
     if (isAuthorized)
     {
         [[BBCloudManager sharedManager] activateSync];
-        [self showMatters];
+        //[self showMatters];
     }
     else
     {
-        [self showLogin];
+//        [self showLogin];
     }
 }
 
@@ -210,35 +227,31 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
+//
     
-    UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
-    MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
-//    controller.managedObjectContext = self.managedObjectContext;
-    
-    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
-    viewController.topViewController = splitViewController;//[storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerHome];
-    [viewController resetTopViewAnimated:YES];
-
+//    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
+//    viewController.topViewController = splitViewController;//[storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerHome];
+//    [viewController resetTopViewAnimated:YES];
 }
 
 -(void) showLogin
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subscriptionUpdateSucceeded) name:kLoginSuccessfulNotification object:nil];
-
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
-    viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
-    [viewController resetTopViewAnimated:YES];
+    [self.window makeKeyAndVisible];
+    [self.window.rootViewController performSegueWithIdentifier:@"showLogin" sender:self];
+//
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
+//    viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
+//    [viewController resetTopViewAnimated:YES];
 }
 
 - (void) subscriptionUpdateSucceeded {
-    [self showMatters];
+    
 }
 
 
 - (void) logout {
-    [[BBCloudManager sharedManager] logout];
-    [self showLogin];
 }
 
 #pragma mark - Split view
@@ -268,8 +281,9 @@
                                                       object:nil
                                                        queue:nil
                                                   usingBlock:^(NSNotification *notification) {
+                                                      NSError *error = notification.object;
                                                       [self showAlertWithTitle:@"Authentication Error"
-                                                                       message:[notification.object objectForKey:@"message"]];
+                                                                       message:error.localizedDescription];
                                                       [bself logout];
                                                   }];
     
@@ -287,7 +301,7 @@
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
     [[[UIAlertView alloc] initWithTitle:title
                                 message:message
-                               delegate:((ECSlidingViewController *)self.window.rootViewController).topViewController.view
+                               delegate:self
                       cancelButtonTitle:@"OK"
                       otherButtonTitles:nil] show];
 }

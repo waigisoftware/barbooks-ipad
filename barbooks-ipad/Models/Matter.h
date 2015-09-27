@@ -79,8 +79,8 @@
 - (NSArray *)disbursementsArray;
 
 + (NSArray *)allMatters;
-+ (NSArray *)unarchivedMatters;
-+ (NSArray *)archivedMatters;
-+ (instancetype)firstMatter;
++ (NSArray *)unarchivedMattersOfAccount:(Account*)account;
++ (NSArray *)archivedMattersOfAccount:(Account*)account;
++ (instancetype)firstMatterOfAccount:(Account*)account;
 
 @end

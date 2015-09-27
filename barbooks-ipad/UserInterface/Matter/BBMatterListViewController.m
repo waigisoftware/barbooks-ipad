@@ -21,7 +21,6 @@
 }
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UITableView *matterListTableView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *archiveBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteBarButtonItem;
@@ -53,21 +52,21 @@
     _matterListTableView.delegate = self;
     [self registerRefreshControlFor:_matterListTableView withAction:@selector(refreshMatters)];
     [_matterListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height)];
-
+    
     // toolbar buttons
     UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIImage *imageArchive = [[UIImage imageNamed:@"button_archive"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     _addBarButtonItem.image = imageAdd;
     _archiveBarButtonItem.image = imageArchive;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self fetchMatters];
-    if (_originalItemList.count) {
-        [_matterListTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
-        [self showTaskList:[_filteredItemList objectAtIndex:0]];
+
+    if (_originalItemList.count && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        UITableViewCell *cell = [_matterListTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [cell setSelected:YES];
     }
 }
 
@@ -152,7 +151,8 @@
 - (void)fetchMatters {
     [[NSManagedObjectContext MR_rootSavingContext] processPendingChanges];
     // fetch from core data
-    NSArray *objects = _showUnarchived ? [Matter unarchivedMatters] : [Matter archivedMatters];
+    Account *currentAccount = [[BBAccountManager sharedManager] activeAccount];
+    NSArray *objects = _showUnarchived ? [Matter unarchivedMattersOfAccount:currentAccount] : [Matter archivedMattersOfAccount:currentAccount];
     _originalItemList = [NSMutableArray arrayWithArray:objects];
     [self filterContentForSearchText:_searchBar.text scope:nil];
 }
@@ -162,7 +162,6 @@
     [_matterListTableView reloadData];
     [self stopAndUpdateDateOnRefreshControl];
     [_matterListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
-
 }
 
 #pragma mark - override
@@ -233,27 +232,8 @@
 #pragma mark - Navigation
 
 - (void)showTaskList:(Matter *)matter {
-    UITabBarController *tabBarController = [self.mainStoryboard instantiateViewControllerWithIdentifier:StoryboardIdBBMatterCategoryTabBarController];
-    tabBarController.selectedIndex = 0;
-    for (UIViewController *vc in [tabBarController viewControllers]) {
-        if ([vc isKindOfClass:[BBTaskListViewController class]]) {
-            BBTaskListViewController *taskListViewController = (BBTaskListViewController *)vc;
-            taskListViewController.matter = matter;
-            taskListViewController.matterListViewController = self;
-            self.taskListViewController = taskListViewController;
-        }
-        if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
-            ((BBExpenseListViewController *)vc).matter = matter;
-        }
-        if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
-            ((BBInvoiceListViewController *)vc).matter = matter;
-        }
-        if ([vc isKindOfClass:[BBReceiptListViewController class]]) {
-            ((BBReceiptListViewController *)vc).matter = matter;
-        }
-    }
-    [(UINavigationController *)[self.splitViewController detailViewController] popToRootViewControllerAnimated:NO];
-    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:tabBarController animated:NO];
+    
+    [self performSegueWithIdentifier:BBSegueShowMatterEntries sender:matter];
 }
 
 - (void)showMatterDetail:(Matter *)matter {
@@ -266,6 +246,28 @@
         BBMatterViewController *matterViewController = [((UINavigationController *)[segue destinationViewController]).viewControllers objectAtIndex:0];
         matterViewController.matter = self.selectedMatter;
         matterViewController.matterListViewController = self;
+    } else if ([[segue identifier] isEqualToString:BBSegueShowMatterEntries]) {
+        Matter *matter = sender;
+        
+        UITabBarController *tabBarController = (UITabBarController*)[(UINavigationController*)[segue destinationViewController] topViewController];
+        tabBarController.selectedIndex = 0;
+        for (UIViewController *vc in [tabBarController viewControllers]) {
+            if ([vc isKindOfClass:[BBTaskListViewController class]]) {
+                BBTaskListViewController *taskListViewController = (BBTaskListViewController *)vc;
+                taskListViewController.matter = matter;
+                taskListViewController.matterListViewController = self;
+                self.taskListViewController = taskListViewController;
+            }
+            if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
+                ((BBExpenseListViewController *)vc).matter = matter;
+            }
+            if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
+                ((BBInvoiceListViewController *)vc).matter = matter;
+            }
+            if ([vc isKindOfClass:[BBReceiptListViewController class]]) {
+                ((BBReceiptListViewController *)vc).matter = matter;
+            }
+        }
     }
 }
 
