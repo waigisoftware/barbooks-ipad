@@ -236,13 +236,6 @@
     }
 }
 
-- (IBAction)onArchive:(id)sender {
-    Expense *selectedExpense = [_filteredItemList objectAtIndex:_expenseListTableView.indexPathForSelectedRow.row];
-    NSIndexPath *indexPath = [self indexPathOfExpense:selectedExpense];
-    selectedExpense.archived = [NSNumber numberWithBool:YES];
-    [_filteredItemList removeObject:selectedExpense];
-    [_expenseListTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-}
 
 - (void)onDelete {
     //    _expenseListTableView.editing = !_expenseListTableView.editing;

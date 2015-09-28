@@ -277,4 +277,17 @@
 //    expenseViewController.expenseListViewController = expenseListViewController;
 }
 
+- (void)showReceipts:(Receipt *)receipt {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BBReceiptListViewController *receiptListViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBReceiptListViewController];
+    BBReceiptViewController *receiptViewController = [storyboard instantiateViewControllerWithIdentifier:StoryboardIdBBReceiptViewController];
+    [(UINavigationController *)[self.splitViewController masterViewController] pushViewController:receiptListViewController animated:YES];
+    [(UINavigationController *)[self.splitViewController detailViewController] pushViewController:receiptViewController animated:YES];
+    receiptListViewController.receipt = receipt;
+    receiptListViewController.receiptViewController = receiptViewController;
+    receiptViewController.receipt = receipt;
+    receiptViewController.receiptListViewController = receiptListViewController;
+    receiptViewController.delegate = receiptListViewController;
+}
+
 @end

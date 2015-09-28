@@ -44,14 +44,14 @@
     }];
     return newExpense;
 }
-
-- (NSDecimalNumber *)amountIncGst {
-    if (self.userSpecifiedGst.boolValue) {
-        return [self.amountExGst decimalNumberByAccuratelyAdding:self.tax];
-    } else {
-        return [self.amountExGst decimalNumberByAccuratelyAdding:self.amountGst];
-    }
-}
+//
+//- (NSDecimalNumber *)amountIncGst {
+//    if (self.userSpecifiedGst.boolValue) {
+//        return [self.amountExGst decimalNumberByAccuratelyAdding:self.tax];
+//    } else {
+//        return [self.amountExGst decimalNumberByAccuratelyAdding:self.amountGst];
+//    }
+//}
 
 #pragma mark - calculations
 /*
