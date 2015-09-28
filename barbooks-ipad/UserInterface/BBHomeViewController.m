@@ -13,7 +13,7 @@
 #import "BBExpenseViewController.h"
 #import "BBInvoiceListViewController.h"
 #import "BBReceiptListViewController.h"
-
+#import "GeneralExpense.h"
 
 @interface BBHomeViewController ()
 
@@ -150,7 +150,7 @@
 }
 
 - (IBAction)onCreateExpense:(id)sender {
-    Expense *newExpense = [Expense newInstanceWithDefaultValue];
+    GeneralExpense *newExpense = [GeneralExpense newInstanceWithDefaultValue];
     [self showExpenses:newExpense];
 }
 

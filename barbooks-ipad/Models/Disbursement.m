@@ -9,7 +9,7 @@
 #import "Disbursement.h"
 #import "Matter.h"
 #import "RegularInvoice.h"
-
+#import "BBCoreDataManager.h"
 
 @implementation Disbursement
 
@@ -17,7 +17,7 @@
 @dynamic matter;
 
 + (instancetype)newInstanceOfMatter:(Matter *)matter {
-    Disbursement *newExpense = [Disbursement MR_createEntity];
+    Disbursement *newExpense = [Disbursement MR_createEntityInContext:[NSManagedObjectContext MR_rootSavingContext]];
     newExpense.createdAt = [NSDate date];
     newExpense.archived = [NSNumber numberWithBool:NO];
     newExpense.amountExGst = [NSDecimalNumber zero];
@@ -32,15 +32,6 @@
     [matter addDisbursementsObject:newExpense];
     [newExpense.managedObjectContext MR_saveToPersistentStoreAndWait];
     return newExpense;
-}
-
-+ (NSArray *)allUnlinkedObjectsInManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-{
-    NSPredicate *fetchpredicate = [NSPredicate predicateWithFormat:@"matter == nil"];
-    
-    NSArray *tasks = [Disbursement MR_findAllWithPredicate:fetchpredicate inContext:managedObjectContext];
-    
-    return tasks;
 }
 
 @end

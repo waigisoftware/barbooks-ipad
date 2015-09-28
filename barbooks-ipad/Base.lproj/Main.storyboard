@@ -4143,6 +4143,7 @@ D</string>
                     <connections>
                         <outlet property="amountTextField" destination="blT-2J-1Dp" id="LvO-Nt-EdK"/>
                         <outlet property="categoryTextField" destination="eb4-2R-7W3" id="xYK-da-YBK"/>
+                        <outlet property="coverView" destination="DAb-cU-OfJ" id="sTJ-Lw-eLN"/>
                         <outlet property="dateTextField" destination="PbR-WW-vUq" id="yAE-w7-xV8"/>
                         <outlet property="descriptionTextField" destination="4A3-Mw-rd3" id="vsw-Q1-ycA"/>
                         <outlet property="expenseTypeDropdownContainer" destination="s2b-hO-9bk" id="h4h-4w-JL6"/>

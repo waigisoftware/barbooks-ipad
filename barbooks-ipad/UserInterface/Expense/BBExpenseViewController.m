@@ -10,6 +10,7 @@
 #import "BBExpenseListViewController.h"
 #import "Contact.h"
 #import "Disbursement.h"
+#import "TaxExpense.h"
 #import "BBModalDatePickerViewController.h"
 
 @interface BBExpenseViewController () <BBModalDatePickerViewControllerDelegate>
@@ -56,10 +57,10 @@
     _gstTextField.delegate = self;
     _categoryTextField.delegate = self;
     
+    [self setupExpenseTypeSpecificFields];
     [self setupPayeeDropDown];
     [self setupCategoryDropDown];
     [self showCloseButtonIfNeeded];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,7 +71,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self setupExpenseTypeDropDown];
     [self setupTaxTypeDropDown];
 
     [self loadExpenseIntoUI];
@@ -111,7 +111,8 @@
 }
 
 - (void)setupCategoryDropDown {
-    _categories = [Expense categoryList];
+//    _categories = [Expense categoryList];
+    _categories = [GlobalAttributes expenseCategories];
     _categoryTextField.dropDownTableVisibleRowCount = MIN(MAX_COUNT_IN_DROPDOWN, _categories.count);
     _categoryTextField.dropDownTableTitlesArray = _categories;
     _categoryTextField.dropDownDelegate = self;
@@ -121,16 +122,14 @@
 - (void)setupTaxTypeDropDown {
     // setup selection item
     NSMutableArray *dropdownItems = [[NSMutableArray alloc] init];
-    IGLDropDownItem *item = [[IGLDropDownItem alloc] init];
-    [self setupDropDownItem:item];
-
-    [item setText:@"10%"];
-    [dropdownItems addObject:item];
-    item = [[IGLDropDownItem alloc] init];
-    [self setupDropDownItem:item];
-
-    [item setText:@"Specify:"];
-    [dropdownItems addObject:item];
+    
+    IGLDropDownItem *item = nil;
+    for (NSString *taxType in [GlobalAttributes taxExpenseTypes]) {
+        item = [IGLDropDownItem new];
+        [self setupDropDownItem:item];
+        [item setText:taxType];
+        [dropdownItems addObject:item];
+    }
 
     // setup dropdown selection
     _gstTypeDrowdown = [[IGLDropDownMenu alloc] init];
@@ -179,19 +178,17 @@
     bgView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 }
 
-- (void)setupExpenseTypeDropDown {
+- (void)setupExpenseTypeDropDownGeneralExpense:(BOOL)isGeneralExpense {
     // setup selection item
     NSMutableArray *dropdownItems = [[NSMutableArray alloc] init];
-    IGLDropDownItem *item = [[IGLDropDownItem alloc] init];
-    [self setupDropDownItem:item];
-
-    [item setText:@"expense"];
-    [dropdownItems addObject:item];
-    item = [[IGLDropDownItem alloc] init];
-    [self setupDropDownItem:item];
-    
-    [item setText:@"capital"];
-    [dropdownItems addObject:item];
+    IGLDropDownItem *item = nil;
+    NSArray *types = isGeneralExpense ? [GlobalAttributes taxExpenseTypes] : [GlobalAttributes expenseTypes];
+    for (NSString *type in types) {
+        item = [IGLDropDownItem new];
+        [self setupDropDownItem:item];
+        [item setText:type];
+        [dropdownItems addObject:item];
+    }
     
     // setup dropdown selection
     _expenseTypeDrowdown = [[IGLDropDownMenu alloc] init];
@@ -228,6 +225,16 @@
         [_expenseTypeDrowdown selectItemAtIndex:0];
     }
     
+}
+
+- (void)setupExpenseTypeSpecificFields {
+    BOOL isTaxExpense = [self.expense isKindOfClass:[TaxExpense class]];
+    _taxedSwitch.hidden = isTaxExpense;
+    _gstTypeDropdownContainer.hidden = isTaxExpense;
+    _gstTextField.hidden = isTaxExpense;
+    _taxAmountLabel.hidden = isTaxExpense;
+    
+    [self setupExpenseTypeDropDownGeneralExpense:!isTaxExpense];
 }
 
 #pragma mark - Expense value
@@ -338,6 +345,7 @@
 
 - (void)setExpense:(Expense *)expense {
     _expense = expense;
+    [self setupExpenseTypeSpecificFields];
     [self loadExpenseIntoUI];
 }
 
@@ -390,7 +398,9 @@
         self.datePickerController = [BBModalDatePickerViewController defaultPicker];
         [self.datePickerController.view setFrame:self.view.bounds];
         
-        [self.datePickerController.datePicker setDate:_expense.date];
+        if (_expense.date) {
+            [self.datePickerController.datePicker setDate:_expense.date];
+        }
         self.datePickerController.delegate = self;
         
     }
@@ -467,5 +477,15 @@
     return YES;
 }
 
+#pragma mark - BBModalDatePickerViewControllerDelegate
+- (void)datePickerControllerDone:(UIDatePicker*)datePicker {
+    self.expense.date = datePicker.date;
+    [self loadExpenseIntoUI];
+    [self.delegate updateExpense:_expense];
+}
+
+- (void)datePickerControllerCancelled:(UIDatePicker*)datePicker {
+    
+}
 
 @end

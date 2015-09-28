@@ -9,6 +9,8 @@
 #import "BBExpenseListViewController.h"
 #import "BBExpenseTableViewCell.h"
 #import "Disbursement.h"
+#import "GeneralExpense.h"
+#import "TaxExpense.h"
 
 @interface BBExpenseListViewController () {
     BOOL _showUnarchived;
@@ -82,10 +84,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSString *reuseIdentifier = [self isMatterExpenses] ? @"disbursementCell" : @"expenseCell";
-    BBExpenseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     Expense *expense = [_filteredItemList objectAtIndex:indexPath.row];
+    NSString *reuseIdentifier = [expense isKindOfClass:[Disbursement class]] ? @"disbursementCell" : @"expenseCell";
+
+    BBExpenseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.descriptionLabel.text = expense.info;
     cell.payeeLabel.text = expense.payee;
     cell.dateLabel.text = [expense.date toShortDateFormat];
@@ -213,11 +215,11 @@
 #pragma mark - IBActions
 
 - (IBAction)onAdd:(id)sender {
+    // add Disbursement for Matter
     if ([self isMatterExpenses]) {
         Disbursement *newDisbursement = [Disbursement newInstanceOfMatter:self.matter];
-        [self fetchExpenses];
+        [self refreshExpenses];
         NSIndexPath *path = [self indexPathOfExpense:newDisbursement];
-        [_expenseListTableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationTop];
         [_expenseListTableView selectRowAtIndexPath:path animated:YES scrollPosition:UITableViewScrollPositionTop];
         
         CGRect rect = [_expenseListTableView rectForRowAtIndexPath:path];
@@ -225,15 +227,56 @@
         
         BBExpenseTableViewCell *cell = (id)[_expenseListTableView cellForRowAtIndexPath:path];
         [cell.descriptionLabel becomeFirstResponder];
-    } else {
+        
+        NSLog(@"add a Disbursement");
+        return;
+    }
+    
+    // add General Expense/Tax Expense
+    
+    // show selection
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Choose an expense type"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *generalExpenseAction = [UIAlertAction actionWithTitle:@"General Expense" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         // choose the type of expense
-        Expense *newExpense = [Expense newInstanceWithDefaultValue];
-        [self.expenseViewController setExpense:newExpense];
+        GeneralExpense *generalExpense = [GeneralExpense newInstanceWithDefaultValue];
+        [self.expenseViewController setExpense:generalExpense];
         [self refreshExpenses];
-        [_expenseListTableView selectRowAtIndexPath:[self indexPathOfExpense:newExpense] animated:YES scrollPosition:UITableViewScrollPositionTop];
-        _expenseViewController.expense = newExpense;
+        
+        NSIndexPath *path = [self indexPathOfExpense:generalExpense];
+        [_expenseListTableView selectRowAtIndexPath:path animated:YES scrollPosition:UITableViewScrollPositionTop];
+//        BBExpenseTableViewCell *cell = (id)[_expenseListTableView cellForRowAtIndexPath:path];
+//        [cell.descriptionLabel becomeFirstResponder];
+        _expenseViewController.expense = generalExpense;
+        
+        NSLog(@"add a GeneralExpense");
+    }];
+    UIAlertAction *taxPaymentAction = [UIAlertAction actionWithTitle:@"Tax Payment" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // choose the type of expense
+        TaxExpense *taxExpense = [TaxExpense newInstanceWithDefaultValue];
+        [self.expenseViewController setExpense:taxExpense];
+        [self refreshExpenses];
+        
+        NSIndexPath *path = [self indexPathOfExpense:taxExpense];
+        [_expenseListTableView selectRowAtIndexPath:path animated:YES scrollPosition:UITableViewScrollPositionTop];
+        _expenseViewController.expense = taxExpense;
+        
+        NSLog(@"add a TaxExpense");
+    }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:generalExpenseAction];
+    [alertController addAction:taxPaymentAction];
+    
+    UIPopoverPresentationController *popover = alertController.popoverPresentationController;
+    if (popover) {
+        popover.barButtonItem = sender;
+        popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
     }
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 
@@ -350,6 +393,11 @@
 
 - (void)updateExpense:(id)data {
     [self refreshExpenses];
+}
+
+- (void)didEnterBackground:(NSNotification *)notification
+{
+    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

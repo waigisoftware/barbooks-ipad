@@ -16,4 +16,6 @@
 
 @property (nonatomic, retain) Account *account;
 
++ (instancetype)newInstanceWithDefaultValue;
+
 @end

@@ -73,7 +73,7 @@
              ];
 }
 
-- (NSArray *)expenseTypes
++ (NSArray *)expenseTypes
 {
     return @[NSLocalizedString(@"expense", nil),
              NSLocalizedString(@"capital", nil),

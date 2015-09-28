@@ -8,7 +8,7 @@
 
 #import "Expense.h"
 #import "NSDecimalNumber+BBUtil.h"
-
+#import "BBCoreDataManager.h"
 
 @implementation Expense
 
@@ -25,24 +25,65 @@
 @dynamic taxed;
 @dynamic userSpecifiedGst;
 
-+ (instancetype)newInstanceWithDefaultValue {
-    Expense *newExpense = [Expense MR_createEntity];
-    newExpense.createdAt = [NSDate date];
-    newExpense.archived = [NSNumber numberWithBool:NO];
-    newExpense.amountExGst = [NSDecimalNumber zero];
-    newExpense.amountGst = [NSDecimalNumber zero];
-    newExpense.amountIncGst = [NSDecimalNumber zero];
-    newExpense.date = [NSDate date];
-    newExpense.taxed = [NSNumber numberWithBool:YES];
-    newExpense.tax = [NSDecimalNumber zero];
-    newExpense.userSpecifiedGst = [NSNumber numberWithBool:NO];
-    newExpense.expenseType = BBExpenseTypeExpense;
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        [localContext save:nil];
-    } completion:^(BOOL success, NSError *error) {
-        NSLog(@"%@", error);
-    }];
-    return newExpense;
+/*
+- (void)awakeFromInsert
+{
+    [super awakeFromInsert];
+    if (!self.date) {
+        self.date = [NSDate date];
+    }
+    self.createdAt = [NSDate date];
+    self.archived = [NSNumber numberWithBool:NO];
+    self.amountExGst = [NSDecimalNumber zero];
+    self.amountGst = [NSDecimalNumber zero];
+    self.amountIncGst = [NSDecimalNumber zero];
+    self.date = [NSDate date];
+    self.taxed = [NSNumber numberWithBool:YES];
+    self.tax = [NSDecimalNumber zero];
+    self.userSpecifiedGst = [NSNumber numberWithBool:NO];
+    self.expenseType = BBExpenseTypeExpense;
+}
+ */
+
+- (NSNumber *)generateIdentifier
+{
+    return @0;
+}
+
+- (void)setCustomTaxed:(NSNumber *)taxed
+{
+    NSDecimalNumber *amountGst = [NSDecimalNumber zero];
+    
+    if (taxed.boolValue && !self.userSpecifiedGst.boolValue && self.tax && self.amountIncGst) {
+        NSDecimalNumber *dec10 = [NSDecimalNumber decimalNumberWithString:@"10"];
+        NSDecimalNumber *taxFactor = [self.tax decimalNumberByDividingBy:dec10 withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        taxFactor = [taxFactor decimalNumberByAdding:dec10 withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        
+        amountGst = [self.amountIncGst decimalNumberByDividingBy:taxFactor withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+        
+        self.amountGst = amountGst;
+    } else if (!taxed.boolValue) {
+        self.amountGst = amountGst;
+    }
+    
+    self.taxed = taxed;
+}
+
+- (NSNumber *)customTaxed
+{
+    return self.taxed;
+}
+
+- (void)setCustomAmountGst:(NSDecimalNumber *)amountGst
+{
+    self.amountExGst = [self.amountIncGst decimalNumberBySubtracting:amountGst withBehavior:[NSDecimalNumber accurateRoundingHandler]];
+    
+    self.amountGst = amountGst;
+}
+
+- (NSDecimalNumber *)customAmountGst
+{
+    return self.amountGst;
 }
 //
 //- (NSDecimalNumber *)amountIncGst {
@@ -146,22 +187,78 @@
 #pragma mark - Core Data
 
 + (NSArray *)allExpenses {
-    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO];
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO inContext:[NSManagedObjectContext MR_rootSavingContext]];
 }
 
 
 + (NSArray *)unarchivedExpenses {
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:NO]];
-    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter inContext:[NSManagedObjectContext MR_rootSavingContext]];
 }
 
 + (NSArray *)archivedExpenses {
     NSPredicate *filter = [NSPredicate predicateWithFormat:@"archived == %@", [NSNumber numberWithBool:YES]];
-    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter];
+    return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO withPredicate:filter inContext:[NSManagedObjectContext MR_rootSavingContext]];
 }
 
 + (instancetype)firstExpense {
     return [[Expense unarchivedExpenses] firstObject];
 }
+
+/*
++ (NSArray*)availableExpenseCategoriesWithManagedObjectContext:(NSManagedObjectContext*)moc
+{
+    NSMutableArray *categories = [NSMutableArray arrayWithArray:[GlobalAttributes expenseCategories]];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Expense" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    [request setEntity:entityDescription];
+    [request setResultType:NSDictionaryResultType];
+    [request setReturnsDistinctResults:YES];
+    [request setPropertiesToFetch:@[[entityDescription.propertiesByName objectForKey:@"category"]]];
+    
+    // Execute the fetch
+    NSError *error;
+    NSArray *objects = [moc executeFetchRequest:request error:&error];
+    NSMutableArray *categoryNames = [NSMutableArray array];
+    for( NSDictionary* obj in objects ) {
+        if ([obj objectForKey:@"category"]) {
+            [categoryNames addObject:[obj objectForKey:@"category"]];
+        }
+    }
+    
+    if (categoryNames.count > 0) {
+        [categories addObjectsFromArray:categoryNames];
+    }
+    
+    return categories;
+}
+
++ (NSArray*)availablePayeesWithManagedObjectContext:(NSManagedObjectContext*)moc
+{
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Expense" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    [request setEntity:entityDescription];
+    [request setResultType:NSDictionaryResultType];
+    [request setPropertiesToFetch:@[[entityDescription.propertiesByName objectForKey:@"payee"]]];
+    [request setReturnsDistinctResults:YES];
+    
+    // Execute the fetch
+    NSError *error;
+    NSArray *objects = [moc executeFetchRequest:request error:&error];
+    NSMutableArray *payees = [NSMutableArray array];
+    for( NSDictionary* obj in objects ) {
+        if ([obj objectForKey:@"payee"]) {
+            [payees addObject:[obj objectForKey:@"payee"]];
+        }
+    }
+    
+    return payees;
+}
+*/
 
 @end
