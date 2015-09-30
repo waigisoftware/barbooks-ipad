@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) Matter *matter;
 @property (strong, nonatomic) IBOutlet UIView *noContentView;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 - (void)registerRefreshControlFor:(UITableView *)tableView withAction:(SEL)action;
 

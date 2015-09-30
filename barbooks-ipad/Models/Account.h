@@ -17,18 +17,9 @@
 @property (nonatomic, retain) NSNumber * accountingType;
 @property (nonatomic, retain) NSString * businessnumber;
 @property (nonatomic, retain) NSString * chambername;
-@property (nonatomic, retain) id costsAgreementInformation;
-@property (nonatomic, retain) id costsDisclosureInformation;
 @property (nonatomic, retain) NSNumber * defaultDueDate;
-@property (nonatomic, retain) id headerInformation;
-@property (nonatomic, retain) id invoiceAdditionalInformation;
-@property (nonatomic, retain) NSString * invoiceAdditionalInformationFootnote;
-@property (nonatomic, retain) id invoiceInformation;
-@property (nonatomic, retain) id outstandingFeesInformation;
-@property (nonatomic, retain) id receiptInformation;
 @property (nonatomic, retain) NSData * signatureImage;
 @property (nonatomic, retain) NSDecimalNumber * tax;
-@property (nonatomic, retain) id variationOfFeesInformation;
 @property (nonatomic, retain) NSSet *expenses;
 @property (nonatomic, retain) NSSet *matters;
 @property (nonatomic, retain) NSSet *rates;

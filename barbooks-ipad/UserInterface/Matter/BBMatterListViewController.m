@@ -15,6 +15,7 @@
 #import "BBReceiptListViewController.h"
 #import "BBExpenseListViewController.h"
 #import "Account.h"
+#import "Rate.h"
 
 @interface BBMatterListViewController () {
     BOOL _showUnarchived;
@@ -136,7 +137,10 @@
         
         Matter *matterToDelete = [_originalItemList objectAtIndex:indexPath.row];
         [matterToDelete MR_deleteEntity];
+        [matterToDelete.managedObjectContext MR_saveToPersistentStoreAndWait];
         [self fetchMatters];
+        [_matterListTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+        
     }
 }
 
@@ -153,6 +157,7 @@
     // fetch from core data
     Account *currentAccount = [[BBAccountManager sharedManager] activeAccount];
     NSArray *objects = _showUnarchived ? [Matter unarchivedMattersOfAccount:currentAccount] : [Matter archivedMattersOfAccount:currentAccount];
+    objects = [objects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     _originalItemList = [NSMutableArray arrayWithArray:objects];
     [self filterContentForSearchText:_searchBar.text scope:nil];
 }
@@ -160,8 +165,7 @@
 - (void)refreshMatters {
     [self fetchMatters];
     [_matterListTableView reloadData];
-    [self stopAndUpdateDateOnRefreshControl];
-    [_matterListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
+    [self performSelector:@selector(stopAndUpdateDateOnRefreshControl) withObject:nil afterDelay:1];
 }
 
 #pragma mark - override
@@ -179,17 +183,29 @@
 #pragma mark - IBActions
 
 - (IBAction)onAdd:(id)sender {
+    Account *account = [BBAccountManager sharedManager].activeAccount;
+    Matter *newMatter = [Matter MR_createEntity];
+    newMatter.tax = [account.tax copy];
+    newMatter.dueDate = [account.defaultDueDate copy];
+    newMatter.account = [account MR_inContext:newMatter.managedObjectContext];
     
-    Matter *newMatter = [Matter MR_createEntityInContext:[NSManagedObjectContext MR_rootSavingContext]];
-    newMatter.account = [[BBAccountManager sharedManager].activeAccount MR_inContext:newMatter.managedObjectContext];
-    [[NSManagedObjectContext MR_rootSavingContext] save:nil];
+    for (Rate *rate in [BBAccountManager sharedManager].activeAccount.rates) {
+        Rate *newRate = [Rate MR_createEntityInContext:newMatter.managedObjectContext];
+        [rate copyValueToRate:newRate];
+        [newMatter addRatesObject:newRate];
+        newRate.matter = newMatter;
+    }
+    
+    [newMatter.managedObjectContext MR_saveToPersistentStoreAndWait];
     
     [self.originalItemList insertObject:newMatter atIndex:0];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [_matterListTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-    [_matterListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-    [self showTaskList:newMatter];
+//    if (_originalItemList.count && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+//        [_matterListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+//    }
+    //[self showTaskList:newMatter];
     [self showMatterDetail:newMatter];
 }
 

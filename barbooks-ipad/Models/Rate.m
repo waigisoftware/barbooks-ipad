@@ -23,7 +23,7 @@
 @dynamic task;
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ - %@ - %@ (include GST) - %@ (exclude GST)", self.name, [[Rate rateTypes] objectAtIndex:[self.rateType integerValue]], [self.amountGst currencyAmount], [self.amount currencyAmount]];
+    return [NSString stringWithFormat:@"%@: %@ (excl. GST) / %@ (incl. GST)", self.name, [self.amount currencyAmount], [self.amountGst currencyAmount]];
 }
 
 - (NSString *)typeDescription {

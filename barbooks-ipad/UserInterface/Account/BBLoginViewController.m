@@ -48,7 +48,7 @@
     if ([[BBCloudManager sharedManager] isLoggedIn]) {
         [self performSegueWithIdentifier:@"showMainApp" sender:self];
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subscriptionUpdateSucceeded) name:kLoginSuccessfulNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subscriptionUpdateSucceeded) name:kCouchbaseProfileFoundNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -68,10 +68,11 @@
     Account *account = [[BBAccountManager sharedManager] activeAccount];
     if (account && ![account.owner isEqualToString:_usernameTextField.text]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Different User"
-                                                        message:@"You are about to log in with a new user. This will remove all previous data./n/nDo you want to proceed?"
+                                                        message:@"You are about to log in with a new user. This will remove the local data./n/nDo you want to proceed?"
                                                        delegate:self
                                               cancelButtonTitle:@"No"
                                               otherButtonTitles:@"Yes", nil];
+        [alert show];
     } else {
         [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"Logging in..."];
         [[BBCloudManager sharedManager] signinWithUsername:_usernameTextField.text password:_passwordTextField.text];
@@ -80,8 +81,16 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"Logging in..."];
-    [[BBCloudManager sharedManager] signinWithUsername:_usernameTextField.text password:_passwordTextField.text];
+    if (buttonIndex == 1) {
+        
+        [[MBProgressHUD showHUDAddedTo:self.view animated:YES] setLabelText:@"Logging in..."];
+        NSArray *allObjects = [BBManagedObject MR_findAll];
+        
+        [[NSManagedObjectContext MR_rootSavingContext] MR_deleteObjects:allObjects];
+        [[NSManagedObjectContext MR_rootSavingContext] MR_saveToPersistentStoreAndWait];
+        
+        [[BBCloudManager sharedManager] signinWithUsername:_usernameTextField.text password:_passwordTextField.text];
+    }
 }
 
 #pragma mark - Navigation

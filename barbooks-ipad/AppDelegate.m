@@ -91,7 +91,9 @@
     
     [[BBAccountManager sharedManager] setManagedObjectContext:context];
     [[BBAccountManager sharedManager] setToLargestAccount];
-    
+    if (![[BBAccountManager sharedManager] activeAccount]) {
+        [[BBCloudManager sharedManager] logout];
+    }
     [Fabric with:@[[Crashlytics class]]];
 
     [self setupNavigationBarAppearance];
@@ -195,12 +197,12 @@
 {
     //ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
     //viewController.panGesture.delegate = self;
-
+    
     BOOL isAuthorized = [[BBCloudManager sharedManager] isLoggedIn];
 
     if (isAuthorized)
     {
-        [[BBCloudManager sharedManager] activateSync];
+        [[BBCloudManager sharedManager] activateReplication];
         //[self showMatters];
     }
     else

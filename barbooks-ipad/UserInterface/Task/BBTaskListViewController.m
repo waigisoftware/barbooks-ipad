@@ -369,8 +369,7 @@
 - (void)refreshTasks {
     [self fetchTasks];
     [_tasksTableView reloadData];
-    [self stopAndUpdateDateOnRefreshControl];
-    [_tasksTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
+    [self performSelector:@selector(stopAndUpdateDateOnRefreshControl) withObject:nil afterDelay:1];
 }
 
 

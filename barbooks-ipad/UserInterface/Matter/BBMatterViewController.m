@@ -117,7 +117,7 @@ BBContactListViewController *_contactListViewController;
     
     _dueDateTextField.text = [self.matter.dueDate stringValue];
     _taxedSwitch.on = [self.matter.taxed boolValue];
-    _taxTextField.text = [self.matter.tax stringValue];
+    _taxTextField.text = [self.matter.tax percentAmount];
     
     [self updateSolicitor];
     
@@ -139,10 +139,13 @@ BBContactListViewController *_contactListViewController;
     self.matter.dueDate = [_dueDateTextField.text numberValue];
     self.matter.taxed = [NSNumber numberWithBool:_taxedSwitch.on];
     if (self.matter.taxed && [_taxTextField.text isNumeric]) {
-        self.matter.tax = [NSDecimalNumber decimalNumberWithString:_taxTextField.text];
+        self.matter.tax = [NSDecimalNumber decimalNumberFromCurrencyString:_taxTextField.text];
+        _taxTextField.text = [self.matter.tax percentAmount];
     } else {
         self.matter.tax = nil;
     }
+    
+    [self.matter.managedObjectContext MR_saveToPersistentStoreAndWait];
     
     // refresh matter list accordingly
 //    [self.matterListViewController fetchMatters];
@@ -272,7 +275,7 @@ BBContactListViewController *_contactListViewController;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    [self updateMatterFromUI];
+    //[self updateMatterFromUI];
     return YES;
 }
 
@@ -299,11 +302,6 @@ BBContactListViewController *_contactListViewController;
 
 - (void)updateAndSaveMatterWithUIChange {
     [self updateMatterFromUI];
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        [localContext save:nil];
-    } completion:^(BOOL success, NSError *error) {
-        NSLog(@"%@", error);
-    }];
 }
 
 #pragma mark - BBMatterDelegate

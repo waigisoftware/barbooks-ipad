@@ -11,8 +11,8 @@
 #import "AFNetworking.h"
 #import "DateTimeUtility.h"
 #import "Lockbox.h"
+#import "BBAccountManager.h"
 #import "Account.h"
-
 
 #define kWordpressService @"barbooks-wordpress"
 #define kSubscriptionEndDate @"subscriptionEndDate"
@@ -46,8 +46,8 @@
 
 @end
 
-
 @implementation BBCloudManager
+
 
 + (instancetype) sharedManager
 {
@@ -197,18 +197,7 @@ static BOOL isInternetConnection()
 }
 */
 
-- (void)displayError:(NSString*)title message:(NSString*)message
-{
-#if TARGET_OS_IPHONE
-#else
-    NSAlert *alert = [NSAlert alertWithMessageText:title
-                                     defaultButton:@"Ok"
-                                   alternateButton:nil
-                                       otherButton:nil
-                         informativeTextWithFormat:message,nil];
-    [alert runModal];
-#endif
-}
+
 
 - (void) signinWithUsername:(NSString*)username password:(NSString*)password
 {
@@ -216,7 +205,9 @@ static BOOL isInternetConnection()
     
     NSString *requestPassword = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef)password, NULL, (__bridge CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)));
     
-    NSString *cookieURL = [NSString stringWithFormat:@"%@&username=%@&password=%@%@",kGenerateCookieURL,requestUsername,requestPassword,kWordpressApiParameter];
+    NSString *cookieURL = [NSString stringWithFormat:@"%@&username=%@&password=%@%@&profile=%@",kGenerateCookieURL,requestUsername,requestPassword,kWordpressApiParameter,[[BBAccountManager sharedManager].activeAccount.objectID couchbaseLiteIDRepresentation]];
+    
+    
     NSString *urlString = [NSString stringWithFormat:@"%@%@",kAPIURL,cookieURL];
     
     
@@ -228,19 +219,19 @@ static BOOL isInternetConnection()
            
            self.isLoggedIn = YES;
            self.activeuser = username;
-
+           
            [Lockbox setString:username forKey:kBarBooksSubscriptionUsername];
            [Lockbox setString:password forKey:kBarBooksSubscriptionUserPassword];
            
            [self checkSubscriptionForUser:userID];
            if (!self.syncActive) {
-               [self activateSync];
+               [self activateReplication];
            }
            
            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginSuccessfulNotification object:nil];
        } else {
            self.isLoggedIn = NO;
-           [self displayError:@"Authentication Error" message:@"Please check your username and password."];
+//           [self displayError:@"Authentication Error" message:@"Please check your username and password."];
            
            [[NSNotificationCenter defaultCenter] postNotificationName:kLoginFailedNotification object:nil];
        }
@@ -271,9 +262,7 @@ static BOOL isInternetConnection()
         return;
     }
     
-    
     NSString *urlString = [NSString stringWithFormat:@"%@%@%@",kWooCommerceAPI,kGetCustomerURL,userID];
-    
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
@@ -382,15 +371,16 @@ static BOOL isInternetConnection()
                                                            error:&error];
     
     if ([json objectForKey:@"customer"]) {
-        NSInteger timestamp = [[[json objectForKey:@"customer"] objectForKey:@"subscription_expiration_timestamp"] integerValue] ;
-        NSDate *expiration = [NSDate dateWithTimeIntervalSince1970:timestamp];
-        NSInteger status = [[[json objectForKey:@"customer"] objectForKey:@"subscription_status"] intValue];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:expiration forKey:kSubscriptionEndDate];
-        [[NSUserDefaults standardUserDefaults] setObject:@(status) forKey:kSubscriptionActive];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kSubscriptionLastChecked];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSubscriptionUpdatedNotification object:nil];
+//        BBSubscriptionObject *status = [BBSubscriptionObject new];
+//        NSInteger timestamp = [[[json objectForKey:@"customer"] objectForKey:@"subscription_expiration_timestamp"] integerValue] ;
+//        status.expiration = [NSDate dateWithTimeIntervalSince1970:timestamp];
+//        status.status = [[[json objectForKey:@"customer"] objectForKey:@"subscription_status"] intValue];
+//        
+//        [[NSUserDefaults standardUserDefaults] setObject:status.expiration forKey:kSubscriptionEndDate];
+//        [[NSUserDefaults standardUserDefaults] setObject:@(status.status) forKey:kSubscriptionActive];
+//        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kSubscriptionLastChecked];
+//        
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kSubscriptionUpdatedNotification object:nil];
     }
     
 }
@@ -400,126 +390,120 @@ static BOOL isInternetConnection()
     // Check the error var
 }
 
-- (CBLIncrementalStore*)incrementalStore {
-#if TARGET_OS_IPHONE
-    CBLIncrementalStore *store = (CBLIncrementalStore*)[[[NSManagedObjectContext MR_defaultContext] persistentStoreCoordinator] persistentStores][0];
-#else
-    CBLIncrementalStore *store = (CBLIncrementalStore*)[[[BBCoreDataStack sharedManager] persistentStoreCoordinator] persistentStores][0];
-#endif
-    
-    return store;
-}
-
 #pragma mark - Couchbase
 
-- (void)activateSync
+- (void)activateReplication
 {
     self.syncActive = YES;
-    
-    CBLIncrementalStore *store = [self incrementalStore];
-
-#if TARGET_OS_IPHONE
-    NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-#else
-    NSManagedObjectContext *context = [[BBCoreDataStack sharedManager] managedObjectContext];
-#endif
+    CBLIncrementalStore *store = (CBLIncrementalStore*)[[[NSManagedObjectContext MR_rootSavingContext] persistentStoreCoordinator] persistentStores][0];
     store.delegate = self;
+    NSManagedObjectContext *context = [NSManagedObjectContext MR_rootSavingContext];
 
-    Account *account = [[BBAccountManager sharedManager] activeAccount];
-    
-    if (account.owner == nil || account == nil) {
-        NSString *remoteDbURL = [COUCHBASE_SYNC_URL stringByAppendingString:COUCHBASE_ACCOUNT_BUCKET];
-        NSString *urlString = [NSString stringWithFormat:@"%@/_design/all_accounts/_view/all_accounts_test",remoteDbURL];
+    Account *oldAccount = [[BBAccountManager sharedManager] activeAccount];
+    NSString *docID = [NSString stringWithFormat:@"account:%@",self.activeuser];
+
+    if (!oldAccount || ![[oldAccount.objectID couchbaseLiteIDRepresentation] isEqualToString:docID]) {
+        NSString *remoteDbURL = [COUCHBASE_SYNC_URL stringByAppendingString:COUCHBASE_DEFAULT_BUCKET];
+        NSString *urlString = [NSString stringWithFormat:@"%@/%@",remoteDbURL,docID];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCouchbaseMigrationStartedNotification object:nil];
 
         [self startCouchbaseUserRequestWithURL:[NSURL URLWithString:urlString]
                                     httpMethod:@"GET"
                                           data:nil
                                   onCompletion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            
-            if (!connectionError) {
-                
-                
-                NSError *error = nil;
-                NSDictionary* responseObject = [NSJSONSerialization JSONObjectWithData:data
-                                                                               options:kNilOptions
-                                                                                 error:&error];
-                
-                NSArray *rows = [responseObject objectForKey:@"rows"];
-                if (rows && rows.count) {
-                    Account *oldAccount = [BBAccountManager sharedManager].activeAccount;
-                    
-                    NSDictionary *row = [rows objectAtIndex:0];
-                    
-                    NSString *objID = [row objectForKey:@"id"];
-                    NSDictionary *objectInfo = [row objectForKey:@"key"];
-                    
-                    NSError *error = nil;
-                    CBLDocument *doc = [store.database documentWithID:objID];
-                    
-                    CBLUnsavedRevision* revision = [doc newRevision];
-                    revision.userProperties = objectInfo;
-                    
-                    BOOL result = [revision save: nil] != nil;
-                    if (result) {
-                        [doc putProperties:objectInfo error:&error];
-                        
-#if TARGET_OS_IPHONE
-                        NSArray *accounts = [Account MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"self != %@ AND owner == %@",oldAccount, self.activeuser]];
-#else
-                        NSArray *accounts = [Account allInstancesWithPredicate:[NSPredicate predicateWithFormat:@"self != %@ AND owner == %@",oldAccount, self.activeuser] inManagedObjectContext:context];
-#endif
-                        if (accounts.count) {
-                            Account *account = [accounts objectAtIndex:0];
-                            
-                            if (oldAccount) {
-                                [account setTemplates:oldAccount.templates];
-                                [account setMatters:oldAccount.matters];
-                                [account setReceipts:oldAccount.receipts];
-                                [account setReports:oldAccount.reports];
-                                [context deleteObject:oldAccount];
-                            }
-                            // also set solicitors and stuff
-                            
-                            [[BBAccountManager sharedManager] setActiveAccount:account];
-                            [context save:nil];
-                        }
-                    }
-                    
-                    [self performSelectorOnMainThread:@selector(prepareAndSync) withObject:data waitUntilDone:NO];
-                } else {
-                    // push out an account document
-                    
-                    NSString* uuid = [[[BBAccountManager sharedManager] activeAccount].objectID couchbaseLiteIDRepresentation];
+                                      
+                                      CBLDocument *doc = [store.database documentWithID:docID];
 
-                    CBLDocument *account = [store.database existingDocumentWithID:uuid];
-                    NSMutableDictionary *properties = [account.properties mutableCopy];
-                    [properties removeObjectForKey:@"_rev"];
-                    [properties setObject:self.activeuser forKey:@"owner"];
-                    
-                    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:properties
-                                                                       options:NSJSONWritingPrettyPrinted
-                                                                         error:&error];
-                    
-                    [self startCouchbaseUserRequestWithURL:[NSURL URLWithString:[remoteDbURL stringByAppendingString:@"/"]]
-                                                httpMethod:@"POST"
-                                                      data:jsonData
-                                              onCompletion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                                                  
-                                                  if (!connectionError) {
-                                                      [self performSelectorOnMainThread:@selector(prepareAndSync) withObject:nil waitUntilDone:NO];
-                                                  } else {
-                                                      NSLog(@"%@",connectionError.localizedDescription);
+                                      CBLUnsavedRevision* revision = [doc newRevision];
+
+                                      NSMutableDictionary *objectInfo = nil;
+                                      if (data) {
+                                          
+                                          NSError *error = nil;
+                                          NSDictionary* responseObject = [NSJSONSerialization JSONObjectWithData:data
+                                                                                                         options:kNilOptions
+                                                                                                           error:&error];
+                                          
+                                          
+                                          if ([responseObject objectForKey:@"owner"]) {
+                                              error = nil;
+                                              objectInfo = [responseObject mutableCopy];
+                                              //revision.userProperties = objectInfo;
+                                              
+//                                              [objectInfo setObject:[@"p" stringByAppendingString:[objectInfo objectForKey:@"_id"]]
+//                                                             forKey:@"_id"];
+                                              revision.properties = objectInfo;
+                                          } else {
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:kCouchbaseProfileNotFoundNotification object:nil];
+                                              if (!oldAccount) {
+                                                  return;
+                                              }
+                                          }
+                                      }
+                                      
+                                      if (!objectInfo) {
+                                          revision.userProperties = @{@"type":@"Account", @"owner":self.activeuser};
+                                      }
+                                      
+                                      NSError *error = nil;
+                                      CBLSavedRevision *rev = [revision save: &error];
+                                      BOOL result = rev != nil;
+                                      
+                                      if (result) {
+                                          [doc putProperties:objectInfo error:&error];
+                                          
+                                          NSArray *accounts = [Account MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"SELF != %@ AND owner == %@", oldAccount, self.activeuser] inContext:context];
+                                          
+                                          if (oldAccount) {
+                                          }
+                                      
+                                          if (accounts.count) {
+                                              
+                                              Account *account = [accounts objectAtIndex:0];
+                                              NSLog(@"%@",account.owner);
+
+                                              if (!objectInfo && oldAccount) {
+                                                  NSDictionary *attributes = [[NSEntityDescription
+                                                                               entityForName:NSStringFromClass(account.class)
+                                                                               inManagedObjectContext:context] attributesByName];
+                                                  for (NSString *attr in attributes) {
+                                                      if([oldAccount valueForKey:attr]) {
+                                                          [account setValue:[oldAccount valueForKey:attr] forKey:attr];
+                                                      }
                                                   }
-                                              }];
-                }
-
-            } else {
-                NSLog(@"%@",connectionError.localizedDescription);
-            }
-        }];
+                                              }
+                                              
+                                              
+                                              
+                                              if (oldAccount) {
+                                                  [account setTemplates:oldAccount.templates];
+                                                  [account setMatters:oldAccount.matters];
+                                                  [account setReceipts:oldAccount.receipts];
+                                                  [account setReports:oldAccount.reports];
+                                                  [account setRates:oldAccount.rates];
+                                              }
+                                              // also set solicitors and stuff
+                                              [context save:nil];
+                                              [[BBAccountManager sharedManager] setActiveAccount:account];
+                                              if (oldAccount) {
+                                                  [context deleteObject:oldAccount];
+                                                  [context save:nil];
+                                              }
+                                              
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:kCouchbaseProfileFoundNotification object:nil];
+                                              if (!objectInfo) {
+                                                  [self uploadProfile:doc];
+                                              }
+                                          }
+                                          
+                                          [self performSelectorOnMainThread:@selector(prepareAndSync) withObject:nil waitUntilDone:NO];
+                                      }
+                                      
+         }];
+        
         
     } else if(store.database.allReplications.count == 0) {
-        [self startSync];
+        [self prepareAndSync];
     } else {
         for (CBLReplication *repl in store.database.allReplications) {
             [repl start];
@@ -528,39 +512,43 @@ static BOOL isInternetConnection()
 }
 
 - (void) prepareAndSync {
-#if TARGET_OS_IPHONE
-    NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-#else
-    NSManagedObjectContext *context = [[BBCoreDataStack sharedManager] managedObjectContext];
-#endif
+    NSManagedObjectContext *context = [NSManagedObjectContext MR_rootSavingContext];
     [context save:nil];
 
-    // Given some NSManagedObjectContext *context
-    NSManagedObjectModel *model = [context.persistentStoreCoordinator
-                                   managedObjectModel];
-    
-    for(NSEntityDescription *entity in [model entities]) {
-        if (entity.isAbstract) {
-            continue;
-        }
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:entity];
-        NSError *error;
-        NSArray *results = [context executeFetchRequest:request error:&error];
+    NSManagedObjectContext *moc = [NSManagedObjectContext MR_newPrivateQueueContext];
+
+    [moc performBlock:^{
         
-        // Error-checking here...
-        for(BBManagedObject *object in results) {
-            // Do your updates here
-            object.owner = self.activeuser;
+        // Given some NSManagedObjectContext *context
+        NSManagedObjectModel *model = [moc.persistentStoreCoordinator
+                                       managedObjectModel];
+        
+        for(NSEntityDescription *entity in [model entities]) {
+            if (entity.isAbstract) {
+                continue;
+            }
+            NSFetchRequest *request = [[NSFetchRequest alloc] init];
+            [request setEntity:entity];
+            request.predicate = [NSPredicate predicateWithFormat:@"owner == nil"];
+            NSError *error;
+            NSArray *results = [moc executeFetchRequest:request error:&error];
+            
+            // Error-checking here...
+            for(BBManagedObject *object in results) {
+                
+                // Do your updates here
+                object.owner = self.activeuser;
+            }
         }
-    }
-    
-    [context processPendingChanges];
-    [context save:nil];
-    
-    
-    [self performSelectorOnMainThread:@selector(startSync) withObject:nil waitUntilDone:NO];
-    
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCouchbaseMigrationFinishedNotification object:nil];
+        
+        [moc processPendingChanges];
+        [moc save:nil];
+        
+        
+        [self performSelectorOnMainThread:@selector(startSync) withObject:nil waitUntilDone:NO];
+    }];
 }
 
 - (NSDictionary *)storeWillSaveDocument:(NSDictionary *)document
@@ -578,53 +566,50 @@ static BOOL isInternetConnection()
 
 - (void)startSync
 {
-    
-    CBLIncrementalStore *store = [self incrementalStore];
-    [store.database setFilterNamed:@"accounts_only" asBlock:FILTERBLOCK({
-        NSString *atype = revision.document[@"type"];
-        if ([atype isEqualToString:@"Account"])
-            return YES;
-        
-        return NO;
-    })];
-    [store.database setFilterNamed:@"no_accounts" asBlock:FILTERBLOCK({
-        NSString *atype = revision.document[@"type"];
-        if (![atype isEqualToString:@"Account"])
-            return YES;
-        
-        return NO;
-    })];
+    CBLIncrementalStore *store = (CBLIncrementalStore*)[[[NSManagedObjectContext MR_rootSavingContext] persistentStoreCoordinator] persistentStores][0];
     
     NSString *password = [Lockbox stringForKey:kBarBooksSubscriptionUserPassword];
     
     NSURL *remoteDbURL = [NSURL URLWithString:[COUCHBASE_SYNC_URL stringByAppendingString:COUCHBASE_DEFAULT_BUCKET]];
-    NSURL *remoteAccountDbURL = [NSURL URLWithString:[COUCHBASE_SYNC_URL stringByAppendingString:COUCHBASE_ACCOUNT_BUCKET]];
     
     CBLReplication *pull = [store.database createPullReplication:remoteDbURL];
     CBLReplication *push = [store.database createPushReplication:remoteDbURL];
-    CBLReplication *pull_acc = [store.database createPullReplication:remoteAccountDbURL];
-    CBLReplication *push_acc = [store.database createPushReplication:remoteAccountDbURL];
     id<CBLAuthenticator> auth = [CBLAuthenticator basicAuthenticatorWithName:self.activeuser password:password];
-    
-    push_acc.filter = @"accounts_only";
-    push.filter = @"no_accounts";
     
     [push setAuthenticator:auth];
     [pull setAuthenticator:auth];
-    [push_acc setAuthenticator:auth];
-    [pull_acc setAuthenticator:auth];
-    
-    [self startReplication:pull_acc];
-    [self startReplication:push_acc];
     
     [self startReplication:pull];
     [self startReplication:push];
+    
+    
+}
+
+- (void)uploadProfile:(CBLDocument*)accountDoc {
+    
+    NSMutableDictionary *properties = [accountDoc.properties mutableCopy];
+    [properties removeObjectForKey:@"_rev"];
+    [properties setObject:self.activeuser forKey:@"owner"];
+    
+    NSString *remoteDbURL = [COUCHBASE_SYNC_URL stringByAppendingString:COUCHBASE_DEFAULT_BUCKET];
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:properties
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:nil];
+    
+    [self startCouchbaseUserRequestWithURL:[NSURL URLWithString:[remoteDbURL stringByAppendingString:@"/"]]
+                                httpMethod:@"POST"
+                                      data:jsonData
+                              onCompletion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                                  
+                              }];
+    
 }
 
 - (void)stopSync
 {
     self.syncActive = NO;
-    CBLIncrementalStore *store = [self incrementalStore];
+    CBLIncrementalStore *store = (CBLIncrementalStore*)[[[NSManagedObjectContext MR_rootSavingContext] persistentStoreCoordinator] persistentStores][0];
     for (CBLReplication *repl in store.database.allReplications) {
         [repl stop];
     }
@@ -635,7 +620,8 @@ static BOOL isInternetConnection()
  */
 - (void)startReplication:(CBLReplication *)repl {
     repl.continuous = YES;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(replicationProgress:)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector: @selector(replicationProgress:)
                                                  name:kCBLReplicationChangeNotification object:repl];
     [repl start];
 }
@@ -660,12 +646,10 @@ static BOOL isInternetConnection()
     if (self.progress == 1 || repl.changesCount == 0) {
         self.progress = 0;
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSyncStatusProgressedNotification object:nil];
     NSLog(@"Pending = %lu",repl.documentIDs.count);
     NSLog(@"%@ replication: status = %d, progress = %u / %u, err = %@",
           (repl.pull ? @"Pull" : @"Push"), repl.status, repl.changesCount, repl.completedChangesCount,
           error.localizedDescription);
-    
     
     if (error) {
         NSString* msg = [NSString stringWithFormat: @"Sync failed with an error: %@", error.localizedDescription];

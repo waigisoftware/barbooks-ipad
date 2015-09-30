@@ -8,11 +8,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BBTimerAccessoryView">
-            <rect key="frame" x="0.0" y="0.0" width="80" height="86"/>
+            <rect key="frame" x="0.0" y="0.0" width="72" height="86"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zye-Iv-wrc">
-                    <rect key="frame" x="0.0" y="19" width="80" height="47"/>
+                    <rect key="frame" x="0.0" y="19" width="72" height="47"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mG-EK-Ia8">
                             <rect key="frame" x="40" y="8" width="32" height="32"/>
@@ -45,8 +45,8 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="47" id="JwT-Z4-ED4"/>
-                        <constraint firstAttribute="trailing" secondItem="6mG-EK-Ia8" secondAttribute="trailing" constant="8" id="SnL-55-wJh"/>
-                        <constraint firstAttribute="width" constant="80" id="ckr-aH-H7m"/>
+                        <constraint firstAttribute="trailing" secondItem="6mG-EK-Ia8" secondAttribute="trailing" id="SnL-55-wJh"/>
+                        <constraint firstAttribute="width" constant="72" id="ckr-aH-H7m"/>
                         <constraint firstAttribute="bottom" secondItem="6mG-EK-Ia8" secondAttribute="bottom" constant="7" id="oH6-ox-fl3"/>
                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="86" id="orU-Y0-tta"/>
                     </constraints>
@@ -68,7 +68,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="1na-9Q-vgY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="32" id="MhQ-8a-v8e"/>
-                <constraint firstAttribute="trailing" secondItem="1na-9Q-vgY" secondAttribute="trailing" constant="50" id="hL3-yU-3Bm"/>
+                <constraint firstAttribute="trailing" secondItem="1na-9Q-vgY" secondAttribute="trailing" constant="42" id="hL3-yU-3Bm"/>
                 <constraint firstAttribute="trailing" secondItem="Zye-Iv-wrc" secondAttribute="trailing" id="nmF-p8-8m5"/>
                 <constraint firstItem="Zye-Iv-wrc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="19" id="zJQ-RR-fTe"/>
                 <constraint firstItem="Zye-Iv-wrc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="zi1-02-m9D"/>

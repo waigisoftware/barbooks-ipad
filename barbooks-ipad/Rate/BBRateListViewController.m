@@ -113,7 +113,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Rate *rateToDelete = [self.matter.ratesArray objectAtIndex:indexPath.row];
         [self.matter removeRatesObject:rateToDelete];
-        [_ratesTableView reloadData];
+        [_ratesTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
     }
 }
 

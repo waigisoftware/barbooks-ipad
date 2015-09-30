@@ -45,7 +45,7 @@
         [_rateTypeTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:[_rate.rateType integerValue] inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
         [_doneButton updateBackgroundColourAndSetEnabledTo:YES];
     } else {
-        _rate = [Rate MR_createEntity];
+        _rate = [Rate MR_createEntityInContext:self.matter.managedObjectContext];
         _rate.amount = [NSDecimalNumber oneHundred];
         _rate.matter = self.matter;
         self.title = @"New Rate";
@@ -175,6 +175,7 @@
     //_rate.amountGst = [NSDecimalNumber decimalNumberWithString:_rateAmountIncludeGSTTextField.text];
     _rate.amount = [NSDecimalNumber decimalNumberWithString:_rateAmountExcludeGSTTextField.text];
     _rate.rateType = [NSNumber numberWithUnsignedInteger:[[Rate rateTypes] indexOfObject:_rateTypeLabel.text]];
+    [_rate.managedObjectContext MR_saveToPersistentStoreAndWait];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

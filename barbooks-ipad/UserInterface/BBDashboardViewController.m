@@ -19,7 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *mattersTotalLabel;
 @property (weak, nonatomic) IBOutlet UILabel *unbilledTotalsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *uninvoicedTotalsLabel;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *fromDateButton;
 @property (weak, nonatomic) IBOutlet UIButton *toDateButton;
 
@@ -45,8 +44,7 @@
     _timeUnitsSummary = [NSMutableDictionary new];
     _expensesSummary = [NSMutableDictionary new];
     _receiptsSummary = [NSMutableDictionary new];
-    _tableView.alpha = 0;
-    
+    self.tableView.alpha = 0;
     
     NSDateFormatter *dateFormat = [NSDateFormatter new];
     [dateFormat setDateStyle:NSDateFormatterShortStyle];

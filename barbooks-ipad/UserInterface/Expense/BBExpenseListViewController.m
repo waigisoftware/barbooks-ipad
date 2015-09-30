@@ -169,8 +169,7 @@
 - (void)refreshExpenses {
     [self fetchExpenses];
     [_expenseListTableView reloadData];
-    [self stopAndUpdateDateOnRefreshControl];
-//    [_expenseListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
+    [self performSelector:@selector(stopAndUpdateDateOnRefreshControl) withObject:nil afterDelay:1];
 }
 
 #pragma mark - override

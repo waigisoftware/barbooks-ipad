@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CouchbaseLite/CouchbaseLite.h>
 
+
+#define kCouchbaseMigrationStartedNotification @"kCouchbaseMigrationStartedNotification"
+#define kCouchbaseMigrationFinishedNotification @"kCouchbaseMigrationFinishedNotification"
+#define kCouchbaseProfileFoundNotification @"kCouchbaseProfileFoundNotification"
+#define kCouchbaseProfileNotFoundNotification @"kCouchbaseProfileNotFoundNotification"
 #define kLoginSuccessfulNotification @"kLoginSuccessfulNotification"
 #define kLoginFailedNotification @"kLoginFailedNotification"
 #define kSubscriptionUpdatedNotification @"kSubscriptionUpdatedNotification"
@@ -40,6 +45,6 @@ typedef enum {
 - (NSDate *)subscriptionEndDate;
 - (void) checkSubscriptionStatus;
 - (void) logout;
-- (void) activateSync;
+- (void) activateReplication;
 
 @end
