@@ -10,7 +10,7 @@
 
 @interface BBIncrementalStore : CBLIncrementalStore
 
-
+- (void) purgeCachedObjectsForEntityName: (NSString*)entity;
 
 @end
 

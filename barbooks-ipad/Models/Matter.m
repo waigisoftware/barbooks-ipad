@@ -51,15 +51,20 @@
     return object;
 }
 
-+ (instancetype)newInstanceInDefaultManagedObjectContext {
-//    id object = [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:[[BBCoreDataManager sharedInstance] managedObjectContext]];
-    Matter *newMatter = [Matter MR_createEntityInContext:[[BBCoreDataManager sharedInstance] managedObjectContext]];
-    newMatter.createdAt = [NSDate date];
-    newMatter.archived = [NSNumber numberWithBool:NO];
-    newMatter.date = [NSDate date];
-    newMatter.taxed = [NSNumber numberWithBool:YES];
-    newMatter.tax = [NSDecimalNumber decimalNumberWithString:@"0.1"];
-    newMatter.costsAgreementDate = [NSDate date];
++ (instancetype)newInstanceWithAccount:(Account*)account {
+    
+    Matter *newMatter = [Matter MR_createEntity];
+    newMatter.tax = [account.tax copy];
+    newMatter.dueDate = [account.defaultDueDate copy];
+    newMatter.account = [account MR_inContext:newMatter.managedObjectContext];
+    
+    for (Rate *rate in [BBAccountManager sharedManager].activeAccount.rates) {
+        Rate *newRate = [Rate MR_createEntityInContext:newMatter.managedObjectContext];
+        [rate copyValueToRate:newRate];
+        [newMatter addRatesObject:newRate];
+        newRate.matter = newMatter;
+    }
+    
     return newMatter;
 }
 

@@ -49,6 +49,7 @@
         [self performSegueWithIdentifier:@"showMainApp" sender:self];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subscriptionUpdateSucceeded) name:kCouchbaseProfileFoundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoginFailedAlert) name:kLoginFailedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -107,6 +108,7 @@
 #pragma mark - UI AlertViews
 
 -(void) showLoginFailedAlert {
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     [[[UIAlertView alloc] initWithTitle:@"Failed to login"
                                 message:@"Please check your username and password."
                                delegate:self

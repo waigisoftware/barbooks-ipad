@@ -40,6 +40,7 @@
 		07A82E7D1B9BF02700796F10 /* BBAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7A1B9BF02700796F10 /* BBAccountManager.m */; };
 		07A82E7E1B9BF02700796F10 /* BBCloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E7C1B9BF02700796F10 /* BBCloudManager.m */; };
 		07A82E811B9BF06A00796F10 /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A82E801B9BF06A00796F10 /* Template.m */; };
+		07B426101BBBFB9800AB3CE6 /* BBMatterSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B4260F1BBBFB9800AB3CE6 /* BBMatterSelectionTableViewController.m */; };
 		07BEE46B1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BEE46A1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m */; };
 		13B2567A1F499FD23F022AE6 /* libPods-barbooks-ipad.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCE2E9E5225B2BC91F578A0 /* libPods-barbooks-ipad.a */; };
 		1B8DE4AF9E36DB7AA9479290 /* libPods-barbooks-ipadTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58C9897D4CE4F5D4B234CD54 /* libPods-barbooks-ipadTests.a */; };
@@ -205,6 +206,8 @@
 		07A82E7C1B9BF02700796F10 /* BBCloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBCloudManager.m; sourceTree = "<group>"; };
 		07A82E7F1B9BF06A00796F10 /* Template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Template.h; sourceTree = "<group>"; };
 		07A82E801B9BF06A00796F10 /* Template.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Template.m; sourceTree = "<group>"; };
+		07B4260E1BBBFB9800AB3CE6 /* BBMatterSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMatterSelectionTableViewController.h; path = UserInterface/BBMatterSelectionTableViewController.h; sourceTree = "<group>"; };
+		07B4260F1BBBFB9800AB3CE6 /* BBMatterSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBMatterSelectionTableViewController.m; path = UserInterface/BBMatterSelectionTableViewController.m; sourceTree = "<group>"; };
 		07BEE4691B996CAB00876EC7 /* BBMultilineTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBMultilineTextTableViewCell.h; path = UserInterface/Views/BBMultilineTextTableViewCell.h; sourceTree = "<group>"; };
 		07BEE46A1B996CAB00876EC7 /* BBMultilineTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBMultilineTextTableViewCell.m; path = UserInterface/Views/BBMultilineTextTableViewCell.m; sourceTree = "<group>"; };
 		16ED6A71BF367FA077B7B0E6 /* Pods-barbooks-ipad.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbooks-ipad.release.xcconfig"; path = "Pods/Target Support Files/Pods-barbooks-ipad/Pods-barbooks-ipad.release.xcconfig"; sourceTree = "<group>"; };
@@ -537,6 +540,8 @@
 				0793E0271B7D6295001E2A5B /* Views */,
 				36788FA51B20350F00B34D3E /* BBBaseTableViewController.h */,
 				36788FA61B20350F00B34D3E /* BBBaseTableViewController.m */,
+				07B4260E1BBBFB9800AB3CE6 /* BBMatterSelectionTableViewController.h */,
+				07B4260F1BBBFB9800AB3CE6 /* BBMatterSelectionTableViewController.m */,
 				36DEF92A1B22FEE70053CD8C /* BBHomeViewController.h */,
 				36DEF92B1B22FEE70053CD8C /* BBHomeViewController.m */,
 				073ED8691BB2154000DC89C7 /* BBDashboardViewController.h */,
@@ -1233,6 +1238,7 @@
 				072007CB1B86EE74000CC616 /* BBSelectionTableViewController.m in Sources */,
 				36DEF9FF1B2710620053CD8C /* ReportDetailItem.m in Sources */,
 				36DEFA1D1B2710640053CD8C /* GeneralReceipt.m in Sources */,
+				07B426101BBBFB9800AB3CE6 /* BBMatterSelectionTableViewController.m in Sources */,
 				0793E02A1B7D62C9001E2A5B /* BBColoredTableViewCell.m in Sources */,
 				3675632F1B2C2C73002C5738 /* UIFloatLabelTextField+BBUtil.m in Sources */,
 				36DEFA381B2710650053CD8C /* Firm.m in Sources */,
@@ -1505,6 +1511,7 @@
 				INFOPLIST_FILE = "barbooks-ipad/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.censea.barbooks-mobile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1528,6 +1535,7 @@
 				INFOPLIST_FILE = "barbooks-ipad/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.censea.barbooks-mobile";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

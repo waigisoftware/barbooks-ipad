@@ -179,6 +179,7 @@
 #pragma mark - Core Data
 
 + (NSArray *)allExpenses {
+    
     return [Expense MR_findAllSortedBy:@"createdAt" ascending:NO inContext:[NSManagedObjectContext MR_rootSavingContext]];
 }
 

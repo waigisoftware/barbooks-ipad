@@ -15,6 +15,7 @@
 
 @property (strong, nonatomic) BBTaskListViewController *taskListViewController;
 @property (weak, nonatomic) IBOutlet UITableView *matterListTableView;
+@property (strong) id createdObject;
 
 - (void)fetchMatters;
 

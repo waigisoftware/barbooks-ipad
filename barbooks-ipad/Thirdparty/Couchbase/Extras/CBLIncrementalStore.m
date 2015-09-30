@@ -2122,8 +2122,9 @@ static CBLManager* sCBLManager;
         } else {
             [updatedObjectIDs addObject: objectID];
         }
-        
-        [changedEntitites addObject: type];
+        if (type) {
+            [changedEntitites addObject: type];
+        }
     }
     
     [self informObservingManagedObjectContextsAboutUpdatedIDs: updatedObjectIDs

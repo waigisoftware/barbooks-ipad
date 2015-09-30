@@ -22,16 +22,23 @@
                             <rect key="frame" x="175" y="8" width="115" height="119"/>
                             <animations/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BarBooks" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vp-xT-eua">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BarBooks" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vp-xT-eua">
                             <rect key="frame" x="88" y="158" width="288" height="39"/>
                             <animations/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="288" id="bg3-Az-3pJ"/>
+                                <constraint firstAttribute="height" constant="39" id="w5h-xo-VPh"/>
+                            </constraints>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="40"/>
                             <color key="textColor" red="0.054901961239999998" green="0.13725490870000001" blue="0.27450981740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Accounting Software for Barristers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlR-es-CXd">
-                            <rect key="frame" x="0.0" y="203" width="464" height="26"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accounting Software for Barristers" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlR-es-CXd">
+                            <rect key="frame" x="0.0" y="203" width="464" height="57"/>
                             <animations/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="57" id="qyx-5m-6lT"/>
+                            </constraints>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
                             <color key="textColor" red="0.054901961239999998" green="0.13725490870000001" blue="0.27450981740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -40,9 +47,20 @@
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="1Vp-xT-eua" firstAttribute="centerX" secondItem="JX7-sK-IMx" secondAttribute="centerX" id="0rd-NS-F6w"/>
                         <constraint firstAttribute="width" constant="464" id="3bM-Mw-qaK"/>
+                        <constraint firstItem="MlR-es-CXd" firstAttribute="leading" secondItem="JX7-sK-IMx" secondAttribute="leading" id="3eg-PU-ck6"/>
+                        <constraint firstItem="MlR-es-CXd" firstAttribute="top" secondItem="JX7-sK-IMx" secondAttribute="top" constant="203" id="6WE-6Q-CCd"/>
                         <constraint firstAttribute="height" constant="300" id="q5A-Gk-ZEj"/>
+                        <constraint firstItem="1Vp-xT-eua" firstAttribute="top" secondItem="JX7-sK-IMx" secondAttribute="top" constant="158" id="qOH-Hu-YdI"/>
+                        <constraint firstItem="MlR-es-CXd" firstAttribute="top" secondItem="1Vp-xT-eua" secondAttribute="bottom" constant="6" id="vE8-HQ-W9f"/>
+                        <constraint firstAttribute="trailing" secondItem="MlR-es-CXd" secondAttribute="trailing" id="xGz-eG-Fqd"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="vE8-HQ-W9f"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <animations/>

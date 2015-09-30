@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *tasksUnbilledAmountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *invoicesOutstandingAmountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *payorNameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *timerIcon;
 
 @end

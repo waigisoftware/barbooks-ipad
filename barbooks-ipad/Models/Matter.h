@@ -68,7 +68,7 @@
 - (void)removeTasks:(NSSet *)values;
 
 + (instancetype)newInstanceInManagedObjectContext:(NSManagedObjectContext*)context;
-+ (instancetype)newInstanceInDefaultManagedObjectContext;
++ (instancetype)newInstanceWithAccount:(Account*)account;
 
 - (NSDecimalNumber *)hoursFromDuration:(NSDecimalNumber *)duration;
 - (NSDecimalNumber *)totalTasksUnbilled;

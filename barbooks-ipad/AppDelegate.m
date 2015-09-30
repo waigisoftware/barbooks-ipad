@@ -278,16 +278,16 @@
                                                   usingBlock:^(NSNotification *notification) {
                                                       [bself showMatters];
                                                   }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:kLoginFailedNotification
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:^(NSNotification *notification) {
-                                                      NSError *error = notification.object;
-                                                      [self showAlertWithTitle:@"Authentication Error"
-                                                                       message:error.localizedDescription];
-                                                      [bself logout];
-                                                  }];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserverForName:kLoginFailedNotification
+//                                                      object:nil
+//                                                       queue:nil
+//                                                  usingBlock:^(NSNotification *notification) {
+//                                                      NSError *error = notification.object;
+//                                                      [self showAlertWithTitle:@"Authentication Error"
+//                                                                       message:error.localizedDescription];
+//                                                      [bself logout];
+//                                                  }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:kSubscriptionUpdateFailedNotification
                                                       object:nil

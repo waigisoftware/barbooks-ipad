@@ -10,6 +10,7 @@
 #import "BBExpenseListViewController.h"
 #import "Contact.h"
 #import "Disbursement.h"
+#import "Account.h"
 #import "TaxExpense.h"
 #import "BBModalDatePickerViewController.h"
 
@@ -122,14 +123,17 @@
 - (void)setupTaxTypeDropDown {
     // setup selection item
     NSMutableArray *dropdownItems = [[NSMutableArray alloc] init];
-    
+    NSDecimalNumber *tax = [self.expense isKindOfClass:[Disbursement class]] ? [(Disbursement*)self.expense matter].tax : [[(GeneralExpense*)self.expense account] tax];
     IGLDropDownItem *item = nil;
-    for (NSString *taxType in [GlobalAttributes taxExpenseTypes]) {
-        item = [IGLDropDownItem new];
-        [self setupDropDownItem:item];
-        [item setText:taxType];
-        [dropdownItems addObject:item];
-    }
+    item = [IGLDropDownItem new];
+    [self setupDropDownItem:item];
+    [item setText:[NSString stringWithFormat:@"%0.1f%%",tax.floatValue]];
+    [dropdownItems addObject:item];
+    
+    item = [IGLDropDownItem new];
+    [self setupDropDownItem:item];
+    [item setText:@"Specify:"];
+    [dropdownItems addObject:item];
 
     // setup dropdown selection
     _gstTypeDrowdown = [[IGLDropDownMenu alloc] init];
@@ -158,7 +162,7 @@
     [_gstTypeDrowdown reloadView];
     [_gstTypeDropdownContainer.superview addSubview:_gstTypeDrowdown];
     [_gstTypeDrowdown.menuButton addTarget:self action:@selector(dropDownMenuItemSelected:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     if (_expense) {
         [_gstTypeDrowdown selectItemAtIndex:_expense.taxType];
     } else {
@@ -189,7 +193,7 @@
         [item setText:type];
         [dropdownItems addObject:item];
     }
-    
+
     // setup dropdown selection
     _expenseTypeDrowdown = [[IGLDropDownMenu alloc] init];
     [self setupDropDownItem:_expenseTypeDrowdown.menuButton];
@@ -251,7 +255,7 @@
     _payeeTextField.text = _expense.payee;
     _categoryTextField.text = _expense.category;
     _taxedSwitch.on = _expense.isTaxed;
-    if (_expense.isTaxed) {
+    if (_expense.isTaxed && ![_expense isKindOfClass:[TaxExpense class]]) {
         _gstTypeDrowdown.hidden = NO;
         _gstTextField.hidden = NO;
         _taxAmountLabel.hidden = NO;
@@ -375,7 +379,8 @@
     // save data and update list
     [self stopEditing];
     [self.delegate updateExpense:self.expense];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.expense.managedObjectContext MR_saveToPersistentStoreAndWait];
+    [self performSegueWithIdentifier:@"unwindToExpenseListViewController" sender:sender];
 }
 
 - (IBAction)onTax:(id)sender {

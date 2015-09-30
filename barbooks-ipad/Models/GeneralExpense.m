@@ -15,7 +15,7 @@
 @dynamic account;
 
 + (instancetype)newInstanceWithDefaultValue {
-    GeneralExpense *newExpense = [GeneralExpense MR_createEntityInContext:[NSManagedObjectContext MR_rootSavingContext]];
+    GeneralExpense *newExpense = [GeneralExpense MR_createEntity];
     newExpense.createdAt = [NSDate date];
     newExpense.archived = [NSNumber numberWithBool:NO];
     newExpense.amountExGst = [NSDecimalNumber zero];

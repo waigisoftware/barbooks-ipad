@@ -646,17 +646,18 @@ static BOOL isInternetConnection()
     if (self.progress == 1 || repl.changesCount == 0) {
         self.progress = 0;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSyncStatusProgressedNotification object:nil];
     NSLog(@"Pending = %lu",repl.documentIDs.count);
     NSLog(@"%@ replication: status = %d, progress = %u / %u, err = %@",
           (repl.pull ? @"Pull" : @"Push"), repl.status, repl.changesCount, repl.completedChangesCount,
           error.localizedDescription);
+    
     
     if (error) {
         NSString* msg = [NSString stringWithFormat: @"Sync failed with an error: %@", error.localizedDescription];
         NSLog(@"%@",msg);
     }
 }
-
 
 
 @end

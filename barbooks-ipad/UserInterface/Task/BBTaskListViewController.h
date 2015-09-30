@@ -17,5 +17,6 @@
 
 @property (weak, nonatomic) BBMatterListViewController *matterListViewController;
 @property (weak, nonatomic) IBOutlet UITableView *tasksTableView;
+@property (strong) Task *task;
 
 @end

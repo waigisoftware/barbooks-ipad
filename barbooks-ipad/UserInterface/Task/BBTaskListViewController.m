@@ -52,6 +52,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    if (self.task) {
+        BBTaskListTableViewCell *cell = (id)[_tasksTableView cellForRowAtIndexPath:[self indexPathOfTask:self.task]];
+        [cell.taskNameLabel becomeFirstResponder];
+        self.task = nil;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -78,6 +83,23 @@
     self.tabBarController.navigationItem.rightBarButtonItems = @[addButton,editButton];
 }
 
+
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [_searchBar setShowsCancelButton:YES animated:YES];
+    
+    [self filterContentForSearchText:searchText scope:nil];
+    [self.tasksTableView reloadData];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [_searchBar setShowsCancelButton:NO animated:YES];
+    searchBar.text = nil;
+    [self filterContentForSearchText:nil scope:nil];
+    [self.tasksTableView reloadData];
+}
 
 #pragma mark - Button actions
 
@@ -160,7 +182,6 @@
         cell.totalFeesExcludeGSTLabel.text = [task.totalFeesExGst currencyAmount];
         cell.totalFeesIncludeGSTLabel.text = [task.totalFeesIncGst currencyAmount];
         cell.slashLabel.hidden = !task.isTaxed;
-        cell.includeGSTLabel.hidden = !task.isTaxed || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone;
         cell.totalFeesIncludeGSTLabel.hidden = !task.isTaxed;
         cell.matterDescriptionLabel.text = task.matter.name;
         cell.taskDateLabel.text = [dateFormatter stringFromDate:task.date];

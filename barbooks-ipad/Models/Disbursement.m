@@ -17,7 +17,7 @@
 @dynamic matter;
 
 + (instancetype)newInstanceOfMatter:(Matter *)matter {
-    Disbursement *newExpense = [Disbursement MR_createEntityInContext:[NSManagedObjectContext MR_rootSavingContext]];
+    Disbursement *newExpense = [Disbursement MR_createEntity];
     newExpense.createdAt = [NSDate date];
     newExpense.archived = [NSNumber numberWithBool:NO];
     newExpense.amountExGst = [NSDecimalNumber zero];
@@ -28,8 +28,8 @@
     newExpense.tax = [NSDecimalNumber zero];
     newExpense.userSpecifiedGst = [NSNumber numberWithBool:NO];
     newExpense.expenseType = BBExpenseTypeExpense;
-    newExpense.matter = matter;
-    [matter addDisbursementsObject:newExpense];
+    newExpense.matter = [matter MR_inContext:newExpense.managedObjectContext];
+    //[matter addDisbursementsObject:newExpense];
     [newExpense.managedObjectContext MR_saveToPersistentStoreAndWait];
     return newExpense;
 }

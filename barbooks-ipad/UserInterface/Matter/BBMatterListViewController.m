@@ -14,14 +14,15 @@
 #import "BBInvoiceListViewController.h"
 #import "BBReceiptListViewController.h"
 #import "BBExpenseListViewController.h"
+#import "BBTaskTimer.h"
 #import "Account.h"
 #import "Rate.h"
+#import "Disbursement.h"
 
-@interface BBMatterListViewController () {
+@interface BBMatterListViewController () <UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate> {
     BOOL _showUnarchived;
 }
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *archiveBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteBarButtonItem;
@@ -32,6 +33,7 @@
 @property (strong, nonatomic) NSMutableArray *filteredItemList;
 
 @property (strong, nonatomic) Matter *selectedMatter;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 - (IBAction)onAdd:(id)sender;
 - (IBAction)onArchive:(id)sender;
@@ -48,11 +50,13 @@
     _toolBar.clipsToBounds = YES;
     _showUnarchived = YES;
 
+
     // tableview
     _matterListTableView.dataSource = self;
     _matterListTableView.delegate = self;
+
     [self registerRefreshControlFor:_matterListTableView withAction:@selector(refreshMatters)];
-    [_matterListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height)];
+    [_matterListTableView setContentOffset:CGPointMake(0, self.searchBar.frame.size.height)];
     
     // toolbar buttons
     UIImage *imageAdd = [[UIImage imageNamed:@"button_add"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -71,10 +75,23 @@
     }
 }
 
+
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     // pre-select matter
+    if (self.createdObject) {
+        if ([self.createdObject isKindOfClass:[Matter class]]) {
+
+            [self.matterListTableView selectRowAtIndexPath:[self indexPathOfMatter:self.createdObject] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+            [self showMatterDetail:self.createdObject];
+        } else {
+            [self performSegueWithIdentifier:BBSegueShowMatterEntries sender:self.createdObject];
+        }
+        self.createdObject = nil;
+    }
 }
+
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -89,6 +106,40 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [_searchBar setShowsCancelButton:YES animated:YES];
+
+    [self filterContentForSearchText:searchText scope:nil];
+    [self.matterListTableView reloadData];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [_searchBar setShowsCancelButton:NO animated:YES];
+    searchBar.text = nil;
+    [self filterContentForSearchText:nil scope:nil];
+    [self.matterListTableView reloadData];
+}
+
+- (IBAction)onEdit:(id)sender {
+    if (self.matterListTableView.editing) {
+        
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEdit:)];
+        
+        [self.tabBarController.navigationItem setRightBarButtonItems:@[editButton] animated:YES];
+        
+    } else {
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onEdit:)];
+        
+        [self.navigationController.navigationItem setRightBarButtonItems:@[editButton] animated:YES];
+    }
+    
+    [self.matterListTableView setEditing:!self.matterListTableView.editing animated:YES];
+    
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -101,6 +152,12 @@
     Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
     cell.matterNameLabel.text = matter.name;
     cell.payorNameLabel.text = matter.payor;
+    if ([[BBTaskTimer sharedInstance] currentTask] && [[[BBTaskTimer sharedInstance] currentTask] matter] == matter) {
+        cell.timerIcon.hidden = NO;
+    } else {
+        cell.timerIcon.hidden = YES;
+    }
+    
     cell.tasksUnbilledAmountLabel.text = [[matter amountUnbilledTasks] currencyAmount];
     cell.invoicesOutstandingAmountLabel.text = [[matter amountOutstandingInvoices] currencyAmount];
     return cell;
@@ -109,8 +166,10 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
-    [self showTaskList:matter];
+    if (!tableView.editing) {
+        Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
+        [self showTaskList:matter];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
@@ -156,10 +215,17 @@
     [[NSManagedObjectContext MR_rootSavingContext] processPendingChanges];
     // fetch from core data
     Account *currentAccount = [[BBAccountManager sharedManager] activeAccount];
-    NSArray *objects = _showUnarchived ? [Matter unarchivedMattersOfAccount:currentAccount] : [Matter archivedMattersOfAccount:currentAccount];
-    objects = [objects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    NSMutableArray *objects = _showUnarchived ? [[Matter unarchivedMattersOfAccount:currentAccount] mutableCopy] : [[Matter archivedMattersOfAccount:currentAccount] mutableCopy];
+    
+    [objects sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    if ([[BBTaskTimer sharedInstance] currentTask]) {
+        [objects removeObject:[[[BBTaskTimer sharedInstance] currentTask] matter]];
+        [objects insertObject:[[[BBTaskTimer sharedInstance] currentTask] matter] atIndex:0];
+        
+    }
+    
     _originalItemList = [NSMutableArray arrayWithArray:objects];
-    [self filterContentForSearchText:_searchBar.text scope:nil];
+    [self filterContentForSearchText:self.searchBar.text scope:nil];
 }
 
 - (void)refreshMatters {
@@ -198,7 +264,7 @@
     
     [newMatter.managedObjectContext MR_saveToPersistentStoreAndWait];
     
-    [self.originalItemList insertObject:newMatter atIndex:0];
+    [self fetchMatters];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [_matterListTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
@@ -210,17 +276,27 @@
 }
 
 - (IBAction)onArchive:(id)sender {
-    Matter *selectedMatter = [_filteredItemList objectAtIndex:_matterListTableView.indexPathForSelectedRow.row];
-    NSIndexPath *indexPath = [self indexPathOfMatter:selectedMatter];
-    selectedMatter.archived = [NSNumber numberWithBool:YES];
-    [self.filteredItemList removeObject:selectedMatter];
-    [_matterListTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    for (NSIndexPath *indexPath in self.matterListTableView.indexPathsForSelectedRows) {
+        Matter *selectedMatter = [_filteredItemList objectAtIndex:indexPath.row];
+        selectedMatter.archived = [NSNumber numberWithBool:YES];
+        [self.filteredItemList removeObject:selectedMatter];
+    }
+    [[NSManagedObjectContext MR_rootSavingContext] MR_saveToPersistentStoreAndWait];
+
+    [_matterListTableView deleteRowsAtIndexPaths:@[self.matterListTableView.indexPathsForSelectedRows] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 - (IBAction)onDelete:(id)sender {
 //    Matter *selectedMatter = [_filteredItemList objectAtIndex:_matterListTableView.indexPathForSelectedRow.row];
 //    [selectedMatter MR_deleteEntity];
 //    [self fetchMatters];
+    for (NSIndexPath *indexPath in self.matterListTableView.indexPathsForSelectedRows) {
+        Matter *selectedMatter = [_filteredItemList objectAtIndex:indexPath.row];
+        [selectedMatter MR_deleteEntity];
+        [self.filteredItemList removeObject:selectedMatter];
+    }
+    [[NSManagedObjectContext MR_rootSavingContext] MR_saveToPersistentStoreAndWait];
+
     [self animateDeleteForSelections];
 }
 
@@ -264,18 +340,32 @@
         matterViewController.matterListViewController = self;
     } else if ([[segue identifier] isEqualToString:BBSegueShowMatterEntries]) {
         Matter *matter = sender;
+        if ([sender isKindOfClass:[Matter class]]) {
+            matter = sender;
+        } else {
+            matter = [sender matter];
+        }
         
         UITabBarController *tabBarController = (UITabBarController*)[(UINavigationController*)[segue destinationViewController] topViewController];
         tabBarController.selectedIndex = 0;
+        if ([sender isKindOfClass:[Disbursement class]]) {
+            tabBarController.selectedIndex = 1;
+        }
         for (UIViewController *vc in [tabBarController viewControllers]) {
             if ([vc isKindOfClass:[BBTaskListViewController class]]) {
                 BBTaskListViewController *taskListViewController = (BBTaskListViewController *)vc;
                 taskListViewController.matter = matter;
                 taskListViewController.matterListViewController = self;
                 self.taskListViewController = taskListViewController;
+                if ([sender isKindOfClass:[Task class]]) {
+                    ((BBTaskListViewController *)vc).task = sender;
+                }
             }
             if ([vc isKindOfClass:[BBExpenseListViewController class]]) {
                 ((BBExpenseListViewController *)vc).matter = matter;
+                if ([sender isKindOfClass:[Disbursement class]]) {
+                    ((BBExpenseListViewController *)vc).expense = sender;
+                }
             }
             if ([vc isKindOfClass:[BBInvoiceListViewController class]]) {
                 ((BBInvoiceListViewController *)vc).matter = matter;
