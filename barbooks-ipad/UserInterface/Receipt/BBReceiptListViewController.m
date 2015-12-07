@@ -46,7 +46,6 @@
     _receiptListTableView.estimatedRowHeight = _receiptListTableView.rowHeight;
     _receiptListTableView.rowHeight = UITableViewAutomaticDimension;
     
-    [self registerRefreshControlFor:_receiptListTableView withAction:@selector(refreshReceipts)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -173,7 +172,6 @@
 - (void)refreshReceipts {
     [self fetchReceipts];
     [_receiptListTableView reloadData];
-    [self stopAndUpdateDateOnRefreshControl];
 //    [_receiptListTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
 }
 

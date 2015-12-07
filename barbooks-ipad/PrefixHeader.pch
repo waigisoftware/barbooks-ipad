@@ -67,10 +67,10 @@
 #define StoryboardIdBBReceiptViewController @"BBReceiptViewController"
 
 
-// Constans
+// Constants
 #define ONE_SECOND 1
 #define MAX_COUNT_IN_DROPDOWN 4
-#define COUCHBASE_SYNC_URL @"https://gateway.barbooksaustralia.com/"
+#define COUCHBASE_SYNC_URL @"https://sync.barbooksaustralia.com/"
 #define COUCHBASE_DEFAULT_BUCKET @""
 
 

@@ -188,7 +188,6 @@
 - (void)refreshInvoices {
     [self fetchInvoices];
     [_invoicesTableView reloadData];
-    [self stopAndUpdateDateOnRefreshControl];
     [_invoicesTableView setContentOffset:CGPointMake(0, _searchBar.frame.size.height) animated:YES];
 }
 

@@ -29,9 +29,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *filterButtonItem;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
-@property (strong, nonatomic) NSMutableArray *originalItemList;
-@property (strong, nonatomic) NSMutableArray *filteredItemList;
-
 @property (strong, nonatomic) Matter *selectedMatter;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
@@ -55,7 +52,6 @@
     _matterListTableView.dataSource = self;
     _matterListTableView.delegate = self;
 
-    [self registerRefreshControlFor:_matterListTableView withAction:@selector(refreshMatters)];
     [_matterListTableView setContentOffset:CGPointMake(0, self.searchBar.frame.size.height)];
     
     // toolbar buttons
@@ -67,12 +63,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self fetchMatters];
+//    [self fetchMatters];
 
-    if (_originalItemList.count && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        UITableViewCell *cell = [_matterListTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        [cell setSelected:YES];
-    }
 }
 
 
@@ -111,7 +103,7 @@
 {
     [_searchBar setShowsCancelButton:YES animated:YES];
 
-    [self filterContentForSearchText:searchText scope:nil];
+//    [self filterContentForSearchText:searchText scope:nil];
     [self.matterListTableView reloadData];
 }
 
@@ -119,7 +111,7 @@
 {
     [_searchBar setShowsCancelButton:NO animated:YES];
     searchBar.text = nil;
-    [self filterContentForSearchText:nil scope:nil];
+//    [self filterContentForSearchText:nil scope:nil];
     [self.matterListTableView reloadData];
 }
 
@@ -142,14 +134,17 @@
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _filteredItemList.count;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *reuseIdentifier = @"matterCell";
     BBMatterListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
+    
+    [self configureCell:cell atIndexPath:indexPath];
+    
+    return cell;
+}
+
+- (void)configureCell:(BBMatterListTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    Matter *matter = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.matterNameLabel.text = matter.name;
     cell.payorNameLabel.text = matter.payor;
     if ([[BBTaskTimer sharedInstance] currentTask] && [[[BBTaskTimer sharedInstance] currentTask] matter] == matter) {
@@ -160,20 +155,19 @@
     
     cell.tasksUnbilledAmountLabel.text = [[matter amountUnbilledTasks] currencyAmount];
     cell.invoicesOutstandingAmountLabel.text = [[matter amountOutstandingInvoices] currencyAmount];
-    return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!tableView.editing) {
-        Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
+        Matter *matter = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [self showTaskList:matter];
     }
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    Matter *matter = [_filteredItemList objectAtIndex:indexPath.row];
+    Matter *matter = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self showMatterDetail:matter];
 }
 
@@ -194,57 +188,37 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        Matter *matterToDelete = [_originalItemList objectAtIndex:indexPath.row];
+        Matter *matterToDelete = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [matterToDelete MR_deleteEntity];
         [matterToDelete.managedObjectContext MR_saveToPersistentStoreAndWait];
-        [self fetchMatters];
-        [_matterListTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-        
     }
 }
 
 #pragma mark - TableView helper methods
 
 - (NSIndexPath *)indexPathOfMatter:(Matter *)matter {
-    return [NSIndexPath indexPathForRow:[_originalItemList indexOfObject:matter] inSection:0];
+    return [self.fetchedResultsController indexPathForObject:matter];
 }
 
 #pragma mark - Core data
 
-- (void)fetchMatters {
-    [[NSManagedObjectContext MR_rootSavingContext] processPendingChanges];
-    // fetch from core data
-    Account *currentAccount = [[BBAccountManager sharedManager] activeAccount];
-    NSMutableArray *objects = _showUnarchived ? [[Matter unarchivedMattersOfAccount:currentAccount] mutableCopy] : [[Matter archivedMattersOfAccount:currentAccount] mutableCopy];
-    
-    [objects sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
-    if ([[BBTaskTimer sharedInstance] currentTask]) {
-        [objects removeObject:[[[BBTaskTimer sharedInstance] currentTask] matter]];
-        [objects insertObject:[[[BBTaskTimer sharedInstance] currentTask] matter] atIndex:0];
-        
-    }
-    
-    _originalItemList = [NSMutableArray arrayWithArray:objects];
-    [self filterContentForSearchText:self.searchBar.text scope:nil];
-}
-
 - (void)refreshMatters {
-    [self fetchMatters];
-    [_matterListTableView reloadData];
-    [self performSelector:@selector(stopAndUpdateDateOnRefreshControl) withObject:nil afterDelay:1];
+//    [self fetchMatters];
+//    [_matterListTableView reloadData];
+//    [self performSelector:@selector(stopAndUpdateDateOnRefreshControl) withObject:nil afterDelay:1];
 }
 
 #pragma mark - override
-
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
-    if (searchText && [searchText length] > 0) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText];
-        _filteredItemList = [NSMutableArray arrayWithArray:[_originalItemList filteredArrayUsingPredicate:predicate]];
-    } else {
-        _filteredItemList = _originalItemList;
-    }
-    //[_matterListTableView reloadData];
-}
+//
+//- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
+//    if (searchText && [searchText length] > 0) {
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText];
+//        _filteredItemList = [NSMutableArray arrayWithArray:[_originalItemList filteredArrayUsingPredicate:predicate]];
+//    } else {
+//        _filteredItemList = _originalItemList;
+//    }
+//    //[_matterListTableView reloadData];
+//}
 
 #pragma mark - IBActions
 
@@ -262,12 +236,16 @@
         newRate.matter = newMatter;
     }
     
+    BOOL changes = newMatter.managedObjectContext.hasChanges;
+    BOOL rootChanges = NSManagedObjectContext.MR_rootSavingContext.hasChanges;
     [newMatter.managedObjectContext MR_saveToPersistentStoreAndWait];
+    changes = newMatter.managedObjectContext.hasChanges;
+    rootChanges = NSManagedObjectContext.MR_rootSavingContext.hasChanges;
+
+//    [self fetchMatters];
     
-    [self fetchMatters];
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [_matterListTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [_matterListTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
 //    if (_originalItemList.count && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 //        [_matterListTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
 //    }
@@ -276,14 +254,14 @@
 }
 
 - (IBAction)onArchive:(id)sender {
-    for (NSIndexPath *indexPath in self.matterListTableView.indexPathsForSelectedRows) {
-        Matter *selectedMatter = [_filteredItemList objectAtIndex:indexPath.row];
-        selectedMatter.archived = [NSNumber numberWithBool:YES];
-        [self.filteredItemList removeObject:selectedMatter];
-    }
-    [[NSManagedObjectContext MR_rootSavingContext] MR_saveToPersistentStoreAndWait];
-
-    [_matterListTableView deleteRowsAtIndexPaths:@[self.matterListTableView.indexPathsForSelectedRows] withRowAnimation:UITableViewRowAnimationTop];
+//    for (NSIndexPath *indexPath in self.matterListTableView.indexPathsForSelectedRows) {
+//        Matter *selectedMatter = [_filteredItemList objectAtIndex:indexPath.row];
+//        selectedMatter.archived = [NSNumber numberWithBool:YES];
+//        [self.filteredItemList removeObject:selectedMatter];
+//    }
+//    [[NSManagedObjectContext MR_rootSavingContext] MR_saveToPersistentStoreAndWait];
+//
+//    [_matterListTableView deleteRowsAtIndexPaths:@[self.matterListTableView.indexPathsForSelectedRows] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 - (IBAction)onDelete:(id)sender {
@@ -291,13 +269,13 @@
 //    [selectedMatter MR_deleteEntity];
 //    [self fetchMatters];
     for (NSIndexPath *indexPath in self.matterListTableView.indexPathsForSelectedRows) {
-        Matter *selectedMatter = [_filteredItemList objectAtIndex:indexPath.row];
+        Matter *selectedMatter = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [selectedMatter MR_deleteEntity];
-        [self.filteredItemList removeObject:selectedMatter];
+//        [self.filteredItemList removeObject:selectedMatter];
     }
     [[NSManagedObjectContext MR_rootSavingContext] MR_saveToPersistentStoreAndWait];
 
-    [self animateDeleteForSelections];
+//    [self animateDeleteForSelections];
 }
 
 - (void)animateDeleteForSelections
@@ -382,5 +360,21 @@
 - (void)updateMatter:(id)data {
     [self refreshMatters];
 }
+
+#pragma mark - NSFetchedResults
+
+- (NSString *)entityName {
+    return @"Matter";
+}
+
+- (NSArray *)sortDescriptors {
+    return @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]];
+}
+
+
+- (NSPredicate *)filterPredicate {
+    return [NSPredicate predicateWithFormat:@"account == %@ AND syncID != nil",[BBAccountManager sharedManager].activeAccount];
+}
+
 
 @end

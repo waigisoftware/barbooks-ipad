@@ -120,9 +120,6 @@ BBContactListViewController *_contactListViewController;
     _taxTextField.text = [self.matter.tax percentAmount];
     
     [self updateSolicitor];
-    
-    // refresh matter list accordingly
-//    [self.matterListViewController fetchMatters];
 }
 
 
@@ -144,11 +141,7 @@ BBContactListViewController *_contactListViewController;
     } else {
         self.matter.tax = nil;
     }
-    
     [self.matter.managedObjectContext MR_saveToPersistentStoreAndWait];
-    
-    // refresh matter list accordingly
-//    [self.matterListViewController fetchMatters];
 }
 
 - (void)updateSolicitor {
@@ -236,6 +229,7 @@ BBContactListViewController *_contactListViewController;
 
 - (IBAction)onSave:(id)sender {
     [self refreshMatterList];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onArchive:(id)sender {
@@ -250,9 +244,9 @@ BBContactListViewController *_contactListViewController;
 
 - (void)refreshMatterList {
     [self stopEditing];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.matterListViewController fetchMatters];
-    [self.delegate updateMatter:self.matter];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self.matterListViewController fetchMatters];
+//    [self.delegate updateMatter:self.matter];
 }
 
 #pragma mark - UITableViewDelegate

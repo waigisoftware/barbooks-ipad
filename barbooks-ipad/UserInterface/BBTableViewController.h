@@ -25,14 +25,16 @@
 @property (strong, nonatomic) Matter *matter;
 @property (strong, nonatomic, readonly) UIStoryboard *mainStoryboard;
 
-- (void)registerRefreshControlFor:(UITableView *)tableView withAction:(SEL)action;
+@property (nonatomic,strong) NSManagedObjectContext* managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 
-- (void)stopAndUpdateDateOnRefreshControl;
+@property (nonatomic, strong, readonly) NSString *entityName;
+@property (nonatomic, strong, readonly) NSArray *sortDescriptors;
+@property (nonatomic, strong, readonly) NSPredicate *filterPredicate;
 
-- (BOOL)isRefreshControlRefreshing;
-
-- (UIRefreshControl *)refreshControl;
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 - (NSIndexPath *)indexPathOfItem:(NSObject *)item;
+- (void)managedObjectContextDidSave:(NSNotification*)notification;
 
 @end

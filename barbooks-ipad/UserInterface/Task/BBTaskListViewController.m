@@ -33,7 +33,6 @@
     _tasksTableView.delegate = self;
     _tasksTableView.estimatedRowHeight = _tasksTableView.rowHeight;
     _tasksTableView.rowHeight = UITableViewAutomaticDimension;
-    [self registerRefreshControlFor:_tasksTableView withAction:@selector(refreshTasks)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -441,7 +440,7 @@
     [self fetchTasks];
     Task *task = data;
     // refresh matter list accordingly
-    [self.matterListViewController fetchMatters];
+//    [self.matterListViewController fetchMatters];
     [self.matterListViewController.matterListTableView reloadData];
     [self.tasksTableView beginUpdates];
     [self.tasksTableView reloadRowsAtIndexPaths:@[[self indexPathOfTask:task]] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -470,7 +469,7 @@
 {
     [self fetchTasks];
     // refresh matter list accordingly
-    [self.matterListViewController fetchMatters];
+//    [self.matterListViewController fetchMatters];
     [self.tasksTableView beginUpdates];
     [self.tasksTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
     [self.tasksTableView endUpdates];
@@ -544,7 +543,7 @@
     [self fetchTasks];
     
     // refresh matter list accordingly
-    [self.matterListViewController fetchMatters];
+//    [self.matterListViewController fetchMatters];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

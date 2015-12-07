@@ -15,13 +15,6 @@
 @property (strong, nonatomic) IBOutlet UIView *noContentView;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-- (void)registerRefreshControlFor:(UITableView *)tableView withAction:(SEL)action;
-
-- (void)stopAndUpdateDateOnRefreshControl;
-
-- (BOOL)isRefreshControlRefreshing;
-
-- (UIRefreshControl *)refreshControl;
 
 - (NSIndexPath *)indexPathOfItem:(NSObject *)item;
 

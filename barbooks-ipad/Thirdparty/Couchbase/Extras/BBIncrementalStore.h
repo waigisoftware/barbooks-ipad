@@ -10,11 +10,11 @@
 
 @interface BBIncrementalStore : CBLIncrementalStore
 
-- (void) purgeCachedObjectsForEntityName: (NSString*)entity;
+- (void)purgeCachedObjectsForEntityName:(NSString*)name;
 
 @end
 
-@interface NSManagedObjectID (CBLIncrementalStore)
+@interface NSManagedObjectID (BBIncrementalStore)
 
 /** Returns an internal representation of this objectID that is used as _id in Couchbase. */
 - (NSString*) couchbaseLiteIDRepresentation;

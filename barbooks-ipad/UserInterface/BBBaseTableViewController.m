@@ -11,8 +11,6 @@
 
 @interface BBBaseTableViewController ()
 
-@property UITableViewController *tableViewController;
-
 @property (strong, nonatomic) NSArray *originalItemList;
 @property (strong, nonatomic) NSArray *filteredItemList;
 
@@ -55,54 +53,6 @@
 
 - (NSIndexPath *)indexPathOfItem:(NSObject *)item {
     return [NSIndexPath indexPathForRow:[_originalItemList indexOfObject:item] inSection:0];
-}
-
-#pragma mark - pull to refresh table
-
-- (void)registerRefreshControlFor:(UITableView *)tableView withAction:(SEL)action
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // initiate a TableViewController for refreshControl
-        if (!self.tableViewController) {
-            self.tableViewController = [UITableViewController new];
-            self.tableViewController.tableView = tableView;
-        }
-        
-        // configure refreshControl
-        if (!self.tableViewController.refreshControl) {
-            self.tableViewController.refreshControl = [[UIRefreshControl alloc] init];
-            self.tableViewController.refreshControl.backgroundColor = [UIColor whiteColor];
-            self.tableViewController.refreshControl.tintColor = [UIColor blackColor];
-            [self.tableViewController.refreshControl addTarget:self
-                                                        action:action
-                                              forControlEvents:UIControlEventValueChanged];
-        }
-    });
-}
-
-- (void)stopAndUpdateDateOnRefreshControl
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // stop refreshing
-        [self.tableViewController.refreshControl endRefreshing];
-        
-        // format date and set to refreshControl
-        NSString *title = [NSString stringWithFormat:@"Last update: %@", [[NSDate date] toShortDateTimeFormat]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor grayColor]
-                                                                    forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
-        self.tableViewController.refreshControl.attributedTitle = attributedTitle;
-        self.tableViewController.refreshControl.hidden = YES;
-    });
-}
-
-- (BOOL)isRefreshControlRefreshing
-{
-    return self.tableViewController.refreshControl.isRefreshing;
-}
-
-- (UIRefreshControl *)refreshControl {
-    return self.tableViewController.refreshControl;
 }
 
 @end

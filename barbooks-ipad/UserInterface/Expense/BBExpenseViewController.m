@@ -58,6 +58,7 @@
     _gstTextField.delegate = self;
     _categoryTextField.delegate = self;
     
+    [self loadExpenseIntoUI];
     [self setupExpenseTypeSpecificFields];
     [self setupPayeeDropDown];
     [self setupCategoryDropDown];
@@ -73,8 +74,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self setupTaxTypeDropDown];
-
     [self loadExpenseIntoUI];
+
     [self.view bringSubviewToFront:_payeeTextField];
     [self coverViewIfNeeded];
 }
@@ -320,6 +321,7 @@
     _expense.category = _categoryTextField.text;
     _expense.expenseType = [NSNumber numberWithInteger:_expenseTypeDrowdown.selectedIndex];
     
+    //[_expense.managedObjectContext MR_saveToPersistentStoreAndWait];
 //    [_expense recalculate];
     // refresh matter list accordingly
 //    [self.expenseListViewController fetchExpenses];
@@ -349,8 +351,8 @@
 
 - (void)setExpense:(Expense *)expense {
     _expense = expense;
-    [self setupExpenseTypeSpecificFields];
     [self loadExpenseIntoUI];
+    [self setupExpenseTypeSpecificFields];
 }
 
 #pragma mark - keyboards

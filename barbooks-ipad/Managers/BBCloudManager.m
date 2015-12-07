@@ -88,6 +88,7 @@
         self.syncActive = NO;
         if (self.activeuser && [Lockbox stringForKey:kBarBooksSubscriptionUserPassword]) {
             self.isLoggedIn = YES;
+            [self startSync];
         }
     }
     
@@ -224,6 +225,7 @@ static BOOL isInternetConnection()
            [Lockbox setString:password forKey:kBarBooksSubscriptionUserPassword];
            
            [self checkSubscriptionForUser:userID];
+           [[BBAccountManager sharedManager] createAccountIfNotExist];
            if (!self.syncActive) {
                [self activateReplication];
            }

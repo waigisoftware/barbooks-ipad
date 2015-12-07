@@ -11,6 +11,8 @@
 #if TARGET_OS_IPHONE
 
 #import "Account.h"
+#import "Rate.h"
+#import "Address.h"
 
 #else
 
@@ -134,16 +136,78 @@
 }
 
 
-#if TARGET_OS_IPHONE
-#else
-
 - (void)createAccountIfNotExist
 {
+    
+
     NSError *error;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Account"];
     NSArray *accounts = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if (accounts.count == 0) {
+        
+#if TARGET_OS_IPHONE
+
+        Account *account = [Account MR_createEntityInContext:self.managedObjectContext];
+        
+        account.defaultDueDate = @(30);
+        account.tax = [NSDecimalNumber ten];
+        account.accountingType = @1;
+        
+        
+        // hourly
+        Rate *hourly = [NSEntityDescription insertNewObjectForEntityForName:@"Rate" inManagedObjectContext:self.managedObjectContext];
+        hourly.rateType = [NSNumber numberWithInt:BBRateChargingTypeHourly];
+        hourly.amount = [NSDecimalNumber decimalNumberWithString:@"200"];
+        hourly.name = @"hourly";
+        hourly.account = account;
+        [account addRatesObject:hourly];
+        
+        // daily
+        Rate *daily = [NSEntityDescription insertNewObjectForEntityForName:@"Rate" inManagedObjectContext:self.managedObjectContext];
+        daily.rateType = [NSNumber numberWithInt:BBRateChargingTypeUnit];
+        daily.amount = [NSDecimalNumber decimalNumberWithString:@"2000"];
+        daily.name = @"daily";
+        daily.account = account;
+        
+        [account addRatesObject:daily];
+        
+        // half day
+        Rate *halfday = [NSEntityDescription insertNewObjectForEntityForName:@"Rate" inManagedObjectContext:self.managedObjectContext];
+        halfday.rateType = [NSNumber numberWithInt:BBRateChargingTypeUnit];
+        halfday.amount = [NSDecimalNumber decimalNumberWithString:@"1000"];
+        halfday.name = @"half day";
+        halfday.account = account;
+        
+        [account addRatesObject:halfday];
+        
+        // motion
+        Rate *motion = [NSEntityDescription insertNewObjectForEntityForName:@"Rate" inManagedObjectContext:self.managedObjectContext];
+        motion.rateType = [NSNumber numberWithInt:BBRateChargingTypeUnit];
+        motion.amount = [NSDecimalNumber decimalNumberWithString:@"700"];
+        motion.name = @"motion";
+        motion.account = account;
+        
+        [account addRatesObject:motion];
+        
+        // directions
+        Rate *directions = [NSEntityDescription insertNewObjectForEntityForName:@"Rate" inManagedObjectContext:self.managedObjectContext];
+        directions.rateType = [NSNumber numberWithInt:BBRateChargingTypeUnit];
+        directions.amount = [NSDecimalNumber decimalNumberWithString:@"700"];
+        directions.name = @"directions / mention";
+        directions.account = account;
+        
+        [account addRatesObject:directions];
+        
+        
+        Address *address = [Address MR_createEntityInContext:self.managedObjectContext];
+        account.address = address;
+        
+        
+        [self.managedObjectContext MR_saveToPersistentStoreAndWait];
+        
+        self.activeAccount = account;
+#else
         Account *account = [Account defaultAccountInManagedObjectContext:self.managedObjectContext];
         account.username = @"admin";
         BBDocumentsManager *manager = [BBDocumentsManager new];
@@ -192,12 +256,15 @@
         }
         
         [[BBAccountManager sharedManager] setActiveAccount:account];
+#endif
+
     } else if(![[BBAccountManager sharedManager] activeAccount]) {
         [[BBAccountManager sharedManager] setActiveAccount:[accounts objectAtIndex:0]];
     }
+    
+
 }
 
-#endif
 
 - (id)getLatestAccount
 {

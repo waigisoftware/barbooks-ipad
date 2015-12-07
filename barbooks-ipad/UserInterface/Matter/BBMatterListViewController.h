@@ -6,17 +6,16 @@
 //  Copyright (c) 2015 Censea. All rights reserved.
 //
 
-#import "BBBaseTableViewController.h"
+#import "BBTableViewController.h"
 #import "BBTaskListViewController.h"
 #import "BBMatterViewController.h"
 #import "BBMatterDelegate.h"
 
-@interface BBMatterListViewController : BBBaseTableViewController <BBMatterDelegate>
+@interface BBMatterListViewController : BBTableViewController <BBMatterDelegate>
 
 @property (strong, nonatomic) BBTaskListViewController *taskListViewController;
 @property (weak, nonatomic) IBOutlet UITableView *matterListTableView;
 @property (strong) id createdObject;
 
-- (void)fetchMatters;
 
 @end

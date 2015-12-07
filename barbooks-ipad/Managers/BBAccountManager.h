@@ -23,9 +23,6 @@
 - (void)setToLargestAccount;
 - (id)getAnyAccount;
 
-#if TARGET_OS_IPHONE
-#else
 - (void)createAccountIfNotExist;
-#endif
 
 @end

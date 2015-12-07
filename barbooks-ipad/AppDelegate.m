@@ -100,8 +100,7 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     [[BBTimers sharedInstance] runBackgroundCoreDataSaveTimer];
-    [self setupObservers];
-    [self determineWhichViewControllerToShowFirst];
+    [BBCloudManager sharedManager];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncStatusProgressed) name:kSyncStatusProgressedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncStatusProgressed) name:kSyncStatusUpdatedNotification object:nil];
 
@@ -191,26 +190,6 @@
 //    [[BBGenericButton appearance] setBackgroundColor:[UIColor bbButtonBackgroundColor]];
 }
 
-#pragma mark - Navigation
-
--(void) determineWhichViewControllerToShowFirst
-{
-    //ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
-    //viewController.panGesture.delegate = self;
-    
-    BOOL isAuthorized = [[BBCloudManager sharedManager] isLoggedIn];
-
-    if (isAuthorized)
-    {
-        [[BBCloudManager sharedManager] activateReplication];
-        //[self showMatters];
-    }
-    else
-    {
-//        [self showLogin];
-    }
-}
-
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -221,40 +200,10 @@
     }
 }
 
-- (void) showMatters
-{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    UISplitViewController *splitViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerHome];//(UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-    splitViewController.delegate = self;
-//
-    
-//    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
-//    viewController.topViewController = splitViewController;//[storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerHome];
-//    [viewController resetTopViewAnimated:YES];
-}
-
--(void) showLogin
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subscriptionUpdateSucceeded) name:kLoginSuccessfulNotification object:nil];
-    [self.window makeKeyAndVisible];
-    [self.window.rootViewController performSegueWithIdentifier:@"showLogin" sender:self];
-//
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    ECSlidingViewController *viewController = (ECSlidingViewController *)self.window.rootViewController;
-//    viewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:BBNavigationControllerLogin];
-//    [viewController resetTopViewAnimated:YES];
-}
-
 - (void) subscriptionUpdateSucceeded {
     
 }
 
-
-- (void) logout {
-}
 
 #pragma mark - Split view
 
@@ -267,38 +216,7 @@
     }
 }
 
-#pragma mark - Notifications/Ovservers
-
-- (void)setupObservers {
-    __weak AppDelegate* bself = self;
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:kSubscriptionUpdateSucceededNotification
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:^(NSNotification *notification) {
-                                                      [bself showMatters];
-                                                  }];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserverForName:kLoginFailedNotification
-//                                                      object:nil
-//                                                       queue:nil
-//                                                  usingBlock:^(NSNotification *notification) {
-//                                                      NSError *error = notification.object;
-//                                                      [self showAlertWithTitle:@"Authentication Error"
-//                                                                       message:error.localizedDescription];
-//                                                      [bself logout];
-//                                                  }];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:kSubscriptionUpdateFailedNotification
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:^(NSNotification *notification) {
-                                                      [self showAlertWithTitle:@"Invalid Subscription"
-                                                                       message:[notification.object objectForKey:@"message"]];
-                                                      [bself logout];
-                                                  }];
-    
-}
+#pragma mark - Notifications
 
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
     [[[UIAlertView alloc] initWithTitle:title

@@ -25,7 +25,6 @@
     [super viewDidLoad];
     
     [self setupNavigationBarButtons];
-    [self registerRefreshControlFor:_contactsTableView withAction:@selector(updateContact:)];
     [self updateContact:nil];
 }
 

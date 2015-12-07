@@ -53,7 +53,6 @@
         _expenseListTableView.backgroundColor = [UIColor whiteColor];
     }
     
-    [self registerRefreshControlFor:_expenseListTableView withAction:@selector(refreshExpenses)];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

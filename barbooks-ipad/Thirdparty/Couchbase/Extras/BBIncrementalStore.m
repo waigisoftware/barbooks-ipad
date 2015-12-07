@@ -31,9 +31,9 @@
     for (BBManagedObject* object in array) {
         // if you call -[NSManagedObjectContext obtainPermanentIDsForObjects:error:] yourself,
         // this can get called with already permanent ids which leads to mismatch between store.
-        if (![object.objectID isTemporaryID]) {
+        if ([object respondsToSelector:@selector(objectID)] && ![object.objectID isTemporaryID]) {
             [result addObject: object.objectID];
-        } else if(object.syncID) {
+        } else if([object respondsToSelector:@selector(syncID)] && object.syncID) {
             NSString* uuid = [object valueForKeyPath:@"syncID"];
             NSManagedObjectID* objectID = [self newObjectIDForEntity: object.entity
                                                      referenceObject: uuid];

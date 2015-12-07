@@ -131,7 +131,14 @@
                     categoryName = @"Uncategorised";
                 }
                 if (![_timeUnitsSummary objectForKey:categoryName]) {
-                    [_timeUnitsSummary setObject:task.duration forKey:categoryName];
+                    if (task.rate.rateType.integerValue == BBRateChargingTypeHourly) {
+                        NSDecimalNumber *sum = task.hours;
+                        sum = [sum decimalNumberByAccuratelyAdding:[task.minutes decimalNumberByAccuratelyDividingBy:[NSDecimalNumber sixty]]];
+
+                        [_timeUnitsSummary setObject:sum forKey:categoryName];
+                    } else if (task.rate.rateType.integerValue == BBRateChargingTypeHourly) {
+                        [_timeUnitsSummary setObject:task.units forKey:categoryName];
+                    }
                 } else {
                     NSDecimalNumber *sum = [_timeUnitsSummary objectForKey:categoryName];
                     if (task.rate.rateType.integerValue == BBRateChargingTypeHourly) {
